@@ -6,6 +6,30 @@ import {
   onChildAdded
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
+/* ===== USER IDENTITY (AUTO) ===== */
+
+const animals = ["Fox", "Panda", "Tiger", "Octopus", "Wolf", "Eagle", "Bear", "Owl"];
+const colors = ["Red", "Blue", "Green", "Purple", "Orange", "Pink"];
+
+function generateIdentity() {
+  const animal = animals[Math.floor(Math.random() * animals.length)];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  const id = Math.floor(Math.random() * 900 + 100);
+  return `${color} ${animal} ${id}`;
+}
+
+let identity = localStorage.getItem("tw_identity");
+
+if (!identity) {
+  identity = generateIdentity();
+  localStorage.setItem("tw_identity", identity);
+}
+
+console.log("Your identity:", identity);
+
+
+
+
 /* 🔥 FIREBASE CONFIG 🔥 */
 const firebaseConfig = {
   apiKey: "AIzaSyA1dHSzOC6_Zo8sTBg1pfqYJTEFTKDlP24",
