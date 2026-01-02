@@ -51,7 +51,19 @@ const sendBtn = document.getElementById("send-btn");
 const ttlSelect = document.getElementById("ttl-select");
 
 /* ROOM */
-const roomId = prompt("Room ID (same on both devices):");
+/* ===== ROOM FROM URL ===== */
+
+function generateRoomId() {
+  return Math.random().toString(36).substring(2, 10);
+}
+
+let roomId = location.hash.replace("#room=", "");
+
+if (!roomId) {
+  roomId = generateRoomId();
+  location.hash = "room=" + roomId;
+}
+
 const roomRef = ref(db, "rooms/" + roomId);
 
 /* SEND */
