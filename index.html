@@ -6,30 +6,34 @@
 <title>TimeWarp Messenger</title>
 <link rel="stylesheet" href="style.css">
 
-<!-- Firebase SDK -->
-<!-- Firebase App (required) -->
+<!-- Firebase App y Database compat -->
 <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-app-compat.js"></script>
-<!-- Firebase Realtime Database -->
 <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-database-compat.js"></script>
-<!-- Tu script.js -->
+<!-- Script del chat -->
 <script src="script.js"></script>
-
 </head>
 <body>
 <div class="chat-container">
   <div class="chat-header">
     <h2>TimeWarp Messenger</h2>
   </div>
+
+  <!-- Nuevo input para roomId -->
+  <div class="room-input">
+    <input type="text" id="room-id-input" placeholder="Enter room ID" />
+    <button id="join-room-btn">Join Room</button>
+  </div>
+
   <div id="chat-box" class="chat-box"></div>
   <div class="chat-input">
-    <input type="text" id="message-input" placeholder="Type your secret message..." />
-    <select id="ttl-select">
+    <input type="text" id="message-input" placeholder="Type your secret message..." disabled />
+    <select id="ttl-select" disabled>
       <option value="5">5s</option>
       <option value="10">10s</option>
       <option value="30">30s</option>
       <option value="60">60s</option>
     </select>
-    <button id="send-btn">Send</button>
+    <button id="send-btn" disabled>Send</button>
   </div>
 </div>
 </body>
