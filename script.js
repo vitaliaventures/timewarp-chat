@@ -62,20 +62,27 @@ const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
 const ttlSelect = document.getElementById("ttl-select");
 
-/* ===== ROOM FROM URL ===== */
+/* ===== ROOM FROM URL (FIXED) ===== */
 
 function generateRoomId() {
   return Math.random().toString(36).substring(2, 10);
 }
 
-let roomId = location.hash.replace("#room=", "");
+let roomId;
+
+if (location.hash.startsWith("#room=")) {
+  roomId = location.hash.split("=")[1];
+}
 
 if (!roomId) {
   roomId = generateRoomId();
   location.hash = "room=" + roomId;
 }
 
+console.log("ROOM ID:", roomId);
+
 const roomRef = ref(db, "rooms/" + roomId);
+
 
 /* SEND */
 sendBtn.onclick = () => {
