@@ -63,7 +63,6 @@ onChildAdded(roomRef, snap => {
     if (t <= 0) {
       clearInterval(timer);
       div.remove();
-      remove(ref(db, `rooms/${roomId}/${key}`));
     }
   }, 1000);
 });
