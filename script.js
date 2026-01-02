@@ -11,36 +11,24 @@ import {
 const animals = ["Fox", "Panda", "Tiger", "Octopus", "Wolf", "Eagle", "Bear", "Owl"];
 const colors = ["Red", "Blue", "Green", "Purple", "Orange", "Pink"];
 
-const animalEmoji = {
-  Fox: "🦊",
-  Panda: "🐼",
-  Tiger: "🐯",
-  Octopus: "🐙",
-  Wolf: "🐺",
-  Eagle: "🦅",
-  Bear: "🐻",
-  Owl: "🦉"
-};
-
 function generateIdentity() {
   const animal = animals[Math.floor(Math.random() * animals.length)];
   const color = colors[Math.floor(Math.random() * colors.length)];
   const id = Math.floor(Math.random() * 900 + 100);
-
-  return {
-    name: `${color} ${animal} ${id}`,
-    emoji: animalEmoji[animal]
-  };
+  return `${color} ${animal} ${id}`;
 }
 
-let identity = JSON.parse(localStorage.getItem("tw_identity"));
+let identity = localStorage.getItem("tw_identity");
 
 if (!identity) {
   identity = generateIdentity();
-  localStorage.setItem("tw_identity", JSON.stringify(identity));
+  localStorage.setItem("tw_identity", identity);
 }
 
 console.log("Your identity:", identity);
+
+
+
 
 /* 🔥 FIREBASE CONFIG 🔥 */
 const firebaseConfig = {
@@ -62,31 +50,13 @@ const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
 const ttlSelect = document.getElementById("ttl-select");
 
-/* ===== ROOM FROM URL (FIXED) ===== */
-
-function generateRoomId() {
-  return Math.random().toString(36).substring(2, 10);
-}
-
-let roomId;
-
-if (location.hash.startsWith("#room=")) {
-  roomId = location.hash.split("=")[1];
-}
-
-if (!roomId) {
-  roomId = generateRoomId();
-  location.hash = "room=" + roomId;
-}
-
-console.log("ROOM ID:", roomId);
-
+/* ROOM */
+const roomId = prompt("Room ID (same on both devices):");
 const roomRef = ref(db, "rooms/" + roomId);
-
 
 /* SEND */
 sendBtn.onclick = () => {
-  if (!input.value.trim()) return;
+  if (!input.value) return;
 
   push(roomRef, {
     text: input.value,
@@ -98,6 +68,7 @@ sendBtn.onclick = () => {
   input.value = "";
 };
 
+
 /* RECEIVE */
 onChildAdded(roomRef, snap => {
   const msg = snap.val();
@@ -105,18 +76,17 @@ onChildAdded(roomRef, snap => {
   const div = document.createElement("div");
   div.className = "message";
 
-  if (msg.user.name === identity.name) {
-    div.style.background = "#2563eb"; // yo
+  if (msg.user === identity) {
+    div.style.background = "#2563eb"; // azul = yo
   }
 
   div.innerHTML = `
-    <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
+    <strong>${msg.user}</strong><br>
     ${msg.text}
     <span>${msg.ttl}s</span>
   `;
 
   chatBox.appendChild(div);
-  chatBox.scrollTop = chatBox.scrollHeight;
 
   const span = div.querySelector("span");
   let remaining = msg.ttl;
