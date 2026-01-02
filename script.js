@@ -1,4 +1,14 @@
-// --- Firebase Configuration ---
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  push,
+  set,
+  onChildAdded,
+  remove
+} from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+
+/* 🔥 TU FIREBASE REAL 🔥 */
 const firebaseConfig = {
   apiKey: "AIzaSyA1dHSzOC6_Zo8sTBg1pfqYJTEFTKDlP24",
   authDomain: "timewarp-messenger.firebaseapp.com",
@@ -6,86 +16,54 @@ const firebaseConfig = {
   projectId: "timewarp-messenger",
   storageBucket: "timewarp-messenger.firebasestorage.app",
   messagingSenderId: "71563132014",
-  appId: "1:71563132014:web:901218a830abd48c74fa7f",
-  measurementId: "G-PPWR2ZSXJD"
+  appId: "1:71563132014:web:901218a830abd48c74fa7f"
 };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-// --- Elements ---
-const chatBox = document.getElementById('chat-box');
-const messageInput = document.getElementById('message-input');
-const sendBtn = document.getElementById('send-btn');
-const ttlSelect = document.getElementById('ttl-select');
-const roomInput = document.getElementById('room-id-input');
-const joinRoomBtn = document.getElementById('join-room-btn');
+/* UI */
+const chatBox = document.getElementById("chat-box");
+const input = document.getElementById("message-input");
+const sendBtn = document.getElementById("send-btn");
+const ttlSelect = document.getElementById("ttl-select");
 
-let roomId = null;
+/* ROOM */
+const roomId = prompt("Room ID (same on both devices):");
+const roomRef = ref(db, "rooms/" + roomId);
 
-// --- Join Room ---
-joinRoomBtn.addEventListener('click', () => {
-  const id = roomInput.value.trim();
-  if (!id) return alert("Enter a valid room ID");
-  roomId = id;
+/* SEND */
+sendBtn.onclick = () => {
+  if (!input.value) return;
 
-  // Activar inputs
-  messageInput.disabled = false;
-  ttlSelect.disabled = false;
-  sendBtn.disabled = false;
-  roomInput.disabled = true;
-  joinRoomBtn.disabled = true;
-
-  // Escuchar mensajes de Firebase
-  firebase.database().ref(`rooms/${roomId}`).on('child_added', snapshot => {
-    const msg = snapshot.val();
-    displayMessage(snapshot.key, msg);
+  push(roomRef, {
+    text: input.value,
+    ttl: Number(ttlSelect.value),
+    createdAt: Date.now()
   });
-});
 
-// --- Send message ---
-sendBtn.addEventListener('click', sendMessage);
-messageInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') sendMessage();
-});
+  input.value = "";
+};
 
-function sendMessage() {
-  const text = messageInput.value.trim();
-  const ttl = parseInt(ttlSelect.value);
-  if (!text || !roomId) return;
+/* RECEIVE */
+onChildAdded(roomRef, snap => {
+  const msg = snap.val();
+  const key = snap.key;
 
-  const msgRef = firebase.database().ref(`rooms/${roomId}`).push();
-  msgRef.set({
-    text,
-    ttl,
-    timestamp: Date.now()
-  });
-  messageInput.value = '';
-}
+  const div = document.createElement("div");
+  div.className = "message";
+  div.innerHTML = `${msg.text} <span>${msg.ttl}s</span>`;
+  chatBox.appendChild(div);
 
-// --- Display message & handle countdown ---
-function displayMessage(key, msg) {
-  const msgDiv = document.createElement('div');
-  msgDiv.className = 'message';
-  msgDiv.textContent = msg.text;
+  let t = msg.ttl;
+  const timer = setInterval(() => {
+    t--;
+    div.querySelector("span").textContent = t + "s";
 
-  const timerSpan = document.createElement('span');
-  timerSpan.className = 'timer';
-  timerSpan.textContent = `${msg.ttl}s`;
-  msgDiv.appendChild(timerSpan);
-
-  chatBox.appendChild(msgDiv);
-  chatBox.scrollTop = chatBox.scrollHeight;
-
-  let remaining = msg.ttl;
-  const interval = setInterval(() => {
-    remaining--;
-    timerSpan.textContent = `${remaining}s`;
-    if (remaining <= 0) {
-      clearInterval(interval);
-      msgDiv.style.opacity = '0';
-      setTimeout(() => chatBox.removeChild(msgDiv), 500);
-      firebase.database().ref(`rooms/${roomId}/${key}`).remove();
+    if (t <= 0) {
+      clearInterval(timer);
+      div.remove();
+      remove(ref(db, `rooms/${roomId}/${key}`));
     }
   }, 1000);
-}
+});
