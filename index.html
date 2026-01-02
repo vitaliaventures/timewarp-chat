@@ -1,39 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>TimeWarp Messenger</title>
-<link rel="stylesheet" href="style.css">
-
-<!-- Firebase App y Database compat -->
-<script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-database-compat.js"></script>
-<!-- Script del chat -->
-<script src="script.js"></script>
+<link rel="stylesheet" href="style.css" />
+<script type="module" src="script.js"></script>
 </head>
+
 <body>
 <div class="chat-container">
   <div class="chat-header">
     <h2>TimeWarp Messenger</h2>
   </div>
 
-  <!-- Nuevo input para roomId -->
-  <div class="room-input">
-    <input type="text" id="room-id-input" placeholder="Enter room ID" />
-    <button id="join-room-btn">Join Room</button>
-  </div>
-
   <div id="chat-box" class="chat-box"></div>
+
   <div class="chat-input">
-    <input type="text" id="message-input" placeholder="Type your secret message..." disabled />
-    <select id="ttl-select" disabled>
+    <input id="message-input" placeholder="Type message..." />
+    <select id="ttl-select">
       <option value="5">5s</option>
       <option value="10">10s</option>
       <option value="30">30s</option>
-      <option value="60">60s</option>
     </select>
-    <button id="send-btn" disabled>Send</button>
+    <button id="send-btn">Send</button>
   </div>
 </div>
 </body>
