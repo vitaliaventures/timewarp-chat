@@ -1,16 +1,22 @@
+// --- 🔹 Import Firebase modules 🔹 ---
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+import { getDatabase, ref, push, set, onChildAdded, remove } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+
 // --- 🔹 Firebase Configuration 🔹 ---
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_AUTH_DOMAIN",
-  databaseURL: "TU_DATABASE_URL",
-  projectId: "TU_PROJECT_ID",
-  storageBucket: "TU_STORAGE_BUCKET",
-  messagingSenderId: "TU_MESSAGING_ID",
-  appId: "TU_APP_ID"
+  apiKey: "AIzaSyA1dHSzOC6_Zo8sTBg1pfqYJTEFTKDlP24",
+  authDomain: "timewarp-messenger.firebaseapp.com",
+  databaseURL: "https://timewarp-messenger-default-rtdb.firebaseio.com",
+  projectId: "timewarp-messenger",
+  storageBucket: "timewarp-messenger.firebasestorage.app",
+  messagingSenderId: "71563132014",
+  appId: "1:71563132014:web:901218a830abd48c74fa7f",
+  measurementId: "G-PPWR2ZSXJD"
 };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
 // --- 🔹 Elements 🔹 ---
 const chatBox = document.getElementById('chat-box');
@@ -32,19 +38,17 @@ function sendMessage() {
   const ttl = parseInt(ttlSelect.value);
   if (!text) return;
 
-  const msgData = {
+  const msgRef = push(ref(db, `rooms/${roomId}`));
+  set(msgRef, {
     text,
     ttl,
     timestamp: Date.now()
-  };
-
-  const newMsgKey = db.ref(`rooms/${roomId}`).push().key;
-  db.ref(`rooms/${roomId}/${newMsgKey}`).set(msgData);
+  });
   messageInput.value = '';
 }
 
 // --- 🔹 Listen for new messages 🔹 ---
-db.ref(`rooms/${roomId}`).on('child_added', snapshot => {
+onChildAdded(ref(db, `rooms/${roomId}`), (snapshot) => {
   const msg = snapshot.val();
   displayMessage(snapshot.key, msg);
 });
@@ -71,8 +75,7 @@ function displayMessage(key, msg) {
       clearInterval(interval);
       msgDiv.style.opacity = '0';
       setTimeout(() => chatBox.removeChild(msgDiv), 500);
-      // Remove from Firebase
-      db.ref(`rooms/${roomId}/${key}`).remove();
+      remove(ref(db, `rooms/${roomId}/${key}`));
     }
   }, 1000);
 }
