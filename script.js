@@ -3,12 +3,10 @@ import {
   getDatabase,
   ref,
   push,
-  set,
-  onChildAdded,
-  remove
+  onChildAdded
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
-/* 🔥 TU FIREBASE REAL 🔥 */
+/* 🔥 FIREBASE CONFIG 🔥 */
 const firebaseConfig = {
   apiKey: "AIzaSyA1dHSzOC6_Zo8sTBg1pfqYJTEFTKDlP24",
   authDomain: "timewarp-messenger.firebaseapp.com",
@@ -34,7 +32,7 @@ const roomRef = ref(db, "rooms/" + roomId);
 
 /* SEND */
 sendBtn.onclick = () => {
-  if (!input.value) return;
+  if (!input.value.trim()) return;
 
   push(roomRef, {
     text: input.value,
@@ -48,19 +46,29 @@ sendBtn.onclick = () => {
 /* RECEIVE */
 onChildAdded(roomRef, snap => {
   const msg = snap.val();
-  const key = snap.key;
+
+  const now = Date.now();
+  const elapsed = Math.floor((now - msg.createdAt) / 1000);
+  let remaining = msg.ttl - elapsed;
+
+  // Si ya murió, no lo mostramos
+  if (remaining <= 0) return;
 
   const div = document.createElement("div");
   div.className = "message";
-  div.innerHTML = `${msg.text} <span>${msg.ttl}s</span>`;
+
+  const span = document.createElement("span");
+  span.textContent = remaining + "s";
+
+  div.textContent = msg.text;
+  div.appendChild(span);
   chatBox.appendChild(div);
 
-  let t = msg.ttl;
   const timer = setInterval(() => {
-    t--;
-    div.querySelector("span").textContent = t + "s";
+    remaining--;
+    span.textContent = remaining + "s";
 
-    if (t <= 0) {
+    if (remaining <= 0) {
       clearInterval(timer);
       div.remove();
     }
