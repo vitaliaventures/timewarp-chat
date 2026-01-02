@@ -56,37 +56,38 @@ const roomRef = ref(db, "rooms/" + roomId);
 
 /* SEND */
 sendBtn.onclick = () => {
-  if (!input.value.trim()) return;
+  if (!input.value) return;
 
   push(roomRef, {
     text: input.value,
     ttl: Number(ttlSelect.value),
-    createdAt: Date.now()
+    createdAt: Date.now(),
+    user: identity
   });
 
   input.value = "";
 };
 
+
 /* RECEIVE */
 onChildAdded(roomRef, snap => {
   const msg = snap.val();
 
-  const now = Date.now();
-  const elapsed = Math.floor((now - msg.createdAt) / 1000);
-  let remaining = msg.ttl - elapsed;
-
-  // Si ya murió, no lo mostramos
-  if (remaining <= 0) return;
-
   const div = document.createElement("div");
   div.className = "message";
 
-  const span = document.createElement("span");
-  span.textContent = remaining + "s";
+  if (msg.user === identity) {
+    div.style.background = "#2563eb"; // blue for "me"
+  }
 
-  div.textContent = msg.text;
-  div.appendChild(span);
+  div.innerHTML = `
+    <strong>${msg.user}</strong><br>
+    ${msg.text}
+    <span>${msg.ttl}s</span>
+  `;
+
   chatBox.appendChild(div);
+
 
   const timer = setInterval(() => {
     remaining--;
