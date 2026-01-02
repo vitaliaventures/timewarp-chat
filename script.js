@@ -77,7 +77,7 @@ onChildAdded(roomRef, snap => {
   div.className = "message";
 
   if (msg.user === identity) {
-    div.style.background = "#2563eb"; // blue for "me"
+    div.style.background = "#2563eb"; // azul = yo
   }
 
   div.innerHTML = `
@@ -88,6 +88,8 @@ onChildAdded(roomRef, snap => {
 
   chatBox.appendChild(div);
 
+  const span = div.querySelector("span");
+  let remaining = msg.ttl;
 
   const timer = setInterval(() => {
     remaining--;
