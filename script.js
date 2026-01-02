@@ -1,6 +1,20 @@
 // --- 🔹 Import Firebase modules 🔹 ---
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
-import { getDatabase, ref, push, set, onChildAdded, remove } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+// --- 🔹 Firebase Configuration y compat 🔹 ---
+const firebaseConfig = {
+  apiKey: "AIzaSyA1dHSzOC6_Zo8sTBg1pfqYJTEFTKDlP24",
+  authDomain: "timewarp-messenger.firebaseapp.com",
+  databaseURL: "https://timewarp-messenger-default-rtdb.firebaseio.com",
+  projectId: "timewarp-messenger",
+  storageBucket: "timewarp-messenger.firebasestorage.app",
+  messagingSenderId: "71563132014",
+  appId: "1:71563132014:web:901218a830abd48c74fa7f",
+  measurementId: "G-PPWR2ZSXJD"
+};
+
+// Inicializar Firebase (versión compat)
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
 
 // --- 🔹 Firebase Configuration 🔹 ---
 const firebaseConfig = {
