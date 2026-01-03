@@ -11,21 +11,37 @@ import {
 const animals = ["Fox", "Panda", "Tiger", "Octopus", "Wolf", "Eagle", "Bear", "Owl"];
 const colors = ["Red", "Blue", "Green", "Purple", "Orange", "Pink"];
 
+const animalEmoji = {
+  Fox: "🦊",
+  Panda: "🐼",
+  Tiger: "🐯",
+  Octopus: "🐙",
+  Wolf: "🐺",
+  Eagle: "🦅",
+  Bear: "🐻",
+  Owl: "🦉"
+};
+
 function generateIdentity() {
   const animal = animals[Math.floor(Math.random() * animals.length)];
   const color = colors[Math.floor(Math.random() * colors.length)];
   const id = Math.floor(Math.random() * 900 + 100);
-  return `${color} ${animal} ${id}`;
+
+  return {
+    name: `${color} ${animal} ${id}`,
+    emoji: animalEmoji[animal]
+  };
 }
 
-let identity = localStorage.getItem("tw_identity");
+let identity = JSON.parse(localStorage.getItem("tw_identity"));
 
 if (!identity) {
   identity = generateIdentity();
-  localStorage.setItem("tw_identity", identity);
+  localStorage.setItem("tw_identity", JSON.stringify(identity));
 }
 
-console.log("Your identity:", identity);
+console.log("Your identity:", identity.emoji, identity.name);
+
 
 
 
@@ -89,12 +105,12 @@ onChildAdded(roomRef, snap => {
   const div = document.createElement("div");
   div.className = "message";
 
-  if (msg.user === identity) {
+  if (msg.user.name === identity.name) {
     div.style.background = "#2563eb"; // azul = yo
   }
 
   div.innerHTML = `
-    <strong>${msg.user}</strong><br>
+    <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
     ${msg.text}
     <span>${msg.ttl}s</span>
   `;
