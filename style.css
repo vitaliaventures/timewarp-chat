@@ -1,59 +1,108 @@
 body {
-  background: #0f0f0f;
+  background: #0b0b0b;
   color: #fff;
-  font-family: Arial;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  margin: 0;
 }
 
 .chat-container {
-  width: 400px;
-  background: #1c1c1c;
-  border-radius: 10px;
+  width: 380px;
+  background: #1a1a1a;
+  border-radius: 14px;
   overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
 }
 
 .chat-header {
   background: #111;
-  padding: 10px;
+  padding: 14px;
   text-align: center;
 }
 
-.chat-box {
-  height: 300px;
-  padding: 10px;
-  overflow-y: auto;
+.chat-header h2 {
+  margin: 0;
+  font-size: 18px;
 }
 
-.message {
-  background: #333;
-  margin-bottom: 8px;
-  padding: 8px;
-  border-radius: 6px;
-  position: relative;
-}
-
-.message span {
-  position: absolute;
-  right: 8px;
-  top: 6px;
+.chat-header p {
+  margin: 4px 0 0;
   font-size: 12px;
   opacity: 0.6;
 }
 
-.chat-input {
-  display: flex;
+.chat-box {
+  height: 320px;
+  padding: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.chat-input input,
-.chat-input select,
-.chat-input button {
-  border: none;
-  padding: 10px;
+.message {
+  background: #2a2a2a;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  max-width: 85%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  animation: fadeIn 0.15s ease-out;
+  position: relative;
+}
+
+.message.self {
+  background: #2563eb;
+  margin-left: auto;
+}
+
+.message span {
+  position: absolute;
+  right: 10px;
+  bottom: 6px;
+  font-size: 11px;
+  opacity: 0.5;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.typing-indicator {
+  padding: 6px 12px;
+  font-size: 13px;
+  opacity: 0.6;
+  height: 18px;
+}
+
+.chat-input {
+  display: flex;
+  background: #111;
 }
 
 .chat-input input {
   flex: 1;
+  border: none;
+  padding: 12px;
+  background: transparent;
+  color: white;
+  outline: none;
+}
+
+.chat-input button {
+  border: none;
+  padding: 0 18px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
 }
