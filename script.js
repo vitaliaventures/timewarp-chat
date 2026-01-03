@@ -6,6 +6,9 @@ import {
   onChildAdded
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
+const MESSAGE_TTL = 10; // ⏱️ regla absoluta del sistema
+
+
 /* ===== USER IDENTITY (EPHEMERAL) ===== */
 
 const animals = ["Fox", "Panda", "Tiger", "Octopus", "Wolf", "Eagle", "Bear", "Owl"];
@@ -56,7 +59,6 @@ const db = getDatabase(app);
 const chatBox = document.getElementById("chat-box");
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
-const ttlSelect = document.getElementById("ttl-select");
 
 /* ===== ROOM FROM URL ===== */
 
@@ -82,7 +84,7 @@ sendBtn.onclick = () => {
 
   push(roomRef, {
     text: input.value,
-    ttl: Number(ttlSelect.value),
+    ttl: MESSAGE_TTL,
     createdAt: Date.now(),
     user: identity
   });
