@@ -72,6 +72,9 @@ if (!roomId) {
 }
 
 const roomRef = ref(db, "rooms/" + roomId);
+// Typing reference
+const typingRef = ref(db, `rooms/${roomId}/typing`);
+
 
 /* SEND */
 sendBtn.onclick = () => {
@@ -85,7 +88,30 @@ sendBtn.onclick = () => {
   });
 
   input.value = "";
+  remove(typingRef); // 👈 importante
 };
+
+
+let typingTimeout = null;
+
+input.addEventListener("input", () => {
+  // aviso que estoy escribiendo
+  push(typingRef, {
+    user: identity,
+    at: Date.now()
+  });
+
+  // reset timeout
+  if (typingTimeout) clearTimeout(typingTimeout);
+
+  typingTimeout = setTimeout(() => {
+    // dejo de escribir (limpio todo)
+    remove(typingRef);
+  }, 1500);
+});
+
+
+
 
 /* RECEIVE */
 onChildAdded(roomRef, snap => {
@@ -119,3 +145,20 @@ onChildAdded(roomRef, snap => {
     }
   }, 1000);
 });
+
+
+
+const typingIndicator = document.getElementById("typing-indicator");
+
+onChildAdded(typingRef, snap => {
+  const data = snap.val();
+  if (!data || data.user.name === identity.name) return;
+
+  typingIndicator.textContent = `${data.user.emoji} ${data.user.name} is typing…`;
+
+  // auto-clear
+  setTimeout(() => {
+    typingIndicator.textContent = "";
+  }, 2000);
+});
+
