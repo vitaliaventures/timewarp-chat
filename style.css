@@ -39,30 +39,34 @@ body {
   padding: 12px;
   overflow-y: auto;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* separación natural entre mensajes */
 }
+
 
 .message {
   background: #2a2a2a;
-  margin-bottom: 10px;
-  padding: 10px 14px; /* más aire lateral */
+  padding: 10px 14px;
   border-radius: 18px 18px 18px 6px;
-  display: inline-block;
-  width: fit-content;
   max-width: 85%;
+  width: fit-content;
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
   position: relative;
-  animation: fadeIn 0.15s ease-out;
-  line-height: 1.4; /* clave */
+  line-height: 1.4;
   font-size: 14px;
+  align-self: flex-start; /* 👈 clave */
 }
+
 
 .message.self {
   background: #2563eb;
-  margin-left: auto;
+  align-self: flex-end; /* 👈 fuerza derecha */
   border-radius: 18px 18px 6px 18px;
 }
+
 
 
 .message strong {
