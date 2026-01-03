@@ -3,7 +3,8 @@ import {
   getDatabase,
   ref,
   push,
-  onChildAdded
+  onChildAdded,
+  remove
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
 const MESSAGE_TTL = 10; // ⏱️ regla absoluta del sistema
