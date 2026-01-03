@@ -6,7 +6,7 @@ import {
   onChildAdded
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
-/* ===== USER IDENTITY (AUTO) ===== */
+/* ===== USER IDENTITY (EPHEMERAL) ===== */
 
 const animals = ["Fox", "Panda", "Tiger", "Octopus", "Wolf", "Eagle", "Bear", "Owl"];
 const colors = ["Red", "Blue", "Green", "Purple", "Orange", "Pink"];
@@ -33,25 +33,10 @@ function generateIdentity() {
   };
 }
 
-let rawIdentity = localStorage.getItem("tw_identity");
-let identity;
-
-try {
-  identity = JSON.parse(rawIdentity);
-} catch (e) {
-  identity = null;
-}
-
-if (!identity || typeof identity === "string") {
-  identity = generateIdentity();
-  localStorage.setItem("tw_identity", JSON.stringify(identity));
-}
+// ⚠️ NO localStorage — identidad solo vive en esta sesión
+const identity = generateIdentity();
 
 console.log("Your identity:", identity.emoji, identity.name);
-
-
-
-
 
 /* 🔥 FIREBASE CONFIG 🔥 */
 const firebaseConfig = {
@@ -73,7 +58,6 @@ const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
 const ttlSelect = document.getElementById("ttl-select");
 
-/* ROOM */
 /* ===== ROOM FROM URL ===== */
 
 function generateRoomId() {
@@ -89,7 +73,6 @@ if (!roomId) {
 
 const roomRef = ref(db, "rooms/" + roomId);
 
-
 /* SEND */
 sendBtn.onclick = () => {
   if (!input.value) return;
@@ -103,7 +86,6 @@ sendBtn.onclick = () => {
 
   input.value = "";
 };
-
 
 /* RECEIVE */
 onChildAdded(roomRef, snap => {
