@@ -7,19 +7,17 @@ import {
   remove
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
-const MESSAGE_TTL = 10; // ⏱️ regla absoluta del sistema
+const MESSAGE_TTL = 10; // ⏱️ ABSOLUTE LAW
 
+/* ===== IDENTITY ===== */
 
-/* ===== USER IDENTITY (EPHEMERAL) ===== */
-
-const animals = ["Fox", "Panda", "Tiger", "Octopus", "Wolf", "Eagle", "Bear", "Owl"];
-const colors = ["Red", "Blue", "Green", "Purple", "Orange", "Pink"];
+const animals = ["Fox", "Panda", "Tiger", "Wolf", "Eagle", "Bear", "Owl"];
+const colors = ["Red", "Blue", "Green", "Purple", "Orange"];
 
 const animalEmoji = {
   Fox: "🦊",
   Panda: "🐼",
   Tiger: "🐯",
-  Octopus: "🐙",
   Wolf: "🐺",
   Eagle: "🦅",
   Bear: "🐻",
@@ -37,18 +35,16 @@ function generateIdentity() {
   };
 }
 
-// ⚠️ NO localStorage — identidad solo vive en esta sesión
 const identity = generateIdentity();
 
-console.log("Your identity:", identity.emoji, identity.name);
+/* ===== FIREBASE ===== */
 
-/* 🔥 FIREBASE CONFIG 🔥 */
 const firebaseConfig = {
   apiKey: "AIzaSyA1dHSzOC6_Zo8sTBg1pfqYJTEFTKDlP24",
   authDomain: "timewarp-messenger.firebaseapp.com",
   databaseURL: "https://timewarp-messenger-default-rtdb.firebaseio.com",
   projectId: "timewarp-messenger",
-  storageBucket: "timewarp-messenger.firebasestorage.app",
+  storageBucket: "timewarp-messenger.appspot.com",
   messagingSenderId: "71563132014",
   appId: "1:71563132014:web:901218a830abd48c74fa7f"
 };
@@ -56,32 +52,32 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-/* UI */
+/* ===== UI ===== */
+
 const chatBox = document.getElementById("chat-box");
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
+const typingIndicator = document.getElementById("typing-indicator");
 
-/* ===== ROOM FROM URL ===== */
+/* ===== ROOM ===== */
 
 function generateRoomId() {
   return Math.random().toString(36).substring(2, 10);
 }
 
 let roomId = location.hash.replace("#room=", "");
-
 if (!roomId) {
   roomId = generateRoomId();
   location.hash = "room=" + roomId;
 }
 
-const roomRef = ref(db, "rooms/" + roomId);
-// Typing reference
+const roomRef = ref(db, `rooms/${roomId}`);
 const typingRef = ref(db, `rooms/${roomId}/typing`);
 
+/* ===== SEND ===== */
 
-/* SEND */
 sendBtn.onclick = () => {
-  if (!input.value) return;
+  if (!input.value.trim()) return;
 
   push(roomRef, {
     text: input.value,
@@ -91,41 +87,27 @@ sendBtn.onclick = () => {
   });
 
   input.value = "";
-  remove(typingRef); // 👈 importante
+  remove(typingRef);
 };
 
+/* ===== TYPING ===== */
 
-let typingTimeout = null;
+let typingTimeout;
 
 input.addEventListener("input", () => {
-  // aviso que estoy escribiendo
-  push(typingRef, {
-    user: identity,
-    at: Date.now()
-  });
+  push(typingRef, { user: identity, at: Date.now() });
 
-  // reset timeout
-  if (typingTimeout) clearTimeout(typingTimeout);
-
-  typingTimeout = setTimeout(() => {
-    // dejo de escribir (limpio todo)
-    remove(typingRef);
-  }, 1500);
+  clearTimeout(typingTimeout);
+  typingTimeout = setTimeout(() => remove(typingRef), 1500);
 });
 
+/* ===== RECEIVE ===== */
 
-
-
-/* RECEIVE */
 onChildAdded(roomRef, snap => {
   const msg = snap.val();
   const msgRef = snap.ref;
 
-  const now = Date.now();
-  const elapsed = Math.floor((now - msg.createdAt) / 1000);
-  let remaining = msg.ttl - elapsed;
-
-  // ❌ ya expiró → eliminarlo del database
+  let remaining = msg.ttl - Math.floor((Date.now() - msg.createdAt) / 1000);
   if (remaining <= 0) {
     remove(msgRef);
     return;
@@ -133,10 +115,7 @@ onChildAdded(roomRef, snap => {
 
   const div = document.createElement("div");
   div.className = "message";
-
-  if (msg.user.name === identity.name) {
-    div.style.background = "#2563eb";
-  }
+  if (msg.user.name === identity.name) div.classList.add("self");
 
   div.innerHTML = `
     <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
@@ -145,9 +124,9 @@ onChildAdded(roomRef, snap => {
   `;
 
   chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
 
   const span = div.querySelector("span");
-
   const timer = setInterval(() => {
     remaining--;
     span.textContent = remaining + "s";
@@ -155,25 +134,17 @@ onChildAdded(roomRef, snap => {
     if (remaining <= 0) {
       clearInterval(timer);
       div.remove();
-      remove(msgRef); // 🔥 BORRADO DEFINITIVO
+      remove(msgRef);
     }
   }, 1000);
 });
 
-
-
-
-const typingIndicator = document.getElementById("typing-indicator");
+/* ===== TYPING INDICATOR ===== */
 
 onChildAdded(typingRef, snap => {
   const data = snap.val();
   if (!data || data.user.name === identity.name) return;
 
   typingIndicator.textContent = `${data.user.emoji} ${data.user.name} is typing…`;
-
-  // auto-clear
-  setTimeout(() => {
-    typingIndicator.textContent = "";
-  }, 2000);
+  setTimeout(() => typingIndicator.textContent = "", 2000);
 });
-
