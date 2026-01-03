@@ -44,28 +44,37 @@ body {
 .message {
   background: #2a2a2a;
   margin-bottom: 10px;
-  padding: 10px 12px;
-  border-radius: 12px;
+  padding: 8px 12px;
+  border-radius: 16px 16px 16px 4px; /* burbuja orgánica */
+  display: inline-block;
+  width: fit-content;
   max-width: 85%;
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  animation: fadeIn 0.15s ease-out;
   position: relative;
+  animation: fadeIn 0.15s ease-out;
 }
 
 .message.self {
   background: #2563eb;
   margin-left: auto;
+  border-radius: 16px 16px 4px 16px; /* espejo para “yo” */
+}
+
+.message strong {
+  font-size: 13px;
+  opacity: 0.85;
 }
 
 .message span {
   position: absolute;
-  right: 10px;
-  bottom: 6px;
+  right: 8px;
+  bottom: -14px;
   font-size: 11px;
   opacity: 0.5;
 }
+
 
 @keyframes fadeIn {
   from {
