@@ -33,9 +33,16 @@ function generateIdentity() {
   };
 }
 
-let identity = JSON.parse(localStorage.getItem("tw_identity"));
+let rawIdentity = localStorage.getItem("tw_identity");
+let identity;
 
-if (!identity) {
+try {
+  identity = JSON.parse(rawIdentity);
+} catch (e) {
+  identity = null;
+}
+
+if (!identity || typeof identity === "string") {
   identity = generateIdentity();
   localStorage.setItem("tw_identity", JSON.stringify(identity));
 }
