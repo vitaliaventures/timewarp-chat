@@ -116,24 +116,34 @@ input.addEventListener("input", () => {
 /* RECEIVE */
 onChildAdded(roomRef, snap => {
   const msg = snap.val();
+  const msgRef = snap.ref;
+
+  const now = Date.now();
+  const elapsed = Math.floor((now - msg.createdAt) / 1000);
+  let remaining = msg.ttl - elapsed;
+
+  // ❌ ya expiró → eliminarlo del database
+  if (remaining <= 0) {
+    remove(msgRef);
+    return;
+  }
 
   const div = document.createElement("div");
   div.className = "message";
 
   if (msg.user.name === identity.name) {
-    div.style.background = "#2563eb"; // azul = yo
+    div.style.background = "#2563eb";
   }
 
   div.innerHTML = `
     <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
     ${msg.text}
-    <span>${msg.ttl}s</span>
+    <span>${remaining}s</span>
   `;
 
   chatBox.appendChild(div);
 
   const span = div.querySelector("span");
-  let remaining = msg.ttl;
 
   const timer = setInterval(() => {
     remaining--;
@@ -142,9 +152,11 @@ onChildAdded(roomRef, snap => {
     if (remaining <= 0) {
       clearInterval(timer);
       div.remove();
+      remove(msgRef); // 🔥 BORRADO DEFINITIVO
     }
   }, 1000);
 });
+
 
 
 
