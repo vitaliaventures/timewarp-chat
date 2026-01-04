@@ -30,13 +30,11 @@ body {
 .message {
   background: #333;
   margin-bottom: 8px;
-  padding: 8px 10px;
+  padding: 8px;
   border-radius: 6px;
   position: relative;
 
-  max-width: 72%;
-  width: fit-content;
-
+  /* 👇 ESTO ES LO ÚNICO NUEVO */
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
