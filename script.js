@@ -96,13 +96,14 @@ function sendMessage() {
 
 sendBtn.onclick = sendMessage;
 
-/* 👇 NUEVO: ENVIAR CON ENTER */
+/* 👇 ENTER envía / SHIFT+ENTER salto de línea */
 input.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
+  if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
     sendMessage();
   }
 });
+
 
 
 let typingTimeout = null;
