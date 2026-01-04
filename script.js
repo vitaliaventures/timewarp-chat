@@ -79,8 +79,8 @@ const roomRef = ref(db, "rooms/" + roomId);
 const typingRef = ref(db, `rooms/${roomId}/typing`);
 
 
-/* SEND */
-sendBtn.onclick = () => {
+/* SEND (MISMA LÓGICA, SOLO EN FUNCIÓN) */
+function sendMessage() {
   if (!input.value) return;
 
   push(roomRef, {
@@ -92,7 +92,17 @@ sendBtn.onclick = () => {
 
   input.value = "";
   remove(typingRef); // 👈 importante
-};
+}
+
+sendBtn.onclick = sendMessage;
+
+/* 👇 NUEVO: ENVIAR CON ENTER */
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    sendMessage();
+  }
+});
 
 
 let typingTimeout = null;
@@ -112,8 +122,6 @@ input.addEventListener("input", () => {
     remove(typingRef);
   }, 1500);
 });
-
-
 
 
 /* RECEIVE */
@@ -161,8 +169,6 @@ onChildAdded(roomRef, snap => {
 });
 
 
-
-
 const typingIndicator = document.getElementById("typing-indicator");
 
 onChildAdded(typingRef, snap => {
@@ -176,4 +182,3 @@ onChildAdded(typingRef, snap => {
     typingIndicator.textContent = "";
   }, 2000);
 });
-
