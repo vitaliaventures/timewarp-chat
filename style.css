@@ -88,3 +88,19 @@ body {
   outline: none;
 }
 
+
+/* 🔥 OCULTAR SCROLLBAR DEL TEXTAREA */
+.chat-input textarea {
+  overflow-y: hidden;
+}
+
+/* Chrome, Safari */
+.chat-input textarea::-webkit-scrollbar {
+  display: none;
+}
+
+/* Firefox */
+.chat-input textarea {
+  scrollbar-width: none;
+}
+
