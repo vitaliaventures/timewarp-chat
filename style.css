@@ -63,3 +63,16 @@ body {
 .chat-input input {
   flex: 1;
 }
+
+
+
+
+/* 🔥 OCULTAR BARRA VERTICAL (pero mantener scroll) */
+.chat-box {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE / Edge antiguo */
+}
+
+.chat-box::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari */
+}
