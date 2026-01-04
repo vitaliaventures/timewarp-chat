@@ -126,9 +126,16 @@ input.addEventListener("keydown", (e) => {
 
 /* 🔥 AUTO-EXPAND TEXTAREA (tipo WhatsApp) */
 input.addEventListener("input", () => {
-  input.style.height = "auto";
-  input.style.height = input.scrollHeight + "px";
+  const lines = input.value.split("\n").length;
+
+  if (lines === 1) {
+    input.style.height = "auto";
+    input.rows = 1;
+  } else {
+    input.rows = lines;
+  }
 });
+
 
 
 
