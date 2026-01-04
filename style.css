@@ -108,3 +108,8 @@ body {
   scrollbar-width: none;
 }
 
+.message p {
+  margin: 0;
+}
+
+
