@@ -92,6 +92,8 @@ function sendMessage() {
 
   input.value = "";
   input.style.height = "auto"; // 👈 RESET A UNA LÍNEA
+  input.rows = 1;        // 🔥 fuerza colapso inmediato
+  input.scrollTop = 0;  // limpia cualquier scroll interno
   remove(typingRef); // 👈 importante
 }
 
