@@ -76,3 +76,15 @@ body {
 .chat-box::-webkit-scrollbar {
   display: none;                /* Chrome, Safari */
 }
+
+/* 👇 textarea se ve y se comporta igual que el input */
+.chat-input textarea {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  font-family: Arial;
+  resize: none;
+  background: #fff;
+  outline: none;
+}
+
