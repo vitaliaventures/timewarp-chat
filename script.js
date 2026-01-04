@@ -188,7 +188,8 @@ onChildAdded(roomRef, snap => {
   `;
 
   chatBox.appendChild(div);
-
+// 🔥 AUTOSCROLL SIEMPRE AL FINAL
+ chatBox.scrollTop = chatBox.scrollHeight;
   const span = div.querySelector("span");
 
   const timer = setInterval(() => {
