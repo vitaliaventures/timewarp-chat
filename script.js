@@ -121,6 +121,14 @@ input.addEventListener("keydown", (e) => {
 
 
 
+/* 🔥 AUTO-EXPAND TEXTAREA (tipo WhatsApp) */
+input.addEventListener("input", () => {
+  input.style.height = "auto";
+  input.style.height = input.scrollHeight + "px";
+});
+
+
+
 
 let typingTimeout = null;
 
