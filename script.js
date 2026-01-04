@@ -91,6 +91,7 @@ function sendMessage() {
   });
 
   input.value = "";
+  input.style.height = "auto"; // 👈 RESET A UNA LÍNEA
   remove(typingRef); // 👈 importante
 }
 
