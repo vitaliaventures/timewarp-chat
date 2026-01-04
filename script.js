@@ -98,11 +98,27 @@ sendBtn.onclick = sendMessage;
 
 /* 👇 ENTER envía / SHIFT+ENTER salto de línea */
 input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && e.shiftKey) {
+    e.preventDefault();
+
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+
+    input.value =
+      input.value.substring(0, start) +
+      "\n" +
+      input.value.substring(end);
+
+    input.selectionStart = input.selectionEnd = start + 1;
+    return;
+  }
+
   if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
     sendMessage();
   }
 });
+
 
 
 
