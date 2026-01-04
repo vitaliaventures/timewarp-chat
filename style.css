@@ -30,15 +30,18 @@ body {
 .message {
   background: #333;
   margin-bottom: 8px;
-  padding: 8px;
+  padding: 8px 10px;
   border-radius: 6px;
   position: relative;
 
-  /* 👇 ESTO ES LO ÚNICO NUEVO */
+  max-width: 72%;
+  width: fit-content;
+
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
 }
+
 
 
 .message span {
