@@ -175,11 +175,21 @@ onChildAdded(roomRef, snap => {
   }
 
   const div = document.createElement("div");
-  div.className = "message";
+div.className = "message";
 
-  if (msg.user.name === identity.name) {
-    div.style.background = "#2563eb";
-  }
+if (msg.user.name === identity.name) {
+  // 💡 Array de colores limpios y contrastantes
+  const colors = ["#2563eb", "#16a34a", "#db2777", "#f59e0b", "#8b5cf6", "#ef4444"];
+
+  // Elegir un color aleatorio distinto del anterior (opcional)
+  let randomColor;
+  do {
+    randomColor = colors[Math.floor(Math.random() * colors.length)];
+  } while (chatBox.lastChild && chatBox.lastChild.style.background === randomColor);
+
+  div.style.background = randomColor;
+}
+
 
   div.innerHTML = `
     <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
