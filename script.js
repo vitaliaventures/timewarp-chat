@@ -219,13 +219,13 @@ onChildAdded(typingRef, snap => {
   }, 2000);
 });
 
+/* ===== INVITE ROOM (Share Link) ===== */
+const inviteBtn = document.getElementById("invite-btn");
 
-/* ===== SHARE ROOM ===== */
-const shareBtn = document.getElementById("share-btn");
-
-shareBtn.addEventListener("click", () => {
-  const roomUrl = window.location.href; // copia la URL actual con hash de room
+inviteBtn.addEventListener("click", () => {
+  const roomUrl = window.location.href; // URL actual con hash de la sala
   navigator.clipboard.writeText(roomUrl)
-    .then(() => alert("Room link copied! 🚀"))
+    .then(() => alert("Room link copied! 🚀 Share it with friends!"))
     .catch(err => console.error("Failed to copy: ", err));
 });
+
