@@ -219,19 +219,16 @@ onChildAdded(typingRef, snap => {
   }, 2000);
 });
 
-/* ===== INVITE ===== */
-inviteBtn.addEventListener("click", async () => {
-  const roomUrl = window.location.href;
+/* ===== INVITE ROOM (Share Link) ===== */
+const inviteBtn = document.getElementById("invite-btn");
 
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    try {
-      await navigator.clipboard.writeText(roomUrl);
-      // El alert se ha quitado para que no aparezca doble mensaje en móviles
-    } catch (err) {
-      console.error("Copy failed", err);
-    }
-  }
+inviteBtn.addEventListener("click", () => {
+  const roomUrl = window.location.href; // URL actual con hash de la sala
+  navigator.clipboard.writeText(roomUrl)
+    .then(() => alert("Room link copied! 🚀 Share it with friends!"))
+    .catch(err => console.error("Failed to copy: ", err));
 });
+
 
 
 
