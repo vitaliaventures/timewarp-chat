@@ -7,6 +7,160 @@ import {
   remove
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
+
+
+// 🌐 Translations object — full list of languages like Privnote.com
+const translations = {
+  en: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "Type message...",
+    inviteBtn: "Invite 🚀",
+    messagesDisappear: "Messages disappear after 10 seconds",
+    roomLinkCopied: "Room link copied! 🚀 Share it with friends!",
+    typingIndicator: "is typing…"
+  },
+  de: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "Nachricht eingeben...",
+    inviteBtn: "Einladen 🚀",
+    messagesDisappear: "Nachrichten verschwinden nach 10 Sekunden",
+    roomLinkCopied: "Raumlink kopiert! 🚀 Mit Freunden teilen!",
+    typingIndicator: "schreibt…"
+  },
+  es: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "Escribe tu mensaje...",
+    inviteBtn: "Invitar 🚀",
+    messagesDisappear: "Los mensajes desaparecen después de 10 segundos",
+    roomLinkCopied: "¡Enlace de la sala copiado! 🚀 Compártelo con amigos",
+    typingIndicator: "está escribiendo…"
+  },
+  fr: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "Tapez votre message...",
+    inviteBtn: "Inviter 🚀",
+    messagesDisappear: "Les messages disparaissent après 10 secondes",
+    roomLinkCopied: "Lien de la salle copié ! 🚀 Partagez avec vos amis !",
+    typingIndicator: "est en train d’écrire…"
+  },
+  it: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "Scrivi un messaggio...",
+    inviteBtn: "Invita 🚀",
+    messagesDisappear: "I messaggi scompaiono dopo 10 secondi",
+    roomLinkCopied: "Link della stanza copiato! 🚀 Condividilo con gli amici!",
+    typingIndicator: "sta scrivendo…"
+  },
+  pt: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "Digite sua mensagem...",
+    inviteBtn: "Convidar 🚀",
+    messagesDisappear: "As mensagens desaparecem após 10 segundos",
+    roomLinkCopied: "Link da sala copiado! 🚀 Compartilhe com amigos!",
+    typingIndicator: "está digitando…"
+  },
+  ru: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "Введите сообщение...",
+    inviteBtn: "Пригласить 🚀",
+    messagesDisappear: "Сообщения исчезают через 10 секунд",
+    roomLinkCopied: "Ссылка на комнату скопирована! 🚀 Поделитесь с друзьями!",
+    typingIndicator: "печатает…"
+  },
+  ja: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "メッセージを入力...",
+    inviteBtn: "招待 🚀",
+    messagesDisappear: "メッセージは10秒後に消えます",
+    roomLinkCopied: "ルームリンクをコピーしました！🚀 友達と共有しよう！",
+    typingIndicator: "が入力中…"
+  },
+  ko: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "메시지를 입력하세요...",
+    inviteBtn: "초대 🚀",
+    messagesDisappear: "메시지는 10초 후에 사라집니다",
+    roomLinkCopied: "방 링크가 복사되었습니다! 🚀 친구와 공유하세요!",
+    typingIndicator: "입력 중…"
+  },
+  zh: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "输入消息...",
+    inviteBtn: "邀请 🚀",
+    messagesDisappear: "消息将在10秒后消失",
+    roomLinkCopied: "房间链接已复制！🚀 与朋友分享！",
+    typingIndicator: "正在输入…"
+  },
+  nl: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "Typ een bericht...",
+    inviteBtn: "Uitnodigen 🚀",
+    messagesDisappear: "Berichten verdwijnen na 10 seconden",
+    roomLinkCopied: "Kamplink gekopieerd! 🚀 Deel met vrienden!",
+    typingIndicator: "is aan het typen…"
+  },
+  tr: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "Mesaj yazın...",
+    inviteBtn: "Davet Et 🚀",
+    messagesDisappear: "Mesajlar 10 saniye sonra kaybolur",
+    roomLinkCopied: "Oda linki kopyalandı! 🚀 Arkadaşlarla paylaş!",
+    typingIndicator: "yazıyor…"
+  },
+  ar: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "اكتب رسالتك...",
+    inviteBtn: "دعوة 🚀",
+    messagesDisappear: "الرسائل تختفي بعد 10 ثوانٍ",
+    roomLinkCopied: "تم نسخ رابط الغرفة! 🚀 شاركه مع الأصدقاء!",
+    typingIndicator: "يكتب…"
+  },
+  pl: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "Wpisz wiadomość...",
+    inviteBtn: "Zaproś 🚀",
+    messagesDisappear: "Wiadomości znikają po 10 sekundach",
+    roomLinkCopied: "Link do pokoju skopiowany! 🚀 Udostępnij znajomym!",
+    typingIndicator: "pisze…"
+  },
+  sv: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "Skriv meddelande...",
+    inviteBtn: "Bjud in 🚀",
+    messagesDisappear: "Meddelanden försvinner efter 10 sekunder",
+    roomLinkCopied: "Rums-länk kopierad! 🚀 Dela med vänner!",
+    typingIndicator: "skriver…"
+  },
+  fi: {
+    appName: "TimeWarp Messenger",
+    messagePlaceholder: "Kirjoita viesti...",
+    inviteBtn: "Kutsu 🚀",
+    messagesDisappear: "Viestit katoavat 10 sekunnin kuluttua",
+    roomLinkCopied: "Huoneen linkki kopioitu! 🚀 Jaa ystäville!",
+    typingIndicator: "kirjoittaa…"
+  }
+};
+
+// ✅ Default language
+let currentLang = "en";
+
+// Function to change language
+function setLanguage(lang) {
+  if (!translations[lang]) return;
+  currentLang = lang;
+
+  // Example: update static UI elements
+  document.querySelector(".chat-header h2").textContent = translations[lang].appName;
+  document.querySelector("#message-input").placeholder = translations[lang].messagePlaceholder;
+  document.querySelector("#invite-btn").textContent = translations[lang].inviteBtn;
+  document.querySelector(".chat-header div").textContent = translations[lang].messagesDisappear;
+}
+
+
+
+
+
+
 const MESSAGE_TTL = 10; // ⏱️ regla absoluta del sistema
 
 
@@ -60,6 +214,8 @@ const db = getDatabase(app);
 const chatBox = document.getElementById("chat-box");
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
+setLanguage("en"); // default language when user enters
+
 
 /* ===== ROOM FROM URL ===== */
 
