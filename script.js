@@ -170,6 +170,7 @@ function setLanguage(lang) {
   document.querySelector("#message-input").placeholder = translations[lang].messagePlaceholder;
   document.querySelector("#invite-btn").textContent = translations[lang].inviteBtn;
   document.querySelector(".chat-header div").textContent = translations[lang].messagesDisappear;
+  document.querySelector("#send-btn").textContent = translations[lang].sendBtn; // ✅ NUEVO
 }
 
 
