@@ -157,6 +157,12 @@ function setLanguage(lang) {
 }
 
 
+const languageSelect = document.getElementById("language-select");
+
+// Cambiar idioma al seleccionar
+languageSelect.addEventListener("change", (e) => {
+  setLanguage(e.target.value);
+});
 
 
 
