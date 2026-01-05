@@ -377,7 +377,8 @@ onChildAdded(typingRef, snap => {
   const data = snap.val();
   if (!data || data.user.name === identity.name) return;
 
-  typingIndicator.textContent = `${data.user.emoji} ${data.user.name} is typing…`;
+  typingIndicator.textContent = `${data.user.emoji} ${data.user.name} ${translations[currentLang].typingIndicator}`;
+
 
   // auto-clear
   setTimeout(() => {
@@ -391,7 +392,7 @@ const inviteBtn = document.getElementById("invite-btn");
 inviteBtn.addEventListener("click", () => {
   const roomUrl = window.location.href; // URL actual con hash de la sala
   navigator.clipboard.writeText(roomUrl)
-    .then(() => alert("Room link copied! 🚀 Share it with friends!"))
+    .then(() => alert(translations[currentLang].roomLinkCopied))
     .catch(err => console.error("Failed to copy: ", err));
 });
 
