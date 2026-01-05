@@ -237,22 +237,6 @@ inviteBtn.addEventListener("click", async () => {
   }
 });
 
-// Fallback para móviles antiguos o Safari
-function fallbackCopyText(text) {
-  const textarea = document.createElement("textarea");
-  textarea.value = text;
-  document.body.appendChild(textarea);
-  textarea.focus();
-  textarea.select();
 
-  try {
-    document.execCommand("copy");
-    alert("Room link copied! 🚀 Share it with friends!");
-  } catch (err) {
-    console.error("Fallback: Copy failed", err);
-  }
-
-  document.body.removeChild(textarea);
-}
 
 
