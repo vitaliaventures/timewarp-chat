@@ -218,3 +218,14 @@ onChildAdded(typingRef, snap => {
     typingIndicator.textContent = "";
   }, 2000);
 });
+
+
+/* ===== SHARE ROOM ===== */
+const shareBtn = document.getElementById("share-btn");
+
+shareBtn.addEventListener("click", () => {
+  const roomUrl = window.location.href; // copia la URL actual con hash de room
+  navigator.clipboard.writeText(roomUrl)
+    .then(() => alert("Room link copied! 🚀"))
+    .catch(err => console.error("Failed to copy: ", err));
+});
