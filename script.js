@@ -170,7 +170,8 @@ function setLanguage(lang) {
   document.querySelector(".chat-header h2").textContent = translations[lang].appName;
   document.querySelector("#message-input").placeholder = translations[lang].messagePlaceholder;
   document.querySelector("#invite-btn").textContent = translations[lang].inviteBtn;
-  document.querySelector(".chat-header div").textContent = translations[lang].messagesDisappear;
+  document.getElementById("messages-ttl").textContent = translations[lang].messagesDisappear;
+
   document.querySelector("#send-btn").textContent = translations[lang].sendBtn; // ✅ NUEVO
 }
 
@@ -219,10 +220,6 @@ function generateIdentity() {
 const identity = generateIdentity();
 
 console.log("Your identity:", identity.emoji, identity.name);
-push(usersRef, {
-  name: identity.name,
-  joinedAt: Date.now()
-});
 
 
 /* 🔥 FIREBASE CONFIG 🔥 */
@@ -279,9 +276,13 @@ if (!roomId) {
 
 const roomRef = ref(db, "rooms/" + roomId);
 const usersRef = ref(db, `rooms/${roomId}/users`);
-
-// Typing reference
 const typingRef = ref(db, `rooms/${roomId}/typing`);
+
+push(usersRef, {
+  name: identity.name,
+  joinedAt: Date.now()
+});
+
 
 
 /* SEND (MISMA LÓGICA, SOLO EN FUNCIÓN) */
