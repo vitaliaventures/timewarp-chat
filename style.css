@@ -4,7 +4,7 @@ body {
   font-family: Arial;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   height: 100vh;
 }
 
@@ -18,11 +18,8 @@ body {
 .chat-header {
   background: #111;
   padding: 10px;
-  display: flex;          /* cambio */
-  flex-direction: column; /* cambio */
-  gap: 6px;               /* cambio: espacio entre elementos */
+  text-align: center;
 }
-
 
 .chat-box {
   height: 300px;
@@ -111,27 +108,5 @@ body {
 .message p {
   margin: 0;
 }
-
-.header-row {
-  display:flex;
-  flex-direction:row;
-  gap:6px;
-  align-items:center;
-  flex-wrap:nowrap;
-  overflow:hidden;
-}
-
-.header-row > * {
-  white-space:nowrap;
-  flex-shrink:0;
-}
-
-#invite-btn,
-#new-room-btn,
-#language-select {
-  white-space:nowrap;
-  flex-shrink:0;
-}
-
 
 
