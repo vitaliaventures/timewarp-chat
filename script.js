@@ -419,6 +419,14 @@ inviteBtn.addEventListener("click", () => {
     .catch(err => console.error("Failed to copy: ", err));
 });
 
+// 🆕 CREATE NEW ROOM
+const newRoomBtn = document.getElementById("new-room-btn");
+
+newRoomBtn.addEventListener("click", () => {
+  const newRoomId = generateRoomId();
+  location.hash = "room=" + newRoomId;
+  location.reload(); // limpio, rápido, sin estados raros
+});
 
 
 
