@@ -438,6 +438,11 @@ newRoomBtn.addEventListener("click", () => {
 
   showSystemMessage("🆕 New private room created — invite someone to start chatting");
 
+setTimeout(() => {
+  chatBox.lastChild?.remove();
+}, 3000);
+
+
   const title = document.getElementById("room-title");
   title.textContent = "New Private Room ✨";
   setTimeout(() => {
