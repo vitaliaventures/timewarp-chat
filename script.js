@@ -4,7 +4,10 @@ import {
   ref, 
   push,
   onChildAdded,
-  remove
+  remove,
+  onValue,       // <-- agregar
+  set,           // <-- agregar
+  onDisconnect   // <-- agregar
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
 
@@ -266,6 +269,31 @@ if (!roomId) {
 const roomRef = ref(db, "rooms/" + roomId);
 // Typing reference
 const typingRef = ref(db, `rooms/${roomId}/typing`);
+
+// 🔹 Contador de usuarios en la sala
+const userRef = ref(db, `rooms/${roomId}/users/${identity.name}`);
+
+// Registrar usuario al entrar
+set(userRef, {
+  name: identity.name,
+  emoji: identity.emoji,
+  joinedAt: Date.now()
+});
+
+// Eliminar usuario al salir o cerrar la pestaña
+onDisconnect(userRef).remove();
+
+// Div donde mostramos el contador
+const roomUsersDiv = document.getElementById("room-users");
+
+// Escuchar cambios en tiempo real
+const usersRef = ref(db, `rooms/${roomId}/users`);
+onValue(usersRef, (snapshot) => {
+  const users = snapshot.val() || {};
+  const count = Object.keys(users).length;
+  roomUsersDiv.textContent = `👥 ${count} user${count !== 1 ? 's' : ''} in room`;
+});
+
 
 
 /* SEND (MISMA LÓGICA, SOLO EN FUNCIÓN) */
