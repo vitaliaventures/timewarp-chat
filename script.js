@@ -240,6 +240,7 @@ function setLanguage(lang) {
   document.getElementById("messages-ttl").textContent = translations[lang].messagesDisappear;
   document.querySelector("#send-btn").textContent = translations[lang].sendBtn; // ✅ NUEVO
   document.querySelector("#new-room-btn").textContent = translations[lang].newRoomBtn;
+  updateUsersCount(currentUsersCount);
 }
 
 
@@ -307,6 +308,9 @@ const db = getDatabase(app);
 const chatBox = document.getElementById("chat-box");
 const roomUsers = document.getElementById("room-users");
 
+function updateUsersCount(count) {
+  roomUsers.textContent = translations[currentLang].usersInRoom(count);
+}
 
 function showSystemMessage(text) {
   const div = document.createElement("div");
@@ -358,10 +362,13 @@ onValue(ref(db, ".info/connected"), (snap) => {
 
 
 // ✅ live user counter
+let currentUsersCount = 1;
+
 onValue(usersRef, (snap) => {
-  const count = snap.exists() ? Object.keys(snap.val()).length : 1;
-  roomUsers.textContent = translations[currentLang].usersInRoom(count);
+  currentUsersCount = snap.exists() ? Object.keys(snap.val()).length : 1;
+  updateUsersCount(currentUsersCount);
 });
+
 
 
 
