@@ -1,12 +1,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
 import {
   getDatabase,
-  ref, 
+  ref,
   push,
   onChildAdded,
   onValue,
-  remove
+  remove,
+  set,
+  onDisconnect
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+
 
 
 
@@ -273,11 +276,22 @@ const roomRef = ref(db, "rooms/" + roomId);
 const usersRef = ref(db, `rooms/${roomId}/users`);
 const typingRef = ref(db, `rooms/${roomId}/typing`);
 
-// ✅ user joins room
-push(usersRef, {
-  name: identity.name,
-  joinedAt: Date.now()
+// ✅ REAL USER PRESENCE (NO DUPLICA EN REFRESH)
+const userId = Math.random().toString(36).slice(2);
+
+const userRef = ref(db, `rooms/${roomId}/users/${userId}`);
+
+onValue(ref(db, ".info/connected"), (snap) => {
+  if (snap.val() === true) {
+    onDisconnect(userRef).remove();
+
+    set(userRef, {
+      name: identity.name,
+      joinedAt: Date.now()
+    });
+  }
 });
+
 
 // ✅ live user counter
 onValue(usersRef, (snap) => {
