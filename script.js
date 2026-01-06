@@ -4,6 +4,7 @@ import {
   ref, 
   push,
   onChildAdded,
+  onValue,
   remove
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
@@ -218,6 +219,11 @@ function generateIdentity() {
 const identity = generateIdentity();
 
 console.log("Your identity:", identity.emoji, identity.name);
+push(usersRef, {
+  name: identity.name,
+  joinedAt: Date.now()
+});
+
 
 /* 🔥 FIREBASE CONFIG 🔥 */
 const firebaseConfig = {
@@ -235,6 +241,14 @@ const db = getDatabase(app);
 
 /* UI */
 const chatBox = document.getElementById("chat-box");
+const roomUsers = document.getElementById("room-users");
+
+onValue(usersRef, (snap) => {
+  const count = snap.exists() ? Object.keys(snap.val()).length : 1;
+  roomUsers.textContent = `👥 ${count} user${count > 1 ? "s" : ""} in room`;
+});
+
+
 function showSystemMessage(text) {
   const div = document.createElement("div");
   div.style.textAlign = "center";
@@ -264,6 +278,8 @@ if (!roomId) {
 }
 
 const roomRef = ref(db, "rooms/" + roomId);
+const usersRef = ref(db, `rooms/${roomId}/users`);
+
 // Typing reference
 const typingRef = ref(db, `rooms/${roomId}/typing`);
 
@@ -423,11 +439,16 @@ onChildAdded(typingRef, snap => {
 const inviteBtn = document.getElementById("invite-btn");
 
 inviteBtn.addEventListener("click", () => {
-  const roomUrl = window.location.href; // URL actual con hash de la sala
-  navigator.clipboard.writeText(roomUrl)
-    .then(() => alert(translations[currentLang].roomLinkCopied))
-    .catch(err => console.error("Failed to copy: ", err));
+  const roomUrl = window.location.href;
+  navigator.clipboard.writeText(roomUrl);
+
+  showSystemMessage("🔗 Room link copied — share it to invite someone");
+
+  setTimeout(() => {
+    chatBox.lastChild?.remove();
+  }, 3000);
 });
+
 
 // 🆕 CREATE NEW ROOM
 const newRoomBtn = document.getElementById("new-room-btn");
