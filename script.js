@@ -22,7 +22,11 @@ const translations = {
     messagesDisappear: "Messages disappear after 10 seconds",
     roomLinkCopied: "Room link copied! 🚀 Share it with friends!",
     typingIndicator: "is typing…",
-    sendBtn: "Send" // ✅ NUEVO
+    sendBtn: "Send", // ✅ NUEVO
+    usersInRoom: (count) => `👥 ${count} user${count !== 1 ? "s" : ""} in room`,
+    newRoomBtn: "New ✨",
+    newRoomTitle: "New Private Room ✨"
+
   },
   de: {
     appName: "TimeWarp Messenger",
@@ -31,7 +35,11 @@ const translations = {
     messagesDisappear: "Nachrichten verschwinden nach 10 Sekunden",
     roomLinkCopied: "Raumlink kopiert! 🚀 Mit Freunden teilen!",
     typingIndicator: "schreibt…",
-    sendBtn: "Senden" // ✅ NUEVO
+    sendBtn: "Senden", // ✅ NUEVO
+    usersInRoom: (count) => `👥 ${count} Benutzer${count !== 1 ? "" : ""} im Raum`,
+    newRoomBtn: "Neu ✨",
+    newRoomTitle: "Neuer privater Raum ✨"
+
   },
   es: {
     appName: "TimeWarp Messenger",
@@ -40,7 +48,11 @@ const translations = {
     messagesDisappear: "Los mensajes desaparecen después de 10 segundos",
     roomLinkCopied: "¡Enlace de la sala copiado! 🚀 Compártelo con amigos",
     typingIndicator: "está escribiendo…",
-    sendBtn: "Enviar" // ✅ NUEVO
+    sendBtn: "Enviar", // ✅ NUEVO
+    usersInRoom: (count) => `👥 ${count} Benutzer${count !== 1 ? "" : ""} im Raum`,
+    newRoomBtn: "Neu ✨",
+    newRoomTitle: "Neuer privater Raum ✨"
+
   },
   fr: {
     appName: "TimeWarp Messenger",
@@ -49,7 +61,11 @@ const translations = {
     messagesDisappear: "Les messages disparaissent après 10 secondes",
     roomLinkCopied: "Lien de la salle copié ! 🚀 Partagez avec vos amis !",
     typingIndicator: "est en train d’écrire…",
-    sendBtn: "Envoyer" // ✅ NUEVO
+    sendBtn: "Envoyer", // ✅ NUEVO
+    usersInRoom: (count) => `👥 ${count} utilisateur${count !== 1 ? "s" : ""} dans la salle`,
+    newRoomBtn: "Nouveau ✨",
+    newRoomTitle: "Nouvelle salle privée ✨"
+
   },
   it: {
     appName: "TimeWarp Messenger",
@@ -58,7 +74,11 @@ const translations = {
     messagesDisappear: "I messaggi scompaiono dopo 10 secondi",
     roomLinkCopied: "Link della stanza copiato! 🚀 Condividilo con gli amici!",
     typingIndicator: "sta scrivendo…",
-    sendBtn: "Invia" // ✅ NUEVO
+    sendBtn: "Invia", // ✅ NUEVO
+    usersInRoom: (count) => `👥 ${count} utilisateur${count !== 1 ? "s" : ""} dans la salle`,
+    newRoomBtn: "Nouveau ✨",
+    newRoomTitle: "Nouvelle salle privée ✨"
+
   },
   pt: {
     appName: "TimeWarp Messenger",
@@ -67,7 +87,11 @@ const translations = {
     messagesDisappear: "As mensagens desaparecem após 10 segundos",
     roomLinkCopied: "Link da sala copiado! 🚀 Compartilhe com amigos!",
     typingIndicator: "está digitando…",
-    sendBtn: "Enviar" // ✅ NUEVO
+    sendBtn: "Enviar", // ✅ NUEVO
+    usersInRoom: (count) => `👥 ${count} usuário${count !== 1 ? "s" : ""} na sala`,
+    newRoomBtn: "Novo ✨",
+    newRoomTitle: "Nova sala privada ✨"
+
   },
   ru: {
     appName: "TimeWarp Messenger",
@@ -76,7 +100,11 @@ const translations = {
     messagesDisappear: "Сообщения исчезают через 10 секунд",
     roomLinkCopied: "Ссылка на комнату скопирована! 🚀 Поделитесь с друзьями!",
     typingIndicator: "печатает…",
-    sendBtn: "Отправить" // ✅ NUEVO
+    sendBtn: "Отправить", // ✅ NUEVO
+    usersInRoom: (count) => `👥 ${count} пользователь${count !== 1 ? "я" : ""} в комнате`,
+    newRoomBtn: "Новая ✨",
+    newRoomTitle: "Новая приватная комната ✨"
+
   },
   ja: {
     appName: "TimeWarp Messenger",
@@ -85,7 +113,11 @@ const translations = {
     messagesDisappear: "メッセージは10秒後に消えます",
     roomLinkCopied: "ルームリンクをコピーしました！🚀 友達と共有しよう！",
     typingIndicator: "が入力中…",
-    sendBtn: "送信" // ✅ NUEVO
+    sendBtn: "送信", // ✅ NUEVO
+    usersInRoom: (count) => `👥 ${count} 人が参加中`,
+    newRoomBtn: "新規 ✨",
+    newRoomTitle: "新しいプライベートルーム ✨"
+
   },
   ko: {
     appName: "TimeWarp Messenger",
@@ -94,7 +126,11 @@ const translations = {
     messagesDisappear: "메시지는 10초 후에 사라집니다",
     roomLinkCopied: "방 링크가 복사되었습니다! 🚀 친구와 공유하세요!",
     typingIndicator: "입력 중…",
-    sendBtn: "보내기" // ✅ NUEVO
+    sendBtn: "보내기", // ✅ NUEVO
+    usersInRoom: (count) => `👥 ${count} 人が参加中`,
+    newRoomBtn: "新規 ✨",
+    newRoomTitle: "新しいプライベートルーム ✨"
+
   },
   zh: {
     appName: "TimeWarp Messenger",
@@ -103,7 +139,11 @@ const translations = {
     messagesDisappear: "消息将在10秒后消失",
     roomLinkCopied: "房间链接已复制！🚀 与朋友分享！",
     typingIndicator: "正在输入…",
-    sendBtn: "发送" // ✅ NUEVO
+    sendBtn: "发送", // ✅ NUEVO
+    usersInRoom: (count) => `👥 ${count} 位用户在线`,
+    newRoomBtn: "新建 ✨",
+    newRoomTitle: "新的私人房间 ✨"
+
   },
   nl: {
     appName: "TimeWarp Messenger",
@@ -112,7 +152,11 @@ const translations = {
     messagesDisappear: "Berichten verdwijnen na 10 seconden",
     roomLinkCopied: "Kamplink gekopieerd! 🚀 Deel met vrienden!",
     typingIndicator: "is aan het typen…",
-    sendBtn: "Verzenden" // ✅ NUEVO
+    sendBtn: "Verzenden", // ✅ NUEVO
+    usersInRoom: (count) => `👥 ${count} gebruiker${count !== 1 ? "s" : ""} in de kamer`,
+    newRoomBtn: "Nieuw ✨",
+    newRoomTitle: "Nieuwe privéruimte ✨"
+
   },
   tr: {
     appName: "TimeWarp Messenger",
@@ -121,7 +165,11 @@ const translations = {
     messagesDisappear: "Mesajlar 10 saniye sonra kaybolur",
     roomLinkCopied: "Oda linki kopyalandı! 🚀 Arkadaşlarla paylaş!",
     typingIndicator: "yazıyor…",
-    sendBtn: "Gönder" // ✅ NUEVO
+    sendBtn: "Gönder", // ✅ NUEVO
+    usersInRoom: (count) => `👥 Odada ${count} kullanıcı`,
+    newRoomBtn: "Yeni ✨",
+    newRoomTitle: "Yeni özel oda ✨"
+
   },
   ar: {
     appName: "TimeWarp Messenger",
@@ -130,7 +178,11 @@ const translations = {
     messagesDisappear: "الرسائل تختفي بعد 10 ثوانٍ",
     roomLinkCopied: "تم نسخ رابط الغرفة! 🚀 شاركه مع الأصدقاء!",
     typingIndicator: "يكتب…",
-    sendBtn: "إرسال" // ✅ NUEVO
+    sendBtn: "إرسال", // ✅ NUEVO
+    usersInRoom: (count) => `👥 ${count} مستخدم في الغرفة`,
+    newRoomBtn: "جديد ✨",
+    newRoomTitle: "غرفة خاصة جديدة ✨"
+
   },
   pl: {
     appName: "TimeWarp Messenger",
@@ -139,7 +191,11 @@ const translations = {
     messagesDisappear: "Wiadomości znikają po 10 sekundach",
     roomLinkCopied: "Link do pokoju skopiowany! 🚀 Udostępnij znajomym!",
     typingIndicator: "pisze…",
-    sendBtn: "Wyślij" // ✅ NUEVO
+    sendBtn: "Wyślij", // ✅ NUEVO
+    usersInRoom: (count) => `👥 ${count} użytkownik${count !== 1 ? "ów" : ""} w pokoju`,
+    newRoomBtn: "Nowy ✨",
+    newRoomTitle: "Nowy prywatny pokój ✨"
+
   },
   sv: {
     appName: "TimeWarp Messenger",
@@ -148,7 +204,11 @@ const translations = {
     messagesDisappear: "Meddelanden försvinner efter 10 sekunder",
     roomLinkCopied: "Rums-länk kopierad! 🚀 Dela med vänner!",
     typingIndicator: "skriver…",
-    sendBtn: "Skicka" // ✅ NUEVO
+    sendBtn: "Skicka", // ✅ NUEVO
+    usersInRoom: (count) => `👥 ${count} användare i rummet`,
+    newRoomBtn: "Ny ✨",
+    newRoomTitle: "Nytt privat rum ✨"
+
   },
   fi: {
     appName: "TimeWarp Messenger",
@@ -157,7 +217,11 @@ const translations = {
     messagesDisappear: "Viestit katoavat 10 sekunnin kuluttua",
     roomLinkCopied: "Huoneen linkki kopioitu! 🚀 Jaa ystäville!",
     typingIndicator: "kirjoittaa…",
-    sendBtn: "Lähetä" // ✅ NUEVO
+    sendBtn: "Lähetä", // ✅ NUEVO
+    usersInRoom: (count) => `👥 ${count} käyttäjää huoneessa`,
+    newRoomBtn: "Uusi ✨",
+    newRoomTitle: "Uusi yksityinen huone ✨"
+
   }
 };
 
@@ -174,8 +238,8 @@ function setLanguage(lang) {
   document.querySelector("#message-input").placeholder = translations[lang].messagePlaceholder;
   document.querySelector("#invite-btn").textContent = translations[lang].inviteBtn;
   document.getElementById("messages-ttl").textContent = translations[lang].messagesDisappear;
-
   document.querySelector("#send-btn").textContent = translations[lang].sendBtn; // ✅ NUEVO
+  document.querySelector("#new-room-btn").textContent = translations[lang].newRoomBtn;
 }
 
 
@@ -296,7 +360,7 @@ onValue(ref(db, ".info/connected"), (snap) => {
 // ✅ live user counter
 onValue(usersRef, (snap) => {
   const count = snap.exists() ? Object.keys(snap.val()).length : 1;
-  roomUsers.textContent = `👥 ${count} user${count > 1 ? "s" : ""} in room`;
+  roomUsers.textContent = translations[currentLang].usersInRoom(count);
 });
 
 
@@ -483,7 +547,7 @@ setTimeout(() => {
 
 
   const title = document.getElementById("room-title");
-  title.textContent = "New Private Room ✨";
+  title.textContent = translations[currentLang].newRoomTitle;
   setTimeout(() => {
     title.textContent = "TimeWarp Messenger";
   }, 2000);
