@@ -240,11 +240,6 @@ const db = getDatabase(app);
 const chatBox = document.getElementById("chat-box");
 const roomUsers = document.getElementById("room-users");
 
-onValue(usersRef, (snap) => {
-  const count = snap.exists() ? Object.keys(snap.val()).length : 1;
-  roomUsers.textContent = `👥 ${count} user${count > 1 ? "s" : ""} in room`;
-});
-
 
 function showSystemMessage(text) {
   const div = document.createElement("div");
@@ -278,10 +273,18 @@ const roomRef = ref(db, "rooms/" + roomId);
 const usersRef = ref(db, `rooms/${roomId}/users`);
 const typingRef = ref(db, `rooms/${roomId}/typing`);
 
+// ✅ user joins room
 push(usersRef, {
   name: identity.name,
   joinedAt: Date.now()
 });
+
+// ✅ live user counter
+onValue(usersRef, (snap) => {
+  const count = snap.exists() ? Object.keys(snap.val()).length : 1;
+  roomUsers.textContent = `👥 ${count} user${count > 1 ? "s" : ""} in room`;
+});
+
 
 
 
