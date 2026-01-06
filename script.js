@@ -235,6 +235,16 @@ const db = getDatabase(app);
 
 /* UI */
 const chatBox = document.getElementById("chat-box");
+function showSystemMessage(text) {
+  const div = document.createElement("div");
+  div.style.textAlign = "center";
+  div.style.fontSize = "12px";
+  div.style.opacity = "0.6";
+  div.style.margin = "8px 0";
+  div.textContent = text;
+  chatBox.appendChild(div);
+}
+
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
 setLanguage("en"); // default language when user enters
@@ -425,8 +435,21 @@ const newRoomBtn = document.getElementById("new-room-btn");
 newRoomBtn.addEventListener("click", () => {
   const newRoomId = generateRoomId();
   location.hash = "room=" + newRoomId;
+
+  showSystemMessage("🆕 New private room created — invite someone to start chatting");
+
+  const title = document.getElementById("room-title");
+  title.textContent = "New Private Room ✨";
+  setTimeout(() => {
+    title.textContent = "TimeWarp Messenger";
+  }, 2000);
+
+  newRoomBtn.disabled = true;
+  setTimeout(() => newRoomBtn.disabled = false, 1000);
+
   location.reload(); // limpio, rápido, sin estados raros
 });
+
 
 
 
