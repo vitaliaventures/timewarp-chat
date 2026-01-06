@@ -446,9 +446,8 @@ newRoomBtn.addEventListener("click", () => {
 
   newRoomBtn.disabled = true;
   setTimeout(() => newRoomBtn.disabled = false, 1000);
-
-  location.reload(); // limpio, rápido, sin estados raros
 });
+
 
 
 
