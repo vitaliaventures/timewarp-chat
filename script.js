@@ -468,39 +468,32 @@ onChildAdded(roomRef, snap => {
   }
 
   const div = document.createElement("div");
-  div.className = "message";
+div.className = "message";
 
-  if (msg.user.name === identity.name) {
-    const colors = ["#2563eb", "#16a34a", "#db2777", "#f59e0b", "#8b5cf6", "#ef4444"];
-    let randomColor;
-    do {
-      randomColor = colors[Math.floor(Math.random() * colors.length)];
-    } while (chatBox.lastChild && chatBox.lastChild.style.background === randomColor);
-    div.style.background = randomColor;
-  }
+if (msg.user.name === identity.name) {
+  // 💡 Array de colores limpios y contrastantes
+  const colors = ["#2563eb", "#16a34a", "#db2777", "#f59e0b", "#8b5cf6", "#ef4444"];
 
-  // Inicializamos div vacío para animación de tecleo
+  // Elegir un color aleatorio distinto del anterior (opcional)
+  let randomColor;
+  do {
+    randomColor = colors[Math.floor(Math.random() * colors.length)];
+  } while (chatBox.lastChild && chatBox.lastChild.style.background === randomColor);
+
+  div.style.background = randomColor;
+}
+
+
+  div.innerHTML = `
+    <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
+    ${msg.text}
+    <span>${remaining}s</span>
+  `;
+
   chatBox.appendChild(div);
-
-  const fullText = `<strong>${msg.user.emoji} ${msg.user.name}</strong><br>${msg.text}`;
-  let i = 0;
-
-  function typeChar() {
-    if (i < fullText.length) {
-      div.innerHTML += fullText[i];
-      i++;
-      chatBox.scrollTo({ top: chatBox.scrollHeight, behavior: "smooth" }); // ⚡ scroll suave
-      setTimeout(typeChar, 30); // velocidad de tecleo
-    } else {
-      div.classList.add("show"); // aparece suavemente al finalizar
-    }
-  }
-
-  typeChar();
-
-  const span = document.createElement("span");
-  span.textContent = remaining + "s";
-  div.appendChild(span);
+// 🔥 AUTOSCROLL SIEMPRE AL FINAL
+ chatBox.scrollTop = chatBox.scrollHeight;
+  const span = div.querySelector("span");
 
   const timer = setInterval(() => {
     remaining--;
@@ -513,7 +506,6 @@ onChildAdded(roomRef, snap => {
     }
   }, 1000);
 });
-
 
 
 const typingIndicator = document.getElementById("typing-indicator");
