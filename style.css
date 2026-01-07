@@ -82,12 +82,20 @@ body {
 .chat-input textarea {
   flex: 1;
   border: none;
-  padding: 10px;
+  padding: 10px;           /* puedes ajustar 6px si quieres menos espacio */
   font-family: Arial;
   resize: none;
   background: #fff;
   outline: none;
+
+  /* 🔹 NUEVO: alinear las líneas sin sangría */
+  white-space: pre-wrap;   /* conserva saltos de línea, pero no indent */
+  overflow-wrap: break-word; 
+  word-wrap: break-word;
+  text-indent: 0;          /* elimina cualquier indent de primera línea */
+  line-height: 1.4;        /* opcional, ajusta altura de línea */
 }
+
 
 
 /* 🔥 OCULTAR SCROLLBAR DEL TEXTAREA */
