@@ -232,7 +232,7 @@ const languageSelect = document.getElementById("language-select");
 function updateUsersLiveText() {
   const roomUsersDiv = document.getElementById("room-users");
   roomUsersDiv.textContent =
-    `👥 ${currentUserCount} ${translations[currentLang].usersLive}`;
+    `🔴 ${currentUserCount} ${translations[currentLang].usersLive}`;
 }
 
 
