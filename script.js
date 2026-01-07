@@ -535,8 +535,22 @@ inviteBtn.addEventListener("click", () => {
     .catch(err => console.error("Failed to copy: ", err));
 
   // Mostrar mensaje en el chat
-  showSystemMessage(fullText);
+  const msgDiv = document.createElement("div");
+  msgDiv.style.textAlign = "center";
+  msgDiv.style.fontSize = "12px";
+  msgDiv.style.opacity = "0.6";
+  msgDiv.style.margin = "8px 0";
+  msgDiv.textContent = fullText;
+
+  chatBox.appendChild(msgDiv);
+  chatBox.scrollTop = chatBox.scrollHeight; // autoscroll
+
+  // 🔥 Desaparece después de 3 segundos
+  setTimeout(() => {
+    msgDiv.remove();
+  }, 3000);
 });
+
 
 
 
