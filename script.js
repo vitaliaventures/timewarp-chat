@@ -222,7 +222,7 @@ function setLanguage(lang) {
   document.querySelector(".chat-header h2").textContent = translations[lang].appName;
   document.querySelector("#message-input").placeholder = translations[lang].messagePlaceholder;
   document.querySelector("#invite-btn").textContent = translations[lang].inviteBtn;
-  document.querySelector(".chat-header div").textContent = translations[lang].messagesDisappear;
+  document.getElementById("messages-info").textContent = translations[lang].messagesDisappear;
   document.querySelector("#send-btn").textContent = translations[lang].sendBtn; // ✅ NUEVO
   document.querySelector("#new-room-btn").textContent = translations[lang].newRoomBtn;
 }
@@ -525,9 +525,8 @@ setTimeout(() => {
 
   const title = document.getElementById("room-title");
   title.textContent = translations[currentLang].newRoomTitle;
-  setTimeout(() => {
-    title.textContent = "TimeWarp Messenger";
-  }, 2000);
+  title.textContent = translations[currentLang].appName;
+
 
   newRoomBtn.disabled = true;
   setTimeout(() => newRoomBtn.disabled = false, 1000);
