@@ -21,7 +21,9 @@ const translations = {
     messagesDisappear: "Messages disappear after 10 seconds",
     roomLinkCopied: "Room link copied! 🚀 Share it with friends!",
     typingIndicator: "is typing…",
-    sendBtn: "Send" // ✅ NUEVO
+    sendBtn: "Send", // ✅ NUEVO
+    usersLive: "live",
+    newRoomBtn: "New ✨"
   },
   de: {
     appName: "TimeWarp Messenger",
@@ -30,7 +32,9 @@ const translations = {
     messagesDisappear: "Nachrichten verschwinden nach 10 Sekunden",
     roomLinkCopied: "Raumlink kopiert! 🚀 Mit Freunden teilen!",
     typingIndicator: "schreibt…",
-    sendBtn: "Senden" // ✅ NUEVO
+    sendBtn: "Senden", // ✅ NUEVO
+    usersLive: "live",
+    newRoomBtn: "New ✨"
   },
   es: {
     appName: "TimeWarp Messenger",
@@ -39,7 +43,9 @@ const translations = {
     messagesDisappear: "Los mensajes desaparecen después de 10 segundos",
     roomLinkCopied: "¡Enlace de la sala copiado! 🚀 Compártelo con amigos",
     typingIndicator: "está escribiendo…",
-    sendBtn: "Enviar" // ✅ NUEVO
+    sendBtn: "Enviar", // ✅ NUEVO
+    usersLive: "live",
+    newRoomBtn: "Neu ✨"
   },
   fr: {
     appName: "TimeWarp Messenger",
@@ -48,7 +54,9 @@ const translations = {
     messagesDisappear: "Les messages disparaissent après 10 secondes",
     roomLinkCopied: "Lien de la salle copié ! 🚀 Partagez avec vos amis !",
     typingIndicator: "est en train d’écrire…",
-    sendBtn: "Envoyer" // ✅ NUEVO
+    sendBtn: "Envoyer", // ✅ NUEVO
+    usersLive: "en direct",
+    newRoomBtn: "Nouveau ✨"
   },
   it: {
     appName: "TimeWarp Messenger",
@@ -57,7 +65,9 @@ const translations = {
     messagesDisappear: "I messaggi scompaiono dopo 10 secondi",
     roomLinkCopied: "Link della stanza copiato! 🚀 Condividilo con gli amici!",
     typingIndicator: "sta scrivendo…",
-    sendBtn: "Invia" // ✅ NUEVO
+    sendBtn: "Invia", // ✅ NUEVO
+    usersLive: "in diretta",
+    newRoomBtn: "Nuovo ✨"
   },
   pt: {
     appName: "TimeWarp Messenger",
@@ -66,7 +76,9 @@ const translations = {
     messagesDisappear: "As mensagens desaparecem após 10 segundos",
     roomLinkCopied: "Link da sala copiado! 🚀 Compartilhe com amigos!",
     typingIndicator: "está digitando…",
-    sendBtn: "Enviar" // ✅ NUEVO
+    sendBtn: "Enviar", // ✅ NUEVO
+    usersLive: "ao vivo",
+    newRoomBtn: "Novo ✨"
   },
   ru: {
     appName: "TimeWarp Messenger",
@@ -75,7 +87,10 @@ const translations = {
     messagesDisappear: "Сообщения исчезают через 10 секунд",
     roomLinkCopied: "Ссылка на комнату скопирована! 🚀 Поделитесь с друзьями!",
     typingIndicator: "печатает…",
-    sendBtn: "Отправить" // ✅ NUEVO
+    sendBtn: "Отправить", // ✅ NUEVO
+    usersLive: "онлайн",
+    newRoomBtn: "Новый ✨"
+    
   },
   ja: {
     appName: "TimeWarp Messenger",
@@ -84,7 +99,9 @@ const translations = {
     messagesDisappear: "メッセージは10秒後に消えます",
     roomLinkCopied: "ルームリンクをコピーしました！🚀 友達と共有しよう！",
     typingIndicator: "が入力中…",
-    sendBtn: "送信" // ✅ NUEVO
+    sendBtn: "送信", // ✅ NUEVO
+    usersLive: "接続中",
+    newRoomBtn: "新規 ✨"
   },
   ko: {
     appName: "TimeWarp Messenger",
@@ -93,7 +110,9 @@ const translations = {
     messagesDisappear: "메시지는 10초 후에 사라집니다",
     roomLinkCopied: "방 링크가 복사되었습니다! 🚀 친구와 공유하세요!",
     typingIndicator: "입력 중…",
-    sendBtn: "보내기" // ✅ NUEVO
+    sendBtn: "보내기", // ✅ NUEVO
+    usersLive: "접속 중",
+    newRoomBtn: "새로 ✨"
   },
   zh: {
     appName: "TimeWarp Messenger",
@@ -102,7 +121,9 @@ const translations = {
     messagesDisappear: "消息将在10秒后消失",
     roomLinkCopied: "房间链接已复制！🚀 与朋友分享！",
     typingIndicator: "正在输入…",
-    sendBtn: "发送" // ✅ NUEVO
+    sendBtn: "发送", // ✅ NUEVO
+    usersLive: "在线",
+    newRoomBtn: "新建 ✨"
   },
   nl: {
     appName: "TimeWarp Messenger",
@@ -111,7 +132,9 @@ const translations = {
     messagesDisappear: "Berichten verdwijnen na 10 seconden",
     roomLinkCopied: "Kamplink gekopieerd! 🚀 Deel met vrienden!",
     typingIndicator: "is aan het typen…",
-    sendBtn: "Verzenden" // ✅ NUEVO
+    sendBtn: "Verzenden", // ✅ NUEVO
+    usersLive: "live",
+    newRoomBtn: "Nieuw ✨"
   },
   tr: {
     appName: "TimeWarp Messenger",
@@ -120,7 +143,9 @@ const translations = {
     messagesDisappear: "Mesajlar 10 saniye sonra kaybolur",
     roomLinkCopied: "Oda linki kopyalandı! 🚀 Arkadaşlarla paylaş!",
     typingIndicator: "yazıyor…",
-    sendBtn: "Gönder" // ✅ NUEVO
+    sendBtn: "Gönder", // ✅ NUEVO
+    usersLive: "canlı",
+    newRoomBtn: "Yeni ✨"
   },
   ar: {
     appName: "TimeWarp Messenger",
@@ -129,7 +154,9 @@ const translations = {
     messagesDisappear: "الرسائل تختفي بعد 10 ثوانٍ",
     roomLinkCopied: "تم نسخ رابط الغرفة! 🚀 شاركه مع الأصدقاء!",
     typingIndicator: "يكتب…",
-    sendBtn: "إرسال" // ✅ NUEVO
+    sendBtn: "إرسال", // ✅ NUEVO
+    usersLive: "متصل",
+    newRoomBtn: "جديد ✨"
   },
   pl: {
     appName: "TimeWarp Messenger",
@@ -138,7 +165,9 @@ const translations = {
     messagesDisappear: "Wiadomości znikają po 10 sekundach",
     roomLinkCopied: "Link do pokoju skopiowany! 🚀 Udostępnij znajomym!",
     typingIndicator: "pisze…",
-    sendBtn: "Wyślij" // ✅ NUEVO
+    sendBtn: "Wyślij", // ✅ NUEVO
+    usersLive: "na żywo",
+    newRoomBtn: "Nowy ✨"
   },
   sv: {
     appName: "TimeWarp Messenger",
@@ -147,7 +176,9 @@ const translations = {
     messagesDisappear: "Meddelanden försvinner efter 10 sekunder",
     roomLinkCopied: "Rums-länk kopierad! 🚀 Dela med vänner!",
     typingIndicator: "skriver…",
-    sendBtn: "Skicka" // ✅ NUEVO
+    sendBtn: "Skicka", // ✅ NUEVO
+    usersLive: "live",
+    newRoomBtn: "Ny ✨"
   },
   fi: {
     appName: "TimeWarp Messenger",
@@ -156,7 +187,9 @@ const translations = {
     messagesDisappear: "Viestit katoavat 10 sekunnin kuluttua",
     roomLinkCopied: "Huoneen linkki kopioitu! 🚀 Jaa ystäville!",
     typingIndicator: "kirjoittaa…",
-    sendBtn: "Lähetä" // ✅ NUEVO
+    sendBtn: "Lähetä", // ✅ NUEVO
+    usersLive: "live",
+    newRoomBtn: "Uusi ✨"
   }
 };
 
