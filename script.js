@@ -23,7 +23,8 @@ const translations = {
     typingIndicator: "is typing…",
     sendBtn: "Send", // ✅ NUEVO
     usersLive: "live",
-    newRoomBtn: "New ✨"
+    newRoomBtn: "New ✨",
+    newRoomSystem: "🆕 New private room created — invite someone to start chatting"
   },
   de: {
     appName: "TimeWarp Messenger",
@@ -34,7 +35,8 @@ const translations = {
     typingIndicator: "schreibt…",
     sendBtn: "Senden", // ✅ NUEVO
     usersLive: "live",
-    newRoomBtn: "New ✨"
+    newRoomBtn: "Neu ✨",
+    newRoomSystem: "🆕 Neuer privater Raum erstellt — lade jemanden zum Chatten ein"
   },
   es: {
     appName: "TimeWarp Messenger",
@@ -45,7 +47,9 @@ const translations = {
     typingIndicator: "está escribiendo…",
     sendBtn: "Enviar", // ✅ NUEVO
     usersLive: "live",
-    newRoomBtn: "Neu ✨"
+    newRoomBtn: "Nuevo ✨",
+    newRoomSystem: "🆕 Nueva sala privada creada — invita a alguien para empezar a chatear"
+
   },
   fr: {
     appName: "TimeWarp Messenger",
@@ -56,7 +60,8 @@ const translations = {
     typingIndicator: "est en train d’écrire…",
     sendBtn: "Envoyer", // ✅ NUEVO
     usersLive: "en direct",
-    newRoomBtn: "Nouveau ✨"
+    newRoomBtn: "Nouveau ✨",
+    newRoomSystem: "🆕 Nouvelle salle privée créée — invitez quelqu’un à discuter"
   },
   it: {
     appName: "TimeWarp Messenger",
@@ -67,7 +72,8 @@ const translations = {
     typingIndicator: "sta scrivendo…",
     sendBtn: "Invia", // ✅ NUEVO
     usersLive: "in diretta",
-    newRoomBtn: "Nuovo ✨"
+    newRoomBtn: "Nuovo ✨",
+    newRoomSystem: "🆕 Nuova stanza privata creata — invita qualcuno a iniziare la chat"
   },
   pt: {
     appName: "TimeWarp Messenger",
@@ -78,7 +84,8 @@ const translations = {
     typingIndicator: "está digitando…",
     sendBtn: "Enviar", // ✅ NUEVO
     usersLive: "ao vivo",
-    newRoomBtn: "Novo ✨"
+    newRoomBtn: "Novo ✨",
+    newRoomSystem: "🆕 Nova sala privada criada — convide alguém para começar a conversar"
   },
   ru: {
     appName: "TimeWarp Messenger",
@@ -89,7 +96,8 @@ const translations = {
     typingIndicator: "печатает…",
     sendBtn: "Отправить", // ✅ NUEVO
     usersLive: "онлайн",
-    newRoomBtn: "Новый ✨"
+    newRoomBtn: "Новый ✨",
+    newRoomSystem: "🆕 Создана новая приватная комната — пригласите кого-нибудь начать чат"
     
   },
   ja: {
@@ -101,7 +109,8 @@ const translations = {
     typingIndicator: "が入力中…",
     sendBtn: "送信", // ✅ NUEVO
     usersLive: "接続中",
-    newRoomBtn: "新規 ✨"
+    newRoomBtn: "新規 ✨",
+    newRoomSystem: "🆕 新しいプライベートルームが作成されました — 誰かを招待してチャットを始めましょう"
   },
   ko: {
     appName: "TimeWarp Messenger",
@@ -112,7 +121,8 @@ const translations = {
     typingIndicator: "입력 중…",
     sendBtn: "보내기", // ✅ NUEVO
     usersLive: "접속 중",
-    newRoomBtn: "새로 ✨"
+    newRoomBtn: "새로 ✨",
+    newRoomSystem: "🆕 새로운 비공개 방이 생성되었습니다 — 누군가를 초대해 채팅을 시작하세요"
   },
   zh: {
     appName: "TimeWarp Messenger",
@@ -123,7 +133,8 @@ const translations = {
     typingIndicator: "正在输入…",
     sendBtn: "发送", // ✅ NUEVO
     usersLive: "在线",
-    newRoomBtn: "新建 ✨"
+    newRoomBtn: "新建 ✨",
+    newRoomSystem: "🆕 已创建新的私人房间 — 邀请他人开始聊天"
   },
   nl: {
     appName: "TimeWarp Messenger",
@@ -134,7 +145,8 @@ const translations = {
     typingIndicator: "is aan het typen…",
     sendBtn: "Verzenden", // ✅ NUEVO
     usersLive: "live",
-    newRoomBtn: "Nieuw ✨"
+    newRoomBtn: "Nieuw ✨",
+    newRoomSystem: "🆕 Nieuwe privéruimte aangemaakt — nodig iemand uit om te chatten"
   },
   tr: {
     appName: "TimeWarp Messenger",
@@ -145,7 +157,8 @@ const translations = {
     typingIndicator: "yazıyor…",
     sendBtn: "Gönder", // ✅ NUEVO
     usersLive: "canlı",
-    newRoomBtn: "Yeni ✨"
+    newRoomBtn: "Yeni ✨",
+    newRoomSystem: "🆕 Yeni özel oda oluşturuldu — sohbet etmeye başlamak için birini davet et"
   },
   ar: {
     appName: "TimeWarp Messenger",
@@ -156,7 +169,8 @@ const translations = {
     typingIndicator: "يكتب…",
     sendBtn: "إرسال", // ✅ NUEVO
     usersLive: "متصل",
-    newRoomBtn: "جديد ✨"
+    newRoomBtn: "جديد ✨",
+    newRoomSystem: "🆕 تم إنشاء غرفة خاصة جديدة — ادعُ شخصًا لبدء الدردشة"
   },
   pl: {
     appName: "TimeWarp Messenger",
@@ -167,7 +181,8 @@ const translations = {
     typingIndicator: "pisze…",
     sendBtn: "Wyślij", // ✅ NUEVO
     usersLive: "na żywo",
-    newRoomBtn: "Nowy ✨"
+    newRoomBtn: "Nowy ✨",
+    newRoomSystem: "🆕 Utworzono nowy prywatny pokój — zaproś kogoś, aby rozpocząć czat"
   },
   sv: {
     appName: "TimeWarp Messenger",
@@ -178,7 +193,8 @@ const translations = {
     typingIndicator: "skriver…",
     sendBtn: "Skicka", // ✅ NUEVO
     usersLive: "live",
-    newRoomBtn: "Ny ✨"
+    newRoomBtn: "Ny ✨",
+    newRoomSystem: "🆕 Ny privat chattrum skapat — bjud in någon för att börja chatta"
   },
   fi: {
     appName: "TimeWarp Messenger",
@@ -189,7 +205,8 @@ const translations = {
     typingIndicator: "kirjoittaa…",
     sendBtn: "Lähetä", // ✅ NUEVO
     usersLive: "live",
-    newRoomBtn: "Uusi ✨"
+    newRoomBtn: "Uusi ✨",
+    newRoomSystem: "🆕 Uusi yksityinen huone luotu — kutsu joku aloittamaan keskustelu"
   }
 };
 
@@ -207,6 +224,7 @@ function setLanguage(lang) {
   document.querySelector("#invite-btn").textContent = translations[lang].inviteBtn;
   document.querySelector(".chat-header div").textContent = translations[lang].messagesDisappear;
   document.querySelector("#send-btn").textContent = translations[lang].sendBtn; // ✅ NUEVO
+  document.querySelector("#new-room-btn").textContent = translations[lang].newRoomBtn;
 }
 
 
@@ -498,7 +516,7 @@ newRoomBtn.addEventListener("click", () => {
   const newRoomId = generateRoomId();
   location.hash = "room=" + newRoomId;
 
-  showSystemMessage("🆕 New private room created — invite someone to start chatting");
+  showSystemMessage(translations[currentLang].newRoomSystem);
 
 setTimeout(() => {
   chatBox.lastChild?.remove();
@@ -506,7 +524,7 @@ setTimeout(() => {
 
 
   const title = document.getElementById("room-title");
-  title.textContent = "New Private Room ✨";
+  title.textContent = translations[currentLang].newRoomTitle;
   setTimeout(() => {
     title.textContent = "TimeWarp Messenger";
   }, 2000);
