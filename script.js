@@ -528,14 +528,16 @@ const inviteBtn = document.getElementById("invite-btn");
 
 inviteBtn.addEventListener("click", () => {
   const roomUrl = window.location.href;
+  const fullText = `${translations[currentLang].invitedToChat}: ${roomUrl}`;
 
-  // Copiar al portapapeles
-  navigator.clipboard.writeText(roomUrl)
+  // Copiar al portapapeles todo el texto
+  navigator.clipboard.writeText(fullText)
     .catch(err => console.error("Failed to copy: ", err));
 
   // Mostrar mensaje en el chat
-  showSystemMessage(`${translations[currentLang].invitedToChat}: ${roomUrl}`);
+  showSystemMessage(fullText);
 });
+
 
 
 // 🆕 CREATE NEW ROOM
