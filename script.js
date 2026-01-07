@@ -212,7 +212,7 @@ const translations = {
 
 // ✅ Default language
 let currentLang = "en";
-
+let currentUserCount = 0;
 // Function to change language
 function setLanguage(lang) {
   if (!translations[lang]) return;
@@ -225,10 +225,18 @@ function setLanguage(lang) {
   document.getElementById("messages-info").textContent = translations[lang].messagesDisappear;
   document.querySelector("#send-btn").textContent = translations[lang].sendBtn; // ✅ NUEVO
   document.querySelector("#new-room-btn").textContent = translations[lang].newRoomBtn;
+  updateUsersLiveText(); // 👈 ESTA LÍNEA
+}
+const languageSelect = document.getElementById("language-select");
+
+function updateUsersLiveText() {
+  const roomUsersDiv = document.getElementById("room-users");
+  roomUsersDiv.textContent =
+    `👥 ${currentUserCount} ${translations[currentLang].usersLive}`;
 }
 
 
-const languageSelect = document.getElementById("language-select");
+
 
 // Cambiar idioma al seleccionar
 languageSelect.addEventListener("change", (e) => {
@@ -341,10 +349,10 @@ const roomUsersDiv = document.getElementById("room-users");
 const usersRef = ref(db, `rooms/${roomId}/users`);
 onValue(usersRef, (snapshot) => {
   const users = snapshot.val() || {};
-  const count = Object.keys(users).length;
-  roomUsersDiv.textContent = `👥 ${count} ${translations[currentLang].usersLive}`;
-
+  currentUserCount = Object.keys(users).length;
+  updateUsersLiveText();
 });
+
 
 
 
