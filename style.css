@@ -25,6 +25,19 @@ body {
   height: 300px;
   padding: 10px;
   overflow-y: auto;
+
+  /* 🔥 OCULTAR BARRA VERTICAL (pero mantener scroll) */
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE / Edge antiguo */
+}
+
+.chat-box::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari */
+}
+
+/* 👇 Elimina espacio extra del primer mensaje */
+.chat-box .message:first-child {
+  margin-top: 0 !important;
 }
 
 .message {
@@ -34,13 +47,11 @@ body {
   border-radius: 6px;
   position: relative;
 
-  /* 👇 ESTO ES LO ÚNICO NUEVO */
+  /* 👇 Asegura que el texto se rompa y se muestre correctamente */
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
 }
-
-
 
 .message span {
   position: absolute;
@@ -48,6 +59,11 @@ body {
   top: 6px;
   font-size: 12px;
   opacity: 0.6;
+}
+
+.message p {
+  margin: 0;
+  padding: 0;   /* ⚡ asegura que no haya indentación o margen extra */
 }
 
 .chat-input {
@@ -65,24 +81,11 @@ body {
   flex: 1;
 }
 
-
-
-
-/* 🔥 OCULTAR BARRA VERTICAL (pero mantener scroll) */
-.chat-box {
-  scrollbar-width: none;        /* Firefox */
-  -ms-overflow-style: none;     /* IE / Edge antiguo */
-}
-
-.chat-box::-webkit-scrollbar {
-  display: none;                /* Chrome, Safari */
-}
-
 /* 👇 textarea se ve y se comporta igual que el input */
 .chat-input textarea {
   flex: 1;
   border: none;
-  padding: 6px 8px;      /* mantén esto */
+  padding: 6px 8px;
   font-family: Arial;
   font-size: 14px;
   line-height: 1.3;
@@ -91,31 +94,12 @@ body {
   color: #fff;
   outline: none;
   box-sizing: border-box;
-  white-space: normal;    /* ⚡ cambió de pre-wrap a normal */
+  white-space: normal;    /* ⚡ evita indentación inicial */
   text-indent: 0;         /* ⚡ elimina indent inicial */
-  overflow-y: auto;
-}
-
-
-
-
-/* 🔥 OCULTAR SCROLLBAR DEL TEXTAREA */
-.chat-input textarea {
   overflow-y: hidden;
+  scrollbar-width: none;  /* Firefox */
 }
 
-/* Chrome, Safari */
 .chat-input textarea::-webkit-scrollbar {
-  display: none;
+  display: none;           /* Chrome, Safari */
 }
-
-/* Firefox */
-.chat-input textarea {
-  scrollbar-width: none;
-}
-
-.message p {
-  margin: 0;
-}
-
-
