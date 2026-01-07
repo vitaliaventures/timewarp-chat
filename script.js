@@ -291,7 +291,7 @@ const usersRef = ref(db, `rooms/${roomId}/users`);
 onValue(usersRef, (snapshot) => {
   const users = snapshot.val() || {};
   const count = Object.keys(users).length;
-  roomUsersDiv.textContent = `👥 ${count} user${count !== 1 ? 's' : ''} in room`;
+  roomUsersDiv.textContent = `👥 ${count} live`;
 });
 
 
