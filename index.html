@@ -5,22 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TimeWarp Messenger</title>
   <link rel="stylesheet" href="style.css" />
-  <script type="module" src="script.js"></script>
+  <script type="module" src="script.js" defer></script>
 </head>
-
 <body>
   <div class="chat-container">
     <div class="chat-header">
       <h2 id="room-title">TimeWarp Messenger</h2>
-      <div id="messages-info" class="info-text">
-        Messages disappear after 10 seconds
-      </div>
+      <div id="messages-info">Messages disappear after 10 seconds</div>
       <div class="header-controls">
-        <div id="room-users" class="info-text">🔴 1 live</div>
-        <select id="language-select" class="lang-select">
+        <div id="room-users">🔴 1 live</div>
+        <select id="language-select">
           <option value="en">English</option>
-          <option value="de">Deutsch</option>
           <option value="es">Español</option>
+          <option value="de">Deutsch</option>
           <option value="fr">Français</option>
           <option value="it">Italiano</option>
           <option value="pt">Português</option>
@@ -35,13 +32,13 @@
           <option value="sv">Svenska</option>
           <option value="fi">Suomi</option>
         </select>
-        <button id="invite-btn" class="header-btn">Invite 🚀</button>
-        <button id="new-room-btn" class="header-btn">New ✨</button>
+        <button id="invite-btn">Invite 🚀</button>
+        <button id="new-room-btn">New ✨</button>
       </div>
     </div>
 
     <div id="chat-box" class="chat-box"></div>
-    <div id="typing-indicator" class="typing-indicator"></div>
+    <div id="typing-indicator"></div>
 
     <div class="chat-input">
       <textarea id="message-input" rows="1" placeholder="Type message..."></textarea>
