@@ -24,7 +24,8 @@ const translations = {
     sendBtn: "Send", // ✅ NUEVO
     usersLive: "live",
     newRoomBtn: "New ✨",
-    newRoomSystem: "🆕 New private room created — invite someone to start chatting"
+    newRoomSystem: "🆕 New private room created — invite someone to start chatting",
+    invitedToChat: "You were invited to chat"
   },
   de: {
     appName: "TimeWarp Messenger",
@@ -36,7 +37,8 @@ const translations = {
     sendBtn: "Senden", // ✅ NUEVO
     usersLive: "live",
     newRoomBtn: "Neu ✨",
-    newRoomSystem: "🆕 Neuer privater Raum erstellt — lade jemanden zum Chatten ein"
+    newRoomSystem: "🆕 Neuer privater Raum erstellt — lade jemanden zum Chatten ein",
+    invitedToChat: "Du wurdest zum Chat eingeladen"
   },
   es: {
     appName: "TimeWarp Messenger",
@@ -48,7 +50,8 @@ const translations = {
     sendBtn: "Enviar", // ✅ NUEVO
     usersLive: "live",
     newRoomBtn: "Nuevo ✨",
-    newRoomSystem: "🆕 Nueva sala privada creada — invita a alguien para empezar a chatear"
+    newRoomSystem: "🆕 Nueva sala privada creada — invita a alguien para empezar a chatear",
+    invitedToChat: "Te invitaron a chatear"
 
   },
   fr: {
@@ -61,7 +64,8 @@ const translations = {
     sendBtn: "Envoyer", // ✅ NUEVO
     usersLive: "en direct",
     newRoomBtn: "Nouveau ✨",
-    newRoomSystem: "🆕 Nouvelle salle privée créée — invitez quelqu’un à discuter"
+    newRoomSystem: "🆕 Nouvelle salle privée créée — invitez quelqu’un à discuter",
+    invitedToChat: "Vous avez été invité à discuter"
   },
   it: {
     appName: "TimeWarp Messenger",
@@ -73,7 +77,8 @@ const translations = {
     sendBtn: "Invia", // ✅ NUEVO
     usersLive: "in diretta",
     newRoomBtn: "Nuovo ✨",
-    newRoomSystem: "🆕 Nuova stanza privata creata — invita qualcuno a iniziare la chat"
+    newRoomSystem: "🆕 Nuova stanza privata creata — invita qualcuno a iniziare la chat",
+    invitedToChat: "Sei stato invitato a chattare"
   },
   pt: {
     appName: "TimeWarp Messenger",
@@ -85,7 +90,8 @@ const translations = {
     sendBtn: "Enviar", // ✅ NUEVO
     usersLive: "ao vivo",
     newRoomBtn: "Novo ✨",
-    newRoomSystem: "🆕 Nova sala privada criada — convide alguém para começar a conversar"
+    newRoomSystem: "🆕 Nova sala privada criada — convide alguém para começar a conversar",
+    invitedToChat: "Você foi convidado para conversar"
   },
   ru: {
     appName: "TimeWarp Messenger",
@@ -97,7 +103,8 @@ const translations = {
     sendBtn: "Отправить", // ✅ NUEVO
     usersLive: "онлайн",
     newRoomBtn: "Новый ✨",
-    newRoomSystem: "🆕 Создана новая приватная комната — пригласите кого-нибудь начать чат"
+    newRoomSystem: "🆕 Создана новая приватная комната — пригласите кого-нибудь начать чат",
+    invitedToChat: "Вас пригласили в чат"
     
   },
   ja: {
@@ -110,7 +117,8 @@ const translations = {
     sendBtn: "送信", // ✅ NUEVO
     usersLive: "接続中",
     newRoomBtn: "新規 ✨",
-    newRoomSystem: "🆕 新しいプライベートルームが作成されました — 誰かを招待してチャットを始めましょう"
+    newRoomSystem: "🆕 新しいプライベートルームが作成されました — 誰かを招待してチャットを始めましょう",
+    invitedToChat: "チャットに招待されました"
   },
   ko: {
     appName: "TimeWarp Messenger",
@@ -122,7 +130,8 @@ const translations = {
     sendBtn: "보내기", // ✅ NUEVO
     usersLive: "접속 중",
     newRoomBtn: "새로 ✨",
-    newRoomSystem: "🆕 새로운 비공개 방이 생성되었습니다 — 누군가를 초대해 채팅을 시작하세요"
+    newRoomSystem: "🆕 새로운 비공개 방이 생성되었습니다 — 누군가를 초대해 채팅을 시작하세요",
+    invitedToChat: "채팅에 초대되었습니다"
   },
   zh: {
     appName: "TimeWarp Messenger",
@@ -134,7 +143,8 @@ const translations = {
     sendBtn: "发送", // ✅ NUEVO
     usersLive: "在线",
     newRoomBtn: "新建 ✨",
-    newRoomSystem: "🆕 已创建新的私人房间 — 邀请他人开始聊天"
+    newRoomSystem: "🆕 已创建新的私人房间 — 邀请他人开始聊天",
+    invitedToChat: "您被邀请加入聊天"
   },
   nl: {
     appName: "TimeWarp Messenger",
@@ -146,7 +156,8 @@ const translations = {
     sendBtn: "Verzenden", // ✅ NUEVO
     usersLive: "live",
     newRoomBtn: "Nieuw ✨",
-    newRoomSystem: "🆕 Nieuwe privéruimte aangemaakt — nodig iemand uit om te chatten"
+    newRoomSystem: "🆕 Nieuwe privéruimte aangemaakt — nodig iemand uit om te chatten",
+    invitedToChat: "Je bent uitgenodigd om te chatten"
   },
   tr: {
     appName: "TimeWarp Messenger",
@@ -158,7 +169,8 @@ const translations = {
     sendBtn: "Gönder", // ✅ NUEVO
     usersLive: "canlı",
     newRoomBtn: "Yeni ✨",
-    newRoomSystem: "🆕 Yeni özel oda oluşturuldu — sohbet etmeye başlamak için birini davet et"
+    newRoomSystem: "🆕 Yeni özel oda oluşturuldu — sohbet etmeye başlamak için birini davet et",
+    invitedToChat: "Sohbete davet edildiniz"
   },
   ar: {
     appName: "TimeWarp Messenger",
@@ -170,7 +182,8 @@ const translations = {
     sendBtn: "إرسال", // ✅ NUEVO
     usersLive: "متصل",
     newRoomBtn: "جديد ✨",
-    newRoomSystem: "🆕 تم إنشاء غرفة خاصة جديدة — ادعُ شخصًا لبدء الدردشة"
+    newRoomSystem: "🆕 تم إنشاء غرفة خاصة جديدة — ادعُ شخصًا لبدء الدردشة",
+    invitedToChat: "لقد تم دعوتك للدردشة"
   },
   pl: {
     appName: "TimeWarp Messenger",
@@ -182,7 +195,8 @@ const translations = {
     sendBtn: "Wyślij", // ✅ NUEVO
     usersLive: "na żywo",
     newRoomBtn: "Nowy ✨",
-    newRoomSystem: "🆕 Utworzono nowy prywatny pokój — zaproś kogoś, aby rozpocząć czat"
+    newRoomSystem: "🆕 Utworzono nowy prywatny pokój — zaproś kogoś, aby rozpocząć czat",
+    invitedToChat: "Zostałeś zaproszony do czatu"
   },
   sv: {
     appName: "TimeWarp Messenger",
@@ -194,7 +208,8 @@ const translations = {
     sendBtn: "Skicka", // ✅ NUEVO
     usersLive: "live",
     newRoomBtn: "Ny ✨",
-    newRoomSystem: "🆕 Ny privat chattrum skapat — bjud in någon för att börja chatta"
+    newRoomSystem: "🆕 Ny privat chattrum skapat — bjud in någon för att börja chatta",
+    invitedToChat: "Du blev inbjuden att chatta"
   },
   fi: {
     appName: "TimeWarp Messenger",
@@ -206,7 +221,8 @@ const translations = {
     sendBtn: "Lähetä", // ✅ NUEVO
     usersLive: "live",
     newRoomBtn: "Uusi ✨",
-    newRoomSystem: "🆕 Uusi yksityinen huone luotu — kutsu joku aloittamaan keskustelu"
+    newRoomSystem: "🆕 Uusi yksityinen huone luotu — kutsu joku aloittamaan keskustelu",
+    invitedToChat: "Sinut on kutsuttu keskustelemaan"
   }
 };
 
@@ -511,11 +527,16 @@ onChildAdded(typingRef, snap => {
 const inviteBtn = document.getElementById("invite-btn");
 
 inviteBtn.addEventListener("click", () => {
-  const roomUrl = window.location.href; // URL actual con hash de la sala
+  const roomUrl = window.location.href;
+
+  // Copiar al portapapeles
   navigator.clipboard.writeText(roomUrl)
-    .then(() => alert(translations[currentLang].roomLinkCopied))
     .catch(err => console.error("Failed to copy: ", err));
+
+  // Mostrar mensaje en el chat
+  showSystemMessage(`${translations[currentLang].invitedToChat}: ${roomUrl}`);
 });
+
 
 // 🆕 CREATE NEW ROOM
 const newRoomBtn = document.getElementById("new-room-btn");
