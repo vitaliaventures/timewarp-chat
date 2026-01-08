@@ -328,7 +328,7 @@ sendBtn.onclick=sendMessage;
 function spawnConfetti() {
   for(let i=0;i<30;i++){
     const conf = document.createElement("div");
-    conf.textContent = ["🎉","✨","💥","🚀"][Math.floor(Math.random()*4)];
+    conf.textContent = ["🎉","✨","💥","🚀","🏆","🔥","💎"][Math.floor(Math.random()*4)];
     conf.style.position="fixed";
     conf.style.left = Math.random()*100 + "%";
     conf.style.top = "-30px";
