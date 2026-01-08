@@ -323,6 +323,30 @@ function sendMessage(){
 }
 sendBtn.onclick=sendMessage;
 
+
+
+function spawnConfetti() {
+  for(let i=0;i<30;i++){
+    const conf = document.createElement("div");
+    conf.textContent = ["🎉","✨","💥","🚀"][Math.floor(Math.random()*4)];
+    conf.style.position="fixed";
+    conf.style.left = Math.random()*100 + "%";
+    conf.style.top = "-30px";
+    conf.style.fontSize = Math.random()*24 + 14 + "px";
+    conf.style.opacity = Math.random();
+    conf.style.zIndex="9999";
+    document.body.appendChild(conf);
+    const fall = setInterval(()=>{
+      const top = parseFloat(conf.style.top);
+      if(top>window.innerHeight){ conf.remove(); clearInterval(fall);}
+      else conf.style.top = top + 5 + "px";
+    },30);
+  }
+}
+spawnConfetti();
+
+
+
 // --- Enter / Shift+Enter
 input.addEventListener("keydown",e=>{
   if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); sendMessage(); }
