@@ -428,3 +428,18 @@ newRoomBtn.addEventListener("click", () => {
   setTimeout(() => newRoomBtn.disabled = false, 1000);
 });
 
+
+// Banner animado
+const banner = document.createElement("div");
+banner.id = "new-room-banner";
+banner.textContent = translations[currentLang].newRoomSystem;
+document.body.appendChild(banner);
+
+// Animar hacia abajo
+setTimeout(() => { banner.style.top = "20px"; }, 50);
+
+// Desaparecer después de 2.5 segundos
+setTimeout(() => {
+  banner.style.top = "-60px";
+  setTimeout(() => banner.remove(), 500);
+}, 2500);
