@@ -397,7 +397,16 @@ const newRoomBtn=document.getElementById("new-room-btn");
 newRoomBtn.addEventListener("click",()=>{
   const newRoomId=Math.random().toString(36).substring(2,10);
   location.hash="room="+newRoomId;
+  
+  // Mostrar mensaje del sistema
   showSystemMessage(translations[currentLang].newRoomSystem);
+  
+  // Hacer que desaparezca después de 3 segundos
+  setTimeout(()=>{
+    const lastMsg = chatBox.lastChild;
+    if(lastMsg) lastMsg.remove();
+  }, 3000);
+
   newRoomBtn.disabled=true;
   setTimeout(()=>newRoomBtn.disabled=false,1000);
 });
