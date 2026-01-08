@@ -306,10 +306,12 @@ function showSystemMessage(text){
   div.style.fontSize="12px";
   div.style.opacity="0.6";
   div.style.margin="6px 0";
-  div.textContent=text;
+  div.textContent = text;
   chatBox.appendChild(div);
   chatBox.scrollTop = chatBox.scrollHeight;
+  return div; // <-- devuelve el div
 }
+
 
 // --- Send
 const input = document.getElementById("message-input");
@@ -394,10 +396,22 @@ inviteBtn.addEventListener("click",()=>{
 
 // --- New Room
 const newRoomBtn=document.getElementById("new-room-btn");
-newRoomBtn.addEventListener("click",()=>{
-  const newRoomId=Math.random().toString(36).substring(2,10);
-  location.hash="room="+newRoomId;
-  showSystemMessage(translations[currentLang].newRoomSystem);
-  newRoomBtn.disabled=true;
-  setTimeout(()=>newRoomBtn.disabled=false,1000);
+newRoomBtn.addEventListener("click", () => {
+  const newRoomId = Math.random().toString(36).substring(2, 10);
+  location.hash = "room=" + newRoomId;
+
+  // Mostrar mensaje de sistema
+  const msgDiv = showSystemMessage(translations[currentLang].newRoomSystem);
+
+  // Desaparecer mensaje después de 3 segundos
+  setTimeout(() => msgDiv.remove(), 3000);
+
+  // Simular refresh visual de la página (limpia chat y resetea usuarios)
+  chatBox.innerHTML = "";
+  currentUserCount = 0;
+  updateUsersLiveText();
+
+  newRoomBtn.disabled = true;
+  setTimeout(() => newRoomBtn.disabled = false, 1000);
 });
+
