@@ -418,25 +418,34 @@ inviteBtn.addEventListener("click",()=>{
 
 
 // --- New Room + Destroy Room
-let roomRef = ref(db,"rooms/"+roomId);
-let typingRef = ref(db,`rooms/${roomId}/typing`);
-let userRef = ref(db,`rooms/${roomId}/users/${identity.name}`);
-let usersRef = ref(db,`rooms/${roomId}/users`);
-
 const newRoomBtn = document.getElementById("new-room-btn");
 const destroyRoomBtn = document.getElementById("destroy-room-btn");
 
 function generateRoomId() {
   // Trillions-safe room ID: 12 caracteres alfanuméricos
   return Math.random().toString(36).substring(2,14);
-  // Para máxima seguridad y unicidad absoluta: return crypto.randomUUID();
+  // O para máxima seguridad: return crypto.randomUUID();
 }
 
 newRoomBtn.addEventListener("click", () => {
   const newRoomId = generateRoomId();
   location.hash = "room=" + newRoomId;
+// ---- RE-INICIALIZAR REFERENCIAS PARA LA NUEVA SALA ----
+  roomRef = ref(db,"rooms/"+newRoomId);
+  typingRef = ref(db,`rooms/${newRoomId}/typing`);
+  userRef = ref(db,`rooms/${newRoomId}/users/${identity.name}`);
+  set(userRef,{name:identity.name,emoji:identity.emoji,joinedAt:Date.now()});
+  onDisconnect(userRef).remove();
 
-  // --- Flash de pantalla
+  // Reiniciar contador de usuarios para la nueva sala
+  onValue(ref(db,`rooms/${newRoomId}/users`),snapshot=>{
+    const users = snapshot.val()||{};
+    currentUserCount = Object.keys(users).length;
+    updateUsersLiveText();
+  });
+   // ---- FIN RE-INICIALIZAR REFERENCIAS ----
+  
+  // Flash de pantalla
   const flash = document.createElement("div");
   flash.style.position = "fixed";
   flash.style.top = 0;
@@ -452,7 +461,7 @@ newRoomBtn.addEventListener("click", () => {
   setTimeout(() => { flash.style.opacity = "0"; }, 100);
   setTimeout(() => { flash.remove(); }, 700);
 
-  // --- Banner animado
+  // Banner animado
   const banner = document.createElement("div");
   banner.id = "new-room-banner";
   banner.textContent = translations[currentLang].newRoomSystem;
@@ -463,7 +472,7 @@ newRoomBtn.addEventListener("click", () => {
     setTimeout(() => banner.remove(), 500);
   }, 2500);
 
-  // --- Confetti emojis
+  // Confetti emojis
   const emojis = ["🎉","✨","💥","🚀"];
   for(let i=0;i<30;i++){
     const conf = document.createElement("div");
@@ -483,23 +492,9 @@ newRoomBtn.addEventListener("click", () => {
     },30);
   }
 
-  // --- Evitar doble click
+  // Evitar doble click
   newRoomBtn.disabled = true;
   setTimeout(() => newRoomBtn.disabled = false, 1000);
-
-  // --- Re-inicializar referencias para la nueva sala
-  roomRef = ref(db,"rooms/"+newRoomId);
-  typingRef = ref(db,`rooms/${newRoomId}/typing`);
-  userRef = ref(db,`rooms/${newRoomId}/users/${identity.name}`);
-  set(userRef,{name:identity.name,emoji:identity.emoji,joinedAt:Date.now()});
-  onDisconnect(userRef).remove();
-
-  usersRef = ref(db,`rooms/${newRoomId}/users`);
-  onValue(usersRef,snapshot=>{
-    const users = snapshot.val()||{};
-    currentUserCount = Object.keys(users).length;
-    updateUsersLiveText();
-  });
 });
 
 // --- Destroy Room
