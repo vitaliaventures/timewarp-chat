@@ -416,10 +416,19 @@ inviteBtn.addEventListener("click",()=>{
   setTimeout(()=> chatBox.lastChild?.remove(),3000);
 });
 
-// --- New Room
+
+// --- New Room + Destroy Room
 const newRoomBtn = document.getElementById("new-room-btn");
+const destroyRoomBtn = document.getElementById("destroy-room-btn");
+
+function generateRoomId() {
+  // Trillions-safe room ID: 12 caracteres alfanuméricos
+  return Math.random().toString(36).substring(2,14);
+  // O para máxima seguridad: return crypto.randomUUID();
+}
+
 newRoomBtn.addEventListener("click", () => {
-  const newRoomId = Math.random().toString(36).substring(2, 10);
+  const newRoomId = generateRoomId();
   location.hash = "room=" + newRoomId;
 
   // Flash de pantalla
@@ -443,11 +452,7 @@ newRoomBtn.addEventListener("click", () => {
   banner.id = "new-room-banner";
   banner.textContent = translations[currentLang].newRoomSystem;
   document.body.appendChild(banner);
-
-  // Animar banner hacia abajo
   setTimeout(() => { banner.style.top = "20px"; }, 50);
-
-  // Desaparecer banner
   setTimeout(() => {
     banner.style.top = "-60px";
     setTimeout(() => banner.remove(), 500);
@@ -455,7 +460,7 @@ newRoomBtn.addEventListener("click", () => {
 
   // Confetti emojis
   const emojis = ["🎉","✨","💥","🚀"];
-  for(let i=0; i<30; i++){
+  for(let i=0;i<30;i++){
     const conf = document.createElement("div");
     conf.textContent = emojis[Math.floor(Math.random()*emojis.length)];
     conf.style.position = "fixed";
@@ -476,6 +481,50 @@ newRoomBtn.addEventListener("click", () => {
   // Evitar doble click
   newRoomBtn.disabled = true;
   setTimeout(() => newRoomBtn.disabled = false, 1000);
+});
+
+// --- Destroy Room
+destroyRoomBtn.addEventListener("click", async () => {
+  if(!confirm("Are you sure you want to destroy this room? This will make it inactive for everyone.")) return;
+
+  try {
+    // Elimina toda la sala en Firebase
+    await remove(roomRef);
+
+    // Mostrar mensaje de destrucción
+    showSystemMessage("🚨 This room has been destroyed. It is now inactive.");
+
+    // Deshabilitar todos los inputs y botones
+    input.disabled = true;
+    sendBtn.disabled = true;
+    inviteBtn.disabled = true;
+    newRoomBtn.disabled = true;
+    destroyRoomBtn.disabled = true;
+
+    // Bloquear la URL
+    location.hash = "";
+    history.replaceState(null, "", location.pathname);
+
+    // Overlay bloqueando la sala
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = 0;
+    overlay.style.left = 0;
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.background = "#000";
+    overlay.style.color = "#fff";
+    overlay.style.fontSize = "1.2rem";
+    overlay.style.display = "flex";
+    overlay.style.alignItems = "center";
+    overlay.style.justifyContent = "center";
+    overlay.style.zIndex = "9999";
+    overlay.textContent = "💀 Room destroyed. It is now inactive.";
+    document.body.appendChild(overlay);
+
+  } catch(err) {
+    console.error("Failed to destroy room:", err);
+  }
 });
 
 
