@@ -417,7 +417,7 @@ inviteBtn.addEventListener("click",()=>{
 });
 
 // --- New Room
-const newRoomBtn=document.getElementById("new-room-btn");
+const newRoomBtn = document.getElementById("new-room-btn");
 newRoomBtn.addEventListener("click", () => {
   const newRoomId = Math.random().toString(36).substring(2, 10);
   location.hash = "room=" + newRoomId;
@@ -438,19 +438,46 @@ newRoomBtn.addEventListener("click", () => {
   setTimeout(() => { flash.style.opacity = "0"; }, 100);
   setTimeout(() => { flash.remove(); }, 700);
 
-  // Mostrar mensaje del sistema
-  showSystemMessage(translations[currentLang].newRoomSystem);
+  // Banner animado
+  const banner = document.createElement("div");
+  banner.id = "new-room-banner";
+  banner.textContent = translations[currentLang].newRoomSystem;
+  document.body.appendChild(banner);
 
-  // Hacer que desaparezca después de 3 segundos
+  // Animar banner hacia abajo
+  setTimeout(() => { banner.style.top = "20px"; }, 50);
+
+  // Desaparecer banner
   setTimeout(() => {
-    const lastMsg = chatBox.lastChild;
-    if (lastMsg) lastMsg.remove();
-  }, 3000);
+    banner.style.top = "-60px";
+    setTimeout(() => banner.remove(), 500);
+  }, 2500);
+
+  // Confetti emojis
+  const emojis = ["🎉","✨","💥","🚀"];
+  for(let i=0; i<30; i++){
+    const conf = document.createElement("div");
+    conf.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    conf.style.position = "fixed";
+    conf.style.left = Math.random()*100 + "%";
+    conf.style.top = "-30px";
+    conf.style.fontSize = Math.random()*24 + 14 + "px";
+    conf.style.opacity = Math.random();
+    conf.style.zIndex = "9999";
+    document.body.appendChild(conf);
+
+    const fall = setInterval(()=>{
+      const top = parseFloat(conf.style.top);
+      if(top > window.innerHeight){ conf.remove(); clearInterval(fall);}
+      else conf.style.top = top + 5 + "px";
+    },30);
+  }
 
   // Evitar doble click
   newRoomBtn.disabled = true;
   setTimeout(() => newRoomBtn.disabled = false, 1000);
 });
+
 
 
 // Banner animado
