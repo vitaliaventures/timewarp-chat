@@ -394,19 +394,37 @@ inviteBtn.addEventListener("click",()=>{
 
 // --- New Room
 const newRoomBtn=document.getElementById("new-room-btn");
-newRoomBtn.addEventListener("click",()=>{
-  const newRoomId=Math.random().toString(36).substring(2,10);
-  location.hash="room="+newRoomId;
-  
+newRoomBtn.addEventListener("click", () => {
+  const newRoomId = Math.random().toString(36).substring(2, 10);
+  location.hash = "room=" + newRoomId;
+
+  // Flash de pantalla
+  const flash = document.createElement("div");
+  flash.style.position = "fixed";
+  flash.style.top = 0;
+  flash.style.left = 0;
+  flash.style.width = "100%";
+  flash.style.height = "100%";
+  flash.style.background = "linear-gradient(135deg, #ff0080, #7928ca)";
+  flash.style.opacity = "0.8";
+  flash.style.zIndex = "9999";
+  flash.style.pointerEvents = "none";
+  flash.style.transition = "opacity 0.6s ease-out";
+  document.body.appendChild(flash);
+  setTimeout(() => { flash.style.opacity = "0"; }, 100);
+  setTimeout(() => { flash.remove(); }, 700);
+
   // Mostrar mensaje del sistema
   showSystemMessage(translations[currentLang].newRoomSystem);
-  
+
   // Hacer que desaparezca después de 3 segundos
-  setTimeout(()=>{
+  setTimeout(() => {
     const lastMsg = chatBox.lastChild;
-    if(lastMsg) lastMsg.remove();
+    if (lastMsg) lastMsg.remove();
   }, 3000);
 
-  newRoomBtn.disabled=true;
-  setTimeout(()=>newRoomBtn.disabled=false,1000);
+  // Evitar doble click
+  newRoomBtn.disabled = true;
+  setTimeout(() => newRoomBtn.disabled = false, 1000);
 });
+
