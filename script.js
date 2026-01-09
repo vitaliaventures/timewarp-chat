@@ -284,9 +284,9 @@ const db = getDatabase(app);
 // --- Sala
 let roomId = location.hash.replace("#room=","");
 if(!roomId){ roomId = Math.random().toString(36).substring(2,10); location.hash="room="+roomId; }
-const roomRef = ref(db,"rooms/"+roomId);
-const typingRef = ref(db,`rooms/${roomId}/typing`);
-const userRef = ref(db,`rooms/${roomId}/users/${identity.name}`);
+let roomRef = ref(db,"rooms/"+roomId);
+let typingRef = ref(db,`rooms/${roomId}/typing`);
+let userRef = ref(db,`rooms/${roomId}/users/${identity.name}`);
 set(userRef,{name:identity.name,emoji:identity.emoji,joinedAt:Date.now()});
 onDisconnect(userRef).remove();
 
@@ -422,14 +422,21 @@ const newRoomBtn = document.getElementById("new-room-btn");
 const destroyRoomBtn = document.getElementById("destroy-room-btn");
 
 function generateRoomId() {
-  // Trillions-safe room ID: 12 caracteres alfanuméricos
-  return Math.random().toString(36).substring(2,14);
-  // O para máxima seguridad: return crypto.randomUUID();
+  return crypto.randomUUID().replace(/-/g, "");
 }
+
 
 newRoomBtn.addEventListener("click", () => {
   const newRoomId = generateRoomId();
   location.hash = "room=" + newRoomId;
+// Limpiar UI de la sala anterior
+chatBox.innerHTML = "";
+typingIndicator.textContent = "";
+
+// Mensaje sistema claro
+showSystemMessage(translations[currentLang].newRoomSystem);
+
+  
 // ---- RE-INICIALIZAR REFERENCIAS PARA LA NUEVA SALA ----
   roomRef = ref(db,"rooms/"+newRoomId);
   typingRef = ref(db,`rooms/${newRoomId}/typing`);
