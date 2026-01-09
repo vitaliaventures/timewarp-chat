@@ -390,24 +390,47 @@ let metaRef = ref(db,`rooms/${roomId}/meta`);
 
 onValue(metaRef, snap => {
   const meta = snap.val();
-  if(meta?.destroyed){
-    document.body.innerHTML = `
-  <div style="
-    background:#000;
-    color:#fff;
-    height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:1.3rem;
-    text-align:center;
-  ">
-    ${translations[currentLang].roomDestroyedOverlay}
-  </div>
-`;
+  if (meta?.destroyed) {
 
+    document.body.innerHTML = `
+      <div style="
+        background:#000;
+        color:#fff;
+        height:100vh;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:24px;
+        font-size:1.3rem;
+        text-align:center;
+      ">
+        <div>${translations[currentLang].roomDestroyedOverlay}</div>
+
+        <button id="new-room-from-destroyed" style="
+          background:#2563eb;
+          color:#fff;
+          border:none;
+          padding:14px 32px;
+          font-size:1rem;
+          border-radius:12px;
+          cursor:pointer;
+        ">
+          ${translations[currentLang].newRoomBtn}
+        </button>
+      </div>
+    `;
+
+    document
+      .getElementById("new-room-from-destroyed")
+      .addEventListener("click", () => {
+        const newRoomId = generateRoomId();
+        location.hash = "room=" + newRoomId;
+        location.reload(); // 🔥 reset limpio, cero listeners muertos
+      });
   }
 });
+
 
 
 let typingRef = ref(db,`rooms/${roomId}/typing`);
