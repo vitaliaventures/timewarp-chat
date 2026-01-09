@@ -468,8 +468,12 @@ newRoomBtn.addEventListener("click", () => {
 chatBox.innerHTML = "";
 typingIndicator.textContent = "";
 
-// Mensaje sistema claro
-showSystemMessage(translations[currentLang].newRoomSystem);
+// Mensaje sistema claro (auto borrar en 3s)
+const sysMsg = showSystemMessage(translations[currentLang].newRoomSystem);
+setTimeout(() => {
+  sysMsg?.remove();
+}, 3000);
+
 
   
 // ---- RE-INICIALIZAR REFERENCIAS PARA LA NUEVA SALA ----
