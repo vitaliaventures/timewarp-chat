@@ -284,7 +284,30 @@ const db = getDatabase(app);
 // --- Sala
 let roomId = location.hash.replace("#room=","");
 if(!roomId){ roomId = Math.random().toString(36).substring(2,10); location.hash="room="+roomId; }
-let roomRef = ref(db,"rooms/"+roomId);
+let roomRef = ref(db,`rooms/${roomId}`);
+let messagesRef = ref(db,`rooms/${roomId}/messages`);
+let metaRef = ref(db,`rooms/${roomId}/meta`);
+
+onValue(metaRef, snap => {
+  const meta = snap.val();
+  if(meta?.destroyed){
+    document.body.innerHTML = `
+      <div style="
+        background:#000;
+        color:#fff;
+        height:100vh;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:1.3rem;
+        text-align:center;
+      ">
+        ⛔ This room has expired
+      </div>`;
+  }
+});
+
+
 let typingRef = ref(db,`rooms/${roomId}/typing`);
 let userRef = ref(db,`rooms/${roomId}/users/${identity.name}`);
 set(userRef,{name:identity.name,emoji:identity.emoji,joinedAt:Date.now()});
@@ -317,7 +340,13 @@ const sendBtn = document.getElementById("send-btn");
 const MESSAGE_TTL = 10;
 function sendMessage(){
   if(!input.value) return;
-  push(roomRef,{text:input.value,ttl:MESSAGE_TTL,createdAt:Date.now(),user:identity});
+  push(messagesRef,{
+  text: input.value,
+  ttl: MESSAGE_TTL,
+  createdAt: Date.now(),
+  user: identity
+});
+
   input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
   remove(typingRef);
 }
@@ -372,7 +401,7 @@ input.addEventListener("input",()=>{
 });
 
 // --- Receive messages (virtual scroll friendly)
-onChildAdded(roomRef,snap=>{
+onChildAdded(messagesRef,snap=>{
   const msg=snap.val(),msgRef=snap.ref;
   const now=Date.now(),elapsed=Math.floor((now-msg.createdAt)/1000);
   let remaining=msg.ttl-elapsed;
@@ -407,23 +436,19 @@ onChildAdded(typingRef,snap=>{
 });
 
 // --- Invite
-const inviteBtn=document.getElementById("invite-btn");
-inviteBtn.addEventListener("click",()=>{
-  // PASO 2: obtener el link de la sala
-const roomUrl = window.location.href;
+const inviteBtn = document.getElementById("invite-btn");
 
-// PASO 3: construir el mensaje (sin indentación extra)
 inviteBtn.addEventListener("click", () => {
   const roomUrl = window.location.href;
 
-  const inviteMessage = `${translations[currentLang].invitedToChat}:
-${roomUrl}`;
+  const inviteMessage = `${translations[currentLang].invitedToChat}:\n${roomUrl}`;
 
-  navigator.clipboard.writeText(inviteMessage).catch(err => console.error(err));
+  navigator.clipboard.writeText(inviteMessage).catch(console.error);
 
   showSystemMessage(inviteMessage);
   setTimeout(() => chatBox.lastChild?.remove(), 3000);
 });
+
 
 
 
