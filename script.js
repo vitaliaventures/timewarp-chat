@@ -328,6 +328,7 @@ const translations = {
 
 let currentLang = "en";
 let currentUserCount = 0;
+let messagesListenerUnsub = null;
 
 // Función para cambiar idioma
 function setLanguage(lang) {
@@ -384,6 +385,7 @@ let roomId = location.hash.replace("#room=","");
 if(!roomId){ roomId = crypto.randomUUID().replace(/-/g, ""); location.hash="room="+roomId; }
 let roomRef = ref(db,`rooms/${roomId}`);
 let messagesRef = ref(db,`rooms/${roomId}/messages`);
+attachMessagesListener(); // ← AGREGA ESTA LÍNEA
 let metaRef = ref(db,`rooms/${roomId}/meta`);
 
 onValue(metaRef, snap => {
@@ -501,31 +503,6 @@ input.addEventListener("input",()=>{
   typingTimeout=setTimeout(()=>remove(typingRef),1500);
 });
 
-// --- Receive messages (virtual scroll friendly)
-onChildAdded(messagesRef,snap=>{
-  const msg=snap.val(),msgRef=snap.ref;
-  const now=Date.now(),elapsed=Math.floor((now-msg.createdAt)/1000);
-  let remaining=msg.ttl-elapsed;
-  if(remaining<=0){ remove(msgRef); return; }
-
-  const div=document.createElement("div"); div.className="message";
-  if(msg.user.name===identity.name){
-    const colors=["#2563eb","#16a34a","#db2777","#f59e0b","#8b5cf6","#ef4444"];
-    let randomColor; do{ randomColor=colors[Math.floor(Math.random()*colors.length)]; }while(chatBox.lastChild&&chatBox.lastChild.style.background===randomColor);
-    div.style.background=randomColor;
-  }
-  div.innerHTML=`<strong>${msg.user.emoji} ${msg.user.name}</strong><br>${msg.text}<span>${remaining}s</span>`;
-  chatBox.appendChild(div);
-
-  // autoscroll eficiente
-  requestAnimationFrame(()=> chatBox.scrollTop=chatBox.scrollHeight);
-
-  const span=div.querySelector("span");
-  const timer=setInterval(()=>{
-    remaining--; span.textContent=remaining+"s";
-    if(remaining<=0){ clearInterval(timer); div.remove(); remove(msgRef); }
-  },1000);
-});
 
 // --- Typing indicator
 const typingIndicator = document.getElementById("typing-indicator");
@@ -562,6 +539,59 @@ function generateRoomId() {
 }
 
 
+
+function attachMessagesListener() {
+  if (messagesListenerUnsub) messagesListenerUnsub();
+
+  messagesListenerUnsub = onChildAdded(messagesRef, snap => {
+    const msg = snap.val();
+    const msgRef = snap.ref;
+
+    const now = Date.now();
+    const elapsed = Math.floor((now - msg.createdAt) / 1000);
+    let remaining = msg.ttl - elapsed;
+
+    if (remaining <= 0) {
+      remove(msgRef);
+      return;
+    }
+
+    const div = document.createElement("div");
+    div.className = "message";
+
+    if (msg.user.name === identity.name) {
+      const colors = ["#2563eb","#16a34a","#db2777","#f59e0b","#8b5cf6","#ef4444"];
+      div.style.background = colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    div.innerHTML = `
+      <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
+      ${msg.text}
+      <span>${remaining}s</span>
+    `;
+
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    const span = div.querySelector("span");
+    const timer = setInterval(() => {
+      remaining--;
+      span.textContent = remaining + "s";
+      if (remaining <= 0) {
+        clearInterval(timer);
+        div.remove();
+        remove(msgRef);
+      }
+    }, 1000);
+  });
+}
+
+
+
+
+
+
+
 newRoomBtn.addEventListener("click", () => {
   const newRoomId = generateRoomId();
   location.hash = "room=" + newRoomId;
@@ -580,6 +610,7 @@ setTimeout(() => {
 // ---- RE-INICIALIZAR REFERENCIAS PARA LA NUEVA SALA ----
   roomRef = ref(db,"rooms/"+newRoomId);
   messagesRef = ref(db,`rooms/${newRoomId}/messages`);
+  attachMessagesListener();
   metaRef = ref(db,`rooms/${newRoomId}/meta`);
   typingRef = ref(db,`rooms/${newRoomId}/typing`);
   userRef = ref(db,`rooms/${newRoomId}/users/${identity.name}`);
