@@ -26,7 +26,13 @@ const translations = {
     usersLive: "live",
     newRoomBtn: "New ✨",
     newRoomSystem: "🆕 New private room created — invite someone to start chatting",
-    invitedToChat: "You were invited to chat"
+    invitedToChat: "You were invited to chat",
+    destroyRoomBtn: "Destroy ❌",
+    destroyConfirm: "Are you sure you want to destroy this room? This will make it inactive for everyone.",
+    roomDestroyedMsg: "🚨 This room has been destroyed. It is now inactive.",
+    roomDestroyedOverlay: "💀 Room destroyed. It is now inactive.",
+    roomExpired: "⛔ This room has expired"
+
   },
   de: {
     appName: "TimeWarp Messenger",
@@ -39,7 +45,13 @@ const translations = {
     usersLive: "live",
     newRoomBtn: "Neu ✨",
     newRoomSystem: "🆕 Neuer privater Raum erstellt — lade jemanden zum Chatten ein",
-    invitedToChat: "Du wurdest zum Chat eingeladen"
+    invitedToChat: "Du wurdest zum Chat eingeladen",
+    destroyRoomBtn: "Zerstören ❌",
+    destroyConfirm: "Bist du sicher, dass du diesen Raum zerstören möchtest? Er wird für alle inaktiv.",
+    roomDestroyedMsg: "🚨 Dieser Raum wurde zerstört. Er ist jetzt inaktiv.",
+    roomDestroyedOverlay: "💀 Raum zerstört. Jetzt inaktiv.",
+    roomExpired: "⛔ Dieser Raum ist abgelaufen"
+
   },
   es: {
     appName: "TimeWarp Messenger",
@@ -52,7 +64,13 @@ const translations = {
     usersLive: "live",
     newRoomBtn: "Nuevo ✨",
     newRoomSystem: "🆕 Nueva sala privada creada — invita a alguien para empezar a chatear",
-    invitedToChat: "Te invitaron a chatear"
+    invitedToChat: "Te invitaron a chatear",
+    destroyRoomBtn: "Destruir ❌",
+    destroyConfirm: "¿Seguro que deseas destruir esta sala? Será inactiva para todos.",
+    roomDestroyedMsg: "🚨 Esta sala ha sido destruida. Ahora está inactiva.",
+    roomDestroyedOverlay: "💀 Sala destruida. Ahora está inactiva.",
+    roomExpired: "⛔ Esta sala ha expirado"
+
 
   },
   fr: {
@@ -66,7 +84,13 @@ const translations = {
     usersLive: "en direct",
     newRoomBtn: "Nouveau ✨",
     newRoomSystem: "🆕 Nouvelle salle privée créée — invitez quelqu’un à discuter",
-    invitedToChat: "Vous avez été invité à discuter"
+    invitedToChat: "Vous avez été invité à discuter",
+    destroyRoomBtn: "Détruire ❌",
+    destroyConfirm: "Êtes-vous sûr de vouloir détruire cette salle ? Elle deviendra inactive pour tous.",
+    roomDestroyedMsg: "🚨 Cette salle a été détruite. Elle est maintenant inactive.",
+    roomDestroyedOverlay: "💀 Salle détruite. Désormais inactive.",
+    roomExpired: "⛔ Cette salle a expiré"
+
   },
   it: {
     appName: "TimeWarp Messenger",
@@ -79,7 +103,13 @@ const translations = {
     usersLive: "in diretta",
     newRoomBtn: "Nuovo ✨",
     newRoomSystem: "🆕 Nuova stanza privata creata — invita qualcuno a iniziare la chat",
-    invitedToChat: "Sei stato invitato a chattare"
+    invitedToChat: "Sei stato invitato a chattare",
+    destroyRoomBtn: "Distruggi ❌",
+    destroyConfirm: "Sei sicuro di voler distruggere questa stanza? Diventerà inattiva per tutti.",
+    roomDestroyedMsg: "🚨 Questa stanza è stata distrutta. Ora è inattiva.",
+    roomDestroyedOverlay: "💀 Stanza distrutta. Ora inattiva.",
+    roomExpired: "⛔ Questa stanza è scaduta"
+
   },
   pt: {
     appName: "TimeWarp Messenger",
@@ -92,7 +122,13 @@ const translations = {
     usersLive: "ao vivo",
     newRoomBtn: "Novo ✨",
     newRoomSystem: "🆕 Nova sala privada criada — convide alguém para começar a conversar",
-    invitedToChat: "Você foi convidado para conversar"
+    invitedToChat: "Você foi convidado para conversar",
+    destroyRoomBtn: "Destruir ❌",
+    destroyConfirm: "Tem certeza de que deseja destruir esta sala? Ela ficará inativa para todos.",
+    roomDestroyedMsg: "🚨 Esta sala foi destruída. Agora está inativa.",
+    roomDestroyedOverlay: "💀 Sala destruída. Agora inativa.",
+    roomExpired: "⛔ Esta sala expirou"
+
   },
   ru: {
     appName: "TimeWarp Messenger",
@@ -105,7 +141,13 @@ const translations = {
     usersLive: "онлайн",
     newRoomBtn: "Новый ✨",
     newRoomSystem: "🆕 Создана новая приватная комната — пригласите кого-нибудь начать чат",
-    invitedToChat: "Вас пригласили в чат"
+    invitedToChat: "Вас пригласили в чат",
+    destroyRoomBtn: "Удалить ❌",
+    destroyConfirm: "Вы уверены, что хотите Удалить эту комнату? Она станет неактивной для всех.",
+    roomDestroyedMsg: "🚨 Эта комната была уничтожена. Теперь она неактивна.",
+    roomDestroyedOverlay: "💀 Комната уничтожена. Теперь неактивна.",
+    roomExpired: "⛔ Эта комната больше не активна"
+
      
   },
   ja: {
@@ -119,7 +161,13 @@ const translations = {
     usersLive: "接続中",
     newRoomBtn: "新規 ✨",
     newRoomSystem: "🆕 新しいプライベートルームが作成されました — 誰かを招待してチャットを始めましょう",
-    invitedToChat: "チャットに招待されました"
+    invitedToChat: "チャットに招待されました",
+    destroyRoomBtn: "削除 ❌",
+    destroyConfirm: "このルームを削除してもよろしいですか？全員に対して無効になります。",
+    roomDestroyedMsg: "🚨 このルームは削除され、現在は無効です。",
+    roomDestroyedOverlay: "💀 ルームは削除されました。",
+    roomExpired: "⛔ このルームは期限切れです"
+
   },
   ko: {
     appName: "TimeWarp Messenger",
@@ -132,7 +180,13 @@ const translations = {
     usersLive: "접속 중",
     newRoomBtn: "새로 ✨",
     newRoomSystem: "🆕 새로운 비공개 방이 생성되었습니다 — 누군가를 초대해 채팅을 시작하세요",
-    invitedToChat: "채팅에 초대되었습니다"
+    invitedToChat: "채팅에 초대되었습니다",
+    destroyRoomBtn: "삭제 ❌",
+    destroyConfirm: "이 방을 삭제하시겠습니까? 모든 사용자에게 비활성화됩니다.",
+    roomDestroyedMsg: "🚨 이 방은 삭제되었으며 현재 비활성 상태입니다.",
+    roomDestroyedOverlay: "💀 방이 삭제되었습니다.",
+    roomExpired: "⛔ 이 방은 만료되었습니다"
+
   },
   zh: {
     appName: "TimeWarp Messenger",
@@ -145,7 +199,12 @@ const translations = {
     usersLive: "在线",
     newRoomBtn: "新建 ✨",
     newRoomSystem: "🆕 已创建新的私人房间 — 邀请他人开始聊天",
-    invitedToChat: "您被邀请加入聊天"
+    invitedToChat: "您被邀请加入聊天",
+    destroyRoomBtn: "销毁 ❌",
+    destroyConfirm: "确定要销毁这个房间吗？它将对所有人失效。",
+    roomDestroyedMsg: "🚨 此房间已被销毁，现在处于非活动状态。",
+    roomDestroyedOverlay: "💀 房间已销毁。",
+    roomExpired: "⛔ 此房间已失效"
   },
   nl: {
     appName: "TimeWarp Messenger",
@@ -158,7 +217,13 @@ const translations = {
     usersLive: "live",
     newRoomBtn: "Nieuw ✨",
     newRoomSystem: "🆕 Nieuwe privéruimte aangemaakt — nodig iemand uit om te chatten",
-    invitedToChat: "Je bent uitgenodigd om te chatten"
+    invitedToChat: "Je bent uitgenodigd om te chatten",
+    destroyRoomBtn: "Vernietigen ❌",
+    destroyConfirm: "Weet je zeker dat je deze kamer wilt vernietigen? Deze wordt voor iedereen inactief.",
+    roomDestroyedMsg: "🚨 Deze kamer is vernietigd. Hij is nu inactief.",
+    roomDestroyedOverlay: "💀 Kamer vernietigd. Nu inactief.",
+    roomExpired: "⛔ Deze kamer is verlopen"
+
   },
   tr: {
     appName: "TimeWarp Messenger",
@@ -171,7 +236,13 @@ const translations = {
     usersLive: "canlı",
     newRoomBtn: "Yeni ✨",
     newRoomSystem: "🆕 Yeni özel oda oluşturuldu — sohbet etmeye başlamak için birini davet et",
-    invitedToChat: "Sohbete davet edildiniz"
+    invitedToChat: "Sohbete davet edildiniz",
+    destroyRoomBtn: "Yok Et ❌",
+    destroyConfirm: "Bu odayı yok etmek istediğine emin misin? Herkes için devre dışı kalacak.",
+    roomDestroyedMsg: "🚨 Bu oda yok edildi. Artık aktif değil.",
+    roomDestroyedOverlay: "💀 Oda yok edildi.",
+    roomExpired: "⛔ Bu oda süresi doldu"
+
   },
   ar: {
     appName: "TimeWarp Messenger",
@@ -184,7 +255,13 @@ const translations = {
     usersLive: "متصل",
     newRoomBtn: "جديد ✨",
     newRoomSystem: "🆕 تم إنشاء غرفة خاصة جديدة — ادعُ شخصًا لبدء الدردشة",
-    invitedToChat: "لقد تم دعوتك للدردشة"
+    invitedToChat: "لقد تم دعوتك للدردشة",
+    destroyRoomBtn: "تدمير ❌",
+    destroyConfirm: "هل أنت متأكد من تدمير هذه الغرفة؟ ستصبح غير نشطة للجميع.",
+    roomDestroyedMsg: "🚨 تم تدمير هذه الغرفة وأصبحت غير نشطة.",
+    roomDestroyedOverlay: "💀 تم تدمير الغرفة.",
+    roomExpired: "⛔ انتهت صلاحية هذه الغرفة"
+
   },
   pl: {
     appName: "TimeWarp Messenger",
@@ -197,7 +274,13 @@ const translations = {
     usersLive: "na żywo",
     newRoomBtn: "Nowy ✨",
     newRoomSystem: "🆕 Utworzono nowy prywatny pokój — zaproś kogoś, aby rozpocząć czat",
-    invitedToChat: "Zostałeś zaproszony do czatu"
+    invitedToChat: "Zostałeś zaproszony do czatu",
+    destroyRoomBtn: "Zniszcz ❌",
+    destroyConfirm: "Czy na pewno chcesz zniszczyć ten pokój? Będzie nieaktywny dla wszystkich.",
+    roomDestroyedMsg: "🚨 Ten pokój został zniszczony. Jest teraz nieaktywny.",
+    roomDestroyedOverlay: "💀 Pokój zniszczony.",
+    roomExpired: "⛔ Ten pokój wygasł"
+
   },
   sv: {
     appName: "TimeWarp Messenger",
@@ -210,7 +293,13 @@ const translations = {
     usersLive: "live",
     newRoomBtn: "Ny ✨",
     newRoomSystem: "🆕 Ny privat chattrum skapat — bjud in någon för att börja chatta",
-    invitedToChat: "Du blev inbjuden att chatta"
+    invitedToChat: "Du blev inbjuden att chatta",
+    destroyRoomBtn: "Förstör ❌",
+    destroyConfirm: "Är du säker på att du vill förstöra detta rum? Det blir inaktivt för alla.",
+    roomDestroyedMsg: "🚨 Detta rum har förstörts och är nu inaktivt.",
+    roomDestroyedOverlay: "💀 Rummet förstört.",
+    roomExpired: "⛔ Detta rum har gått ut"
+
   },
   fi: {
     appName: "TimeWarp Messenger",
@@ -223,7 +312,13 @@ const translations = {
     usersLive: "live",
     newRoomBtn: "Uusi ✨",
     newRoomSystem: "🆕 Uusi yksityinen huone luotu — kutsu joku aloittamaan keskustelu",
-    invitedToChat: "Sinut on kutsuttu keskustelemaan"
+    invitedToChat: "Sinut on kutsuttu keskustelemaan",
+    destroyRoomBtn: "Tuhoa ❌",
+    destroyConfirm: "Haluatko varmasti tuhota tämän huoneen? Se muuttuu passiiviseksi kaikille.",
+    roomDestroyedMsg: "🚨 Tämä huone on tuhottu ja on nyt passiivinen.",
+    roomDestroyedOverlay: "💀 Huone tuhottu.",
+    roomExpired: "⛔ Tämä huone on vanhentunut"
+
   }
 };
 
@@ -245,6 +340,9 @@ function setLanguage(lang) {
   document.getElementById("messages-info").textContent = translations[lang].messagesDisappear;
   document.querySelector("#send-btn").textContent = translations[lang].sendBtn;
   document.querySelector("#new-room-btn").textContent = translations[lang].newRoomBtn;
+  document.querySelector("#destroy-room-btn").textContent = translations[lang].destroyRoomBtn;
+  document.body.dir = (lang === "ar") ? "rtl" : "ltr";
+  typingIndicator.textContent = "";
   updateUsersLiveText();
 }
 
@@ -283,7 +381,7 @@ const db = getDatabase(app);
 
 // --- Sala
 let roomId = location.hash.replace("#room=","");
-if(!roomId){ roomId = Math.random().toString(36).substring(2,10); location.hash="room="+roomId; }
+if(!roomId){ roomId = crypto.randomUUID().replace(/-/g, ""); location.hash="room="+roomId; }
 let roomRef = ref(db,`rooms/${roomId}`);
 let messagesRef = ref(db,`rooms/${roomId}/messages`);
 let metaRef = ref(db,`rooms/${roomId}/meta`);
@@ -292,18 +390,20 @@ onValue(metaRef, snap => {
   const meta = snap.val();
   if(meta?.destroyed){
     document.body.innerHTML = `
-      <div style="
-        background:#000;
-        color:#fff;
-        height:100vh;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:1.3rem;
-        text-align:center;
-      ">
-        ⛔ This room has expired
-      </div>`;
+  <div style="
+    background:#000;
+    color:#fff;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.3rem;
+    text-align:center;
+  ">
+    ${translations[currentLang].roomDestroyedOverlay}
+  </div>
+`;
+
   }
 });
 
@@ -332,6 +432,7 @@ function showSystemMessage(text){
   div.textContent=text;
   chatBox.appendChild(div);
   chatBox.scrollTop = chatBox.scrollHeight;
+  return div; // 🔥 ESTA LÍNEA
 }
 
 // --- Send
@@ -478,6 +579,8 @@ setTimeout(() => {
   
 // ---- RE-INICIALIZAR REFERENCIAS PARA LA NUEVA SALA ----
   roomRef = ref(db,"rooms/"+newRoomId);
+  messagesRef = ref(db,`rooms/${newRoomId}/messages`);
+  metaRef = ref(db,`rooms/${newRoomId}/meta`);
   typingRef = ref(db,`rooms/${newRoomId}/typing`);
   userRef = ref(db,`rooms/${newRoomId}/users/${identity.name}`);
   set(userRef,{name:identity.name,emoji:identity.emoji,joinedAt:Date.now()});
@@ -545,18 +648,24 @@ setTimeout(() => {
 
 // --- Destroy Room
 destroyRoomBtn.addEventListener("click", async () => {
-  if(!confirm("Are you sure you want to destroy this room? This will make it inactive for everyone.")) return;
+
+  // 🔒 Bloquear si ya fue destruida
+  if (destroyRoomBtn.disabled) return;
+
+  if (!confirm(translations[currentLang].destroyConfirm)) return;
+destroyRoomBtn.disabled = true; // 🔒 inmediato
 
   try {
     // Elimina toda la sala en Firebase
-    await set(roomRef, {
+    await set(metaRef, {
   destroyed: true,
   destroyedAt: Date.now()
 });
+remove(typingRef);
 
 
     // Mostrar mensaje de destrucción
-    showSystemMessage("🚨 This room has been destroyed. It is now inactive.");
+    showSystemMessage(translations[currentLang].roomDestroyedMsg);
 
     // Deshabilitar todos los inputs y botones
     input.disabled = true;
@@ -565,26 +674,6 @@ destroyRoomBtn.addEventListener("click", async () => {
     newRoomBtn.disabled = true;
     destroyRoomBtn.disabled = true;
 
-    // Bloquear la URL
-    location.hash = "";
-    history.replaceState(null, "", location.pathname);
-
-    // Overlay bloqueando la sala
-    const overlay = document.createElement("div");
-    overlay.style.position = "fixed";
-    overlay.style.top = 0;
-    overlay.style.left = 0;
-    overlay.style.width = "100%";
-    overlay.style.height = "100%";
-    overlay.style.background = "#000";
-    overlay.style.color = "#fff";
-    overlay.style.fontSize = "1.2rem";
-    overlay.style.display = "flex";
-    overlay.style.alignItems = "center";
-    overlay.style.justifyContent = "center";
-    overlay.style.zIndex = "9999";
-    overlay.textContent = "💀 Room destroyed. It is now inactive.";
-    document.body.appendChild(overlay);
 
   } catch(err) {
     console.error("Failed to destroy room:", err);
