@@ -409,12 +409,22 @@ onChildAdded(typingRef,snap=>{
 // --- Invite
 const inviteBtn=document.getElementById("invite-btn");
 inviteBtn.addEventListener("click",()=>{
-  const roomUrl=window.location.href;
-  const fullText=`${translations[currentLang].invitedToChat}: ${roomUrl}`;
-  navigator.clipboard.writeText(fullText).catch(err=>console.error(err));
-  showSystemMessage(fullText);
-  setTimeout(()=> chatBox.lastChild?.remove(),3000);
+  // PASO 2: obtener el link de la sala
+const roomUrl = window.location.href;
+
+// PASO 3: construir el mensaje (sin indentación extra)
+inviteBtn.addEventListener("click", () => {
+  const roomUrl = window.location.href;
+
+  const inviteMessage = `${translations[currentLang].invitedToChat}:
+${roomUrl}`;
+
+  navigator.clipboard.writeText(inviteMessage).catch(err => console.error(err));
+
+  showSystemMessage(inviteMessage);
+  setTimeout(() => chatBox.lastChild?.remove(), 3000);
 });
+
 
 
 // --- New Room + Destroy Room
@@ -510,7 +520,11 @@ destroyRoomBtn.addEventListener("click", async () => {
 
   try {
     // Elimina toda la sala en Firebase
-    await remove(roomRef);
+    await set(roomRef, {
+  destroyed: true,
+  destroyedAt: Date.now()
+});
+
 
     // Mostrar mensaje de destrucción
     showSystemMessage("🚨 This room has been destroyed. It is now inactive.");
