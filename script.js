@@ -588,10 +588,8 @@ const newRoomBtn = document.getElementById("new-room-btn");
 const destroyRoomBtn = document.getElementById("destroy-room-btn");
 
 function generateRoomId() {
-  return crypto.randomUUID().replace(/-/g, "");
+  return "room_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
 }
-
-
 
 function attachMessagesListener() {
   if (messagesListenerUnsub) messagesListenerUnsub();
