@@ -171,8 +171,3 @@ body {
   transition: top 0.5s ease;
 }
 
-
-.msg-status {
-  font-size: 11px;
-  opacity: 0.6;
-}
