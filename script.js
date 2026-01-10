@@ -490,19 +490,12 @@ const sendBtn = document.getElementById("send-btn");
 const MESSAGE_TTL = 10;
 function sendMessage(){
   if(!input.value) return;
-  const ttl = Math.max(5, parseTTL() || 10); // 🔒 mínimo 5s
-
-push(messagesRef, {
+  push(messagesRef,{
   text: input.value,
-  ttl,
+  ttl: parseTTL(), // ✅ use dynamic TTL
   createdAt: Date.now(),
-  user: identity,
-  status: "sent",
-  deliveredAt: null,
-  openedAt: null
+  user: identity
 });
-
-
 
   input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
   remove(typingRef);
@@ -589,8 +582,10 @@ const newRoomBtn = document.getElementById("new-room-btn");
 const destroyRoomBtn = document.getElementById("destroy-room-btn");
 
 function generateRoomId() {
-  return "room_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+  return crypto.randomUUID().replace(/-/g, "");
 }
+
+
 
 function attachMessagesListener() {
   if (messagesListenerUnsub) messagesListenerUnsub();
@@ -599,27 +594,17 @@ function attachMessagesListener() {
     const msg = snap.val();
     const msgRef = snap.ref;
 
-
-    // ✅ Mark as delivered (only once)
-if (!msg.deliveredAt) {
-  set(ref(db, msgRef.toString() + "/deliveredAt"), Date.now());
-  set(ref(db, msgRef.toString() + "/status"), "delivered");
-}
-
-    
-
     const now = Date.now();
     const elapsed = Math.floor((now - msg.createdAt) / 1000);
     let remaining = msg.ttl - elapsed;
 
     if (remaining <= 0) {
-  // ya expiró, no lo renderizamos, pero NO lo borramos aquí
-  return;
-}
+      remove(msgRef);
+      return;
+    }
 
     const div = document.createElement("div");
     div.className = "message";
-    let openedMarked = false;
 
     if (msg.user.name === identity.name) {
       const colors = ["#2563eb","#16a34a","#db2777","#f59e0b","#8b5cf6","#ef4444"];
@@ -629,28 +614,9 @@ if (!msg.deliveredAt) {
     div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
   ${msg.text}
-
-  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
-    <span>${formatTime(remaining)}</span>
-    <small class="msg-status">●</small>
-  </div>
-
+  <span>${remaining}s</span>
   <div class="countdown-bar" style="width:100%"></div>
 `;
-
-
-const statusEl = div.querySelector(".msg-status");
-
-function updateStatus(status) {
-  if (status === "sent") statusEl.textContent = "●";
-  if (status === "delivered") statusEl.textContent = "●●";
-  if (status === "opened") statusEl.textContent = "👁";
-  if (status === "expired") statusEl.textContent = "⏳";
-}
-
-updateStatus(msg.status || "sent");
-
-
 
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
@@ -666,29 +632,11 @@ updateStatus(msg.status || "sent");
 
     bar.style.width = (remaining / total * 100) + "%";
 
-    // 👁 Mark as opened when visible and alive
-if (
-  !openedMarked &&
-  remaining > 0 &&
-  msg.user.name !== identity.name
-) {
-  openedMarked = true;
-  set(ref(db, msgRef.toString() + "/openedAt"), Date.now());
-  set(ref(db, msgRef.toString() + "/status"), "opened");
-}
-
-      
     if (remaining <= 0) {
-  clearInterval(timer);
-
-  if (!openedMarked) {
-    set(ref(db, msgRef.toString() + "/status"), "expired");
+    clearInterval(timer);
+    div.remove();
+    remove(msgRef);
   }
-
-  div.remove();
-  remove(msgRef);
-}
-
 }, 1000);
   });
 }
