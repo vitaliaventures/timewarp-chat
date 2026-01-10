@@ -460,6 +460,30 @@ function showSystemMessage(text){
   return div; // 🔥 ESTA LÍNEA
 }
 
+
+// --- Countdown bar de la sala
+const roomCountdownBar = document.createElement("div");
+roomCountdownBar.className = "room-countdown-bar"; // usamos CSS para responsividad
+document.querySelector(".chat-header").appendChild(roomCountdownBar);
+
+// Tiempo total de vida de la sala (TTL)
+const ROOM_TTL = parseInt(ttlSelector.value) || 300; // por defecto 5 minutos
+let roomCountdown = ROOM_TTL;
+
+// Actualiza la barra cada segundo
+const roomCountdownInterval = setInterval(() => {
+  roomCountdown--;
+  roomCountdownBar.style.width = (roomCountdown / ROOM_TTL * 100) + "%";
+
+  // Opcional: destruye la sala cuando llegue a 0
+  if (roomCountdown <= 0) {
+    clearInterval(roomCountdownInterval);
+    destroyRoomBtn.click();
+  }
+}, 1000);
+
+
+
 // --- Send
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
