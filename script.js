@@ -464,18 +464,22 @@ function showSystemMessage(text){
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
 const MESSAGE_TTL = 10;
-function sendMessage(){
+const ttlSelector = document.getElementById("ttl-selector");
+
+function sendMessage() {
   if(!input.value) return;
-  push(messagesRef,{
-  text: input.value,
-  ttl: MESSAGE_TTL,
-  createdAt: Date.now(),
-  user: identity
-});
+  const ttl = parseInt(ttlSelector.value);
+  push(messagesRef, {
+    text: input.value,
+    ttl: ttl,
+    createdAt: Date.now(),
+    user: identity
+  });
 
   input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
   remove(typingRef);
 }
+
 sendBtn.onclick=sendMessage;
 
 
