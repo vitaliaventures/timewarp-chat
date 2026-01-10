@@ -330,6 +330,24 @@ let currentLang = "en";
 let currentUserCount = 0;
 let messagesListenerUnsub = null;
 
+// --- Message TTL parser (mm:ss or ss)
+function parseTTL() {
+  const ttlInput = document.getElementById("ttl-input")?.value || "0:10";
+  const parts = ttlInput.split(":").map(p => parseInt(p, 10));
+
+  if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+    return parts[0] * 60 + parts[1]; // mm:ss
+  }
+
+  if (parts.length === 1 && !isNaN(parts[0])) {
+    return parts[0]; // ss
+  }
+
+  return 10; // fallback
+}
+
+
+
 // Función para cambiar idioma
 function setLanguage(lang) {
   if (!translations[lang]) lang = "en"; // fallback
@@ -448,6 +466,12 @@ onValue(usersRef,snapshot=>{
 
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
+function formatTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}:${s.toString().padStart(2, "0")}`;
+}
+
 function showSystemMessage(text){
   const div = document.createElement("div");
   div.style.textAlign="center";
@@ -468,7 +492,7 @@ function sendMessage(){
   if(!input.value) return;
   push(messagesRef,{
   text: input.value,
-  ttl: MESSAGE_TTL,
+  ttl: parseTTL(), // ✅ use dynamic TTL
   createdAt: Date.now(),
   user: identity
 });
@@ -588,24 +612,32 @@ function attachMessagesListener() {
     }
 
     div.innerHTML = `
-      <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-      ${msg.text}
-      <span>${remaining}s</span>
-    `;
+  <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
+  ${msg.text}
+  <span>${remaining}s</span>
+  <div class="countdown-bar" style="width:100%"></div>
+`;
 
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
 
     const span = div.querySelector("span");
+    const bar = div.querySelector(".countdown-bar");
+    const total = msg.ttl;
+
     const timer = setInterval(() => {
-      remaining--;
-      span.textContent = remaining + "s";
-      if (remaining <= 0) {
-        clearInterval(timer);
-        div.remove();
-        remove(msgRef);
-      }
-    }, 1000);
+    remaining--;
+
+    span.textContent = formatTime(remaining);
+
+    bar.style.width = (remaining / total * 100) + "%";
+
+    if (remaining <= 0) {
+    clearInterval(timer);
+    div.remove();
+    remove(msgRef);
+  }
+}, 1000);
   });
 }
 
