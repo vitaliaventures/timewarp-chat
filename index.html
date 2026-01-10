@@ -45,9 +45,18 @@
     <div id="typing-indicator" class="typing-indicator"></div>
 
     <div class="chat-input">
-      <textarea id="message-input" rows="1" placeholder="Type message..."></textarea>
-      <button id="send-btn">Send</button>
-    </div>
+  <textarea id="message-input" rows="1" placeholder="Type message..."></textarea>
+  <select id="ttl-selector">
+    <option value="10">10s</option>
+    <option value="30">30s</option>
+    <option value="60">1m</option>
+    <option value="180">3m</option>
+    <option value="300">5m</option>
+    <option value="600">10m</option>
+  </select>
+  <button id="send-btn">Send</button>
+</div>
+
   </div>
 </body>
 </html>
