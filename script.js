@@ -492,10 +492,16 @@ function sendMessage(){
   if(!input.value) return;
   push(messagesRef,{
   text: input.value,
-  ttl: parseTTL(), // ✅ use dynamic TTL
+  ttl: parseTTL(),
   createdAt: Date.now(),
-  user: identity
+  user: identity,
+
+  // 🔥 NUEVO: lifecycle
+  status: "sent",
+  deliveredAt: null,
+  openedAt: null
 });
+
 
   input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
   remove(typingRef);
@@ -594,6 +600,15 @@ function attachMessagesListener() {
     const msg = snap.val();
     const msgRef = snap.ref;
 
+
+    // ✅ Mark as delivered (only once)
+if (!msg.deliveredAt) {
+  set(ref(db, msgRef.toString() + "/deliveredAt"), Date.now());
+  set(ref(db, msgRef.toString() + "/status"), "delivered");
+}
+
+    
+
     const now = Date.now();
     const elapsed = Math.floor((now - msg.createdAt) / 1000);
     let remaining = msg.ttl - elapsed;
@@ -605,6 +620,7 @@ function attachMessagesListener() {
 
     const div = document.createElement("div");
     div.className = "message";
+    let openedMarked = false;
 
     if (msg.user.name === identity.name) {
       const colors = ["#2563eb","#16a34a","#db2777","#f59e0b","#8b5cf6","#ef4444"];
@@ -614,9 +630,28 @@ function attachMessagesListener() {
     div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
   ${msg.text}
-  <span>${remaining}s</span>
+
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+    <span>${formatTime(remaining)}</span>
+    <small class="msg-status">●</small>
+  </div>
+
   <div class="countdown-bar" style="width:100%"></div>
 `;
+
+
+const statusEl = div.querySelector(".msg-status");
+
+function updateStatus(status) {
+  if (status === "sent") statusEl.textContent = "●";
+  if (status === "delivered") statusEl.textContent = "●●";
+  if (status === "opened") statusEl.textContent = "👁";
+  if (status === "expired") statusEl.textContent = "⏳";
+}
+
+updateStatus(msg.status || "sent");
+
+
 
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
@@ -632,11 +667,24 @@ function attachMessagesListener() {
 
     bar.style.width = (remaining / total * 100) + "%";
 
+    // 👁 Mark as opened when visible and alive
+if (!openedMarked && remaining > 0) {
+  openedMarked = true;
+  set(ref(db, msgRef.toString() + "/openedAt"), Date.now());
+  set(ref(db, msgRef.toString() + "/status"), "opened");
+}
+      
     if (remaining <= 0) {
-    clearInterval(timer);
-    div.remove();
-    remove(msgRef);
+  clearInterval(timer);
+
+  if (!openedMarked) {
+    set(ref(db, msgRef.toString() + "/status"), "expired");
   }
+
+  div.remove();
+  remove(msgRef);
+}
+
 }, 1000);
   });
 }
