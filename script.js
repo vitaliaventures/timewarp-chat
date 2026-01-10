@@ -490,17 +490,18 @@ const sendBtn = document.getElementById("send-btn");
 const MESSAGE_TTL = 10;
 function sendMessage(){
   if(!input.value) return;
-  push(messagesRef,{
+  const ttl = Math.max(5, parseTTL() || 10); // 🔒 mínimo 5s
+
+push(messagesRef, {
   text: input.value,
-  ttl: parseTTL(),
+  ttl,
   createdAt: Date.now(),
   user: identity,
-
-  // 🔥 NUEVO: lifecycle
   status: "sent",
   deliveredAt: null,
   openedAt: null
 });
+
 
 
   input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
@@ -612,9 +613,9 @@ if (!msg.deliveredAt) {
     let remaining = msg.ttl - elapsed;
 
     if (remaining <= 0) {
-      remove(msgRef);
-      return;
-    }
+  // ya expiró, no lo renderizamos, pero NO lo borramos aquí
+  return;
+}
 
     const div = document.createElement("div");
     div.className = "message";
@@ -666,11 +667,16 @@ updateStatus(msg.status || "sent");
     bar.style.width = (remaining / total * 100) + "%";
 
     // 👁 Mark as opened when visible and alive
-if (!openedMarked && remaining > 0) {
+if (
+  !openedMarked &&
+  remaining > 0 &&
+  msg.user.name !== identity.name
+) {
   openedMarked = true;
   set(ref(db, msgRef.toString() + "/openedAt"), Date.now());
   set(ref(db, msgRef.toString() + "/status"), "opened");
 }
+
       
     if (remaining <= 0) {
   clearInterval(timer);
