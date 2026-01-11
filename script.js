@@ -490,6 +490,11 @@ function showSystemMessage(text){
 // --- Send
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
+sendBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  sendMessage();
+});
+
 const MESSAGE_TTL = 10;
 function sendMessage(){
   if(!input.value) return;
@@ -594,8 +599,10 @@ const actionMenu = document.getElementById("msg-action-menu");
 let activeMsgRef = null;
 let activeMsgDiv = null;
 
-document.addEventListener("click", () => {
-  actionMenu.style.display = "none";
+document.addEventListener("click", (e) => {
+  if (!actionMenu.contains(e.target)) {
+    actionMenu.style.display = "none";
+  }
 });
 
 
