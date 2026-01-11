@@ -625,7 +625,7 @@ div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
   <div class="message-text">${msg.text}</div>
 
-  ${isMine ? `<button class="edit-btn">✏️</button>` : ""}
+  ${isMine ? `<button class="menu-btn">⋮</button>` : ""}
 
   <span>${formatTime(remaining)}</span>
 
@@ -640,42 +640,71 @@ div.innerHTML = `
 
     const span = div.querySelector("span");
     const fill = div.querySelector(".countdown-fill");
-    const editBtn = div.querySelector(".edit-btn");
+
+
+
+
+
+
+
+const menuBtn = div.querySelector(".menu-btn");
 const textDiv = div.querySelector(".message-text");
 
-if (editBtn) {
-  editBtn.onclick = () => {
-    // Re-check TTL at click time
+if (menuBtn) {
+  menuBtn.onclick = e => {
+    e.stopPropagation();
+
     if (!canEditMessage(msg)) return;
 
-    const textarea = document.createElement("textarea");
-    textarea.value = textDiv.textContent;
-    textarea.style.width = "100%";
-    textarea.style.borderRadius = "6px";
+    // Remove any existing menu
+    document.querySelectorAll(".message-menu").forEach(m => m.remove());
 
-    textDiv.replaceWith(textarea);
-    textarea.focus();
+    const menu = document.createElement("div");
+    menu.className = "message-menu";
+    menu.textContent = "Edit";
 
-    textarea.onkeydown = e => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-
-        // TTL check AGAIN before saving
-        if (!canEditMessage(msg)) {
-          textarea.replaceWith(textDiv);
-          return;
-        }
-
-        set(msgRef, {
-          ...msg,
-          text: textarea.value
-        });
-
-        textarea.replaceWith(textDiv);
+    menu.onclick = () => {
+      if (!canEditMessage(msg)) {
+        menu.remove();
+        return;
       }
+
+      const textarea = document.createElement("textarea");
+      textarea.value = textDiv.textContent;
+      textarea.style.width = "100%";
+      textarea.style.borderRadius = "6px";
+
+      textDiv.replaceWith(textarea);
+      textarea.focus();
+      menu.remove();
+
+      textarea.onkeydown = e => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+
+          if (!canEditMessage(msg)) {
+            textarea.replaceWith(textDiv);
+            return;
+          }
+
+          set(msgRef, {
+            ...msg,
+            text: textarea.value
+          });
+
+          textarea.replaceWith(textDiv);
+        }
+      };
     };
+
+    div.appendChild(menu);
   };
 }
+
+
+
+    
+    
 
     
     
