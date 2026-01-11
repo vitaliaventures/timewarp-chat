@@ -508,7 +508,6 @@ function sendMessage(){
   input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
   remove(typingRef);
 }
-sendBtn.onclick=sendMessage;
 
 
 
