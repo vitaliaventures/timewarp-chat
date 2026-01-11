@@ -96,19 +96,6 @@ body {
 }
 
 
-
-.message .countdown-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 3px;
-  background: #16a34a;
-  border-radius: 0 0 12px 12px;
-  transition: width 1s linear;
-}
-
-
-
 /* Input */
 .chat-input {
   display: flex;
@@ -170,4 +157,25 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   transition: top 0.5s ease;
 }
+
+
+/* Countdown urgency system (scales globally) */
+.countdown-track {
+  margin-top: 6px;
+  height: 4px;
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.countdown-fill {
+  height: 100%;
+  width: 100%;
+  background: #22c55e;
+  border-radius: 999px;
+  transition: width 1s linear, background 0.4s ease;
+  box-shadow: 0 0 6px rgba(0,0,0,0.4);
+}
+
 
