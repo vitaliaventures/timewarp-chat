@@ -4,11 +4,14 @@ import {
   ref,
   push,
   onChildAdded,
+  onChildChanged,   // 👈 AÑADIR ESTA LÍNEA
   remove,
   onValue,
   set,
   onDisconnect
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+
+
 
 // --- Traducciones y multilenguaje
 // (Se mantiene igual que tu versión, con todos los idiomas)
@@ -617,6 +620,7 @@ function attachMessagesListener() {
     }
 
     const div = document.createElement("div");
+    div.__msgData = msg;
     div.className = "message";
     div.dataset.msgKey = snap.key;
     div.dataset.text = msg.text;
@@ -704,7 +708,7 @@ onValue(ref(db, `${msgRef.toString()}/reactions`), snap => {
     
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    const span = div.querySelector("span");
+    const span = div.querySelector(".time-text");
 const fill = div.querySelector(".countdown-fill");
 const total = msg.ttl;
 
@@ -733,6 +737,31 @@ if (percent > 30) {
   }
 }, 1000);
   });
+
+
+
+onChildChanged(messagesRef, snap => {
+  const updated = snap.val();
+  const key = snap.key;
+
+  const msgDiv = document.querySelector(`.message[data-msg-key="${key}"]`);
+  if (!msgDiv) return;
+
+  // Actualizar texto visible
+  for (let node of msgDiv.childNodes) {
+    if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+      node.textContent = "\n" + updated.text + "\n";
+      break;
+    }
+  }
+
+  // Actualizar texto guardado
+  msgDiv.dataset.text = updated.text;
+});
+
+
+
+  
 }
 
 
@@ -893,19 +922,19 @@ actionMenu.addEventListener("click", e => {
 
   if (action === "edit" && activeMsgRef && activeMsgDiv) {
   const currentText = activeMsgDiv.dataset.text || "";
-
   const newText = prompt("Edit message:", currentText);
-  if (newText !== null && newText !== currentText) {
+
+  if (newText !== null && newText.trim() !== "" && newText !== currentText) {
     set(activeMsgRef, {
-      ...activeMsgRef._node?.value,
-      text: newText
+      ...activeMsgDiv.__msgData,
+      text: newText,
+      editedAt: Date.now()
     });
   }
 
   actionMenu.style.display = "none";
 }
 
-});
 
 
 
