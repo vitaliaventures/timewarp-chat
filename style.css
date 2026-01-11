@@ -178,3 +178,54 @@ body {
   box-shadow: 0 0 6px rgba(0,0,0,0.4);
 }
 
+
+
+
+
+/* Time + menu container (top-right, no extra space) */
+.msg-time {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  opacity: 0.65;
+}
+
+/* Three-dot menu (light effect) */
+.msg-menu {
+  width: 14px;
+  height: 14px;
+  position: relative;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Dots */
+.msg-menu::before,
+.msg-menu::after,
+.msg-menu div {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 6px rgba(255,255,255,0.7);
+}
+
+.msg-menu::before { top: 0; }
+.msg-menu div { top: 5px; }
+.msg-menu::after { top: 10px; }
+
+/* Show only on hover (desktop) */
+.message:hover .msg-menu {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
