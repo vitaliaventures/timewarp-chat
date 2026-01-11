@@ -472,6 +472,14 @@ function formatTime(sec) {
   return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
+
+function canEditMessage(msg) {
+  const elapsed = Math.floor((Date.now() - msg.createdAt) / 1000);
+  return elapsed < msg.ttl;
+}
+
+
+
 function showSystemMessage(text){
   const div = document.createElement("div");
   div.style.textAlign="center";
@@ -611,9 +619,14 @@ function attachMessagesListener() {
       div.style.background = colors[Math.floor(Math.random() * colors.length)];
     }
 
-    div.innerHTML = `
+    const isMine = msg.user.name === identity.name;
+
+div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-  ${msg.text}
+  <div class="message-text">${msg.text}</div>
+
+  ${isMine ? `<button class="edit-btn">✏️</button>` : ""}
+
   <span>${formatTime(remaining)}</span>
 
   <div class="countdown-track">
@@ -626,8 +639,47 @@ function attachMessagesListener() {
     chatBox.scrollTop = chatBox.scrollHeight;
 
     const span = div.querySelector("span");
-const fill = div.querySelector(".countdown-fill");
-const total = msg.ttl;
+    const fill = div.querySelector(".countdown-fill");
+    const editBtn = div.querySelector(".edit-btn");
+const textDiv = div.querySelector(".message-text");
+
+if (editBtn) {
+  editBtn.onclick = () => {
+    // Re-check TTL at click time
+    if (!canEditMessage(msg)) return;
+
+    const textarea = document.createElement("textarea");
+    textarea.value = textDiv.textContent;
+    textarea.style.width = "100%";
+    textarea.style.borderRadius = "6px";
+
+    textDiv.replaceWith(textarea);
+    textarea.focus();
+
+    textarea.onkeydown = e => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+
+        // TTL check AGAIN before saving
+        if (!canEditMessage(msg)) {
+          textarea.replaceWith(textDiv);
+          return;
+        }
+
+        set(msgRef, {
+          ...msg,
+          text: textarea.value
+        });
+
+        textarea.replaceWith(textDiv);
+      }
+    };
+  };
+}
+
+    
+    
+    const total = msg.ttl;
 
     const timer = setInterval(() => {
     remaining--;
@@ -648,10 +700,10 @@ if (percent > 30) {
 
 
     if (remaining <= 0) {
-    clearInterval(timer);
-    div.remove();
-    remove(msgRef);
-  }
+  clearInterval(timer);
+  div.remove();
+  remove(msgRef);
+}
 }, 1000);
   });
 }
