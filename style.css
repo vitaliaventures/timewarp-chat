@@ -179,3 +179,37 @@ body {
 }
 
 
+
+
+
+.menu-btn {
+  position: absolute;
+  top: 6px;
+  right: 30px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.menu-btn:hover {
+  opacity: 1;
+}
+
+.message-menu {
+  position: absolute;
+  top: 26px;
+  right: 10px;
+  background: #111;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.message-menu:hover {
+  background: #222;
+}
