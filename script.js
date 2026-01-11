@@ -604,6 +604,7 @@ function attachMessagesListener() {
     }
 
     const div = document.createElement("div");
+    div.msgData = msg; // 🔥 store message object for edit/delete
     div.className = "message";
 
      
@@ -750,16 +751,15 @@ if (percent > 30) {
 
 // --- Edit message
 function editMessage(msgRef, msgDiv) {
-  const oldText = msgDiv.querySelector("strong + br").nextSibling.textContent;
+  const oldText = msgDiv.msgData.text;
   const newText = prompt("Edit your message:", oldText);
   if (newText !== null && newText.trim() !== "") {
-    set(msgRef, {
-      ...msgDiv.msgData, // keep original meta
-      text: newText,
-      editedAt: Date.now()
-    });
+    // only update the text, preserve everything else
+    set(msgRef, { ...msgDiv.msgData, text: newText, editedAt: Date.now() });
+    msgDiv.querySelector("strong + br").nextSibling.textContent = newText;
   }
 }
+
 
 // --- Delete message
 function deleteMessage(msgRef, msgDiv, msg) {
@@ -776,26 +776,28 @@ function deleteMessage(msgRef, msgDiv, msg) {
 // --- React to message
 function reactMessage(msgRef, msgDiv) {
   const reactions = ["❤️","😂","🔥","👍","🎉","💎","🤯","😎"];
-  const reaction = prompt("React with:", reactions.join(" "));
-  if(reaction) {
-    // Save reactions in Firebase
-    const reactionsRef = ref(msgRef, "reactions");
-    push(reactionsRef, {user: identity, emoji: reaction, at: Date.now()});
-    // Show locally
-    let reactDiv = msgDiv.querySelector(".reactions");
-    if(!reactDiv){
-      reactDiv = document.createElement("div");
-      reactDiv.className="reactions";
-      reactDiv.style.marginTop="6px";
-      reactDiv.style.display="flex";
-      reactDiv.style.gap="4px";
-      msgDiv.appendChild(reactDiv);
-    }
-    const span = document.createElement("span");
-    span.textContent = reaction;
-    reactDiv.appendChild(span);
+  let reactDiv = msgDiv.querySelector(".reactions");
+  if(!reactDiv){
+    reactDiv = document.createElement("div");
+    reactDiv.className = "reactions";
+    reactDiv.style.marginTop="6px";
+    reactDiv.style.display="flex";
+    reactDiv.style.gap="4px";
+    msgDiv.appendChild(reactDiv);
   }
+
+  reactions.forEach(emoji => {
+    const span = document.createElement("span");
+    span.textContent = emoji;
+    span.onclick = () => {
+      push(ref(msgRef,"reactions"), {user: identity, emoji, at: Date.now()});
+      span.style.transform="scale(1.3)";
+      setTimeout(()=>span.style.transform="scale(1)",200);
+    };
+    reactDiv.appendChild(span);
+  });
 }
+
 
 
 
