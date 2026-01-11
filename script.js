@@ -619,6 +619,8 @@ function attachMessagesListener() {
     const div = document.createElement("div");
     div.className = "message";
     div.dataset.msgKey = snap.key;
+    div.dataset.text = msg.text;
+    
 
     if (msg.user.name === identity.name) {
       const colors = ["#2563eb","#16a34a","#db2777","#f59e0b","#8b5cf6","#ef4444"];
@@ -629,7 +631,10 @@ function attachMessagesListener() {
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
   ${msg.text}
 
+  <div class="reactions"></div>
+
   <div class="msg-time">
+
     <span class="time-text">${formatTime(remaining)}</span>
 
     <div class="msg-menu" title="Message options">
@@ -671,6 +676,32 @@ menuBtn.addEventListener("click", e => {
     
 
     chatBox.appendChild(div);
+
+
+
+
+    const reactionsBox = div.querySelector(".reactions");
+
+onValue(ref(db, `${msgRef.toString()}/reactions`), snap => {
+  reactionsBox.innerHTML = "";
+  const reactions = snap.val();
+  if (!reactions) return;
+
+  for (const emoji in reactions) {
+    const span = document.createElement("span");
+    span.textContent = `${emoji} ${reactions[emoji]}`;
+    span.className = "reaction-pill";
+    reactionsBox.appendChild(span);
+  }
+});
+
+
+
+
+
+    
+
+    
     chatBox.scrollTop = chatBox.scrollHeight;
 
     const span = div.querySelector("span");
@@ -837,6 +868,20 @@ actionMenu.addEventListener("click", e => {
 
   const action = e.target.dataset.action;
 
+
+
+  if (action && action.startsWith("react-") && activeMsgRef && activeMsgDiv) {
+  const emoji = action.replace("react-", "");
+
+  const reactionsRef = ref(db, `${activeMsgRef.toString()}/reactions/${emoji}`);
+  set(reactionsRef, (activeMsgDiv.dataset[`react_${emoji}`] || 0) + 1);
+
+  actionMenu.style.display = "none";
+}
+
+
+
+  
   if (action === "delete" && activeMsgRef) {
     activeMsgDiv.style.opacity = "0.3";
     setTimeout(() => {
@@ -846,16 +891,20 @@ actionMenu.addEventListener("click", e => {
     actionMenu.style.display = "none";
   }
 
-  if (action === "edit" && activeMsgRef) {
-    const newText = prompt("Edit message:");
-    if (newText) {
-      set(activeMsgRef, {
-        ...activeMsgRef._node.value,
-        text: newText
-      });
-    }
-    actionMenu.style.display = "none";
+  if (action === "edit" && activeMsgRef && activeMsgDiv) {
+  const currentText = activeMsgDiv.dataset.text || "";
+
+  const newText = prompt("Edit message:", currentText);
+  if (newText !== null && newText !== currentText) {
+    set(activeMsgRef, {
+      ...activeMsgRef._node?.value,
+      text: newText
+    });
   }
+
+  actionMenu.style.display = "none";
+}
+
 });
 
 
