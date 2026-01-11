@@ -629,6 +629,63 @@ function attachMessagesListener() {
 `;
 
 
+    // --- Add menu options dynamically
+const menu = div.querySelector(".msg-menu");
+
+menu.addEventListener("click", (e) => {
+  e.stopPropagation(); // prevent triggering outside clicks
+
+  // Remove any existing menu first
+  document.querySelectorAll(".msg-options-menu").forEach(m => m.remove());
+
+  const optionsMenu = document.createElement("div");
+  optionsMenu.className = "msg-options-menu";
+  optionsMenu.style.position = "absolute";
+  optionsMenu.style.top = "20px";
+  optionsMenu.style.right = "0px";
+  optionsMenu.style.background = "#222";
+  optionsMenu.style.border = "1px solid #444";
+  optionsMenu.style.borderRadius = "8px";
+  optionsMenu.style.padding = "4px 0";
+  optionsMenu.style.zIndex = "10000";
+  optionsMenu.style.minWidth = "100px";
+  optionsMenu.style.boxShadow = "0 4px 12px rgba(0,0,0,0.5)";
+  
+  // Menu options
+  const edit = document.createElement("div");
+  edit.textContent = "✏️ Edit";
+  edit.style.padding = "6px 12px";
+  edit.style.cursor = "pointer";
+  edit.addEventListener("click", () => editMessage(msgRef, div));
+  
+  const del = document.createElement("div");
+  del.textContent = "🗑️ Delete";
+  del.style.padding = "6px 12px";
+  del.style.cursor = "pointer";
+  del.addEventListener("click", () => deleteMessage(msgRef, div, msg));
+
+  const react = document.createElement("div");
+  react.textContent = "❤️ React";
+  react.style.padding = "6px 12px";
+  react.style.cursor = "pointer";
+  react.addEventListener("click", () => reactMessage(msgRef, div));
+
+  optionsMenu.append(edit, del, react);
+  div.appendChild(optionsMenu);
+
+  // Click outside closes menu
+  document.addEventListener("click", function closeMenu(ev) {
+    if (!optionsMenu.contains(ev.target)) {
+      optionsMenu.remove();
+      document.removeEventListener("click", closeMenu);
+    }
+  });
+});
+
+
+
+    
+
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
 
