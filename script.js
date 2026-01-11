@@ -4,14 +4,11 @@ import {
   ref,
   push,
   onChildAdded,
-  onChildChanged,   // 👈 AÑADIR ESTA LÍNEA
   remove,
   onValue,
   set,
   onDisconnect
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
-
-
 
 // --- Traducciones y multilenguaje
 // (Se mantiene igual que tu versión, con todos los idiomas)
@@ -490,11 +487,6 @@ function showSystemMessage(text){
 // --- Send
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
-sendBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  sendMessage();
-});
-
 const MESSAGE_TTL = 10;
 function sendMessage(){
   if(!input.value) return;
@@ -508,6 +500,7 @@ function sendMessage(){
   input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
   remove(typingRef);
 }
+sendBtn.onclick=sendMessage;
 
 
 
@@ -594,21 +587,6 @@ function generateRoomId() {
 
 
 
-const actionMenu = document.getElementById("msg-action-menu");
-let activeMsgRef = null;
-let activeMsgDiv = null;
-
-document.addEventListener("click", (e) => {
-  if (!actionMenu.contains(e.target)) {
-    actionMenu.style.display = "none";
-  }
-});
-
-
-
-
-
-
 function attachMessagesListener() {
   if (messagesListenerUnsub) messagesListenerUnsub();
 
@@ -626,11 +604,7 @@ function attachMessagesListener() {
     }
 
     const div = document.createElement("div");
-    div.__msgData = msg;
     div.className = "message";
-    div.dataset.msgKey = snap.key;
-    div.dataset.text = msg.text;
-    
 
     if (msg.user.name === identity.name) {
       const colors = ["#2563eb","#16a34a","#db2777","#f59e0b","#8b5cf6","#ef4444"];
@@ -641,10 +615,7 @@ function attachMessagesListener() {
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
   ${msg.text}
 
-  <div class="reactions"></div>
-
   <div class="msg-time">
-
     <span class="time-text">${formatTime(remaining)}</span>
 
     <div class="msg-menu" title="Message options">
@@ -658,63 +629,10 @@ function attachMessagesListener() {
 `;
 
 
-
-
-
-
-    const menuBtn = div.querySelector(".msg-menu");
-
-menuBtn.addEventListener("click", e => {
-  e.stopPropagation();
-
-  activeMsgRef = msgRef;
-  activeMsgDiv = div;
-
-  const rect = menuBtn.getBoundingClientRect();
-
-  actionMenu.style.top = rect.bottom + 6 + "px";
-  actionMenu.style.left = rect.left - 120 + "px";
-  actionMenu.style.display = "block";
-});
-
-
-
-
-    
-
-
-    
-
     chatBox.appendChild(div);
-
-
-
-
-    const reactionsBox = div.querySelector(".reactions");
-
-onValue(ref(db, `${msgRef.toString()}/reactions`), snap => {
-  reactionsBox.innerHTML = "";
-  const reactions = snap.val();
-  if (!reactions) return;
-
-  for (const emoji in reactions) {
-    const span = document.createElement("span");
-    span.textContent = `${emoji} ${reactions[emoji]}`;
-    span.className = "reaction-pill";
-    reactionsBox.appendChild(span);
-  }
-});
-
-
-
-
-
-    
-
-    
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    const span = div.querySelector(".time-text");
+    const span = div.querySelector("span");
 const fill = div.querySelector(".countdown-fill");
 const total = msg.ttl;
 
@@ -743,31 +661,6 @@ if (percent > 30) {
   }
 }, 1000);
   });
-
-
-
-onChildChanged(messagesRef, snap => {
-  const updated = snap.val();
-  const key = snap.key;
-
-  const msgDiv = document.querySelector(`.message[data-msg-key="${key}"]`);
-  if (!msgDiv) return;
-
-  // Actualizar texto visible
-  for (let node of msgDiv.childNodes) {
-    if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
-      node.textContent = "\n" + updated.text + "\n";
-      break;
-    }
-  }
-
-  // Actualizar texto guardado
-  msgDiv.dataset.text = updated.text;
-});
-
-
-
-  
 }
 
 
@@ -894,53 +787,6 @@ remove(typingRef);
     console.error("Failed to destroy room:", err);
   }
 });
-
-
-
-
-actionMenu.addEventListener("click", e => {
-  e.stopPropagation();
-
-  const action = e.target.dataset.action;
-
-
-
-  if (action && action.startsWith("react-") && activeMsgRef && activeMsgDiv) {
-  const emoji = action.replace("react-", "");
-
-  const reactionsRef = ref(db, `${activeMsgRef.toString()}/reactions/${emoji}`);
-  set(reactionsRef, (activeMsgDiv.dataset[`react_${emoji}`] || 0) + 1);
-
-  actionMenu.style.display = "none";
-}
-
-
-
-  
-  if (action === "delete" && activeMsgRef) {
-    activeMsgDiv.style.opacity = "0.3";
-    setTimeout(() => {
-      remove(activeMsgRef);
-      activeMsgDiv.remove();
-    }, 150);
-    actionMenu.style.display = "none";
-  }
-
-  if (action === "edit" && activeMsgRef && activeMsgDiv) {
-  const currentText = activeMsgDiv.dataset.text || "";
-  const newText = prompt("Edit message:", currentText);
-
-  if (newText !== null && newText.trim() !== "" && newText !== currentText) {
-    set(activeMsgRef, {
-      ...activeMsgDiv.__msgData,
-      text: newText,
-      editedAt: Date.now()
-    });
-  }
-
-  actionMenu.style.display = "none";
-}
-
 
 
 
