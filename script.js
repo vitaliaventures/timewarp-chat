@@ -472,14 +472,6 @@ function formatTime(sec) {
   return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
-
-function canEditMessage(msg) {
-  const elapsed = Math.floor((Date.now() - msg.createdAt) / 1000);
-  return elapsed < msg.ttl;
-}
-
-
-
 function showSystemMessage(text){
   const div = document.createElement("div");
   div.style.textAlign="center";
@@ -619,95 +611,18 @@ function attachMessagesListener() {
       div.style.background = colors[Math.floor(Math.random() * colors.length)];
     }
 
-    const isMine = msg.user.name === identity.name;
-
-div.innerHTML = `
+    div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-  <div class="message-text">${msg.text}</div>
-
-  ${isMine ? `<button class="menu-btn">⋮</button>` : ""}
-
-  <span>${formatTime(remaining)}</span>
-
-  <div class="countdown-track">
-    <div class="countdown-fill"></div>
-  </div>
+  ${msg.text}
+  <span>${remaining}s</span>
+  <div class="countdown-bar" style="width:100%"></div>
 `;
-
 
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
 
     const span = div.querySelector("span");
-    const fill = div.querySelector(".countdown-fill");
-
-
-
-
-
-
-
-const menuBtn = div.querySelector(".menu-btn");
-const textDiv = div.querySelector(".message-text");
-
-if (menuBtn) {
-  menuBtn.onclick = e => {
-    e.stopPropagation();
-
-    if (!canEditMessage(msg)) return;
-
-    // Remove any existing menu
-    document.querySelectorAll(".message-menu").forEach(m => m.remove());
-
-    const menu = document.createElement("div");
-    menu.className = "message-menu";
-    menu.textContent = "Edit";
-
-    menu.onclick = () => {
-      if (!canEditMessage(msg)) {
-        menu.remove();
-        return;
-      }
-
-      const textarea = document.createElement("textarea");
-      textarea.value = textDiv.textContent;
-      textarea.style.width = "100%";
-      textarea.style.borderRadius = "6px";
-
-      textDiv.replaceWith(textarea);
-      textarea.focus();
-      menu.remove();
-
-      textarea.onkeydown = e => {
-        if (e.key === "Enter" && !e.shiftKey) {
-          e.preventDefault();
-
-          if (!canEditMessage(msg)) {
-            textarea.replaceWith(textDiv);
-            return;
-          }
-
-          set(msgRef, {
-            ...msg,
-            text: textarea.value
-          });
-
-          textarea.replaceWith(textDiv);
-        }
-      };
-    };
-
-    div.appendChild(menu);
-  };
-}
-
-
-
-    
-    
-
-    
-    
+    const bar = div.querySelector(".countdown-bar");
     const total = msg.ttl;
 
     const timer = setInterval(() => {
@@ -715,24 +630,13 @@ if (menuBtn) {
 
     span.textContent = formatTime(remaining);
 
-    const percent = (remaining / total) * 100;
-fill.style.width = percent + "%";
-
-// Urgency colors
-if (percent > 30) {
-  fill.style.background = "#22c55e"; // green
-} else if (percent > 10) {
-  fill.style.background = "#facc15"; // yellow
-} else {
-  fill.style.background = "#ef4444"; // red
-}
-
+    bar.style.width = (remaining / total * 100) + "%";
 
     if (remaining <= 0) {
-  clearInterval(timer);
-  div.remove();
-  remove(msgRef);
-}
+    clearInterval(timer);
+    div.remove();
+    remove(msgRef);
+  }
 }, 1000);
   });
 }
