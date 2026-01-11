@@ -565,14 +565,16 @@ const inviteBtn = document.getElementById("invite-btn");
 
 inviteBtn.addEventListener("click", () => {
   const roomUrl = window.location.href;
+  const inviteMessage = `${translations[currentLang].invitedToChat}: ${roomUrl}`;
 
-  const inviteMessage = `${translations[currentLang].invitedToChat}:\n${roomUrl}`;
-
-  navigator.clipboard.writeText(inviteMessage).catch(console.error);
-
-  showSystemMessage(inviteMessage);
-  setTimeout(() => chatBox.lastChild?.remove(), 3000);
+  // Copiar al portapapeles
+  navigator.clipboard.writeText(inviteMessage).then(() => {
+    // Mostrar en chat de forma temporal
+    const sysMsg = showSystemMessage(inviteMessage);
+    setTimeout(() => sysMsg.remove(), 3000);
+  }).catch(err => console.error("Error copying invite:", err));
 });
+
 
 
 
@@ -813,11 +815,10 @@ newRoomBtn.addEventListener("click", () => {
 chatBox.innerHTML = "";
 typingIndicator.textContent = "";
 
-// Mensaje sistema claro (auto borrar en 3s)
+// Mensaje de nueva sala temporal
 const sysMsg = showSystemMessage(translations[currentLang].newRoomSystem);
-setTimeout(() => {
-  sysMsg?.remove();
-}, 3000);
+setTimeout(() => sysMsg.remove(), 3000);
+
 
 
   
@@ -906,7 +907,11 @@ destroyRoomBtn.disabled = true; // 🔒 inmediato
   destroyed: true,
   destroyedAt: Date.now()
 });
+
+// Limpiar listeners
+if(messagesListenerUnsub) messagesListenerUnsub();
 remove(typingRef);
+
 
 
     // Mostrar mensaje de destrucción
