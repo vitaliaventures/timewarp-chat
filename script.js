@@ -623,7 +623,15 @@ function attachMessagesListener() {
 
   <div class="msg-text">${msg.text}</div>
 
-  <span>${formatTime(remaining)}</span>
+  <div class="msg-time">
+  <span class="time-text">${formatTime(remaining)}</span>
+  ${
+    msg.user.name === identity.name
+      ? `<div class="msg-menu" title="Edit message"></div>`
+      : ``
+  }
+</div>
+
 
   <div class="countdown-track">
     <div class="countdown-fill"></div>
