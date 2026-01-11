@@ -614,23 +614,38 @@ function attachMessagesListener() {
     div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
   ${msg.text}
-  <span>${remaining}s</span>
-  <div class="countdown-bar" style="width:100%"></div>
+  <span>${formatTime(remaining)}</span>
+
+  <div class="countdown-track">
+    <div class="countdown-fill"></div>
+  </div>
 `;
+
 
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
 
     const span = div.querySelector("span");
-    const bar = div.querySelector(".countdown-bar");
-    const total = msg.ttl;
+const fill = div.querySelector(".countdown-fill");
+const total = msg.ttl;
 
     const timer = setInterval(() => {
     remaining--;
 
     span.textContent = formatTime(remaining);
 
-    bar.style.width = (remaining / total * 100) + "%";
+    const percent = (remaining / total) * 100;
+fill.style.width = percent + "%";
+
+// Urgency colors
+if (percent > 30) {
+  fill.style.background = "#22c55e"; // green
+} else if (percent > 10) {
+  fill.style.background = "#facc15"; // yellow
+} else {
+  fill.style.background = "#ef4444"; // red
+}
+
 
     if (remaining <= 0) {
     clearInterval(timer);
