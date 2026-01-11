@@ -641,6 +641,10 @@ function attachMessagesListener() {
 
 
 const menu = div.querySelector(".msg-menu");
+if (menu) {
+  const dot = document.createElement("div");
+  menu.appendChild(dot);
+}
 
 if (menu) {
   menu.addEventListener("click", e => {
