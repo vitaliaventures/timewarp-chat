@@ -87,13 +87,6 @@ body {
   transition: background 0.2s ease;
 }
 .message:hover { background: #3a3a3a; }
-.message span {
-  position: absolute;
-  right: 10px;
-  top: 6px;
-  font-size: 11px;
-  opacity: 0.5;
-}
 
 
 /* Input */
