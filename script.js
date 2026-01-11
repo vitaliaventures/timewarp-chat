@@ -612,8 +612,17 @@ function attachMessagesListener() {
     }
 
     div.innerHTML = `
-  <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-  ${msg.text}
+  <div class="msg-header">
+    <strong>${msg.user.emoji} ${msg.user.name}</strong>
+    ${
+      msg.user.name === identity.name
+        ? `<div class="msg-menu">⋮</div>`
+        : ``
+    }
+  </div>
+
+  <div class="msg-text">${msg.text}</div>
+
   <span>${formatTime(remaining)}</span>
 
   <div class="countdown-track">
@@ -622,6 +631,80 @@ function attachMessagesListener() {
 `;
 
 
+
+const menu = div.querySelector(".msg-menu");
+
+if (menu) {
+  menu.addEventListener("click", e => {
+    e.stopPropagation();
+
+    // Evitar doble editor
+    if (div.classList.contains("editing")) return;
+
+    div.classList.add("editing");
+
+    const textDiv = div.querySelector(".msg-text");
+    const originalText = textDiv.textContent;
+
+    const textarea = document.createElement("textarea");
+    textarea.value = originalText;
+    textarea.style.width = "100%";
+    textarea.style.background = "#111";
+    textarea.style.color = "#fff";
+    textarea.style.border = "1px solid #333";
+    textarea.style.borderRadius = "8px";
+    textarea.style.padding = "8px";
+    textarea.style.marginTop = "6px";
+
+    const actions = document.createElement("div");
+    actions.style.display = "flex";
+    actions.style.gap = "6px";
+    actions.style.marginTop = "6px";
+
+    const saveBtn = document.createElement("button");
+    saveBtn.textContent = "Save";
+    saveBtn.style.background = "#2563eb";
+    saveBtn.style.color = "#fff";
+    saveBtn.style.border = "none";
+    saveBtn.style.borderRadius = "6px";
+    saveBtn.style.padding = "4px 10px";
+    saveBtn.style.cursor = "pointer";
+
+    const cancelBtn = document.createElement("button");
+    cancelBtn.textContent = "Cancel";
+    cancelBtn.style.background = "#333";
+    cancelBtn.style.color = "#fff";
+    cancelBtn.style.border = "none";
+    cancelBtn.style.borderRadius = "6px";
+    cancelBtn.style.padding = "4px 10px";
+    cancelBtn.style.cursor = "pointer";
+
+    actions.append(saveBtn, cancelBtn);
+
+    textDiv.replaceWith(textarea);
+    textarea.after(actions);
+
+    saveBtn.onclick = () => {
+      set(msgRef, {
+        ...msg,
+        text: textarea.value
+      });
+      div.classList.remove("editing");
+    };
+
+    cancelBtn.onclick = () => {
+      textarea.replaceWith(textDiv);
+      actions.remove();
+      div.classList.remove("editing");
+    };
+  });
+}
+
+
+
+
+
+    
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
 
