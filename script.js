@@ -7,7 +7,8 @@ import {
   remove,
   onValue,
   set,
-  onDisconnect
+  onDisconnect,
+  get      // 🔥 agrega esto
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
 // --- Traducciones y multilenguaje
