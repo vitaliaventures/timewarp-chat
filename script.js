@@ -642,7 +642,7 @@ if (msg.ttlFrozen) {
   });
 
   // ⛔ NO countdown si está editado
-if (!msg.edited) {
+if (!msg.ttlFrozen) {
   // (si luego quieres, aquí puedes reactivar countdown solo para no editados)
 }
 ;
@@ -782,7 +782,7 @@ menuBtn.addEventListener("click", e => {
     chatBox.scrollTop = chatBox.scrollHeight;
 
     // ⛔ NO iniciar countdown si el mensaje fue editado
-if (!msg.edited) {
+if (!msg.ttlFrozen) {
   const span = div.querySelector(".time-text");
   const fill = div.querySelector(".countdown-fill");
   const total = msg.ttl;
@@ -799,10 +799,15 @@ if (!msg.edited) {
     else fill.style.background = "#ef4444";
 
     if (remaining <= 0) {
-      clearInterval(timer);
-      div.remove();
-      remove(msgRef);
-    }
+  clearInterval(timer);
+
+  // ⛔ NUNCA borrar mensajes editados / congelados
+  if (!msg.ttlFrozen) {
+    div.remove();
+    remove(msgRef);
+  }
+}
+
   }, 1000);
 }
 
