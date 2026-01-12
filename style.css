@@ -222,19 +222,3 @@ body {
   transform: scale(1.1);
 }
 
-
-
-
-/* Options menu */
-.msg-options-menu div:hover {
-  background: #333;
-}
-
-/* Reaction emojis under messages */
-.reactions span {
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-.reactions span:hover { transform: scale(1.3); }
-
