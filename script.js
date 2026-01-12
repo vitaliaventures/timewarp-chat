@@ -33,7 +33,8 @@ const translations = {
     destroyConfirm: "Are you sure you want to destroy this room? This will make it inactive for everyone.",
     roomDestroyedMsg: "🚨 This room has been destroyed. It is now inactive.",
     roomDestroyedOverlay: "💀 Room destroyed. It is now inactive.",
-    roomExpired: "⛔ This room has expired"
+    roomExpired: "⛔ This room has expired",
+    editedLabel: "edited" // 🔥 NUEVO
 
   },
   de: {
@@ -52,7 +53,8 @@ const translations = {
     destroyConfirm: "Bist du sicher, dass du diesen Raum zerstören möchtest? Er wird für alle inaktiv.",
     roomDestroyedMsg: "🚨 Dieser Raum wurde zerstört. Er ist jetzt inaktiv.",
     roomDestroyedOverlay: "💀 Raum zerstört. Jetzt inaktiv.",
-    roomExpired: "⛔ Dieser Raum ist abgelaufen"
+    roomExpired: "⛔ Dieser Raum ist abgelaufen",
+    editedLabel: "bearbeitet" // 🔥 NUEVO
 
   },
   es: {
@@ -71,7 +73,8 @@ const translations = {
     destroyConfirm: "¿Seguro que deseas destruir esta sala? Será inactiva para todos.",
     roomDestroyedMsg: "🚨 Esta sala ha sido destruida. Ahora está inactiva.",
     roomDestroyedOverlay: "💀 Sala destruida. Ahora está inactiva.",
-    roomExpired: "⛔ Esta sala ha expirado"
+    roomExpired: "⛔ Esta sala ha expirado",
+    editedLabel: "editado" // 🔥 NUEVO
 
 
   },
@@ -91,7 +94,8 @@ const translations = {
     destroyConfirm: "Êtes-vous sûr de vouloir détruire cette salle ? Elle deviendra inactive pour tous.",
     roomDestroyedMsg: "🚨 Cette salle a été détruite. Elle est maintenant inactive.",
     roomDestroyedOverlay: "💀 Salle détruite. Désormais inactive.",
-    roomExpired: "⛔ Cette salle a expiré"
+    roomExpired: "⛔ Cette salle a expiré",
+    editedLabel: "modifié" // 🔥 NUEVO
 
   },
   it: {
@@ -110,7 +114,8 @@ const translations = {
     destroyConfirm: "Sei sicuro di voler distruggere questa stanza? Diventerà inattiva per tutti.",
     roomDestroyedMsg: "🚨 Questa stanza è stata distrutta. Ora è inattiva.",
     roomDestroyedOverlay: "💀 Stanza distrutta. Ora inattiva.",
-    roomExpired: "⛔ Questa stanza è scaduta"
+    roomExpired: "⛔ Questa stanza è scaduta",
+    editedLabel: "modificato" // 🔥 NUEVO
 
   },
   pt: {
@@ -129,7 +134,8 @@ const translations = {
     destroyConfirm: "Tem certeza de que deseja destruir esta sala? Ela ficará inativa para todos.",
     roomDestroyedMsg: "🚨 Esta sala foi destruída. Agora está inativa.",
     roomDestroyedOverlay: "💀 Sala destruída. Agora inativa.",
-    roomExpired: "⛔ Esta sala expirou"
+    roomExpired: "⛔ Esta sala expirou",
+    editedLabel: "editado" // 🔥 NUEVO
 
   },
   ru: {
@@ -148,7 +154,8 @@ const translations = {
     destroyConfirm: "Вы уверены, что хотите Удалить эту комнату? Она станет неактивной для всех.",
     roomDestroyedMsg: "🚨 Эта комната была уничтожена. Теперь она неактивна.",
     roomDestroyedOverlay: "💀 Комната уничтожена. Теперь неактивна.",
-    roomExpired: "⛔ Эта комната больше не активна"
+    roomExpired: "⛔ Эта комната больше не активна",
+    editedLabel: "изменено" // 🔥 NUEVO
 
      
   },
@@ -168,7 +175,8 @@ const translations = {
     destroyConfirm: "このルームを削除してもよろしいですか？全員に対して無効になります。",
     roomDestroyedMsg: "🚨 このルームは削除され、現在は無効です。",
     roomDestroyedOverlay: "💀 ルームは削除されました。",
-    roomExpired: "⛔ このルームは期限切れです"
+    roomExpired: "⛔ このルームは期限切れです",
+    editedLabel: "編集済み" // 🔥 NUEVO
 
   },
   ko: {
@@ -187,7 +195,8 @@ const translations = {
     destroyConfirm: "이 방을 삭제하시겠습니까? 모든 사용자에게 비활성화됩니다.",
     roomDestroyedMsg: "🚨 이 방은 삭제되었으며 현재 비활성 상태입니다.",
     roomDestroyedOverlay: "💀 방이 삭제되었습니다.",
-    roomExpired: "⛔ 이 방은 만료되었습니다"
+    roomExpired: "⛔ 이 방은 만료되었습니다",
+    editedLabel: "수정됨" // 🔥 NUEVO
 
   },
   zh: {
@@ -206,7 +215,8 @@ const translations = {
     destroyConfirm: "确定要销毁这个房间吗？它将对所有人失效。",
     roomDestroyedMsg: "🚨 此房间已被销毁，现在处于非活动状态。",
     roomDestroyedOverlay: "💀 房间已销毁。",
-    roomExpired: "⛔ 此房间已失效"
+    roomExpired: "⛔ 此房间已失效",
+    editedLabel: "已编辑" // 🔥 NUEVO
   },
   nl: {
     appName: "TimeWarp Messenger",
@@ -224,7 +234,8 @@ const translations = {
     destroyConfirm: "Weet je zeker dat je deze kamer wilt vernietigen? Deze wordt voor iedereen inactief.",
     roomDestroyedMsg: "🚨 Deze kamer is vernietigd. Hij is nu inactief.",
     roomDestroyedOverlay: "💀 Kamer vernietigd. Nu inactief.",
-    roomExpired: "⛔ Deze kamer is verlopen"
+    roomExpired: "⛔ Deze kamer is verlopen",
+    editedLabel: "bewerkt" // 🔥 NUEVO
 
   },
   tr: {
@@ -243,7 +254,8 @@ const translations = {
     destroyConfirm: "Bu odayı yok etmek istediğine emin misin? Herkes için devre dışı kalacak.",
     roomDestroyedMsg: "🚨 Bu oda yok edildi. Artık aktif değil.",
     roomDestroyedOverlay: "💀 Oda yok edildi.",
-    roomExpired: "⛔ Bu oda süresi doldu"
+    roomExpired: "⛔ Bu oda süresi doldu",
+    editedLabel: "düzenlendi" // 🔥 NUEVO
 
   },
   ar: {
@@ -262,7 +274,8 @@ const translations = {
     destroyConfirm: "هل أنت متأكد من تدمير هذه الغرفة؟ ستصبح غير نشطة للجميع.",
     roomDestroyedMsg: "🚨 تم تدمير هذه الغرفة وأصبحت غير نشطة.",
     roomDestroyedOverlay: "💀 تم تدمير الغرفة.",
-    roomExpired: "⛔ انتهت صلاحية هذه الغرفة"
+    roomExpired: "⛔ انتهت صلاحية هذه الغرفة",
+    editedLabel: "تم التعديل" // 🔥 NUEVO
 
   },
   pl: {
@@ -281,7 +294,8 @@ const translations = {
     destroyConfirm: "Czy na pewno chcesz zniszczyć ten pokój? Będzie nieaktywny dla wszystkich.",
     roomDestroyedMsg: "🚨 Ten pokój został zniszczony. Jest teraz nieaktywny.",
     roomDestroyedOverlay: "💀 Pokój zniszczony.",
-    roomExpired: "⛔ Ten pokój wygasł"
+    roomExpired: "⛔ Ten pokój wygasł",
+    editedLabel: "edytowano" // 🔥 NUEVO
 
   },
   sv: {
@@ -300,7 +314,8 @@ const translations = {
     destroyConfirm: "Är du säker på att du vill förstöra detta rum? Det blir inaktivt för alla.",
     roomDestroyedMsg: "🚨 Detta rum har förstörts och är nu inaktivt.",
     roomDestroyedOverlay: "💀 Rummet förstört.",
-    roomExpired: "⛔ Detta rum har gått ut"
+    roomExpired: "⛔ Detta rum har gått ut",
+    editedLabel: "redigerad" // 🔥 NUEVO
 
   },
   fi: {
@@ -319,7 +334,8 @@ const translations = {
     destroyConfirm: "Haluatko varmasti tuhota tämän huoneen? Se muuttuu passiiviseksi kaikille.",
     roomDestroyedMsg: "🚨 Tämä huone on tuhottu ja on nyt passiivinen.",
     roomDestroyedOverlay: "💀 Huone tuhottu.",
-    roomExpired: "⛔ Tämä huone on vanhentunut"
+    roomExpired: "⛔ Tämä huone on vanhentunut",
+    editedLabel: "muokattu" // 🔥 NUEVO
 
   }
 };
@@ -578,7 +594,11 @@ onChildChanged(messagesRef, snap => {
   // Actualizamos texto y estructura
   div.innerHTML = `
     <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-    ${msg.text} ${msg.edited ? "<span style='font-size:0.8em;opacity:0.6'>(edited)</span>" : ""}
+    ${msg.text} ${msg.edited
+  ? `<span class="msg-edited">(${translations[currentLang].editedLabel})</span>`
+  : ""
+}
+
 
     <div class="msg-time">
       <span class="time-text">${formatTime(remaining)}</span>
@@ -703,7 +723,11 @@ function attachMessagesListener() {
 
     div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-  ${msg.text} ${msg.edited ? "<span style='font-size:0.8em;opacity:0.6'>(edited)</span>" : ""}
+  ${msg.text} ${msg.edited
+  ? `<span class="msg-edited">(${translations[currentLang].editedLabel})</span>`
+  : ""
+}
+
 
   <div class="msg-time">
     <span class="time-text">${formatTime(remaining)}</span>
