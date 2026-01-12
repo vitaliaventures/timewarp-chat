@@ -600,8 +600,16 @@ onChildChanged(messagesRef, snap => {
 }
 
 
-    <div class="msg-time">
-      <span class="time-text">${formatTime(remaining)}</span>
+    ${
+  msg.edited
+    ? ""
+    : `
+      <div class="msg-time">
+        <span class="time-text">${formatTime(remaining)}</span>
+      </div>
+    `
+}
+
 
       <div class="msg-menu" title="Message options">
         <div></div>
@@ -624,31 +632,11 @@ onChildChanged(messagesRef, snap => {
     actionMenu.style.display = "block";
   });
 
-  // --- Reiniciar el countdown sin perder el tiempo ya transcurrido
-  const span = div.querySelector(".time-text");
-  const fill = div.querySelector(".countdown-fill");
-  const total = msg.ttl;
-
-  // Limpiar interval anterior si existía
-  if (div.countdownTimer) clearInterval(div.countdownTimer);
-
-  div.countdownTimer = setInterval(() => {
-    remaining--;
-    span.textContent = formatTime(remaining);
-
-    const percent = (remaining / total) * 100;
-    fill.style.width = percent + "%";
-
-    if (percent > 30) fill.style.background = "#22c55e"; // green
-    else if (percent > 10) fill.style.background = "#facc15"; // yellow
-    else fill.style.background = "#ef4444"; // red
-
-    if (remaining <= 0) {
-      clearInterval(div.countdownTimer);
-      div.remove();
-      remove(snap.ref);
-    }
-  }, 1000);
+  // ⛔ NO countdown si está editado
+if (!msg.edited) {
+  // (si luego quieres, aquí puedes reactivar countdown solo para no editados)
+}
+;
 });
 
 
@@ -723,24 +711,24 @@ function attachMessagesListener() {
 
     div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-  ${msg.text} ${msg.edited
-  ? `<span class="msg-edited">(${translations[currentLang].editedLabel})</span>`
-  : ""
-}
-
-
-  <div class="msg-time">
-    <span class="time-text">${formatTime(remaining)}</span>
-
-    <div class="msg-menu" title="Message options">
-      <div></div>
-    </div>
-  </div>
-
-  <div class="countdown-track">
-    <div class="countdown-fill"></div>
-  </div>
+  ${msg.text}
+  ${
+    msg.edited
+      ? `<span class="msg-edited">(${translations[currentLang].editedLabel})</span>`
+      : `
+        <div class="msg-time">
+          <span class="time-text">${formatTime(remaining)}</span>
+          <div class="msg-menu" title="Message options">
+            <div></div>
+          </div>
+        </div>
+        <div class="countdown-track">
+          <div class="countdown-fill"></div>
+        </div>
+      `
+  }
 `;
+
 
 
 
@@ -810,34 +798,31 @@ actionMenu.addEventListener("click", e => {
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    const span = div.querySelector("span");
-const fill = div.querySelector(".countdown-fill");
-const total = msg.ttl;
+    // ⛔ NO iniciar countdown si el mensaje fue editado
+if (!msg.edited) {
+  const span = div.querySelector(".time-text");
+  const fill = div.querySelector(".countdown-fill");
+  const total = msg.ttl;
 
-    const timer = setInterval(() => {
+  const timer = setInterval(() => {
     remaining--;
-
     span.textContent = formatTime(remaining);
 
     const percent = (remaining / total) * 100;
-fill.style.width = percent + "%";
+    fill.style.width = percent + "%";
 
-// Urgency colors
-if (percent > 30) {
-  fill.style.background = "#22c55e"; // green
-} else if (percent > 10) {
-  fill.style.background = "#facc15"; // yellow
-} else {
-  fill.style.background = "#ef4444"; // red
-}
-
+    if (percent > 30) fill.style.background = "#22c55e";
+    else if (percent > 10) fill.style.background = "#facc15";
+    else fill.style.background = "#ef4444";
 
     if (remaining <= 0) {
-    clearInterval(timer);
-    div.remove();
-    remove(msgRef);
-  }
-}, 1000);
+      clearInterval(timer);
+      div.remove();
+      remove(msgRef);
+    }
+  }, 1000);
+}
+
   });
 }
 
