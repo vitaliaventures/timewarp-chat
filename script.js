@@ -589,13 +589,16 @@ onChildChanged(messagesRef, snap => {
   const now = Date.now();
   let remaining;
 
-if (msg.edited) {
-  // ⛔ mensaje editado = TTL congelado
+let remaining;
+
+if (msg.ttlFrozen) {
+  // 🔒 mensaje editado = NO depende del tiempo
   remaining = msg.ttl;
 } else {
   const elapsed = Math.floor((now - msg.createdAt) / 1000);
   remaining = msg.ttl - elapsed;
 }
+
 
   if (remaining < 0) remaining = 0;
 
@@ -702,8 +705,10 @@ function attachMessagesListener() {
     const now = Date.now();
     let remaining;
 
-if (msg.edited) {
-  // ⛔ mensaje editado = TTL congelado
+let remaining;
+
+if (msg.ttlFrozen) {
+  // 🔒 mensaje editado = NO depende del tiempo
   remaining = msg.ttl;
 } else {
   const elapsed = Math.floor((now - msg.createdAt) / 1000);
@@ -711,11 +716,13 @@ if (msg.edited) {
 }
 
 
-    // ⛔ SOLO auto-borrar si NO fue editado
-if (!msg.edited && remaining <= 0) {
+
+    // ⛔ JAMÁS borrar mensajes con TTL congelado
+if (!msg.ttlFrozen && remaining <= 0) {
   remove(msgRef);
   return;
 }
+
 
 
     const div = document.createElement("div");
@@ -789,8 +796,10 @@ actionMenu.addEventListener("click", e => {
   ...oldData,
   text: newText,
   edited: true,
-  editedAt: Date.now() // 🔥 nuevo
+  editedAt: Date.now(),
+  ttlFrozen: true // 🔥 CLAVE ABSOLUTA
 });
+
 
       }
     }).catch(console.error);
@@ -1002,8 +1011,10 @@ if (action === "edit" && activeMsgRef) {
   ...oldData,
   text: newText,
   edited: true,
-  editedAt: Date.now() // 🔥 nuevo
+  editedAt: Date.now(),
+  ttlFrozen: true // 🔥 CLAVE ABSOLUTA
 });
+
 
     }
   }).catch(console.error);
