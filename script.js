@@ -389,13 +389,8 @@ function setLanguage(lang) {
   document.body.dir = (lang === "ar") ? "rtl" : "ltr";
   typingIndicator.textContent = "";
   updateUsersLiveText();
-  document.querySelectorAll("[data-msg-key]").forEach(div => {
-  if (div.innerHTML.includes("edited")) {
-    div.innerHTML = div.innerHTML.replace(
-      /\(.*?\)/,
-      translations[currentLang].editedLabel
-    );
-  }
+  document.querySelectorAll(".edited-label").forEach(span => {
+  span.textContent = translations[currentLang].editedLabel;
 });
 
 }
@@ -623,7 +618,7 @@ onChildChanged(messagesRef, snap => {
     <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
     ${msg.text} ${
   msg.edited
-    ? `<span style="font-size:0.8em;opacity:0.6">
+    ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6">
          ${translations[currentLang].editedLabel}
        </span>`
     : ""
