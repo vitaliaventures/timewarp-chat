@@ -627,7 +627,7 @@ function attachMessagesListener() {
 
     div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-  ${msg.text}
+  ${msg.text} ${msg.edited ? "<span style='font-size:0.8em;opacity:0.6'>(edited)</span>" : ""}
 
   <div class="msg-time">
     <span class="time-text">${formatTime(remaining)}</span>
@@ -641,6 +641,7 @@ function attachMessagesListener() {
     <div class="countdown-fill"></div>
   </div>
 `;
+
 
 
 
@@ -846,16 +847,27 @@ actionMenu.addEventListener("click", e => {
     actionMenu.style.display = "none";
   }
 
-  if (action === "edit" && activeMsgRef) {
-    const newText = prompt("Edit message:");
-    if (newText) {
+if (action === "edit" && activeMsgRef) {
+  // Primero obtenemos el valor actual del mensaje
+  get(activeMsgRef).then(snap => {
+    const oldData = snap.val();
+    if (!oldData) return;
+
+    // Mostramos prompt con el texto actual
+    const newText = prompt("Edit message:", oldData.text);
+    if (newText !== null && newText !== oldData.text) {
+      // Actualizamos el mensaje y agregamos un flag "edited"
       set(activeMsgRef, {
-        ...activeMsgRef._node.value,
-        text: newText
+        ...oldData,
+        text: newText,
+        edited: true
       });
     }
-    actionMenu.style.display = "none";
-  }
+  }).catch(console.error);
+
+  actionMenu.style.display = "none";
+}
+
 });
 
 
