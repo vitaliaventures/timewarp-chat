@@ -756,10 +756,12 @@ actionMenu.addEventListener("click", e => {
       const newText = prompt("Edit message:", oldData.text);
       if (newText !== null && newText !== oldData.text) {
         set(activeMsgRef, {
-          ...oldData,
-          text: newText,
-          edited: true
-        });
+  ...oldData,
+  text: newText,
+  edited: true,
+  editedAt: Date.now() // 🔥 clave
+});
+
       }
     }).catch(console.error);
   }
@@ -970,10 +972,12 @@ if (action === "edit" && activeMsgRef) {
     if (newText !== null && newText !== oldData.text) {
       // Actualizamos el mensaje y agregamos un flag "edited"
       set(activeMsgRef, {
-        ...oldData,
-        text: newText,
-        edited: true
-      });
+  ...oldData,
+  text: newText,
+  edited: true,
+  editedAt: Date.now() // 🔥 clave
+});
+
     }
   }).catch(console.error);
 
