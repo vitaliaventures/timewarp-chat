@@ -589,13 +589,14 @@ onChildChanged(messagesRef, snap => {
   const now = Date.now();
   let remaining;
 
-if (msg.ttlFrozen) {
-  // 🔒 mensaje editado = NO depende del tiempo
+if (msg.ttlFrozen || msg.edited) {
+  // 🔒 mensaje editado o congelado = NO depende del tiempo
   remaining = msg.ttl;
 } else {
   const elapsed = Math.floor((now - msg.createdAt) / 1000);
   remaining = msg.ttl - elapsed;
 }
+
 
 
   if (remaining < 0) remaining = 0;
@@ -703,21 +704,14 @@ function attachMessagesListener() {
     const now = Date.now();
     let remaining;
 
-if (msg.ttlFrozen) {
-  // 🔒 mensaje editado = NO depende del tiempo
+if (msg.ttlFrozen || msg.edited) {
+  // 🔒 mensaje editado o congelado = NO depende del tiempo
   remaining = msg.ttl;
 } else {
   const elapsed = Math.floor((now - msg.createdAt) / 1000);
   remaining = msg.ttl - elapsed;
 }
 
-
-
-    // ⛔ JAMÁS borrar mensajes con TTL congelado
-if (!msg.ttlFrozen && remaining <= 0) {
-  remove(msgRef);
-  return;
-}
 
 
 
@@ -801,12 +795,13 @@ if (!msg.ttlFrozen) {
     if (remaining <= 0) {
   clearInterval(timer);
 
-  // ⛔ NUNCA borrar mensajes editados / congelados
-  if (!msg.ttlFrozen) {
+  // ⛔ NUNCA borrar mensajes editados
+  if (!msg.ttlFrozen && !msg.edited) {
     div.remove();
     remove(msgRef);
   }
 }
+
 
   }, 1000);
 }
