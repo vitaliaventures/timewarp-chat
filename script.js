@@ -703,8 +703,6 @@ function attachMessagesListener() {
     const now = Date.now();
     let remaining;
 
-let remaining;
-
 if (msg.ttlFrozen) {
   // 🔒 mensaje editado = NO depende del tiempo
   remaining = msg.ttl;
