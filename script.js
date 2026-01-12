@@ -587,6 +587,19 @@ function generateRoomId() {
 
 
 
+const actionMenu = document.getElementById("msg-action-menu");
+let activeMsgRef = null;
+let activeMsgDiv = null;
+
+document.addEventListener("click", () => {
+  actionMenu.style.display = "none";
+});
+
+
+
+
+
+
 function attachMessagesListener() {
   if (messagesListenerUnsub) messagesListenerUnsub();
 
@@ -605,6 +618,7 @@ function attachMessagesListener() {
 
     const div = document.createElement("div");
     div.className = "message";
+    div.dataset.msgKey = snap.key;
 
     if (msg.user.name === identity.name) {
       const colors = ["#2563eb","#16a34a","#db2777","#f59e0b","#8b5cf6","#ef4444"];
@@ -628,6 +642,33 @@ function attachMessagesListener() {
   </div>
 `;
 
+
+
+
+
+
+    const menuBtn = div.querySelector(".msg-menu");
+
+menuBtn.addEventListener("click", e => {
+  e.stopPropagation();
+
+  activeMsgRef = msgRef;
+  activeMsgDiv = div;
+
+  const rect = menuBtn.getBoundingClientRect();
+
+  actionMenu.style.top = rect.bottom + 6 + "px";
+  actionMenu.style.left = rect.left - 120 + "px";
+  actionMenu.style.display = "block";
+});
+
+
+
+
+    
+
+
+    
 
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
@@ -785,6 +826,35 @@ remove(typingRef);
 
   } catch(err) {
     console.error("Failed to destroy room:", err);
+  }
+});
+
+
+
+
+actionMenu.addEventListener("click", e => {
+  e.stopPropagation();
+
+  const action = e.target.dataset.action;
+
+  if (action === "delete" && activeMsgRef) {
+    activeMsgDiv.style.opacity = "0.3";
+    setTimeout(() => {
+      remove(activeMsgRef);
+      activeMsgDiv.remove();
+    }, 150);
+    actionMenu.style.display = "none";
+  }
+
+  if (action === "edit" && activeMsgRef) {
+    const newText = prompt("Edit message:");
+    if (newText) {
+      set(activeMsgRef, {
+        ...activeMsgRef._node.value,
+        text: newText
+      });
+    }
+    actionMenu.style.display = "none";
   }
 });
 
