@@ -378,6 +378,14 @@ function updateUsersLiveText() {
 // --- Identidad efímera
 const animals = ["Fox","Panda","Tiger","Octopus","Wolf","Eagle","Bear","Owl"];
 const colors = ["Red","Blue","Green","Purple","Orange","Pink"];
+const messageColors = [
+  "#2563eb",
+  "#16a34a",
+  "#db2777",
+  "#f59e0b",
+  "#8b5cf6",
+  "#ef4444"
+];
 const animalEmoji = {Fox:"🦊",Panda:"🐼",Tiger:"🐯",Octopus:"🐙",Wolf:"🐺",Eagle:"🦅",Bear:"🐻",Owl:"🦉"};
 const identity = (() => {
   const animal = animals[Math.floor(Math.random()*animals.length)];
@@ -492,12 +500,14 @@ const sendBtn = document.getElementById("send-btn");
 const MESSAGE_TTL = 10;
 function sendMessage(){
   if(!input.value) return;
-  push(messagesRef,{
+  push(messagesRef, {
   text: input.value,
-  ttl: parseTTL(), // ✅ use dynamic TTL
+  ttl: parseTTL(),
   createdAt: Date.now(),
-  user: identity
+  user: identity,
+  color: messageColors[Math.floor(Math.random() * messageColors.length)]
 });
+
 
   input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
   remove(typingRef);
@@ -695,11 +705,11 @@ function attachMessagesListener() {
     const div = document.createElement("div");
     div.className = "message";
     div.dataset.msgKey = snap.key;
+    if (msg.color) {
+  div.style.background = msg.color;
+}
 
-    if (msg.user.name === identity.name) {
-      const colors = ["#2563eb","#16a34a","#db2777","#f59e0b","#8b5cf6","#ef4444"];
-      div.style.background = colors[Math.floor(Math.random() * colors.length)];
-    }
+
 
     div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
