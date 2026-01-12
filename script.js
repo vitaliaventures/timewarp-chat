@@ -652,7 +652,7 @@ function attachMessagesListener() {
     const menuBtn = div.querySelector(".msg-menu");
 
 menuBtn.addEventListener("click", e => {
-  e.stopPropagation();
+  e.stopPropagation(); // evita que document click cierre el menú
 
   activeMsgRef = msgRef;
   activeMsgDiv = div;
@@ -663,6 +663,42 @@ menuBtn.addEventListener("click", e => {
   actionMenu.style.left = rect.left - 120 + "px";
   actionMenu.style.display = "block";
 });
+
+// --- en actionMenu
+actionMenu.addEventListener("click", e => {
+  e.stopPropagation(); // ✅ muy importante
+  const action = e.target.dataset.action;
+  if (!activeMsgRef) return;
+
+  if (action === "edit") {
+    get(activeMsgRef).then(snap => {
+      const oldData = snap.val();
+      if (!oldData) return;
+
+      // 🔹 ocultar menú antes de mostrar prompt
+      actionMenu.style.display = "none";
+
+      const newText = prompt("Edit message:", oldData.text);
+      if (newText !== null && newText !== oldData.text) {
+        set(activeMsgRef, {
+          ...oldData,
+          text: newText,
+          edited: true
+        });
+      }
+    }).catch(console.error);
+  }
+
+  if (action === "delete") {
+    activeMsgDiv.style.opacity = "0.3";
+    setTimeout(() => {
+      remove(activeMsgRef);
+      activeMsgDiv.remove();
+    }, 150);
+    actionMenu.style.display = "none";
+  }
+});
+
 
 
 
