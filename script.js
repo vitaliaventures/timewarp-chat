@@ -10,6 +10,7 @@ import {
   onDisconnect,
   get      // 🔥 agrega esto
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+import { onChildChanged } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
 // --- Traducciones y multilenguaje
 // (Se mantiene igual que tu versión, con todos los idiomas)
@@ -560,6 +561,47 @@ onChildAdded(typingRef,snap=>{
   typingIndicator.textContent=`${data.user.emoji} ${data.user.name} ${translations[currentLang].typingIndicator}`;
   setTimeout(()=>typingIndicator.textContent="",2000);
 });
+
+
+// Listener para detectar ediciones de mensajes
+onChildChanged(messagesRef, snap => {
+  const msg = snap.val();
+  const div = chatBox.querySelector(`[data-msg-key="${snap.key}"]`);
+  if (!div) return; // si no encontramos el div, salimos
+
+  // Actualizamos texto y marca de "edited"
+  div.innerHTML = `
+    <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
+    ${msg.text} ${msg.edited ? "<span style='font-size:0.8em;opacity:0.6'>(edited)</span>" : ""}
+
+    <div class="msg-time">
+      <span class="time-text">${formatTime(msg.ttl)}</span>
+
+      <div class="msg-menu" title="Message options">
+        <div></div>
+      </div>
+    </div>
+
+    <div class="countdown-track">
+      <div class="countdown-fill"></div>
+    </div>
+  `;
+
+  const menuBtn = div.querySelector(".msg-menu");
+  menuBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    activeMsgRef = snap.ref;
+    activeMsgDiv = div;
+    const rect = menuBtn.getBoundingClientRect();
+    actionMenu.style.top = rect.bottom + 6 + "px";
+    actionMenu.style.left = rect.left - 120 + "px";
+    actionMenu.style.display = "block";
+  });
+});
+
+
+
+
 
 // --- Invite
 const inviteBtn = document.getElementById("invite-btn");
