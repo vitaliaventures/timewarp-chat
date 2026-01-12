@@ -569,13 +569,19 @@ onChildChanged(messagesRef, snap => {
   const div = chatBox.querySelector(`[data-msg-key="${snap.key}"]`);
   if (!div) return; // si no encontramos el div, salimos
 
-  // Actualizamos texto y marca de "edited"
+  // --- Calcula tiempo restante basado en createdAt
+  const now = Date.now();
+  const elapsed = Math.floor((now - msg.createdAt) / 1000);
+  let remaining = msg.ttl - elapsed;
+  if (remaining < 0) remaining = 0;
+
+  // Actualizamos texto y estructura
   div.innerHTML = `
     <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
     ${msg.text} ${msg.edited ? "<span style='font-size:0.8em;opacity:0.6'>(edited)</span>" : ""}
 
     <div class="msg-time">
-      <span class="time-text">${formatTime(msg.ttl)}</span>
+      <span class="time-text">${formatTime(remaining)}</span>
 
       <div class="msg-menu" title="Message options">
         <div></div>
@@ -597,7 +603,34 @@ onChildChanged(messagesRef, snap => {
     actionMenu.style.left = rect.left - 120 + "px";
     actionMenu.style.display = "block";
   });
+
+  // --- Reiniciar el countdown sin perder el tiempo ya transcurrido
+  const span = div.querySelector(".time-text");
+  const fill = div.querySelector(".countdown-fill");
+  const total = msg.ttl;
+
+  // Limpiar interval anterior si existía
+  if (div.countdownTimer) clearInterval(div.countdownTimer);
+
+  div.countdownTimer = setInterval(() => {
+    remaining--;
+    span.textContent = formatTime(remaining);
+
+    const percent = (remaining / total) * 100;
+    fill.style.width = percent + "%";
+
+    if (percent > 30) fill.style.background = "#22c55e"; // green
+    else if (percent > 10) fill.style.background = "#facc15"; // yellow
+    else fill.style.background = "#ef4444"; // red
+
+    if (remaining <= 0) {
+      clearInterval(div.countdownTimer);
+      div.remove();
+      remove(snap.ref);
+    }
+  }, 1000);
 });
+
 
 
 
