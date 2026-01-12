@@ -222,3 +222,13 @@ body {
   transform: scale(1.1);
 }
 
+#msg-action-menu .menu-item {
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#msg-action-menu .menu-item:hover {
+  background: rgba(255,255,255,0.08);
+}
