@@ -628,7 +628,8 @@ function attachMessagesListener() {
 
     div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-  ${msg.text} ${msg.edited ? "<span style='font-size:0.8em;opacity:0.6'>(edited)</span>" : ""}
+  <span class="msg-text">${msg.text}</span>
+  ${msg.edited ? "<span class='msg-edited'>(edited)</span>" : ""}
 
   <div class="msg-time">
     <span class="time-text">${formatTime(remaining)}</span>
@@ -642,6 +643,7 @@ function attachMessagesListener() {
     <div class="countdown-fill"></div>
   </div>
 `;
+
 
 
 
