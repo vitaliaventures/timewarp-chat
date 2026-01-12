@@ -33,8 +33,7 @@ const translations = {
     destroyConfirm: "Are you sure you want to destroy this room? This will make it inactive for everyone.",
     roomDestroyedMsg: "🚨 This room has been destroyed. It is now inactive.",
     roomDestroyedOverlay: "💀 Room destroyed. It is now inactive.",
-    roomExpired: "⛔ This room has expired",
-    editedLabel: "edited" // 🔥 NUEVO
+    roomExpired: "⛔ This room has expired"
 
   },
   de: {
@@ -53,8 +52,7 @@ const translations = {
     destroyConfirm: "Bist du sicher, dass du diesen Raum zerstören möchtest? Er wird für alle inaktiv.",
     roomDestroyedMsg: "🚨 Dieser Raum wurde zerstört. Er ist jetzt inaktiv.",
     roomDestroyedOverlay: "💀 Raum zerstört. Jetzt inaktiv.",
-    roomExpired: "⛔ Dieser Raum ist abgelaufen",
-    editedLabel: "bearbeitet" // 🔥 NUEVO
+    roomExpired: "⛔ Dieser Raum ist abgelaufen"
 
   },
   es: {
@@ -73,8 +71,7 @@ const translations = {
     destroyConfirm: "¿Seguro que deseas destruir esta sala? Será inactiva para todos.",
     roomDestroyedMsg: "🚨 Esta sala ha sido destruida. Ahora está inactiva.",
     roomDestroyedOverlay: "💀 Sala destruida. Ahora está inactiva.",
-    roomExpired: "⛔ Esta sala ha expirado",
-    editedLabel: "editado" // 🔥 NUEVO
+    roomExpired: "⛔ Esta sala ha expirado"
 
 
   },
@@ -94,8 +91,7 @@ const translations = {
     destroyConfirm: "Êtes-vous sûr de vouloir détruire cette salle ? Elle deviendra inactive pour tous.",
     roomDestroyedMsg: "🚨 Cette salle a été détruite. Elle est maintenant inactive.",
     roomDestroyedOverlay: "💀 Salle détruite. Désormais inactive.",
-    roomExpired: "⛔ Cette salle a expiré",
-    editedLabel: "modifié" // 🔥 NUEVO
+    roomExpired: "⛔ Cette salle a expiré"
 
   },
   it: {
@@ -114,8 +110,7 @@ const translations = {
     destroyConfirm: "Sei sicuro di voler distruggere questa stanza? Diventerà inattiva per tutti.",
     roomDestroyedMsg: "🚨 Questa stanza è stata distrutta. Ora è inattiva.",
     roomDestroyedOverlay: "💀 Stanza distrutta. Ora inattiva.",
-    roomExpired: "⛔ Questa stanza è scaduta",
-    editedLabel: "modificato" // 🔥 NUEVO
+    roomExpired: "⛔ Questa stanza è scaduta"
 
   },
   pt: {
@@ -134,8 +129,7 @@ const translations = {
     destroyConfirm: "Tem certeza de que deseja destruir esta sala? Ela ficará inativa para todos.",
     roomDestroyedMsg: "🚨 Esta sala foi destruída. Agora está inativa.",
     roomDestroyedOverlay: "💀 Sala destruída. Agora inativa.",
-    roomExpired: "⛔ Esta sala expirou",
-    editedLabel: "editado" // 🔥 NUEVO
+    roomExpired: "⛔ Esta sala expirou"
 
   },
   ru: {
@@ -154,8 +148,7 @@ const translations = {
     destroyConfirm: "Вы уверены, что хотите Удалить эту комнату? Она станет неактивной для всех.",
     roomDestroyedMsg: "🚨 Эта комната была уничтожена. Теперь она неактивна.",
     roomDestroyedOverlay: "💀 Комната уничтожена. Теперь неактивна.",
-    roomExpired: "⛔ Эта комната больше не активна",
-    editedLabel: "изменено" // 🔥 NUEVO
+    roomExpired: "⛔ Эта комната больше не активна"
 
      
   },
@@ -175,8 +168,7 @@ const translations = {
     destroyConfirm: "このルームを削除してもよろしいですか？全員に対して無効になります。",
     roomDestroyedMsg: "🚨 このルームは削除され、現在は無効です。",
     roomDestroyedOverlay: "💀 ルームは削除されました。",
-    roomExpired: "⛔ このルームは期限切れです",
-    editedLabel: "編集済み" // 🔥 NUEVO
+    roomExpired: "⛔ このルームは期限切れです"
 
   },
   ko: {
@@ -195,8 +187,7 @@ const translations = {
     destroyConfirm: "이 방을 삭제하시겠습니까? 모든 사용자에게 비활성화됩니다.",
     roomDestroyedMsg: "🚨 이 방은 삭제되었으며 현재 비활성 상태입니다.",
     roomDestroyedOverlay: "💀 방이 삭제되었습니다.",
-    roomExpired: "⛔ 이 방은 만료되었습니다",
-    editedLabel: "수정됨" // 🔥 NUEVO
+    roomExpired: "⛔ 이 방은 만료되었습니다"
 
   },
   zh: {
@@ -215,8 +206,7 @@ const translations = {
     destroyConfirm: "确定要销毁这个房间吗？它将对所有人失效。",
     roomDestroyedMsg: "🚨 此房间已被销毁，现在处于非活动状态。",
     roomDestroyedOverlay: "💀 房间已销毁。",
-    roomExpired: "⛔ 此房间已失效",
-    editedLabel: "已编辑" // 🔥 NUEVO
+    roomExpired: "⛔ 此房间已失效"
   },
   nl: {
     appName: "TimeWarp Messenger",
@@ -234,8 +224,7 @@ const translations = {
     destroyConfirm: "Weet je zeker dat je deze kamer wilt vernietigen? Deze wordt voor iedereen inactief.",
     roomDestroyedMsg: "🚨 Deze kamer is vernietigd. Hij is nu inactief.",
     roomDestroyedOverlay: "💀 Kamer vernietigd. Nu inactief.",
-    roomExpired: "⛔ Deze kamer is verlopen",
-    editedLabel: "bewerkt" // 🔥 NUEVO
+    roomExpired: "⛔ Deze kamer is verlopen"
 
   },
   tr: {
@@ -254,8 +243,7 @@ const translations = {
     destroyConfirm: "Bu odayı yok etmek istediğine emin misin? Herkes için devre dışı kalacak.",
     roomDestroyedMsg: "🚨 Bu oda yok edildi. Artık aktif değil.",
     roomDestroyedOverlay: "💀 Oda yok edildi.",
-    roomExpired: "⛔ Bu oda süresi doldu",
-    editedLabel: "düzenlendi" // 🔥 NUEVO
+    roomExpired: "⛔ Bu oda süresi doldu"
 
   },
   ar: {
@@ -274,8 +262,7 @@ const translations = {
     destroyConfirm: "هل أنت متأكد من تدمير هذه الغرفة؟ ستصبح غير نشطة للجميع.",
     roomDestroyedMsg: "🚨 تم تدمير هذه الغرفة وأصبحت غير نشطة.",
     roomDestroyedOverlay: "💀 تم تدمير الغرفة.",
-    roomExpired: "⛔ انتهت صلاحية هذه الغرفة",
-    editedLabel: "تم التعديل" // 🔥 NUEVO
+    roomExpired: "⛔ انتهت صلاحية هذه الغرفة"
 
   },
   pl: {
@@ -294,8 +281,7 @@ const translations = {
     destroyConfirm: "Czy na pewno chcesz zniszczyć ten pokój? Będzie nieaktywny dla wszystkich.",
     roomDestroyedMsg: "🚨 Ten pokój został zniszczony. Jest teraz nieaktywny.",
     roomDestroyedOverlay: "💀 Pokój zniszczony.",
-    roomExpired: "⛔ Ten pokój wygasł",
-    editedLabel: "edytowano" // 🔥 NUEVO
+    roomExpired: "⛔ Ten pokój wygasł"
 
   },
   sv: {
@@ -314,8 +300,7 @@ const translations = {
     destroyConfirm: "Är du säker på att du vill förstöra detta rum? Det blir inaktivt för alla.",
     roomDestroyedMsg: "🚨 Detta rum har förstörts och är nu inaktivt.",
     roomDestroyedOverlay: "💀 Rummet förstört.",
-    roomExpired: "⛔ Detta rum har gått ut",
-    editedLabel: "redigerad" // 🔥 NUEVO
+    roomExpired: "⛔ Detta rum har gått ut"
 
   },
   fi: {
@@ -334,8 +319,7 @@ const translations = {
     destroyConfirm: "Haluatko varmasti tuhota tämän huoneen? Se muuttuu passiiviseksi kaikille.",
     roomDestroyedMsg: "🚨 Tämä huone on tuhottu ja on nyt passiivinen.",
     roomDestroyedOverlay: "💀 Huone tuhottu.",
-    roomExpired: "⛔ Tämä huone on vanhentunut",
-    editedLabel: "muokattu" // 🔥 NUEVO
+    roomExpired: "⛔ Tämä huone on vanhentunut"
 
   }
 };
@@ -587,39 +571,17 @@ onChildChanged(messagesRef, snap => {
 
   // --- Calcula tiempo restante basado en createdAt
   const now = Date.now();
-  let remaining;
-
-if (msg.ttlFrozen || msg.edited) {
-  // 🔒 mensaje editado o congelado = NO depende del tiempo
-  remaining = msg.ttl;
-} else {
   const elapsed = Math.floor((now - msg.createdAt) / 1000);
-  remaining = msg.ttl - elapsed;
-}
-
-
-
+  let remaining = msg.ttl - elapsed;
   if (remaining < 0) remaining = 0;
 
   // Actualizamos texto y estructura
   div.innerHTML = `
     <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-    ${msg.text} ${msg.edited
-  ? `<span class="msg-edited">(${translations[currentLang].editedLabel})</span>`
-  : ""
-}
+    ${msg.text} ${msg.edited ? "<span style='font-size:0.8em;opacity:0.6'>(edited)</span>" : ""}
 
-
-    ${
-  msg.edited
-    ? ""
-    : `
-      <div class="msg-time">
-        <span class="time-text">${formatTime(remaining)}</span>
-      </div>
-    `
-}
-
+    <div class="msg-time">
+      <span class="time-text">${formatTime(remaining)}</span>
 
       <div class="msg-menu" title="Message options">
         <div></div>
@@ -642,11 +604,31 @@ if (msg.ttlFrozen || msg.edited) {
     actionMenu.style.display = "block";
   });
 
-  // ⛔ NO countdown si está editado
-if (!msg.ttlFrozen) {
-  // (si luego quieres, aquí puedes reactivar countdown solo para no editados)
-}
-;
+  // --- Reiniciar el countdown sin perder el tiempo ya transcurrido
+  const span = div.querySelector(".time-text");
+  const fill = div.querySelector(".countdown-fill");
+  const total = msg.ttl;
+
+  // Limpiar interval anterior si existía
+  if (div.countdownTimer) clearInterval(div.countdownTimer);
+
+  div.countdownTimer = setInterval(() => {
+    remaining--;
+    span.textContent = formatTime(remaining);
+
+    const percent = (remaining / total) * 100;
+    fill.style.width = percent + "%";
+
+    if (percent > 30) fill.style.background = "#22c55e"; // green
+    else if (percent > 10) fill.style.background = "#facc15"; // yellow
+    else fill.style.background = "#ef4444"; // red
+
+    if (remaining <= 0) {
+      clearInterval(div.countdownTimer);
+      div.remove();
+      remove(snap.ref);
+    }
+  }, 1000);
 });
 
 
@@ -702,18 +684,13 @@ function attachMessagesListener() {
     const msgRef = snap.ref;
 
     const now = Date.now();
-    let remaining;
+    const elapsed = Math.floor((now - msg.createdAt) / 1000);
+    let remaining = msg.ttl - elapsed;
 
-if (msg.ttlFrozen || msg.edited) {
-  // 🔒 mensaje editado o congelado = NO depende del tiempo
-  remaining = msg.ttl;
-} else {
-  const elapsed = Math.floor((now - msg.createdAt) / 1000);
-  remaining = msg.ttl - elapsed;
-}
-
-
-
+    if (remaining <= 0) {
+      remove(msgRef);
+      return;
+    }
 
     const div = document.createElement("div");
     div.className = "message";
@@ -726,24 +703,20 @@ if (msg.ttlFrozen || msg.edited) {
 
     div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-  ${msg.text}
-  ${
-    msg.edited
-      ? `<span class="msg-edited">(${translations[currentLang].editedLabel})</span>`
-      : `
-        <div class="msg-time">
-          <span class="time-text">${formatTime(remaining)}</span>
-          <div class="msg-menu" title="Message options">
-            <div></div>
-          </div>
-        </div>
-        <div class="countdown-track">
-          <div class="countdown-fill"></div>
-        </div>
-      `
-  }
-`;
+  ${msg.text} ${msg.edited ? "<span style='font-size:0.8em;opacity:0.6'>(edited)</span>" : ""}
 
+  <div class="msg-time">
+    <span class="time-text">${formatTime(remaining)}</span>
+
+    <div class="msg-menu" title="Message options">
+      <div></div>
+    </div>
+  </div>
+
+  <div class="countdown-track">
+    <div class="countdown-fill"></div>
+  </div>
+`;
 
 
 
@@ -766,8 +739,46 @@ menuBtn.addEventListener("click", e => {
   actionMenu.style.display = "block";
 });
 
-;
+// --- en actionMenu
+actionMenu.addEventListener("click", e => {
+  e.stopPropagation(); // ✅ muy importante
+  const action = e.target.dataset.action;
+  if (!activeMsgRef) return;
 
+  if (action === "edit") {
+    get(activeMsgRef).then(snap => {
+      const oldData = snap.val();
+      if (!oldData) return;
+
+      // 🔹 ocultar menú antes de mostrar prompt
+      actionMenu.style.display = "none";
+
+      const newText = prompt("Edit message:", oldData.text);
+      if (newText !== null && newText !== oldData.text) {
+        set(activeMsgRef, {
+          ...oldData,
+          text: newText,
+          edited: true
+        });
+      }
+    }).catch(console.error);
+  }
+
+  if (action === "delete") {
+    activeMsgDiv.style.opacity = "0.3";
+    setTimeout(() => {
+      remove(activeMsgRef);
+      activeMsgDiv.remove();
+    }, 150);
+    actionMenu.style.display = "none";
+  }
+});
+
+
+
+
+
+    
 
 
     
@@ -775,37 +786,34 @@ menuBtn.addEventListener("click", e => {
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    // ⛔ NO iniciar countdown si el mensaje fue editado
-if (!msg.ttlFrozen) {
-  const span = div.querySelector(".time-text");
-  const fill = div.querySelector(".countdown-fill");
-  const total = msg.ttl;
+    const span = div.querySelector("span");
+const fill = div.querySelector(".countdown-fill");
+const total = msg.ttl;
 
-  const timer = setInterval(() => {
+    const timer = setInterval(() => {
     remaining--;
+
     span.textContent = formatTime(remaining);
 
     const percent = (remaining / total) * 100;
-    fill.style.width = percent + "%";
+fill.style.width = percent + "%";
 
-    if (percent > 30) fill.style.background = "#22c55e";
-    else if (percent > 10) fill.style.background = "#facc15";
-    else fill.style.background = "#ef4444";
+// Urgency colors
+if (percent > 30) {
+  fill.style.background = "#22c55e"; // green
+} else if (percent > 10) {
+  fill.style.background = "#facc15"; // yellow
+} else {
+  fill.style.background = "#ef4444"; // red
+}
+
 
     if (remaining <= 0) {
-  clearInterval(timer);
-
-  // ⛔ NUNCA borrar mensajes editados
-  if (!msg.ttlFrozen && !msg.edited) {
+    clearInterval(timer);
     div.remove();
     remove(msgRef);
   }
-}
-
-
-  }, 1000);
-}
-
+}, 1000);
   });
 }
 
@@ -962,14 +970,10 @@ if (action === "edit" && activeMsgRef) {
     if (newText !== null && newText !== oldData.text) {
       // Actualizamos el mensaje y agregamos un flag "edited"
       set(activeMsgRef, {
-  ...oldData,
-  text: newText,
-  edited: true,
-  editedAt: Date.now(),
-  ttlFrozen: true // 🔥 CLAVE ABSOLUTA
-});
-
-
+        ...oldData,
+        text: newText,
+        edited: true
+      });
     }
   }).catch(console.error);
 
