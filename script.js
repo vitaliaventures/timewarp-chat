@@ -788,7 +788,7 @@ actionMenu.addEventListener("click", e => {
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    const span = div.querySelector("span");
+    const span = div.querySelector(".time-text");
 const fill = div.querySelector(".countdown-fill");
 const total = msg.ttl;
 
