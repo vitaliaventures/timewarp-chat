@@ -587,8 +587,16 @@ onChildChanged(messagesRef, snap => {
 
   // --- Calcula tiempo restante basado en createdAt
   const now = Date.now();
+  let remaining;
+
+if (msg.edited) {
+  // ⛔ mensaje editado = TTL congelado
+  remaining = msg.ttl;
+} else {
   const elapsed = Math.floor((now - msg.createdAt) / 1000);
-  let remaining = msg.ttl - elapsed;
+  remaining = msg.ttl - elapsed;
+}
+
   if (remaining < 0) remaining = 0;
 
   // Actualizamos texto y estructura
@@ -692,13 +700,23 @@ function attachMessagesListener() {
     const msgRef = snap.ref;
 
     const now = Date.now();
-    const elapsed = Math.floor((now - msg.createdAt) / 1000);
-    let remaining = msg.ttl - elapsed;
+    let remaining;
 
-    if (remaining <= 0) {
-      remove(msgRef);
-      return;
-    }
+if (msg.edited) {
+  // ⛔ mensaje editado = TTL congelado
+  remaining = msg.ttl;
+} else {
+  const elapsed = Math.floor((now - msg.createdAt) / 1000);
+  remaining = msg.ttl - elapsed;
+}
+
+
+    // ⛔ SOLO auto-borrar si NO fue editado
+if (!msg.edited && remaining <= 0) {
+  remove(msgRef);
+  return;
+}
+
 
     const div = document.createElement("div");
     div.className = "message";
@@ -768,10 +786,12 @@ actionMenu.addEventListener("click", e => {
       const newText = prompt("Edit message:", oldData.text);
       if (newText !== null && newText !== oldData.text) {
         set(activeMsgRef, {
-          ...oldData,
-          text: newText,
-          edited: true
-        });
+  ...oldData,
+  text: newText,
+  edited: true,
+  editedAt: Date.now() // 🔥 nuevo
+});
+
       }
     }).catch(console.error);
   }
@@ -979,10 +999,12 @@ if (action === "edit" && activeMsgRef) {
     if (newText !== null && newText !== oldData.text) {
       // Actualizamos el mensaje y agregamos un flag "edited"
       set(activeMsgRef, {
-        ...oldData,
-        text: newText,
-        edited: true
-      });
+  ...oldData,
+  text: newText,
+  edited: true,
+  editedAt: Date.now() // 🔥 nuevo
+});
+
     }
   }).catch(console.error);
 
