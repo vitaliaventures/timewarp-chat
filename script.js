@@ -565,16 +565,14 @@ const inviteBtn = document.getElementById("invite-btn");
 
 inviteBtn.addEventListener("click", () => {
   const roomUrl = window.location.href;
-  const inviteMessage = `${translations[currentLang].invitedToChat}: ${roomUrl}`;
 
-  // Copiar al portapapeles
-  navigator.clipboard.writeText(inviteMessage).then(() => {
-    // Mostrar en chat de forma temporal
-    const sysMsg = showSystemMessage(inviteMessage);
-    setTimeout(() => sysMsg.remove(), 3000);
-  }).catch(err => console.error("Error copying invite:", err));
+  const inviteMessage = `${translations[currentLang].invitedToChat}:\n${roomUrl}`;
+
+  navigator.clipboard.writeText(inviteMessage).catch(console.error);
+
+  showSystemMessage(inviteMessage);
+  setTimeout(() => chatBox.lastChild?.remove(), 3000);
 });
-
 
 
 
@@ -606,11 +604,7 @@ function attachMessagesListener() {
     }
 
     const div = document.createElement("div");
-    div.msgData = msg; // 🔥 store message object for edit/delete
     div.className = "message";
-
-     
-    
 
     if (msg.user.name === identity.name) {
       const colors = ["#2563eb","#16a34a","#db2777","#f59e0b","#8b5cf6","#ef4444"];
@@ -634,86 +628,6 @@ function attachMessagesListener() {
   </div>
 `;
 
-
-// Listen for reactions
-const reactionsRef = ref(msgRef, "reactions");
-onChildAdded(reactionsRef, snap => {
-  const r = snap.val();
-  let reactDiv = div.querySelector(".reactions");
-  if(!reactDiv){
-    reactDiv = document.createElement("div");
-    reactDiv.className = "reactions";
-    reactDiv.style.marginTop="6px";
-    reactDiv.style.display="flex";
-    reactDiv.style.gap="4px";
-    div.appendChild(reactDiv);
-  }
-  const span = document.createElement("span");
-  span.textContent = r.emoji;
-  reactDiv.appendChild(span);
-});
-
-
-
-
-    
-
-    // --- Add menu options dynamically
-const menu = div.querySelector(".msg-menu");
-
-menu.addEventListener("click", (e) => {
-  e.stopPropagation(); // prevent triggering outside clicks
-
-  // Remove any existing menu first
-  document.querySelectorAll(".msg-options-menu").forEach(m => m.remove());
-
-  const optionsMenu = document.createElement("div");
-  optionsMenu.className = "msg-options-menu";
-  optionsMenu.style.position = "absolute";
-  optionsMenu.style.top = "20px";
-  optionsMenu.style.right = "0px";
-  optionsMenu.style.background = "#222";
-  optionsMenu.style.border = "1px solid #444";
-  optionsMenu.style.borderRadius = "8px";
-  optionsMenu.style.padding = "4px 0";
-  optionsMenu.style.zIndex = "10000";
-  optionsMenu.style.minWidth = "100px";
-  optionsMenu.style.boxShadow = "0 4px 12px rgba(0,0,0,0.5)";
-  
-  // Menu options
-  const edit = document.createElement("div");
-  edit.textContent = "✏️ Edit";
-  edit.style.padding = "6px 12px";
-  edit.style.cursor = "pointer";
-  edit.addEventListener("click", () => editMessage(msgRef, div));
-  
-  const del = document.createElement("div");
-  del.textContent = "🗑️ Delete";
-  del.style.padding = "6px 12px";
-  del.style.cursor = "pointer";
-  del.addEventListener("click", () => deleteMessage(msgRef, div, msg));
-
-  const react = document.createElement("div");
-  react.textContent = "❤️ React";
-  react.style.padding = "6px 12px";
-  react.style.cursor = "pointer";
-  react.addEventListener("click", () => reactMessage(msgRef, div));
-
-  optionsMenu.append(edit, del, react);
-  div.appendChild(optionsMenu);
-
-  // Click outside closes menu
-  document.addEventListener("click", function closeMenu(ev) {
-    if (!optionsMenu.contains(ev.target)) {
-      optionsMenu.remove();
-      document.removeEventListener("click", closeMenu);
-    }
-  });
-});
-
-
-
-    
 
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
@@ -751,59 +665,6 @@ if (percent > 30) {
 
 
 
-// --- Edit message
-function editMessage(msgRef, msgDiv) {
-  const oldText = msgDiv.msgData.text;
-  const newText = prompt("Edit your message:", oldText);
-  if (newText !== null && newText.trim() !== "") {
-    // only update the text, preserve everything else
-    set(msgRef, { ...msgDiv.msgData, text: newText, editedAt: Date.now() });
-    msgDiv.querySelector("strong + br").nextSibling.textContent = newText;
-  }
-}
-
-
-// --- Delete message
-function deleteMessage(msgRef, msgDiv, msg) {
-  const now = Date.now();
-  const elapsed = Math.floor((now - msg.createdAt)/1000);
-  if(elapsed < msg.ttl) {
-    remove(msgRef);
-    msgDiv.remove();
-  } else {
-    alert("Cannot delete: message expired");
-  }
-}
-
-// --- React to message
-function reactMessage(msgRef, msgDiv) {
-  const reactions = ["❤️","😂","🔥","👍","🎉","💎","🤯","😎"];
-  let reactDiv = msgDiv.querySelector(".reactions");
-  if(!reactDiv){
-    reactDiv = document.createElement("div");
-    reactDiv.className = "reactions";
-    reactDiv.style.marginTop="6px";
-    reactDiv.style.display="flex";
-    reactDiv.style.gap="4px";
-    msgDiv.appendChild(reactDiv);
-  }
-
-  reactions.forEach(emoji => {
-    const span = document.createElement("span");
-    span.textContent = emoji;
-    span.onclick = () => {
-      push(ref(msgRef,"reactions"), {user: identity, emoji, at: Date.now()});
-      span.style.transform="scale(1.3)";
-      setTimeout(()=>span.style.transform="scale(1)",200);
-    };
-    reactDiv.appendChild(span);
-  });
-}
-
-
-
-
-
 
 
 
@@ -815,10 +676,11 @@ newRoomBtn.addEventListener("click", () => {
 chatBox.innerHTML = "";
 typingIndicator.textContent = "";
 
-// Mensaje de nueva sala temporal
+// Mensaje sistema claro (auto borrar en 3s)
 const sysMsg = showSystemMessage(translations[currentLang].newRoomSystem);
-setTimeout(() => sysMsg.remove(), 3000);
-
+setTimeout(() => {
+  sysMsg?.remove();
+}, 3000);
 
 
   
@@ -907,11 +769,7 @@ destroyRoomBtn.disabled = true; // 🔒 inmediato
   destroyed: true,
   destroyedAt: Date.now()
 });
-
-// Limpiar listeners
-if(messagesListenerUnsub) messagesListenerUnsub();
 remove(typingRef);
-
 
 
     // Mostrar mensaje de destrucción
