@@ -750,11 +750,12 @@ function attachMessagesListener() {
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
   ${msg.text} ${
   msg.edited
-    ? `<span style="font-size:0.8em;opacity:0.6">
+    ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6">
          ${translations[currentLang].editedLabel}
        </span>`
     : ""
 }
+
 
 
   <div class="msg-time">
