@@ -432,7 +432,7 @@ if (ttlInputEl) {
     ttlInputEl.style.direction = "rtl";
     ttlInputEl.style.textAlign = "center";
   } else {
-    ttlInputEl.value = fromArabicDigits(ttlInputEl.value || "00:10");
+    ttlInputEl.value = fromArabicDigits(ttlInputEl.value || "01:00");
     ttlInputEl.style.direction = "ltr";
     ttlInputEl.style.textAlign = "center";
   }
