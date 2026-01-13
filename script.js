@@ -28,7 +28,7 @@ const translations = {
     usersLive: "live",
     newRoomBtn: "New ✨",
     newRoomSystem: "🆕 New private room created — invite someone to start chatting",
-    invitedToChat: "You were invited to chat", 
+    invitedToChat: "You were invited to chat",
     destroyRoomBtn: "Destroy ❌",
     destroyConfirm: "Are you sure you want to destroy this room? This will make it inactive for everyone.",
     roomDestroyedMsg: "🚨 This room has been destroyed. It is now inactive.",
@@ -562,7 +562,7 @@ let roomId = location.hash.replace("#room=","");
 if(!roomId){ roomId = crypto.randomUUID().replace(/-/g, ""); location.hash="room="+roomId; }
 let roomRef = ref(db,`rooms/${roomId}`);
 let messagesRef = ref(db,`rooms/${roomId}/messages`);
-setTimeout(() => attachMessagesListener(), 50); // 🔥 fuerza que se adjunte
+attachMessagesListener(); // ← AGREGA ESTA LÍNEA
 let metaRef = ref(db,`rooms/${roomId}/meta`);
 
 onValue(metaRef, snap => {
@@ -645,21 +645,6 @@ function formatTime(sec) {
 }
 
 
-function renderReactions(reactions = {}) {
-  const container = document.createElement("div");
-  container.className = "reactions";
-
-  Object.values(reactions).forEach(emoji => {
-    const span = document.createElement("span");
-    span.className = "reaction";
-    span.textContent = emoji;
-    container.appendChild(span);
-  });
-
-  return container;
-}
-
-
 function showSystemMessage(text){
   const div = document.createElement("div");
   div.style.textAlign="center";
@@ -679,20 +664,21 @@ const MESSAGE_TTL = 60;
 function sendMessage(){
   if(!input.value) return;
   push(messagesRef, {
-    text: input.value,
-    ttl: parseTTL(),
-    createdAt: Date.now(),
-    user: identity,
-    color: messageColors[Math.floor(Math.random() * messageColors.length)]
-  }).then(() => {
-    input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
-    remove(typingRef);
-  }).catch(console.error);
+  text: input.value,
+  ttl: parseTTL(),
+  createdAt: Date.now(),
+  user: identity,
+  color: messageColors[Math.floor(Math.random() * messageColors.length)]
+});
+
+
+  input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
+  remove(typingRef);
 }
-
-
-
 sendBtn.onclick=sendMessage;
+
+
+
 function spawnConfetti() {
   for(let i=0;i<30;i++){
     const conf = document.createElement("div");
@@ -769,36 +755,15 @@ onChildChanged(messagesRef, snap => {
   if (remaining < 0) remaining = 0;
 
   // Actualizamos texto y estructura
-div.innerHTML = `
-  <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-  ${msg.text}
-  ${
-    msg.edited
-      ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6">
-           ${translations[currentLang].editedLabel}
-         </span>`
-      : ""
-  }
-
-  <div class="reactions-container"></div>
-
-  <div class="msg-time">
-    <span class="time-text">${formatTime(remaining)}</span>
-    <div class="msg-menu" title="Message options">
-      <div></div>
-    </div>
-  </div>
-
-  <div class="countdown-track">
-    <div class="countdown-fill"></div>
-  </div>
-`;
-
-if (msg.reactions) {
-  div.querySelector(".reactions-container")
-     .appendChild(renderReactions(msg.reactions));
+  div.innerHTML = `
+    <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
+    ${msg.text} ${
+  msg.edited
+    ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6">
+         ${translations[currentLang].editedLabel}
+       </span>`
+    : ""
 }
-
 
 
     <div class="msg-time">
@@ -909,39 +874,16 @@ function generateRoomId() {
 
 
 const actionMenu = document.getElementById("msg-action-menu");
-const reactionBar = document.getElementById("reaction-bar");
-
-reactionBar.addEventListener("click", e => {
-  if (!activeMsgRef) return;
-
-  const emoji = e.target.textContent;
-  if (!emoji) return;
-
-  get(activeMsgRef).then(snap => {
-    const data = snap.val();
-    if (!data) return;
-
-    const reactions = data.reactions || {};
-
-    // 1 reacción por usuario (tipo WhatsApp)
-    reactions[identity.name] = emoji;
-
-    set(activeMsgRef, {
-      ...data,
-      reactions
-    });
-
-    actionMenu.style.display = "none";
-  });
-});
-
-
 let activeMsgRef = null;
 let activeMsgDiv = null;
 
 document.addEventListener("click", () => {
   actionMenu.style.display = "none";
 });
+
+
+
+
 
 
 function attachMessagesListener() {
@@ -955,9 +897,10 @@ function attachMessagesListener() {
     const elapsed = Math.floor((now - msg.createdAt) / 1000);
     let remaining = msg.ttl - elapsed;
 
-    let remaining = msg.ttl - Math.floor((Date.now() - msg.createdAt)/1000);
-    if (isNaN(remaining) || remaining <= 0) remaining = msg.ttl; // 🔥 fallback
-
+    if (remaining <= 0) {
+      remove(msgRef);
+      return;
+    }
 
     const div = document.createElement("div");
     div.className = "message";
@@ -969,21 +912,23 @@ function attachMessagesListener() {
 }
 
 
-div.innerHTML = `
-  <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-  ${msg.text}
-  ${
-    msg.edited
-      ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6">
-           ${translations[currentLang].editedLabel}
-         </span>`
-      : ""
-  }
 
-  <div class="reactions-container"></div>
+
+    div.innerHTML = `
+  <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
+  ${msg.text} ${
+  msg.edited
+    ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6">
+         ${translations[currentLang].editedLabel}
+       </span>`
+    : ""
+}
+
+
 
   <div class="msg-time">
     <span class="time-text">${formatTime(remaining)}</span>
+
     <div class="msg-menu" title="Message options">
       <div></div>
     </div>
@@ -993,11 +938,6 @@ div.innerHTML = `
     <div class="countdown-fill"></div>
   </div>
 `;
-if (msg.reactions) {
-  div.querySelector(".reactions-container")
-     .appendChild(renderReactions(msg.reactions));
-}
-
 
 
 
