@@ -234,3 +234,19 @@ body {
 }
 
 
+
+
+
+/* --- FIX RTL (Arabic) for time mm:ss --- */
+.time-text {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Ajuste visual del contenedor tiempo en RTL */
+[dir="rtl"] .msg-time {
+  right: auto;
+  left: 10px;
+  flex-direction: row-reverse;
+}
+
