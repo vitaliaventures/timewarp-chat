@@ -780,8 +780,17 @@ onChildChanged(messagesRef, snap => {
     activeMsgDiv = div;
     const rect = menuBtn.getBoundingClientRect();
     actionMenu.style.top = rect.bottom + 6 + "px";
-    actionMenu.style.left = rect.left - 120 + "px";
-    actionMenu.style.display = "block";
+
+if (document.body.dir === "rtl") {
+  // 👉 Árabe: empuja el menú MÁS A LA DERECHA
+  actionMenu.style.left = rect.right + 8 + "px";
+} else {
+  // 👉 LTR normal
+  actionMenu.style.left = rect.left - 120 + "px";
+}
+
+actionMenu.style.display = "block";
+
   });
 
   // --- Reiniciar el countdown sin perder el tiempo ya transcurrido
