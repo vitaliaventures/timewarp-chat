@@ -965,7 +965,7 @@ actionMenu.style.top = rect.bottom + 6 + "px";
 if (isRTL) {
   // 🔥 RTL DESKTOP + MOBILE FIX (anclar al botón, no al viewport)
   actionMenu.style.left = "auto";
-  actionMenu.style.right = (window.innerWidth - rect.right + 10) + "px";
+  actionMenu.style.right = (window.innerWidth - rect.right - 20) + "px";
 } else {
   // LTR normal
   let left = rect.left - menuWidth + 10;
