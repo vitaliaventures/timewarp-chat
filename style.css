@@ -236,6 +236,14 @@ body {
 }
 
 
+#msg-action-menu .menu-item span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+
+
 #msg-action-menu .menu-item:hover {
   background: rgba(255,255,255,0.08);
 }
