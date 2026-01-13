@@ -779,9 +779,26 @@ onChildChanged(messagesRef, snap => {
     activeMsgRef = snap.ref;
     activeMsgDiv = div;
     const rect = menuBtn.getBoundingClientRect();
-    actionMenu.style.top = rect.bottom + 6 + "px";
-    actionMenu.style.left = rect.left - 120 + "px";
-    actionMenu.style.display = "block";
+    const menuWidth = actionMenu.offsetWidth || 200;
+const viewportWidth = window.innerWidth;
+
+let left = rect.left - menuWidth + 10;
+
+// 🔥 RTL + móvil fix
+if (document.body.dir === "rtl") {
+  left = viewportWidth - rect.right - 10;
+}
+
+// 🔥 Evitar salir del viewport
+if (left < 10) left = 10;
+if (left + menuWidth > viewportWidth - 10) {
+  left = viewportWidth - menuWidth - 10;
+}
+
+actionMenu.style.top = rect.bottom + 6 + "px";
+actionMenu.style.left = left + "px";
+actionMenu.style.display = "block";
+
   });
 
   // --- Reiniciar el countdown sin perder el tiempo ya transcurrido
