@@ -779,9 +779,29 @@ onChildChanged(messagesRef, snap => {
     activeMsgRef = snap.ref;
     activeMsgDiv = div;
     const rect = menuBtn.getBoundingClientRect();
-    actionMenu.style.top = rect.bottom + 6 + "px";
-    actionMenu.style.left = rect.left - 120 + "px";
-    actionMenu.style.display = "block";
+const menuWidth = 180;
+const padding = 10;
+
+actionMenu.style.top = rect.bottom + 6 + "px";
+
+// RTL (Arabic)
+if (document.body.dir === "rtl") {
+  const right = window.innerWidth - rect.right;
+  actionMenu.style.right = Math.max(padding, right) + "px";
+  actionMenu.style.left = "auto";
+} 
+// LTR (normal)
+else {
+  let left = rect.left;
+  if (left + menuWidth > window.innerWidth) {
+    left = window.innerWidth - menuWidth - padding;
+  }
+  actionMenu.style.left = Math.max(padding, left) + "px";
+  actionMenu.style.right = "auto";
+}
+
+actionMenu.style.display = "block";
+
   });
 
   // --- Reiniciar el countdown sin perder el tiempo ya transcurrido
