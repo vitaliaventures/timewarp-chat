@@ -291,3 +291,15 @@ body[dir="rtl"] #msg-action-menu {
     left: auto;
   }
 }
+
+
+#reaction-bar {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+#reaction-bar span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
