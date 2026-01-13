@@ -447,9 +447,15 @@ setLanguage(currentLang);
 
 
 function updateUsersLiveText() {
+  const count =
+    currentLang === "ar"
+      ? toArabicDigits(String(currentUserCount))
+      : currentUserCount;
+
   document.getElementById("room-users").textContent =
-    `🔴 ${currentUserCount} ${translations[currentLang].usersLive}`;
+    `🔴 ${count} ${translations[currentLang].usersLive}`;
 }
+
 
 // --- Identidad efímera
 const animals = ["Fox","Panda","Tiger","Octopus","Wolf","Eagle","Bear","Owl"];
