@@ -645,6 +645,21 @@ function formatTime(sec) {
 }
 
 
+function renderReactions(reactions = {}) {
+  const container = document.createElement("div");
+  container.className = "reactions";
+
+  Object.values(reactions).forEach(emoji => {
+    const span = document.createElement("span");
+    span.className = "reaction";
+    span.textContent = emoji;
+    container.appendChild(span);
+  });
+
+  return container;
+}
+
+
 function showSystemMessage(text){
   const div = document.createElement("div");
   div.style.textAlign="center";
