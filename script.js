@@ -788,22 +788,29 @@ onChildChanged(messagesRef, snap => {
     const menuWidth = actionMenu.offsetWidth || 200;
 const viewportWidth = window.innerWidth;
 
-let left = rect.left - menuWidth + 10;
-
-// 🔥 RTL + móvil fix
-if (document.body.dir === "rtl") {
-  left = viewportWidth - rect.right - 10;
-}
-
-// 🔥 Evitar salir del viewport
-if (left < 10) left = 10;
-if (left + menuWidth > viewportWidth - 10) {
-  left = viewportWidth - menuWidth - 10;
-}
+const isRTL = document.body.dir === "rtl";
 
 actionMenu.style.top = rect.bottom + 6 + "px";
-actionMenu.style.left = left + "px";
+
+if (isRTL) {
+  // 🔥 RTL DESKTOP + MOBILE FIX (anclar al botón, no al viewport)
+  actionMenu.style.left = "auto";
+  actionMenu.style.right = (window.innerWidth - rect.right + 10) + "px";
+} else {
+  // LTR normal
+  let left = rect.left - menuWidth + 10;
+
+  if (left < 10) left = 10;
+  if (left + menuWidth > viewportWidth - 10) {
+    left = viewportWidth - menuWidth - 10;
+  }
+
+  actionMenu.style.right = "auto";
+  actionMenu.style.left = left + "px";
+}
+
 actionMenu.style.display = "block";
+
 
   });
 
