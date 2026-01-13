@@ -364,19 +364,24 @@ const typingIndicator = document.getElementById("typing-indicator");
 
 // --- Message TTL parser (mm:ss or ss)
 function parseTTL() {
-  const ttlInput = document.getElementById("ttl-input")?.value || "0:10";
+  let ttlInput = document.getElementById("ttl-input")?.value || "0:10";
+
+  // 🔥 convertir números árabes → latinos antes de parsear
+  ttlInput = fromArabicDigits(ttlInput);
+
   const parts = ttlInput.split(":").map(p => parseInt(p, 10));
 
   if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-    return parts[0] * 60 + parts[1]; // mm:ss
+    return parts[0] * 60 + parts[1];
   }
 
   if (parts.length === 1 && !isNaN(parts[0])) {
-    return parts[0]; // ss
+    return parts[0];
   }
 
-  return 10; // fallback
+  return 10;
 }
+
 
 
 
