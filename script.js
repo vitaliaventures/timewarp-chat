@@ -795,10 +795,7 @@ onChildChanged(messagesRef, snap => {
     e.stopPropagation();
     activeMsgRef = snap.ref;
     activeMsgDiv = div;
-    const rect = menuBtn.getBoundingClientRect();
-    actionMenu.style.top = rect.bottom + 6 + "px";
-    actionMenu.style.left = rect.left - 120 + "px";
-    actionMenu.style.display = "block";
+    positionActionMenu(menuBtn);
   });
 
   // --- Reiniciar el countdown sin perder el tiempo ya transcurrido
