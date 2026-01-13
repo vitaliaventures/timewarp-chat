@@ -22,7 +22,7 @@ body {
   border-radius: 12px;
   display: flex;
   flex-direction: column;
-  overflow: visible;
+  overflow: hidden;
   box-shadow: 0 6px 25px rgba(0,0,0,0.7);
 }
 
@@ -250,24 +250,3 @@ body {
   flex-direction: row-reverse;
 }
 
-
-
-#msg-action-menu {
-  position: fixed;
-  z-index: 99999;
-  min-width: 160px;
-  max-width: calc(100vw - 20px);
-  background: #1c1c1c;
-  border-radius: 12px;
-  padding: 6px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-  overflow: visible;
-}
-
-[dir="rtl"] #msg-action-menu {
-  direction: rtl;
-  text-align: right;
-  /* 🔥 CLAVE: anclaje correcto en árabe */
-  left: auto;
-  right: 20px;
-}
