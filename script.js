@@ -985,17 +985,11 @@ div.innerHTML = `
          </span>`
       : ""
   }
-`;
-if (msg.reactions) {
-  div.appendChild(renderReactions(msg.reactions));
-}
 
-
-
+  <div class="reactions-container"></div>
 
   <div class="msg-time">
     <span class="time-text">${formatTime(remaining)}</span>
-
     <div class="msg-menu" title="Message options">
       <div></div>
     </div>
@@ -1005,6 +999,11 @@ if (msg.reactions) {
     <div class="countdown-fill"></div>
   </div>
 `;
+if (msg.reactions) {
+  div.querySelector(".reactions-container")
+     .appendChild(renderReactions(msg.reactions));
+}
+
 
 
 
