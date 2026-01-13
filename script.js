@@ -362,6 +362,24 @@ let currentUserCount = 0;
 let messagesListenerUnsub = null;
 const typingIndicator = document.getElementById("typing-indicator");
 
+
+function toArabicDigits(str) {
+  const map = ["٠","١","٢","٣","٤","٥","٦","٧","٨","٩"];
+  return str.replace(/\d/g, d => map[d]);
+}
+
+
+function fromArabicDigits(str) {
+  const map = {
+    "٠":"0","١":"1","٢":"2","٣":"3","٤":"4",
+    "٥":"5","٦":"6","٧":"7","٨":"8","٩":"9"
+  };
+  return str.replace(/[٠-٩]/g, d => map[d]);
+}
+
+
+
+
 // --- Message TTL parser (mm:ss or ss)
 function parseTTL() {
   let ttlInput = document.getElementById("ttl-input")?.value || "0:10";
@@ -534,19 +552,7 @@ onValue(usersRef,snapshot=>{
 
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
-function toArabicDigits(str) {
-  const map = ["٠","١","٢","٣","٤","٥","٦","٧","٨","٩"];
-  return str.replace(/\d/g, d => map[d]);
-}
 
-
-function fromArabicDigits(str) {
-  const map = {
-    "٠":"0","١":"1","٢":"2","٣":"3","٤":"4",
-    "٥":"5","٦":"6","٧":"7","٨":"8","٩":"9"
-  };
-  return str.replace(/[٠-٩]/g, d => map[d]);
-}
 
 
 
