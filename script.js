@@ -488,6 +488,12 @@ if (ttlInputEl) {
   }
 }
 
+const reactionBar = document.getElementById("reaction-bar");
+if (reactionBar) {
+  reactionBar.dir = "ltr";
+  reactionBar.style.unicodeBidi = "isolate";
+}
+  
 }
 
 const languageSelect = document.getElementById("language-select");
