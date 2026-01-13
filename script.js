@@ -683,6 +683,13 @@ onChildChanged(messagesRef, snap => {
   const div = chatBox.querySelector(`[data-msg-key="${snap.key}"]`);
   if (!div) return; // si no encontramos el div, salimos
 
+  if (msg.user?.name === identity.name) {
+  div.style.background = msg.color || "#2563eb";
+} else {
+  div.style.background = "#2a2a2a";
+}
+
+
   // --- Calcula tiempo restante basado en createdAt
   const now = Date.now();
   const elapsed = Math.floor((now - msg.createdAt) / 1000);
