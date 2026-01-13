@@ -816,9 +816,12 @@ function attachMessagesListener() {
     const div = document.createElement("div");
     div.className = "message";
     div.dataset.msgKey = snap.key;
-    if (msg.color) {
-  div.style.background = msg.color;
+    if (msg.user?.name === identity.name) {
+  div.style.background = msg.color || "#2563eb"; // your color
+} else {
+  div.style.background = "#2a2a2a"; // others = gray
 }
+
 
 
 
