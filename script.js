@@ -428,7 +428,7 @@ function setLanguage(lang) {
 
 if (ttlInputEl) {
   if (lang === "ar") {
-    ttlInputEl.value = toArabicDigits(ttlInputEl.value || "00:10");
+    ttlInputEl.value = toArabicDigits(ttlInputEl.value || "01:00");
     ttlInputEl.style.direction = "rtl";
     ttlInputEl.style.textAlign = "center";
   } else {
