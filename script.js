@@ -469,12 +469,21 @@ const messageColors = [
   "#ef4444"
 ];
 const animalEmoji = {Fox:"🦊",Panda:"🐼",Tiger:"🐯",Octopus:"🐙",Wolf:"🐺",Eagle:"🦅",Bear:"🐻",Owl:"🦉"};
-const identity = (() => {
+let identity = JSON.parse(localStorage.getItem("tw_identity"));
+
+if (!identity) {
   const animal = animals[Math.floor(Math.random()*animals.length)];
   const color = colors[Math.floor(Math.random()*colors.length)];
   const id = Math.floor(Math.random()*900+100);
-  return {name:`${color} ${animal} ${id}`, emoji: animalEmoji[animal]};
-})();
+
+  identity = {
+    name: `${color} ${animal} ${id}`,
+    emoji: animalEmoji[animal]
+  };
+
+  localStorage.setItem("tw_identity", JSON.stringify(identity));
+}
+
 console.log("Your identity:", identity.emoji, identity.name);
 
 // --- Firebase
