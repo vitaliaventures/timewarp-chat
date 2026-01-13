@@ -77,17 +77,24 @@
   z-index: 10000;
   min-width: 180px;
 ">
-  <div id="reaction-bar" style="
-    display: flex;
-    justify-content: space-around;
-    padding-bottom: 6px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    margin-bottom: 6px;
-    font-size: 20px;
-    cursor: pointer;
-  ">
-    🔥 😂 ❤️ 😮 😢 👍
-  </div>
+  <div id="reaction-bar" dir="ltr" style="
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 6px;
+  font-size: 20px;
+  cursor: pointer;
+  unicode-bidi: isolate;
+">
+  <span>🔥</span>
+  <span>😂</span>
+  <span>❤️</span>
+  <span>😮</span>
+  <span>😢</span>
+  <span>👍</span>
+</div>
+
 
   <div class="menu-item" data-action="edit"></div>
   <div class="menu-item" data-action="delete" style="color:#ef4444;"></div>
