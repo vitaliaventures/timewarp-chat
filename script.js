@@ -931,7 +931,9 @@ function attachMessagesListener() {
 
     div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-  ${msg.text} ${
+  ${msg.text}
+`;
+ ${
   msg.edited
     ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6">
          ${translations[currentLang].editedLabel}
