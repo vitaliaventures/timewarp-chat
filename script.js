@@ -433,6 +433,10 @@ function parseTTL() {
 }
 
 
+
+
+
+
 function updateActionMenuLanguage() {
   const editItem = document.querySelector('#msg-action-menu .menu-item[data-action="edit"]');
   const deleteItem = document.querySelector('#msg-action-menu .menu-item[data-action="delete"]');
@@ -443,27 +447,6 @@ function updateActionMenuLanguage() {
   deleteItem.textContent = "🗑 " + translations[currentLang].deleteMessage;
 }
 
-
-
-
-
-function positionActionMenu(menuBtn) {
-  const rect = menuBtn.getBoundingClientRect();
-  const menuWidth = 180; // ancho real del menú
-
-  if (currentLang === "ar") {
-    actionMenu.style.left = "auto";
-    actionMenu.style.right =
-      (window.innerWidth - rect.right) + "px";
-  } else {
-    actionMenu.style.right = "auto";
-    actionMenu.style.left =
-      rect.left - menuWidth + "px";
-  }
-
-  actionMenu.style.top = rect.bottom + 6 + "px";
-  actionMenu.style.display = "block";
-}
 
 
 
@@ -795,7 +778,10 @@ onChildChanged(messagesRef, snap => {
     e.stopPropagation();
     activeMsgRef = snap.ref;
     activeMsgDiv = div;
-    positionActionMenu(menuBtn);
+    const rect = menuBtn.getBoundingClientRect();
+    actionMenu.style.top = rect.bottom + 6 + "px";
+    actionMenu.style.left = rect.left - 120 + "px";
+    actionMenu.style.display = "block";
   });
 
   // --- Reiniciar el countdown sin perder el tiempo ya transcurrido
@@ -937,7 +923,11 @@ menuBtn.addEventListener("click", e => {
   activeMsgRef = msgRef;
   activeMsgDiv = div;
 
-  positionActionMenu(menuBtn);
+  const rect = menuBtn.getBoundingClientRect();
+
+  actionMenu.style.top = rect.bottom + 6 + "px";
+  actionMenu.style.left = rect.left - 120 + "px";
+  actionMenu.style.display = "block";
 });
 
 // --- en actionMenu
