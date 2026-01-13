@@ -243,23 +243,10 @@ body {
   unicode-bidi: isolate;
 }
 
-
-
-
-
-/* --- RTL FIX (Arabic) — keep menu position intact --- */
-
-/* El contenedor NO se mueve */
+/* Ajuste visual del contenedor tiempo en RTL */
 [dir="rtl"] .msg-time {
-  right: 10px;
-  left: auto;
-  flex-direction: row;
+  right: auto;
+  left: 10px;
+  flex-direction: row-reverse;
 }
-
-/* Solo el texto del tiempo se aísla */
-[dir="rtl"] .time-text {
-  direction: ltr;
-  unicode-bidi: isolate;
-}
-
 
