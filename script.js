@@ -944,10 +944,6 @@ document.addEventListener("click", () => {
 });
 
 
-
-
-
-
 function attachMessagesListener() {
   if (messagesListenerUnsub) messagesListenerUnsub();
 
@@ -959,10 +955,9 @@ function attachMessagesListener() {
     const elapsed = Math.floor((now - msg.createdAt) / 1000);
     let remaining = msg.ttl - elapsed;
 
-    if (remaining <= 0) {
-      remove(msgRef);
-      return;
-    }
+    let remaining = msg.ttl - Math.floor((Date.now() - msg.createdAt)/1000);
+    if (isNaN(remaining) || remaining <= 0) remaining = msg.ttl; // 🔥 fallback
+
 
     const div = document.createElement("div");
     div.className = "message";
