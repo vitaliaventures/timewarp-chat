@@ -378,6 +378,8 @@ function parseTTL() {
 function setLanguage(lang) {
   if (!translations[lang]) lang = "en"; // fallback
   currentLang = lang;
+  localStorage.setItem("tw_lang", lang); // 🔥 GUARDAR IDIOMA
+
 
   document.querySelector(".chat-header h2").textContent = translations[lang].appName;
   document.querySelector("#message-input").placeholder = translations[lang].messagePlaceholder;
