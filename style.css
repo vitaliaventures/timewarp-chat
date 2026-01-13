@@ -250,3 +250,15 @@ body {
   flex-direction: row-reverse;
 }
 
+
+
+/* --- FIX RTL for action menu --- */
+#msg-action-menu {
+  max-width: 220px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+body[dir="rtl"] #msg-action-menu {
+  text-align: right;
+}
