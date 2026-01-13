@@ -34,7 +34,9 @@ const translations = {
     roomDestroyedMsg: "🚨 This room has been destroyed. It is now inactive.",
     roomDestroyedOverlay: "💀 Room destroyed. It is now inactive.",
     roomExpired: "⛔ This room has expired",
-    editedLabel: "(edited)"
+    editedLabel: "(edited)",
+    editMessage: "Edit message",
+    deleteMessage: "Delete message"
 
   },
   de: {
@@ -54,7 +56,9 @@ const translations = {
     roomDestroyedMsg: "🚨 Dieser Raum wurde zerstört. Er ist jetzt inaktiv.",
     roomDestroyedOverlay: "💀 Raum zerstört. Jetzt inaktiv.",
     roomExpired: "⛔ Dieser Raum ist abgelaufen",
-    editedLabel: "(bearbeitet)"
+    editedLabel: "(bearbeitet)",
+    editMessage: "Nachricht bearbeiten",
+    deleteMessage: "Nachricht löschen"
 
 
   },
@@ -75,7 +79,9 @@ const translations = {
     roomDestroyedMsg: "🚨 Esta sala ha sido destruida. Ahora está inactiva.",
     roomDestroyedOverlay: "💀 Sala destruida. Ahora está inactiva.",
     roomExpired: "⛔ Esta sala ha expirado",
-    editedLabel: "(editado)"
+    editedLabel: "(editado)",
+    editMessage: "Editar mensaje",
+    deleteMessage: "Eliminar mensaje"
 
 
 
@@ -97,7 +103,9 @@ const translations = {
     roomDestroyedMsg: "🚨 Cette salle a été détruite. Elle est maintenant inactive.",
     roomDestroyedOverlay: "💀 Salle détruite. Désormais inactive.",
     roomExpired: "⛔ Cette salle a expiré",
-    editedLabel: "(modifié)"
+    editedLabel: "(modifié)",
+    editMessage: "Modifier le message",
+    deleteMessage: "Supprimer le message"
 
 
   },
@@ -118,7 +126,9 @@ const translations = {
     roomDestroyedMsg: "🚨 Questa stanza è stata distrutta. Ora è inattiva.",
     roomDestroyedOverlay: "💀 Stanza distrutta. Ora inattiva.",
     roomExpired: "⛔ Questa stanza è scaduta",
-    editedLabel: "(modificato)"
+    editedLabel: "(modificato)",
+    editMessage: "Modifica messaggio",
+    deleteMessage: "Elimina messaggio"
 
 
   },
@@ -139,7 +149,9 @@ const translations = {
     roomDestroyedMsg: "🚨 Esta sala foi destruída. Agora está inativa.",
     roomDestroyedOverlay: "💀 Sala destruída. Agora inativa.",
     roomExpired: "⛔ Esta sala expirou",
-    editedLabel: "(editado)"
+    editedLabel: "(editado)",
+    editMessage: "Editar mensagem",
+    deleteMessage: "Excluir mensagem"
 
 
   },
@@ -160,7 +172,9 @@ const translations = {
     roomDestroyedMsg: "🚨 Эта комната была уничтожена. Теперь она неактивна.",
     roomDestroyedOverlay: "💀 Комната уничтожена. Теперь неактивна.",
     roomExpired: "⛔ Эта комната больше не активна",
-    editedLabel: "(отредактировано)"
+    editedLabel: "(отредактировано)",
+    editMessage: "Редактировать сообщение",
+    deleteMessage: "Удалить сообщение"
 
 
      
@@ -182,7 +196,9 @@ const translations = {
     roomDestroyedMsg: "🚨 このルームは削除され、現在は無効です。",
     roomDestroyedOverlay: "💀 ルームは削除されました。",
     roomExpired: "⛔ このルームは期限切れです",
-    editedLabel: "（編集済み）"
+    editedLabel: "（編集済み）",
+    editMessage: "メッセージを編集",
+    deleteMessage: "メッセージを削除"
 
 
   },
@@ -203,7 +219,9 @@ const translations = {
     roomDestroyedMsg: "🚨 이 방은 삭제되었으며 현재 비활성 상태입니다.",
     roomDestroyedOverlay: "💀 방이 삭제되었습니다.",
     roomExpired: "⛔ 이 방은 만료되었습니다",
-    editedLabel: "(편집됨)"
+    editedLabel: "(편집됨)",
+    editMessage: "메시지 편집",
+    deleteMessage: "메시지 삭제"
 
   },
   zh: {
@@ -223,7 +241,9 @@ const translations = {
     roomDestroyedMsg: "🚨 此房间已被销毁，现在处于非活动状态。",
     roomDestroyedOverlay: "💀 房间已销毁。",
     roomExpired: "⛔ 此房间已失效",
-    editedLabel: "（已编辑）"
+    editedLabel: "（已编辑）",
+    editMessage: "编辑消息",
+    deleteMessage: "删除消息"
 
   },
   nl: {
@@ -243,7 +263,9 @@ const translations = {
     roomDestroyedMsg: "🚨 Deze kamer is vernietigd. Hij is nu inactief.",
     roomDestroyedOverlay: "💀 Kamer vernietigd. Nu inactief.",
     roomExpired: "⛔ Deze kamer is verlopen",
-    editedLabel: "(bewerkt)"
+    editedLabel: "(bewerkt)",
+    editMessage: "Bericht bewerken",
+    deleteMessage: "Bericht verwijderen"
 
   },
   tr: {
@@ -263,7 +285,9 @@ const translations = {
     roomDestroyedMsg: "🚨 Bu oda yok edildi. Artık aktif değil.",
     roomDestroyedOverlay: "💀 Oda yok edildi.",
     roomExpired: "⛔ Bu oda süresi doldu",
-    editedLabel: "(düzenlendi)"
+    editedLabel: "(düzenlendi)",
+    editMessage: "Mesajı düzenle",
+    deleteMessage: "Mesajı sil"
 
   },
   ar: {
@@ -283,7 +307,9 @@ const translations = {
     roomDestroyedMsg: "🚨 تم تدمير هذه الغرفة وأصبحت غير نشطة.",
     roomDestroyedOverlay: "💀 تم تدمير الغرفة.",
     roomExpired: "⛔ انتهت صلاحية هذه الغرفة",
-    editedLabel: "(تم التعديل)"
+    editedLabel: "(تم التعديل)",
+    editMessage: "تعديل الرسالة",
+    deleteMessage: "حذف الرسالة"
 
   },
   pl: {
@@ -303,7 +329,9 @@ const translations = {
     roomDestroyedMsg: "🚨 Ten pokój został zniszczony. Jest teraz nieaktywny.",
     roomDestroyedOverlay: "💀 Pokój zniszczony.",
     roomExpired: "⛔ Ten pokój wygasł",
-    editedLabel: "(edytowano)"
+    editedLabel: "(edytowano)",
+    editMessage: "Edytuj wiadomość",
+    deleteMessage: "Usuń wiadomość"
 
   },
   sv: {
@@ -323,7 +351,9 @@ const translations = {
     roomDestroyedMsg: "🚨 Detta rum har förstörts och är nu inaktivt.",
     roomDestroyedOverlay: "💀 Rummet förstört.",
     roomExpired: "⛔ Detta rum har gått ut",
-    editedLabel: "(redigerad)"
+    editedLabel: "(redigerad)",
+    editMessage: "Redigera meddelande",
+    deleteMessage: "Ta bort meddelande"
 
   },
   fi: {
@@ -343,7 +373,9 @@ const translations = {
     roomDestroyedMsg: "🚨 Tämä huone on tuhottu ja on nyt passiivinen.",
     roomDestroyedOverlay: "💀 Huone tuhottu.",
     roomExpired: "⛔ Tämä huone on vanhentunut",
-    editedLabel: "(muokattu)"
+    editedLabel: "(muokattu)",
+    editMessage: "Muokkaa viestiä",
+    deleteMessage: "Poista viesti"
 
   }
 };
