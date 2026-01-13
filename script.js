@@ -353,6 +353,11 @@ const translations = {
 
 
 let currentLang = "en";
+const savedLang = localStorage.getItem("tw_lang");
+if (savedLang && translations[savedLang]) {
+  currentLang = savedLang;
+}
+
 let currentUserCount = 0;
 let messagesListenerUnsub = null;
 
