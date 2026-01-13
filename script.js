@@ -404,6 +404,9 @@ function setLanguage(lang) {
 
 const languageSelect = document.getElementById("language-select");
 languageSelect.addEventListener("change", e => setLanguage(e.target.value));
+languageSelect.value = currentLang;
+setLanguage(currentLang);
+
 
 function updateUsersLiveText() {
   document.getElementById("room-users").textContent =
