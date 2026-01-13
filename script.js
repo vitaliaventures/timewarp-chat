@@ -435,6 +435,23 @@ function parseTTL() {
 
 
 
+
+
+function updateActionMenuLanguage() {
+  const editItem = document.querySelector('#msg-action-menu .menu-item[data-action="edit"]');
+  const deleteItem = document.querySelector('#msg-action-menu .menu-item[data-action="delete"]');
+
+  if (!editItem || !deleteItem) return;
+
+  editItem.textContent = "✏️ " + translations[currentLang].editMessage;
+  deleteItem.textContent = "🗑 " + translations[currentLang].deleteMessage;
+}
+
+
+
+
+
+
 // Función para cambiar idioma
 function setLanguage(lang) {
   if (!translations[lang]) lang = "en"; // fallback
@@ -452,6 +469,7 @@ function setLanguage(lang) {
   document.body.dir = (lang === "ar") ? "rtl" : "ltr";
   typingIndicator.textContent = "";
   updateUsersLiveText();
+  updateActionMenuLanguage(); // 🔥 AQUÍ
   document.querySelectorAll(".edited-label").forEach(span => {
   span.textContent = translations[currentLang].editedLabel;
 });
