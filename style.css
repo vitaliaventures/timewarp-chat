@@ -243,6 +243,13 @@ body {
   unicode-bidi: isolate;
 }
 
+/* Ajuste visual del contenedor tiempo en RTL */
+[dir="rtl"] .msg-time {
+  right: auto;
+  left: 10px;
+  flex-direction: row-reverse;
+}
+
 
 
 /* --- FIX RTL for action menu --- */
