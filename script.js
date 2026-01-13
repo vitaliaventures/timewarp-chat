@@ -795,7 +795,7 @@ actionMenu.style.top = rect.bottom + 6 + "px";
 if (isRTL) {
   actionMenu.style.left = "auto";
   actionMenu.style.right =
-    (window.innerWidth - rect.right + 0) + "px";
+    (window.innerWidth - rect.right + 100) + "px";
 } else {
   // LTR normal
   let left = rect.left - menuWidth + 10;
