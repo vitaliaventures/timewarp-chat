@@ -770,7 +770,7 @@ onChildChanged(messagesRef, snap => {
   if (remaining < 0) remaining = 0;
 
   // Actualizamos texto y estructura
-  div.innerHTML = `
+div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
   ${msg.text}
   ${
@@ -780,10 +780,26 @@ onChildChanged(messagesRef, snap => {
          </span>`
       : ""
   }
+
+  <div class="reactions-container"></div>
+
+  <div class="msg-time">
+    <span class="time-text">${formatTime(remaining)}</span>
+    <div class="msg-menu" title="Message options">
+      <div></div>
+    </div>
+  </div>
+
+  <div class="countdown-track">
+    <div class="countdown-fill"></div>
+  </div>
 `;
+
 if (msg.reactions) {
-  div.appendChild(renderReactions(msg.reactions));
+  div.querySelector(".reactions-container")
+     .appendChild(renderReactions(msg.reactions));
 }
+
 
 
     <div class="msg-time">
