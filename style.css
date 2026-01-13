@@ -297,19 +297,3 @@ body {
   align-items: center;
   justify-content: center;
 }
-
-
-.reactions {
-  margin-top: 6px;
-  display: flex;
-  gap: 6px;
-  font-size: 18px;
-}
-
-.reaction {
-  background: rgba(255,255,255,0.08);
-  padding: 2px 6px;
-  border-radius: 12px;
-  cursor: default;
-}
-
