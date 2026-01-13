@@ -894,6 +894,33 @@ function generateRoomId() {
 
 
 const actionMenu = document.getElementById("msg-action-menu");
+const reactionBar = document.getElementById("reaction-bar");
+
+reactionBar.addEventListener("click", e => {
+  if (!activeMsgRef) return;
+
+  const emoji = e.target.textContent;
+  if (!emoji) return;
+
+  get(activeMsgRef).then(snap => {
+    const data = snap.val();
+    if (!data) return;
+
+    const reactions = data.reactions || {};
+
+    // 1 reacción por usuario (tipo WhatsApp)
+    reactions[identity.name] = emoji;
+
+    set(activeMsgRef, {
+      ...data,
+      reactions
+    });
+
+    actionMenu.style.display = "none";
+  });
+});
+
+
 let activeMsgRef = null;
 let activeMsgDiv = null;
 
