@@ -1008,46 +1008,7 @@ remove(typingRef);
 });
 
 
-
-
-actionMenu.addEventListener("click", e => {
-  e.stopPropagation();
-
-  const action = e.target.dataset.action;
-
-  if (action === "delete" && activeMsgRef) {
-    activeMsgDiv.style.opacity = "0.3";
-    setTimeout(() => {
-      remove(activeMsgRef);
-      activeMsgDiv.remove();
-    }, 150);
-    actionMenu.style.display = "none";
-  }
-
-if (action === "edit" && activeMsgRef) {
-  // Primero obtenemos el valor actual del mensaje
-  get(activeMsgRef).then(snap => {
-    const oldData = snap.val();
-    if (!oldData) return;
-
-    // Mostramos prompt con el texto actual
-    const newText = prompt("Edit message:", oldData.text);
-    if (newText !== null && newText !== oldData.text) {
-      // Actualizamos el mensaje y agregamos un flag "edited"
-      set(activeMsgRef, {
-  ...oldData,
-  text: newText,
-  edited: true,
-  editedAt: Date.now() // 🔥 clave
-});
-
-    }
-  }).catch(console.error);
-
-  actionMenu.style.display = "none";
-}
-
-});
+;
 
 
 
