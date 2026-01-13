@@ -28,7 +28,7 @@ const translations = {
     usersLive: "live",
     newRoomBtn: "New ✨",
     newRoomSystem: "🆕 New private room created — invite someone to start chatting",
-    invitedToChat: "You were invited to chat",
+    invitedToChat: "You were invited to chat", 
     destroyRoomBtn: "Destroy ❌",
     destroyConfirm: "Are you sure you want to destroy this room? This will make it inactive for everyone.",
     roomDestroyedMsg: "🚨 This room has been destroyed. It is now inactive.",
