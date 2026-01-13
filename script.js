@@ -515,6 +515,13 @@ onValue(usersRef,snapshot=>{
 
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
+function toArabicDigits(str) {
+  const map = ["٠","١","٢","٣","٤","٥","٦","٧","٨","٩"];
+  return str.replace(/\d/g, d => map[d]);
+}
+
+
+
 function formatTime(sec) {
   const m = Math.floor(sec / 60);
   const s = sec % 60;
