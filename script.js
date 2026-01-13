@@ -937,11 +937,7 @@ menuBtn.addEventListener("click", e => {
   activeMsgRef = msgRef;
   activeMsgDiv = div;
 
-  const rect = menuBtn.getBoundingClientRect();
-
-  actionMenu.style.top = rect.bottom + 6 + "px";
-  actionMenu.style.left = rect.left - 120 + "px";
-  actionMenu.style.display = "block";
+  positionActionMenu(menuBtn);
 });
 
 // --- en actionMenu
