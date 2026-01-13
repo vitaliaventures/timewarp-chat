@@ -360,6 +360,7 @@ if (savedLang && translations[savedLang]) {
 
 let currentUserCount = 0;
 let messagesListenerUnsub = null;
+const typingIndicator = document.getElementById("typing-indicator");
 
 // --- Message TTL parser (mm:ss or ss)
 function parseTTL() {
@@ -602,7 +603,6 @@ input.addEventListener("input",()=>{
 
 
 // --- Typing indicator
-const typingIndicator = document.getElementById("typing-indicator");
 onChildAdded(typingRef,snap=>{
   const data = snap.val();
   if(!data||data.user.name===identity.name) return;
