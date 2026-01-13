@@ -406,6 +406,20 @@ function setLanguage(lang) {
   span.textContent = translations[currentLang].editedLabel;
 });
 
+  const ttlInputEl = document.getElementById("ttl-input");
+
+if (ttlInputEl) {
+  if (lang === "ar") {
+    ttlInputEl.value = toArabicDigits(ttlInputEl.value || "00:10");
+    ttlInputEl.style.direction = "rtl";
+    ttlInputEl.style.textAlign = "center";
+  } else {
+    ttlInputEl.value = fromArabicDigits(ttlInputEl.value || "00:10");
+    ttlInputEl.style.direction = "ltr";
+    ttlInputEl.style.textAlign = "center";
+  }
+}
+
 }
 
 const languageSelect = document.getElementById("language-select");
