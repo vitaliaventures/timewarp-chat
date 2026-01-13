@@ -277,12 +277,6 @@ body {
   box-sizing: border-box;
 }
 
-/* RTL: asegurar que no se salga de la pantalla */
-body[dir="rtl"] #msg-action-menu {
-  left: auto !important;
-  right: 10px !important;
-}
-
 /* Mobile safety */
 @media (max-width: 480px) {
   #msg-action-menu {
