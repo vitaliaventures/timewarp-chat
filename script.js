@@ -562,7 +562,7 @@ let roomId = location.hash.replace("#room=","");
 if(!roomId){ roomId = crypto.randomUUID().replace(/-/g, ""); location.hash="room="+roomId; }
 let roomRef = ref(db,`rooms/${roomId}`);
 let messagesRef = ref(db,`rooms/${roomId}/messages`);
-attachMessagesListener(); // ← AGREGA ESTA LÍNEA
+setTimeout(() => attachMessagesListener(), 50); // 🔥 fuerza que se adjunte
 let metaRef = ref(db,`rooms/${roomId}/meta`);
 
 onValue(metaRef, snap => {
