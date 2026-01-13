@@ -679,21 +679,20 @@ const MESSAGE_TTL = 60;
 function sendMessage(){
   if(!input.value) return;
   push(messagesRef, {
-  text: input.value,
-  ttl: parseTTL(),
-  createdAt: Date.now(),
-  user: identity,
-  color: messageColors[Math.floor(Math.random() * messageColors.length)]
-});
-
-
-  input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
-  remove(typingRef);
+    text: input.value,
+    ttl: parseTTL(),
+    createdAt: Date.now(),
+    user: identity,
+    color: messageColors[Math.floor(Math.random() * messageColors.length)]
+  }).then(() => {
+    input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
+    remove(typingRef);
+  }).catch(console.error);
 }
+
+
+
 sendBtn.onclick=sendMessage;
-
-
-
 function spawnConfetti() {
   for(let i=0;i<30;i++){
     const conf = document.createElement("div");
