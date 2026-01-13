@@ -397,7 +397,7 @@ function parseTTL() {
     return parts[0];
   }
 
-  return 10;
+  return 60;
 }
 
 
