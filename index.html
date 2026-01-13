@@ -9,6 +9,8 @@
 </head>
 
 <body>
+  <body class="app-root">
+
   <div class="chat-container">
     <div class="chat-header">
       <h2 id="room-title">TimeWarp Messenger</h2>
@@ -16,7 +18,7 @@
         Messages disappear automatically
       </div>
       <div class="header-controls">
-        <div id="room-users" class="info-text">🔴 1 live</div>
+        <div id="room-users" class="info-text" dir="ltr">🔴 1 live</div>
         <select id="language-select" class="lang-select">
           <option value="en">English</option>
           <option value="de">Deutsch</option>
@@ -45,6 +47,9 @@
   background: #1c1c1c;
   color: #fff;
   font-size: 0.8rem;
+  direction: ltr;
+  unicode-bidi: isolate;
+
 ">
         <button id="invite-btn" class="header-btn">Invite 🚀</button>
         <button id="new-room-btn" class="header-btn">New ✨</button>
