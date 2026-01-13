@@ -433,10 +433,6 @@ function parseTTL() {
 }
 
 
-
-
-
-
 function updateActionMenuLanguage() {
   const editItem = document.querySelector('#msg-action-menu .menu-item[data-action="edit"]');
   const deleteItem = document.querySelector('#msg-action-menu .menu-item[data-action="delete"]');
@@ -447,6 +443,27 @@ function updateActionMenuLanguage() {
   deleteItem.textContent = "🗑 " + translations[currentLang].deleteMessage;
 }
 
+
+
+
+
+function positionActionMenu(menuBtn) {
+  const rect = menuBtn.getBoundingClientRect();
+  const menuWidth = 180; // ancho real del menú
+
+  if (currentLang === "ar") {
+    actionMenu.style.left = "auto";
+    actionMenu.style.right =
+      (window.innerWidth - rect.right) + "px";
+  } else {
+    actionMenu.style.right = "auto";
+    actionMenu.style.left =
+      rect.left - menuWidth + "px";
+  }
+
+  actionMenu.style.top = rect.bottom + 6 + "px";
+  actionMenu.style.display = "block";
+}
 
 
 
