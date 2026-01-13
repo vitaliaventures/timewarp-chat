@@ -263,3 +263,8 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.6);
   overflow: visible;
 }
+
+[dir="rtl"] #msg-action-menu {
+  direction: rtl;
+  text-align: right;
+}
