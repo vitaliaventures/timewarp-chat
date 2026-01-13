@@ -250,3 +250,16 @@ body {
   flex-direction: row-reverse;
 }
 
+
+
+#msg-action-menu {
+  position: fixed;
+  z-index: 99999;
+  min-width: 160px;
+  max-width: calc(100vw - 20px);
+  background: #1c1c1c;
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  overflow: visible;
+}
