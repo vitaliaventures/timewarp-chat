@@ -250,3 +250,29 @@ body {
   flex-direction: row-reverse;
 }
 
+
+
+/* ===== FIX DEFINITIVO MENU ACCIONES EN MOVIL + RTL ===== */
+#msg-action-menu {
+  position: fixed;
+  max-width: 220px;
+  max-height: 70vh;            /* 🔥 evita corte vertical */
+  overflow-y: auto;            /* 🔥 permite scroll */
+  z-index: 99999;
+  box-sizing: border-box;
+}
+
+/* RTL: asegurar que no se salga de la pantalla */
+body[dir="rtl"] #msg-action-menu {
+  left: auto !important;
+  right: 10px !important;
+}
+
+/* Mobile safety */
+@media (max-width: 480px) {
+  #msg-action-menu {
+    max-width: calc(100vw - 20px);
+    right: 10px;
+    left: auto;
+  }
+}
