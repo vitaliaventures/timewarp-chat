@@ -223,11 +223,18 @@ body {
 }
 
 #msg-action-menu .menu-item {
+  display: block;              /* 🔥 CLAVE: deja de ser inline/flex */
+  width: 100%;                 /* 🔥 ocupa todo el menú */
   padding: 8px 10px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
+  white-space: nowrap;         /* evita salto raro */
+  overflow: hidden;            /* evita corte feo */
+  text-overflow: ellipsis;     /* … si no entra */
+  text-align: start;           /* LTR + RTL */
 }
+
 
 #msg-action-menu .menu-item:hover {
   background: rgba(255,255,255,0.08);
