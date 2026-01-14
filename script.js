@@ -1097,6 +1097,36 @@ if (percent > 30) {
   }
 }, 1000);
   });
+
+
+// 🔥 listener para cambios (edit / reactions)
+onChildChanged(messagesRef, snap => {
+  const msg = snap.val();
+  const div = chatBox.querySelector(`[data-msg-key="${snap.key}"]`);
+  if (!div) return;
+
+  // actualizar solo texto + reacciones (NO recrear todo)
+  const textSpan = div.querySelector(".msg-text");
+  if (textSpan) {
+    textSpan.innerHTML = `
+      ${msg.text}
+      ${
+        msg.edited
+          ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6;margin-left:6px">
+               ${translations[currentLang].editedLabel}
+             </span>`
+          : ""
+      }
+    `;
+  }
+
+  const reactionsDiv = div.querySelector(".reactions");
+  if (reactionsDiv) {
+    reactionsDiv.innerHTML = renderReactions(msg.reactions);
+  }
+});
+
+  
 }
 
 
