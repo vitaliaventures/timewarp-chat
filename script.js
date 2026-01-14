@@ -941,14 +941,19 @@ function renderReactions(reactions = {}) {
   return Object.entries(reactions)
     .map(([emoji, users]) => {
       const count = Object.keys(users).length;
+      const names = Object.keys(users).join("|"); // 🔥 clave
+
       return `
-        <span class="reaction-pill">
+        <span class="reaction-pill"
+              data-emoji="${emoji}"
+              data-users="${names}">
           ${emoji} ${count}
         </span>
       `;
     })
     .join("");
 }
+
 
 
 
