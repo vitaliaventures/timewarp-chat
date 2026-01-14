@@ -1029,18 +1029,24 @@ function attachMessagesListener() {
 
     div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
+
+
+
+  <span class="msg-text">
   ${msg.text}
+  ${
+    msg.edited
+      ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6;margin-left:6px">
+           ${translations[currentLang].editedLabel}
+         </span>`
+      : ""
+  }
+</span>
 
 <div class="reactions">
   ${renderReactions(msg.reactions)}
 </div>
- ${
-  msg.edited
-    ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6">
-         ${translations[currentLang].editedLabel}
-       </span>`
-    : ""
-}
+
 
 
 
