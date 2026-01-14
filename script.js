@@ -593,6 +593,12 @@ function saveRoomTTL(ttlValue) {
 
 onValue(metaRef, snap => {
   const meta = snap.val();
+
+  if (meta?.ttl && ttlInputEl) {
+    ttlInputEl.value = meta.ttl;
+    localStorage.setItem(TTL_STORAGE_KEY, meta.ttl);
+  }
+  
   if (meta?.destroyed) {
 
     document.body.innerHTML = `
