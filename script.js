@@ -1246,6 +1246,11 @@ setTimeout(() => {
   messagesRef = ref(db,`rooms/${newRoomId}/messages`);
   attachMessagesListener();
   metaRef = ref(db,`rooms/${newRoomId}/meta`);
+
+  // 🔥 inicializar TTL de la nueva sala
+const initialTTL = ttlInputEl?.value || "01:00";
+set(ref(db, `rooms/${newRoomId}/meta/ttl`), initialTTL);
+
   typingRef = ref(db,`rooms/${newRoomId}/typing`);
   userRef = ref(db,`rooms/${newRoomId}/users/${identity.name}`);
   set(userRef,{name:identity.name,emoji:identity.emoji,joinedAt:Date.now()});
