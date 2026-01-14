@@ -1,16 +1,15 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
 import {
   getDatabase,
   ref,
   push,
   onChildAdded,
+  onChildChanged,
   remove,
   onValue,
   set,
   onDisconnect,
-  get      // 🔥 agrega esto
+  get
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
-import { onChildChanged } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
 // --- Traducciones y multilenguaje
 // (Se mantiene igual que tu versión, con todos los idiomas)
