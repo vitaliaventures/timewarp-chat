@@ -922,7 +922,7 @@ document.querySelectorAll("#reaction-bar span").forEach(span => {
     } else {
       // ➕ poner nueva reacción
       reactions[newEmoji] = reactions[newEmoji] || {};
-      reactions[newEmoji][identity.name] = true;
+      reactions[newEmoji][`${identity.emoji} ${identity.name}`] = true;
     }
 
     await set(activeMsgRef, {
