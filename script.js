@@ -642,7 +642,7 @@ onValue(metaRef, snap => {
 
 
 let typingRef = ref(db,`rooms/${roomId}/typing`);
-let userRef = ref(db,`rooms/${roomId}/users/${identity.name}`);
+let userRef = ref(db,`rooms/${roomId}/users/${identity.id}`);
 set(userRef,{name:identity.name,emoji:identity.emoji,joinedAt:Date.now()});
 onDisconnect(userRef).remove();
 
