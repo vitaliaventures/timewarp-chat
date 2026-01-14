@@ -656,9 +656,7 @@ onValue(usersRef,snapshot=>{
 
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
-
-
-
+attachMessagesListener();
 
 
 function formatTime(sec) {
