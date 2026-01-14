@@ -957,6 +957,38 @@ function renderReactions(reactions = {}) {
 
 
 
+const reactionViewer = document.getElementById("reaction-viewer");
+const reactionViewerContent = document.getElementById("reaction-viewer-content");
+
+// abrir
+document.addEventListener("click", e => {
+  const pill = e.target.closest(".reaction-pill");
+  if (!pill) return;
+
+  e.stopPropagation();
+
+  const emoji = pill.dataset.emoji;
+  const users = pill.dataset.users.split("|");
+
+  reactionViewerContent.innerHTML = `
+    <h3 style="margin-bottom:10px">${emoji}</h3>
+    ${users.map(name => `<div style="margin:6px 0">👤 ${name}</div>`).join("")}
+  `;
+
+  reactionViewer.style.display = "flex";
+});
+
+// cerrar
+reactionViewer.addEventListener("click", () => {
+  reactionViewer.style.display = "none";
+});
+
+
+
+
+
+
+
 function attachMessagesListener() {
   if (messagesListenerUnsub) messagesListenerUnsub();
 
