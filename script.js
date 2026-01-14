@@ -884,6 +884,38 @@ document.addEventListener("click", () => {
 
 
 
+document.querySelectorAll("#reaction-bar span").forEach(span => {
+  span.addEventListener("click", async e => {
+    e.stopPropagation();
+    if (!activeMsgRef) return;
+
+    const emoji = span.textContent;
+    const snap = await get(activeMsgRef);
+    const msg = snap.val();
+    if (!msg) return;
+
+    const reactions = msg.reactions || {};
+    reactions[emoji] = reactions[emoji] || {};
+
+    // toggle reaction
+    if (reactions[emoji][identity.name]) {
+      delete reactions[emoji][identity.name];
+      if (Object.keys(reactions[emoji]).length === 0) {
+        delete reactions[emoji];
+      }
+    } else {
+      reactions[emoji][identity.name] = true;
+    }
+
+    await set(activeMsgRef, {
+      ...msg,
+      reactions
+    });
+
+    actionMenu.style.display = "none";
+  });
+});
+
 
 
 
