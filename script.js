@@ -823,7 +823,7 @@ document.querySelectorAll("#reaction-bar span").forEach(span => {
     for (const [emoji, users] of Object.entries(reactions)) {
       if (users[identity.id]) {
         alreadyReactedWith = emoji;
-        delete users[identity.name];
+        delete users[identity.id];
 
         // limpiar emoji vacío
         if (Object.keys(users).length === 0) {
