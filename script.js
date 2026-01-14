@@ -1052,13 +1052,14 @@ set(ref(db, `rooms/${newRoomId}/meta/ttl`), initialTTL);
   set(userRef,{name:identity.name,emoji:identity.emoji,joinedAt:Date.now()});
   onDisconnect(userRef).remove();
 
-  // Reiniciar contador de usuarios para la nueva sala
-  onValue(ref(db,`rooms/${newRoomId}/users`),snapshot=>{
-    const users = snapshot.val()||{};
-    currentUserCount = Object.keys(users).length;
-    updateUsersLiveText();
-  });
-   // ---- FIN RE-INICIALIZAR REFERENCIAS ----
+  if (usersListenerUnsub) usersListenerUnsub();
+
+usersListenerUnsub = onValue(ref(db,`rooms/${newRoomId}/users`), snapshot => {
+  const users = snapshot.val() || {};
+  currentUserCount = Object.keys(users).length;
+  updateUsersLiveText();
+});
+
   
   // Flash de pantalla
   const flash = document.createElement("div");
