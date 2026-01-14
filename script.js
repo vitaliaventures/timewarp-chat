@@ -583,6 +583,9 @@ let roomRef = ref(db,`rooms/${roomId}`);
 let messagesRef = ref(db,`rooms/${roomId}/messages`);
 attachMessagesListener(); // ← AGREGA ESTA LÍNEA
 let metaRef = ref(db,`rooms/${roomId}/meta`);
+function saveRoomTTL(ttlValue) {
+  set(ref(db, `rooms/${roomId}/meta/ttl`), ttlValue);
+}
 
 onValue(metaRef, snap => {
   const meta = snap.val();
