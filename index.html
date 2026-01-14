@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TimeWarp Messenger</title>
+  <title>TimeWarp Messenger – Real-Time Disappearing Messages</title>
 
-  <!-- SEO meta tags -->
-  <meta name="description" content="TimeWarp Messenger – a real-time disappearing message app connecting people worldwide. Secure, fast, and fun chat experience." />
-  <meta name="keywords" content="chat, messaging, real-time chat, disappearing messages, TimeWarp Messenger, secure chat, online messenger" />
+  <!-- Primary SEO meta tags -->
+  <meta name="description" content="TimeWarp Messenger – Send disappearing messages in real-time. Fast, secure, and fun chat experience for millions of users worldwide." />
+  <meta name="keywords" content="chat, messaging, real-time chat, disappearing messages, secure messaging, online messenger, TimeWarp Messenger" />
   <meta name="author" content="TimeWarp Team" />
 
-  <!-- Open Graph for social media sharing -->
+  <!-- Open Graph / Social Sharing -->
   <meta property="og:title" content="TimeWarp Messenger" />
   <meta property="og:description" content="Connect with friends in real-time with disappearing messages. Fast, secure, and global." />
   <meta property="og:type" content="website" />
@@ -23,13 +23,13 @@
   <meta name="twitter:description" content="Connect with friends in real-time with disappearing messages." />
   <meta name="twitter:image" content="https://yourdomain.com/preview-image.png" />
 
-  <!-- Sitemap link for Google indexing -->
+  <!-- Sitemap -->
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
 
   <!-- Canonical URL -->
   <link rel="canonical" href="https://yourdomain.com/" />
 
-  <!-- Structured data for search engines -->
+  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -51,12 +51,55 @@
 
 <body class="app-root">
 
+  <!-- Navigation / Internal links for SEO -->
+  <nav style="text-align:center; padding:1rem; background:#111; color:#fff;">
+    <a href="#features" style="color:#fff; margin:0 0.5rem;">Features</a> |
+    <a href="#get-started" style="color:#fff; margin:0 0.5rem;">Get Started</a> |
+    <a href="#faq" style="color:#fff; margin:0 0.5rem;">FAQ</a>
+  </nav>
+
+  <!-- SEO-Optimized Header -->
+  <header style="padding:3rem 1rem; text-align:center; background:#000; color:#fff;">
+    <h1>TimeWarp Messenger – Disappearing Messages in Real-Time</h1>
+    <p>Join millions of users sending messages that vanish automatically. Secure, fast, and fun chat experience worldwide.</p>
+    <p>Protect your privacy while staying connected globally.</p>
+  </header>
+
+  <!-- Features Section -->
+  <section id="features" style="padding:2rem 1rem; max-width:900px; margin:auto;">
+    <h2>Why TimeWarp Messenger is the Best Chat App</h2>
+    <ul>
+      <li>Real-time messaging with zero delay</li>
+      <li>Disappearing messages for complete privacy</li>
+      <li>Multi-language support for global users</li>
+      <li>Fun reactions and interactive chat experience</li>
+      <li>Fast, secure, and works on any device</li>
+    </ul>
+  </section>
+
+  <!-- Get Started Section -->
+  <section id="get-started" style="padding:2rem 1rem; max-width:900px; margin:auto;">
+    <h2>Get Started in Seconds</h2>
+    <p>Click 'New ✨' to create a room, share with friends, and start chatting instantly. No signup required.</p>
+    <p>Adjust message timers, react with emojis, and enjoy private conversations effortlessly.</p>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" style="padding:2rem 1rem; max-width:900px; margin:auto;">
+    <h2>Frequently Asked Questions</h2>
+    <h3>How do disappearing messages work?</h3>
+    <p>Messages automatically disappear after the timer you set, keeping your conversations private and secure.</p>
+    <h3>Can I use TimeWarp Messenger on mobile?</h3>
+    <p>Yes, it’s fully responsive and works on all modern devices without any installation required.</p>
+    <h3>Is my data secure?</h3>
+    <p>Absolutely. No messages are stored permanently, and all communications are encrypted in real-time.</p>
+  </section>
+
+  <!-- Chat Container (original app) -->
   <div class="chat-container">
     <div class="chat-header">
       <h2 id="room-title">TimeWarp Messenger</h2>
-      <div id="messages-info" class="info-text">
-        Messages disappear automatically
-      </div>
+      <div id="messages-info" class="info-text">Messages disappear automatically</div>
       <div class="header-controls">
         <div id="room-users" class="info-text" dir="ltr">🔴 1 live</div>
         <select id="language-select" class="lang-select">
@@ -77,54 +120,23 @@
           <option value="sv">Svenska</option>
           <option value="fi">Suomi</option>
         </select>
-
-        <input type="text" id="ttl-input" placeholder="01:00" title="Set message time mm:ss" style="
-          width: 60px;
-          padding: 4px 6px;
-          border-radius: 6px;
-          border: none;
-          text-align: center;
-          background: #1c1c1c;
-          color: #fff;
-          font-size: 0.8rem;
-          direction: ltr;
-          unicode-bidi: isolate;
-        ">
+        <input type="text" id="ttl-input" placeholder="01:00" title="Set message time mm:ss" style="width: 60px; padding: 4px 6px; border-radius: 6px; border: none; text-align: center; background: #1c1c1c; color: #fff; font-size: 0.8rem; direction: ltr; unicode-bidi: isolate;">
         <button id="invite-btn" class="header-btn">Invite 🚀</button>
         <button id="new-room-btn" class="header-btn">New ✨</button>
         <button id="destroy-room-btn" class="header-btn" style="background:#ef4444;">Destroy ❌</button>
       </div>
     </div>
-
     <div id="chat-box" class="chat-box"></div>
     <div id="typing-indicator" class="typing-indicator"></div>
-
     <div class="chat-input">
       <textarea id="message-input" rows="1" placeholder="Type message..."></textarea>
       <button id="send-btn">Send</button>
     </div>
   </div>
 
-  <div id="msg-action-menu" style="
-    position: fixed;
-    background: #1c1c1c;
-    border-radius: 14px;
-    padding: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    display: none;
-    z-index: 10000;
-    min-width: 180px;
-  ">
-    <div id="reaction-bar" dir="ltr" style="
-      display: flex;
-      justify-content: space-around;
-      padding-bottom: 6px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      margin-bottom: 6px;
-      font-size: 20px;
-      cursor: pointer;
-      unicode-bidi: isolate;
-    ">
+  <!-- Message Action Menu -->
+  <div id="msg-action-menu" style="position: fixed; background: #1c1c1c; border-radius: 14px; padding: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); display: none; z-index: 10000; min-width: 180px;">
+    <div id="reaction-bar" dir="ltr" style="display: flex; justify-content: space-around; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 6px; font-size: 20px; cursor: pointer; unicode-bidi: isolate;">
       <span>🔥</span>
       <span>😂</span>
       <span>❤️</span>
@@ -132,28 +144,13 @@
       <span>😢</span>
       <span>👍</span>
     </div>
-
     <div class="menu-item" data-action="edit"></div>
     <div class="menu-item" data-action="delete" style="color:#ef4444;"></div>
   </div>
 
-  <div id="reaction-viewer" style="
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 20000;
-  ">
-    <div style="
-      background:#1c1c1c;
-      padding:16px;
-      border-radius:14px;
-      min-width:260px;
-      max-width:80%;
-      box-shadow:0 20px 40px rgba(0,0,0,0.7);
-    ">
+  <!-- Reaction Viewer -->
+  <div id="reaction-viewer" style="position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 20000;">
+    <div style="background:#1c1c1c; padding:16px; border-radius:14px; min-width:260px; max-width:80%; box-shadow:0 20px 40px rgba(0,0,0,0.7);">
       <div id="reaction-viewer-content"></div>
     </div>
   </div>
