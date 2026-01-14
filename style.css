@@ -320,3 +320,37 @@ body {
 .reaction-pill:hover {
   background: #3a3a3a;
 }
+
+
+.seo-content {
+  max-width: 900px;
+  margin: 80px auto 120px auto;
+  padding: 0 20px;
+  color: #e5e5e5;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.seo-content h1,
+.seo-content h2 {
+  color: #ffffff;
+  margin-top: 48px;
+  margin-bottom: 16px;
+}
+
+.seo-content p {
+  opacity: 0.9;
+}
+
+.seo-content .tool-links {
+  margin-top: 32px;
+}
+
+.seo-content a {
+  color: #60a5fa;
+  text-decoration: none;
+}
+
+.seo-content a:hover {
+  text-decoration: underline;
+}
