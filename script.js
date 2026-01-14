@@ -859,7 +859,7 @@ function renderReactions(reactions = {}) {
   return Object.entries(reactions)
     .map(([emoji, users]) => {
       const count = Object.keys(users).length;
-      const names = Object.keys(users).join("|"); // 🔥 clave
+      const names = Object.values(users).join("|"); // 🔥 clave
 
       return `
         <span class="reaction-pill"
