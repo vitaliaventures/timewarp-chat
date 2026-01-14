@@ -894,22 +894,35 @@ document.querySelectorAll("#reaction-bar span").forEach(span => {
     e.stopPropagation();
     if (!activeMsgRef) return;
 
-    const emoji = span.textContent;
+    const newEmoji = span.textContent;
     const snap = await get(activeMsgRef);
     const msg = snap.val();
     if (!msg) return;
 
     const reactions = msg.reactions || {};
-    reactions[emoji] = reactions[emoji] || {};
+    let alreadyReactedWith = null;
 
-    // toggle reaction
-    if (reactions[emoji][identity.name]) {
-      delete reactions[emoji][identity.name];
-      if (Object.keys(reactions[emoji]).length === 0) {
-        delete reactions[emoji];
+    // 🔥 BUSCAR si el usuario ya reaccionó con otro emoji
+    for (const [emoji, users] of Object.entries(reactions)) {
+      if (users[identity.name]) {
+        alreadyReactedWith = emoji;
+        delete users[identity.name];
+
+        // limpiar emoji vacío
+        if (Object.keys(users).length === 0) {
+          delete reactions[emoji];
+        }
+        break;
       }
+    }
+
+    // 🔁 Si hizo click en el MISMO emoji → solo quitar
+    if (alreadyReactedWith === newEmoji) {
+      // no hacer nada más (toggle off)
     } else {
-      reactions[emoji][identity.name] = true;
+      // ➕ poner nueva reacción
+      reactions[newEmoji] = reactions[newEmoji] || {};
+      reactions[newEmoji][identity.name] = true;
     }
 
     await set(activeMsgRef, {
@@ -920,6 +933,7 @@ document.querySelectorAll("#reaction-bar span").forEach(span => {
     actionMenu.style.display = "none";
   });
 });
+
 
 
 
