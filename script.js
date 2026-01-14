@@ -972,7 +972,7 @@ document.addEventListener("click", e => {
 
   reactionViewerContent.innerHTML = `
     <h3 style="margin-bottom:10px">${emoji}</h3>
-    ${users.map(name => `<div style="margin:6px 0">👤 ${name}</div>`).join("")}
+    ${users.map(name => `<div style="margin:6px 0">${name}</div>`).join("")}
   `;
 
   reactionViewer.style.display = "flex";
