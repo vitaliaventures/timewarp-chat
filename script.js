@@ -505,6 +505,17 @@ const savedTTL = localStorage.getItem(TTL_STORAGE_KEY);
 if (ttlInputEl) {
   ttlInputEl.value = savedTTL || "01:00";
 }
+
+
+ttlInputEl.addEventListener("input", () => {
+  let value = ttlInputEl.value.trim();
+  if (value) {
+    localStorage.setItem(TTL_STORAGE_KEY, value);
+  }
+});
+
+
+
 languageSelect.addEventListener("change", e => setLanguage(e.target.value));
 languageSelect.value = currentLang;
 setLanguage(currentLang);
