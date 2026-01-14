@@ -668,7 +668,8 @@ function sendMessage(){
   ttl: parseTTL(),
   createdAt: Date.now(),
   user: identity,
-  color: messageColors[Math.floor(Math.random() * messageColors.length)]
+  color: messageColors[Math.floor(Math.random() * messageColors.length)],
+  reactions: {} // 🔥 emoji → { username: true }
 });
 
 
