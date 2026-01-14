@@ -923,6 +923,20 @@ document.querySelectorAll("#reaction-bar span").forEach(span => {
 
 
 
+function renderReactions(reactions = {}) {
+  return Object.entries(reactions)
+    .map(([emoji, users]) => {
+      const count = Object.keys(users).length;
+      return `
+        <span class="reaction-pill">
+          ${emoji} ${count}
+        </span>
+      `;
+    })
+    .join("");
+}
+
+
 
 function attachMessagesListener() {
   if (messagesListenerUnsub) messagesListenerUnsub();
