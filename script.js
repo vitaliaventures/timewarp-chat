@@ -385,6 +385,7 @@ const translations = {
 
 
 let currentLang = "en";
+const TTL_STORAGE_KEY = "tw_ttl";
 const savedLang = localStorage.getItem("tw_lang");
 if (savedLang && translations[savedLang]) {
   currentLang = savedLang;
