@@ -315,3 +315,8 @@ body {
   cursor: default;
   user-select: none;
 }
+
+
+.reaction-pill:hover {
+  background: #3a3a3a;
+}
