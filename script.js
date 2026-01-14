@@ -758,7 +758,12 @@ onChildChanged(messagesRef, snap => {
   // Actualizamos texto y estructura
   div.innerHTML = `
     <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-    ${msg.text} ${
+    ${msg.text}
+
+<div class="reactions">
+  ${renderReactions(msg.reactions)}
+</div>
+ ${
   msg.edited
     ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6">
          ${translations[currentLang].editedLabel}
