@@ -498,6 +498,13 @@ if (reactionBar) {
 }
 
 const languageSelect = document.getElementById("language-select");
+const ttlInputEl = document.getElementById("ttl-input");
+
+// 🔥 cargar TTL guardado o default
+const savedTTL = localStorage.getItem(TTL_STORAGE_KEY);
+if (ttlInputEl) {
+  ttlInputEl.value = savedTTL || "01:00";
+}
 languageSelect.addEventListener("change", e => setLanguage(e.target.value));
 languageSelect.value = currentLang;
 setLanguage(currentLang);
