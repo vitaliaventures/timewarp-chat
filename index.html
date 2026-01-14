@@ -4,12 +4,52 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TimeWarp Messenger</title>
+
+  <!-- SEO meta tags -->
+  <meta name="description" content="TimeWarp Messenger – a real-time disappearing message app connecting people worldwide. Secure, fast, and fun chat experience." />
+  <meta name="keywords" content="chat, messaging, real-time chat, disappearing messages, TimeWarp Messenger, secure chat, online messenger" />
+  <meta name="author" content="TimeWarp Team" />
+
+  <!-- Open Graph for social media sharing -->
+  <meta property="og:title" content="TimeWarp Messenger" />
+  <meta property="og:description" content="Connect with friends in real-time with disappearing messages. Fast, secure, and global." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourdomain.com" />
+  <meta property="og:image" content="https://yourdomain.com/preview-image.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="TimeWarp Messenger" />
+  <meta name="twitter:description" content="Connect with friends in real-time with disappearing messages." />
+  <meta name="twitter:image" content="https://yourdomain.com/preview-image.png" />
+
+  <!-- Sitemap link for Google indexing -->
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://yourdomain.com/" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "TimeWarp Messenger",
+    "url": "https://yourdomain.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://yourdomain.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Styles and scripts -->
   <link rel="stylesheet" href="style.css" />
   <script type="module" src="script.js"></script>
 </head>
 
-
-  <body class="app-root">
+<body class="app-root">
 
   <div class="chat-container">
     <div class="chat-header">
@@ -37,20 +77,19 @@
           <option value="sv">Svenska</option>
           <option value="fi">Suomi</option>
         </select>
-        <!-- TTL input field -->
-<input type="text" id="ttl-input" placeholder="01:00" title="Set message time mm:ss" style="
-  width: 60px;
-  padding: 4px 6px;
-  border-radius: 6px;
-  border: none;
-  text-align: center;
-  background: #1c1c1c;
-  color: #fff;
-  font-size: 0.8rem;
-  direction: ltr;
-  unicode-bidi: isolate;
 
-">
+        <input type="text" id="ttl-input" placeholder="01:00" title="Set message time mm:ss" style="
+          width: 60px;
+          padding: 4px 6px;
+          border-radius: 6px;
+          border: none;
+          text-align: center;
+          background: #1c1c1c;
+          color: #fff;
+          font-size: 0.8rem;
+          direction: ltr;
+          unicode-bidi: isolate;
+        ">
         <button id="invite-btn" class="header-btn">Invite 🚀</button>
         <button id="new-room-btn" class="header-btn">New ✨</button>
         <button id="destroy-room-btn" class="header-btn" style="background:#ef4444;">Destroy ❌</button>
@@ -66,68 +105,58 @@
     </div>
   </div>
 
-
-<div id="msg-action-menu" style="
-  position: fixed;
-  background: #1c1c1c;
-  border-radius: 14px;
-  padding: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-  display: none;
-  z-index: 10000;
-  min-width: 180px;
-">
-  <div id="reaction-bar" dir="ltr" style="
-  display: flex;
-  justify-content: space-around;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  margin-bottom: 6px;
-  font-size: 20px;
-  cursor: pointer;
-  unicode-bidi: isolate;
-">
-  <span>🔥</span>
-  <span>😂</span>
-  <span>❤️</span>
-  <span>😮</span>
-  <span>😢</span>
-  <span>👍</span>
-</div>
-
-
-  <div class="menu-item" data-action="edit"></div>
-  <div class="menu-item" data-action="delete" style="color:#ef4444;"></div>
-
-</div>
-
-
-
-
- <div id="reaction-viewer" style="
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 20000;
-">
-  <div style="
-    background:#1c1c1c;
-    padding:16px;
-    border-radius:14px;
-    min-width:260px;
-    max-width:80%;
-    box-shadow:0 20px 40px rgba(0,0,0,0.7);
+  <div id="msg-action-menu" style="
+    position: fixed;
+    background: #1c1c1c;
+    border-radius: 14px;
+    padding: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    display: none;
+    z-index: 10000;
+    min-width: 180px;
   ">
-    <div id="reaction-viewer-content"></div>
+    <div id="reaction-bar" dir="ltr" style="
+      display: flex;
+      justify-content: space-around;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 6px;
+      font-size: 20px;
+      cursor: pointer;
+      unicode-bidi: isolate;
+    ">
+      <span>🔥</span>
+      <span>😂</span>
+      <span>❤️</span>
+      <span>😮</span>
+      <span>😢</span>
+      <span>👍</span>
+    </div>
+
+    <div class="menu-item" data-action="edit"></div>
+    <div class="menu-item" data-action="delete" style="color:#ef4444;"></div>
   </div>
-</div>
-   
 
+  <div id="reaction-viewer" style="
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 20000;
+  ">
+    <div style="
+      background:#1c1c1c;
+      padding:16px;
+      border-radius:14px;
+      min-width:260px;
+      max-width:80%;
+      box-shadow:0 20px 40px rgba(0,0,0,0.7);
+    ">
+      <div id="reaction-viewer-content"></div>
+    </div>
+  </div>
 
-  
-  
 </body>
 </html>
