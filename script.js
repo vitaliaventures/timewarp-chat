@@ -1,15 +1,16 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
 import {
   getDatabase,
   ref,
   push,
   onChildAdded,
-  onChildChanged,
   remove,
   onValue,
   set,
   onDisconnect,
-  get
+  get      // 🔥 agrega esto
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+import { onChildChanged } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
 // --- Traducciones y multilenguaje
 // (Se mantiene igual que tu versión, con todos los idiomas)
@@ -392,8 +393,6 @@ if (savedLang && translations[savedLang]) {
 
 let currentUserCount = 0;
 let messagesListenerUnsub = null;
-let usersListenerUnsub = null;
-let messagesChangedUnsub = null;
 const typingIndicator = document.getElementById("typing-indicator");
 
 
@@ -556,12 +555,12 @@ let identity = JSON.parse(localStorage.getItem("tw_identity"));
 if (!identity) {
   const animal = animals[Math.floor(Math.random()*animals.length)];
   const color = colors[Math.floor(Math.random()*colors.length)];
+  const id = Math.floor(Math.random()*900+100);
 
   identity = {
-  id: crypto.randomUUID().slice(0, 8), // 🔥 PUT IT HERE — EXACTLY HERE
-  name: `${color} ${animal} ${Math.floor(Math.random()*900+100)}`,
-  emoji: animalEmoji[animal]
-};
+    name: `${color} ${animal} ${id}`,
+    emoji: animalEmoji[animal]
+  };
 
   localStorage.setItem("tw_identity", JSON.stringify(identity));
 }
@@ -586,6 +585,7 @@ let roomId = location.hash.replace("#room=","");
 if(!roomId){ roomId = crypto.randomUUID().replace(/-/g, ""); location.hash="room="+roomId; }
 let roomRef = ref(db,`rooms/${roomId}`);
 let messagesRef = ref(db,`rooms/${roomId}/messages`);
+attachMessagesListener(); // ← AGREGA ESTA LÍNEA
 let metaRef = ref(db,`rooms/${roomId}/meta`);
 function saveRoomTTL(ttlValue) {
   set(ref(db, `rooms/${roomId}/meta/ttl`), ttlValue);
@@ -643,7 +643,7 @@ onValue(metaRef, snap => {
 
 
 let typingRef = ref(db,`rooms/${roomId}/typing`);
-let userRef = ref(db,`rooms/${roomId}/users/${identity.id}`);
+let userRef = ref(db,`rooms/${roomId}/users/${identity.name}`);
 set(userRef,{name:identity.name,emoji:identity.emoji,joinedAt:Date.now()});
 onDisconnect(userRef).remove();
 
@@ -657,7 +657,9 @@ onValue(usersRef,snapshot=>{
 
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
-attachMessagesListener();
+
+
+
 
 
 function formatTime(sec) {
@@ -766,6 +768,127 @@ onChildAdded(typingRef,snap=>{
 });
 
 
+// Listener para detectar ediciones de mensajes
+onChildChanged(messagesRef, snap => {
+  const msg = snap.val();
+  const div = chatBox.querySelector(`[data-msg-key="${snap.key}"]`);
+  if (!div) return; // si no encontramos el div, salimos
+
+  if (msg.user?.name === identity.name) {
+  div.style.background = msg.color || "#2563eb";
+} else {
+  div.style.background = "#2a2a2a";
+}
+
+
+  // --- Calcula tiempo restante basado en createdAt
+  const now = Date.now();
+  const elapsed = Math.floor((now - msg.createdAt) / 1000);
+  let remaining = msg.ttl - elapsed;
+  if (remaining < 0) remaining = 0;
+
+  // Actualizamos texto y estructura
+  div.innerHTML = `
+    <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
+
+
+
+   <span class="msg-text">
+  ${msg.text}
+  ${
+    msg.edited
+      ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6;margin-left:6px">
+           ${translations[currentLang].editedLabel}
+         </span>`
+      : ""
+  }
+</span>
+
+<div class="reactions">
+  ${renderReactions(msg.reactions)}
+</div>
+
+    
+
+
+    <div class="msg-time">
+      <span class="time-text">${formatTime(remaining)}</span>
+
+      <div class="msg-menu" title="Message options">
+        <div></div>
+      </div>
+    </div>
+
+    <div class="countdown-track">
+      <div class="countdown-fill"></div>
+    </div>
+  `;
+
+  const menuBtn = div.querySelector(".msg-menu");
+  menuBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    activeMsgRef = snap.ref;
+    activeMsgDiv = div;
+    const rect = menuBtn.getBoundingClientRect();
+    const menuWidth = actionMenu.offsetWidth || 200;
+const viewportWidth = window.innerWidth;
+
+const isRTL = document.body.dir === "rtl";
+
+actionMenu.style.top = rect.bottom + 6 + "px";
+
+if (isRTL) {
+  actionMenu.style.left = "auto";
+  actionMenu.style.right =
+    (window.innerWidth - rect.right - 200) + "px";
+} else {
+  // LTR normal
+  let left = rect.left - menuWidth + 10;
+
+  if (left < 10) left = 10;
+  if (left + menuWidth > viewportWidth - 10) {
+    left = viewportWidth - menuWidth - 10;
+  }
+
+  actionMenu.style.right = "auto";
+  actionMenu.style.left = left + "px";
+}
+
+actionMenu.style.display = "block";
+
+
+  });
+
+  // --- Reiniciar el countdown sin perder el tiempo ya transcurrido
+  const span = div.querySelector(".time-text");
+  const fill = div.querySelector(".countdown-fill");
+  const total = msg.ttl;
+
+  // Limpiar interval anterior si existía
+  if (div.countdownTimer) clearInterval(div.countdownTimer);
+
+  div.countdownTimer = setInterval(() => {
+    remaining--;
+    span.textContent = formatTime(remaining);
+
+    const percent = (remaining / total) * 100;
+    fill.style.width = percent + "%";
+
+    if (percent > 30) fill.style.background = "#22c55e"; // green
+    else if (percent > 10) fill.style.background = "#facc15"; // yellow
+    else fill.style.background = "#ef4444"; // red
+
+    if (remaining <= 0) {
+      clearInterval(div.countdownTimer);
+      div.remove();
+      remove(snap.ref);
+    }
+  }, 1000);
+});
+
+
+
+
 
 
 // --- Invite
@@ -820,9 +943,9 @@ document.querySelectorAll("#reaction-bar span").forEach(span => {
 
     // 🔥 BUSCAR si el usuario ya reaccionó con otro emoji
     for (const [emoji, users] of Object.entries(reactions)) {
-      if (users[identity.id]) {
+      if (users[identity.name]) {
         alreadyReactedWith = emoji;
-        delete users[identity.id];
+        delete users[identity.name];
 
         // limpiar emoji vacío
         if (Object.keys(users).length === 0) {
@@ -838,7 +961,7 @@ document.querySelectorAll("#reaction-bar span").forEach(span => {
     } else {
       // ➕ poner nueva reacción
       reactions[newEmoji] = reactions[newEmoji] || {};
-      reactions[newEmoji][identity.id] = identity.name;
+      reactions[newEmoji][identity.name] = true;
     }
 
     await set(activeMsgRef, {
@@ -857,7 +980,7 @@ function renderReactions(reactions = {}) {
   return Object.entries(reactions)
     .map(([emoji, users]) => {
       const count = Object.keys(users).length;
-      const names = Object.values(users).join("|"); // 🔥 clave
+      const names = Object.keys(users).join("|"); // 🔥 clave
 
       return `
         <span class="reaction-pill"
@@ -910,7 +1033,6 @@ reactionViewer.addEventListener("click", () => {
 
 function attachMessagesListener() {
   if (messagesListenerUnsub) messagesListenerUnsub();
-  if (messagesChangedUnsub) messagesChangedUnsub();
 
   messagesListenerUnsub = onChildAdded(messagesRef, snap => {
     const msg = snap.val();
@@ -928,94 +1050,175 @@ function attachMessagesListener() {
     const div = document.createElement("div");
     div.className = "message";
     div.dataset.msgKey = snap.key;
-
     if (msg.user?.name === identity.name) {
-      div.style.background = msg.color || "#2563eb";
-    } else {
-      div.style.background = "#2a2a2a";
-    }
+  div.style.background = msg.color || "#2563eb"; // your color
+} else {
+  div.style.background = "#2a2a2a"; // others = gray
+}
+
+
+
 
     div.innerHTML = `
-      <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
+  <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
 
-      <span class="msg-text">
-        ${msg.text}
-        ${
-          msg.edited
-            ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6;margin-left:6px">
-                 ${translations[currentLang].editedLabel}
-               </span>`
-            : ""
-        }
-      </span>
 
-      <div class="reactions">
-        ${renderReactions(msg.reactions)}
-      </div>
 
-      <div class="msg-time">
-        <span class="time-text">${formatTime(remaining)}</span>
-        <div class="msg-menu" title="Message options"><div></div></div>
-      </div>
+  <span class="msg-text">
+  ${msg.text}
+  ${
+    msg.edited
+      ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6;margin-left:6px">
+           ${translations[currentLang].editedLabel}
+         </span>`
+      : ""
+  }
+</span>
 
-      <div class="countdown-track">
-        <div class="countdown-fill"></div>
-      </div>
-    `;
+<div class="reactions">
+  ${renderReactions(msg.reactions)}
+</div>
+
+
+
+
+  <div class="msg-time">
+    <span class="time-text">${formatTime(remaining)}</span>
+
+    <div class="msg-menu" title="Message options">
+      <div></div>
+    </div>
+  </div>
+
+  <div class="countdown-track">
+    <div class="countdown-fill"></div>
+  </div>
+`;
+
+
+
+
+
+
+
+    const menuBtn = div.querySelector(".msg-menu");
+
+menuBtn.addEventListener("click", e => {
+  e.stopPropagation(); // evita que document click cierre el menú
+
+  activeMsgRef = msgRef;
+  activeMsgDiv = div;
+
+  const rect = menuBtn.getBoundingClientRect();
+
+  const menuWidth = actionMenu.offsetWidth || 200;
+const viewportWidth = window.innerWidth;
+
+const isRTL = document.body.dir === "rtl";
+
+actionMenu.style.top = rect.bottom + 6 + "px";
+
+if (isRTL) {
+  actionMenu.style.left = "auto";
+  actionMenu.style.right =
+    (window.innerWidth - rect.right - 200) + "px";
+} else {
+  // LTR normal
+  let left = rect.left - menuWidth + 10;
+
+  if (left < 10) left = 10;
+  if (left + menuWidth > viewportWidth - 10) {
+    left = viewportWidth - menuWidth - 10;
+  }
+
+  actionMenu.style.right = "auto";
+  actionMenu.style.left = left + "px";
+}
+
+actionMenu.style.display = "block";
+
+
+});
+
+// --- en actionMenu
+actionMenu.addEventListener("click", e => {
+  e.stopPropagation(); // ✅ muy importante
+  const action = e.target.dataset.action;
+  if (!activeMsgRef) return;
+
+  if (action === "edit") {
+    get(activeMsgRef).then(snap => {
+      const oldData = snap.val();
+      if (!oldData) return;
+
+      // 🔹 ocultar menú antes de mostrar prompt
+      actionMenu.style.display = "none";
+
+      const newText = prompt("Edit message:", oldData.text);
+      if (newText !== null && newText !== oldData.text) {
+        set(activeMsgRef, {
+  ...oldData,
+  text: newText,
+  edited: true,
+  editedAt: Date.now() // 🔥 clave
+});
+
+      }
+    }).catch(console.error);
+  }
+
+  if (action === "delete") {
+    activeMsgDiv.style.opacity = "0.3";
+    setTimeout(() => {
+      remove(activeMsgRef);
+      activeMsgDiv.remove();
+    }, 150);
+    actionMenu.style.display = "none";
+  }
+});
+
+
+
+
+
+    
+
+
+    
 
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
 
     const span = div.querySelector(".time-text");
-    const fill = div.querySelector(".countdown-fill");
-    const total = msg.ttl;
+const fill = div.querySelector(".countdown-fill");
+const total = msg.ttl;
 
     const timer = setInterval(() => {
-      remaining--;
-      span.textContent = formatTime(remaining);
+    remaining--;
 
-      const percent = (remaining / total) * 100;
-      fill.style.width = percent + "%";
+    span.textContent = formatTime(remaining);
 
-      if (percent > 30) fill.style.background = "#22c55e";
-      else if (percent > 10) fill.style.background = "#facc15";
-      else fill.style.background = "#ef4444";
+    const percent = (remaining / total) * 100;
+fill.style.width = percent + "%";
 
-      if (remaining <= 0) {
-        clearInterval(timer);
-        div.remove();
-        remove(msgRef);
-      }
-    }, 1000);
-  });
-
-  // 🔥 LISTENER DE CAMBIOS (EDIT / REACTIONS)
-  messagesChangedUnsub = onChildChanged(messagesRef, snap => {
-    const msg = snap.val();
-    const div = chatBox.querySelector(`[data-msg-key="${snap.key}"]`);
-    if (!div) return;
-
-    const textSpan = div.querySelector(".msg-text");
-    if (textSpan) {
-      textSpan.innerHTML = `
-        ${msg.text}
-        ${
-          msg.edited
-            ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6;margin-left:6px">
-                 ${translations[currentLang].editedLabel}
-               </span>`
-            : ""
-        }
-      `;
-    }
-
-    const reactionsDiv = div.querySelector(".reactions");
-    if (reactionsDiv) {
-      reactionsDiv.innerHTML = renderReactions(msg.reactions);
-    }
-  });
+// Urgency colors
+if (percent > 30) {
+  fill.style.background = "#22c55e"; // green
+} else if (percent > 10) {
+  fill.style.background = "#facc15"; // yellow
+} else {
+  fill.style.background = "#ef4444"; // red
 }
 
+
+    if (remaining <= 0) {
+    clearInterval(timer);
+    div.remove();
+    remove(msgRef);
+  }
+}, 1000);
+  });
+}
 
 
 
@@ -1041,27 +1244,25 @@ setTimeout(() => {
 // ---- RE-INICIALIZAR REFERENCIAS PARA LA NUEVA SALA ----
   roomRef = ref(db,"rooms/"+newRoomId);
   messagesRef = ref(db,`rooms/${newRoomId}/messages`);
+  attachMessagesListener();
   metaRef = ref(db,`rooms/${newRoomId}/meta`);
-  attachMessagesListener(); // 🔥 RE-ENGANCHAR MENSAJES DE LA NUEVA SALA
 
   // 🔥 inicializar TTL de la nueva sala
 const initialTTL = ttlInputEl?.value || "01:00";
 set(ref(db, `rooms/${newRoomId}/meta/ttl`), initialTTL);
 
-  remove(typingRef);
   typingRef = ref(db,`rooms/${newRoomId}/typing`);
-  userRef = ref(db,`rooms/${newRoomId}/users/${identity.id}`);
+  userRef = ref(db,`rooms/${newRoomId}/users/${identity.name}`);
   set(userRef,{name:identity.name,emoji:identity.emoji,joinedAt:Date.now()});
   onDisconnect(userRef).remove();
 
-  if (usersListenerUnsub) usersListenerUnsub();
-
-usersListenerUnsub = onValue(ref(db,`rooms/${newRoomId}/users`), snapshot => {
-  const users = snapshot.val() || {};
-  currentUserCount = Object.keys(users).length;
-  updateUsersLiveText();
-});
-
+  // Reiniciar contador de usuarios para la nueva sala
+  onValue(ref(db,`rooms/${newRoomId}/users`),snapshot=>{
+    const users = snapshot.val()||{};
+    currentUserCount = Object.keys(users).length;
+    updateUsersLiveText();
+  });
+   // ---- FIN RE-INICIALIZAR REFERENCIAS ----
   
   // Flash de pantalla
   const flash = document.createElement("div");
