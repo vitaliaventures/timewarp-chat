@@ -1042,6 +1042,7 @@ setTimeout(() => {
   roomRef = ref(db,"rooms/"+newRoomId);
   messagesRef = ref(db,`rooms/${newRoomId}/messages`);
   metaRef = ref(db,`rooms/${newRoomId}/meta`);
+  attachMessagesListener(); // 🔥 RE-ENGANCHAR MENSAJES DE LA NUEVA SALA
 
   // 🔥 inicializar TTL de la nueva sala
 const initialTTL = ttlInputEl?.value || "01:00";
