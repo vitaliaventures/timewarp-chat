@@ -557,9 +557,10 @@ if (!identity) {
   const color = colors[Math.floor(Math.random()*colors.length)];
 
   identity = {
-    name: `${color} ${animal} ${id}`,
-    emoji: animalEmoji[animal]
-  };
+  id: crypto.randomUUID().slice(0, 8), // 🔥 PUT IT HERE — EXACTLY HERE
+  name: `${color} ${animal} ${Math.floor(Math.random()*900+100)}`,
+  emoji: animalEmoji[animal]
+};
 
   localStorage.setItem("tw_identity", JSON.stringify(identity));
 }
