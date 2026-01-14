@@ -509,9 +509,13 @@ if (ttlInputEl) {
 
 ttlInputEl.addEventListener("input", () => {
   let value = ttlInputEl.value.trim();
-  if (value) {
-    localStorage.setItem(TTL_STORAGE_KEY, value);
-  }
+  if (!value) return;
+
+  // guardar local (preferencia personal)
+  localStorage.setItem(TTL_STORAGE_KEY, value);
+
+  // 🔥 guardar en la sala (para los que entren por link)
+  saveRoomTTL(value);
 });
 
 
