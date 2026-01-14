@@ -912,6 +912,7 @@ reactionViewer.addEventListener("click", () => {
 
 function attachMessagesListener() {
   if (messagesListenerUnsub) messagesListenerUnsub();
+  if (messagesChangedUnsub) messagesChangedUnsub();
 
   messagesListenerUnsub = onChildAdded(messagesRef, snap => {
     const msg = snap.val();
@@ -929,205 +930,94 @@ function attachMessagesListener() {
     const div = document.createElement("div");
     div.className = "message";
     div.dataset.msgKey = snap.key;
+
     if (msg.user?.name === identity.name) {
-  div.style.background = msg.color || "#2563eb"; // your color
-} else {
-  div.style.background = "#2a2a2a"; // others = gray
-}
-
-
-
+      div.style.background = msg.color || "#2563eb";
+    } else {
+      div.style.background = "#2a2a2a";
+    }
 
     div.innerHTML = `
-  <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
+      <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
 
+      <span class="msg-text">
+        ${msg.text}
+        ${
+          msg.edited
+            ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6;margin-left:6px">
+                 ${translations[currentLang].editedLabel}
+               </span>`
+            : ""
+        }
+      </span>
 
+      <div class="reactions">
+        ${renderReactions(msg.reactions)}
+      </div>
 
-  <span class="msg-text">
-  ${msg.text}
-  ${
-    msg.edited
-      ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6;margin-left:6px">
-           ${translations[currentLang].editedLabel}
-         </span>`
-      : ""
-  }
-</span>
+      <div class="msg-time">
+        <span class="time-text">${formatTime(remaining)}</span>
+        <div class="msg-menu" title="Message options"><div></div></div>
+      </div>
 
-<div class="reactions">
-  ${renderReactions(msg.reactions)}
-</div>
-
-
-
-
-  <div class="msg-time">
-    <span class="time-text">${formatTime(remaining)}</span>
-
-    <div class="msg-menu" title="Message options">
-      <div></div>
-    </div>
-  </div>
-
-  <div class="countdown-track">
-    <div class="countdown-fill"></div>
-  </div>
-`;
-
-
-
-
-
-
-
-    const menuBtn = div.querySelector(".msg-menu");
-
-menuBtn.addEventListener("click", e => {
-  e.stopPropagation(); // evita que document click cierre el menú
-
-  activeMsgRef = msgRef;
-  activeMsgDiv = div;
-
-  const rect = menuBtn.getBoundingClientRect();
-
-  const menuWidth = actionMenu.offsetWidth || 200;
-const viewportWidth = window.innerWidth;
-
-const isRTL = document.body.dir === "rtl";
-
-actionMenu.style.top = rect.bottom + 6 + "px";
-
-if (isRTL) {
-  actionMenu.style.left = "auto";
-  actionMenu.style.right =
-    (window.innerWidth - rect.right - 200) + "px";
-} else {
-  // LTR normal
-  let left = rect.left - menuWidth + 10;
-
-  if (left < 10) left = 10;
-  if (left + menuWidth > viewportWidth - 10) {
-    left = viewportWidth - menuWidth - 10;
-  }
-
-  actionMenu.style.right = "auto";
-  actionMenu.style.left = left + "px";
-}
-
-actionMenu.style.display = "block";
-
-
-});
-
-// --- en actionMenu
-actionMenu.addEventListener("click", e => {
-  e.stopPropagation(); // ✅ muy importante
-  const action = e.target.dataset.action;
-  if (!activeMsgRef) return;
-
-  if (action === "edit") {
-    get(activeMsgRef).then(snap => {
-      const oldData = snap.val();
-      if (!oldData) return;
-
-      // 🔹 ocultar menú antes de mostrar prompt
-      actionMenu.style.display = "none";
-
-      const newText = prompt("Edit message:", oldData.text);
-      if (newText !== null && newText !== oldData.text) {
-        set(activeMsgRef, {
-  ...oldData,
-  text: newText,
-  edited: true,
-  editedAt: Date.now() // 🔥 clave
-});
-
-      }
-    }).catch(console.error);
-  }
-
-  if (action === "delete") {
-    activeMsgDiv.style.opacity = "0.3";
-    setTimeout(() => {
-      remove(activeMsgRef);
-      activeMsgDiv.remove();
-    }, 150);
-    actionMenu.style.display = "none";
-  }
-});
-
-
-
-
-
-    
-
-
-    
+      <div class="countdown-track">
+        <div class="countdown-fill"></div>
+      </div>
+    `;
 
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
 
     const span = div.querySelector(".time-text");
-const fill = div.querySelector(".countdown-fill");
-const total = msg.ttl;
+    const fill = div.querySelector(".countdown-fill");
+    const total = msg.ttl;
 
     const timer = setInterval(() => {
-    remaining--;
+      remaining--;
+      span.textContent = formatTime(remaining);
 
-    span.textContent = formatTime(remaining);
+      const percent = (remaining / total) * 100;
+      fill.style.width = percent + "%";
 
-    const percent = (remaining / total) * 100;
-fill.style.width = percent + "%";
+      if (percent > 30) fill.style.background = "#22c55e";
+      else if (percent > 10) fill.style.background = "#facc15";
+      else fill.style.background = "#ef4444";
 
-// Urgency colors
-if (percent > 30) {
-  fill.style.background = "#22c55e"; // green
-} else if (percent > 10) {
-  fill.style.background = "#facc15"; // yellow
-} else {
-  fill.style.background = "#ef4444"; // red
-}
-
-
-    if (remaining <= 0) {
-    clearInterval(timer);
-    div.remove();
-    remove(msgRef);
-  }
-}, 1000);
+      if (remaining <= 0) {
+        clearInterval(timer);
+        div.remove();
+        remove(msgRef);
+      }
+    }, 1000);
   });
 
+  // 🔥 LISTENER DE CAMBIOS (EDIT / REACTIONS)
+  messagesChangedUnsub = onChildChanged(messagesRef, snap => {
+    const msg = snap.val();
+    const div = chatBox.querySelector(`[data-msg-key="${snap.key}"]`);
+    if (!div) return;
 
-// 🔥 listener para cambios (edit / reactions)
-onChildChanged(messagesRef, snap => {
-  const msg = snap.val();
-  const div = chatBox.querySelector(`[data-msg-key="${snap.key}"]`);
-  if (!div) return;
+    const textSpan = div.querySelector(".msg-text");
+    if (textSpan) {
+      textSpan.innerHTML = `
+        ${msg.text}
+        ${
+          msg.edited
+            ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6;margin-left:6px">
+                 ${translations[currentLang].editedLabel}
+               </span>`
+            : ""
+        }
+      `;
+    }
 
-  // actualizar solo texto + reacciones (NO recrear todo)
-  const textSpan = div.querySelector(".msg-text");
-  if (textSpan) {
-    textSpan.innerHTML = `
-      ${msg.text}
-      ${
-        msg.edited
-          ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6;margin-left:6px">
-               ${translations[currentLang].editedLabel}
-             </span>`
-          : ""
-      }
-    `;
-  }
-
-  const reactionsDiv = div.querySelector(".reactions");
-  if (reactionsDiv) {
-    reactionsDiv.innerHTML = renderReactions(msg.reactions);
-  }
-});
-
-  
+    const reactionsDiv = div.querySelector(".reactions");
+    if (reactionsDiv) {
+      reactionsDiv.innerHTML = renderReactions(msg.reactions);
+    }
+  });
 }
+
 
 
 
