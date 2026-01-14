@@ -822,7 +822,7 @@ document.querySelectorAll("#reaction-bar span").forEach(span => {
 
     // 🔥 BUSCAR si el usuario ya reaccionó con otro emoji
     for (const [emoji, users] of Object.entries(reactions)) {
-      if (users[identity.name]) {
+      if (users[identity.id]) {
         alreadyReactedWith = emoji;
         delete users[identity.name];
 
