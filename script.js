@@ -1210,7 +1210,8 @@ actionMenu.addEventListener("click", e => {
 
 
     chatBox.appendChild(div);
-    insertAdAfterMessage(chatBox.children.length);
+    const messageCount = chatBox.querySelectorAll(".message").length;
+    insertAdAfterMessage(messageCount);
     chatBox.scrollTop = chatBox.scrollHeight;
 
     const span = div.querySelector(".time-text");
