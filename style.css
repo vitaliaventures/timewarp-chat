@@ -10,12 +10,13 @@ body {
   color: #fff;
   font-family: Arial, sans-serif;
   display: flex;
-  flex-direction: column;  /* apila chat + seo content verticalmente */
+  flex-direction: column;  /* Chat + SEO content verticalmente */
   align-items: center;
   min-height: 100vh;
   padding: 20px 0;         /* espacio arriba/abajo */
 }
 
+/* Chat container */
 .chat-container {
   width: 95%;
   max-width: 600px;
@@ -62,7 +63,10 @@ body {
   cursor: pointer;
   transition: background 0.2s ease;
 }
-.lang-select:hover, .header-btn:hover { background: #2a2a2a; }
+
+.lang-select:hover, .header-btn:hover {
+  background: #2a2a2a;
+}
 
 /* Chat box con virtual scroll */
 .chat-box {
@@ -89,7 +93,6 @@ body {
   transition: background 0.2s ease;
 }
 .message:hover { background: #3a3a3a; }
-
 
 /* Input */
 .chat-input {
@@ -137,7 +140,7 @@ body {
   .chat-input button { padding: 6px 10px; font-size: 0.8rem; }
 }
 
-
+/* New room banner */
 #new-room-banner {
   position: fixed;
   top: -60px;
@@ -153,8 +156,7 @@ body {
   transition: top 0.5s ease;
 }
 
-
-/* Countdown urgency system (scales globally) */
+/* Countdown urgency system */
 .countdown-track {
   margin-top: 6px;
   height: 4px;
@@ -163,7 +165,6 @@ body {
   border-radius: 999px;
   overflow: hidden;
 }
-
 .countdown-fill {
   height: 100%;
   width: 100%;
@@ -173,11 +174,7 @@ body {
   box-shadow: 0 0 6px rgba(0,0,0,0.4);
 }
 
-
-
-
-
-/* Time + menu container (top-right, no extra space) */
+/* Time + menu container (top-right) */
 .msg-time {
   position: absolute;
   top: 6px;
@@ -189,7 +186,7 @@ body {
   opacity: 0.65;
 }
 
-/* Three-dot menu (light effect) */
+/* Three-dot menu */
 .msg-menu {
   width: 14px;
   height: 14px;
@@ -198,8 +195,6 @@ body {
   opacity: 0;
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
-
-/* Dots */
 .msg-menu::before,
 .msg-menu::after,
 .msg-menu div {
@@ -213,73 +208,39 @@ body {
   transform: translateX(-50%);
   box-shadow: 0 0 6px rgba(255,255,255,0.7);
 }
-
 .msg-menu::before { top: 0; }
 .msg-menu div { top: 5px; }
 .msg-menu::after { top: 10px; }
-
-/* Show only on hover (desktop) */
-.message:hover .msg-menu {
-  opacity: 1;
-  transform: scale(1.1);
-}
+.message:hover .msg-menu { opacity: 1; transform: scale(1.1); }
 
 #msg-action-menu .menu-item {
-  display: block;              /* 🔥 CLAVE: deja de ser inline/flex */
-  width: 100%;                 /* 🔥 ocupa todo el menú */
+  display: block;
+  width: 100%;
   padding: 8px 10px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  white-space: nowrap;         /* evita salto raro */
-  overflow: hidden;            /* evita corte feo */
-  text-overflow: ellipsis;     /* … si no entra */
-  text-align: start;           /* LTR + RTL */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: start;
 }
+#msg-action-menu .menu-item:hover { background: rgba(255,255,255,0.08); }
+#msg-action-menu .menu-item span { display: inline-block; vertical-align: middle; }
 
+/* RTL fixes */
+.time-text { direction: ltr; unicode-bidi: isolate; }
+[dir="rtl"] .msg-time { right: auto; left: 10px; flex-direction: row-reverse; }
 
-#msg-action-menu .menu-item span {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-
-
-
-#msg-action-menu .menu-item:hover {
-  background: rgba(255,255,255,0.08);
-}
-
-
-
-
-
-/* --- FIX RTL (Arabic) for time mm:ss --- */
-.time-text {
-  direction: ltr;
-  unicode-bidi: isolate;
-}
-
-/* Ajuste visual del contenedor tiempo en RTL */
-[dir="rtl"] .msg-time {
-  right: auto;
-  left: 10px;
-  flex-direction: row-reverse;
-}
-
-
-
-/* ===== FIX DEFINITIVO MENU ACCIONES EN MOVIL + RTL ===== */
+/* Definitivo menú acciones móvil + RTL */
 #msg-action-menu {
   position: fixed;
   max-width: 220px;
-  max-height: 70vh;            /* 🔥 evita corte vertical */
-  overflow-y: auto;            /* 🔥 permite scroll */
+  max-height: 70vh;
+  overflow-y: auto;
   z-index: 99999;
   box-sizing: border-box;
 }
-
-/* Mobile safety */
 @media (max-width: 480px) {
   #msg-action-menu {
     max-width: calc(100vw - 20px);
@@ -288,71 +249,38 @@ body {
   }
 }
 
+#reaction-bar { direction: ltr; unicode-bidi: isolate; }
+#reaction-bar span { display: inline-flex; align-items: center; justify-content: center; }
 
-#reaction-bar {
-  direction: ltr;
-  unicode-bidi: isolate;
-}
+.reactions { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.reaction-pill { background: #2a2a2a; padding: 2px 8px; border-radius: 999px; font-size: 0.75rem; cursor: default; user-select: none; }
+.reaction-pill:hover { background: #3a3a3a; }
 
-#reaction-bar span {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-
-.reactions {
-  display: flex;
-  gap: 6px;
-  margin-top: 6px;
-  flex-wrap: wrap;
-}
-
-.reaction-pill {
-  background: #2a2a2a;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  cursor: default;
-  user-select: none;
-}
-
-
-.reaction-pill:hover {
-  background: #3a3a3a;
-}
-
-
+/* ===== SEO / Marketing Content ===== */
 .seo-content {
   max-width: 900px;
-  margin: 80px auto 120px auto;
+  margin: 0 auto 120px auto;
   padding: 0 20px;
   color: #e5e5e5;
   font-size: 1rem;
   line-height: 1.7;
 }
+.seo-content h1, .seo-content h2 { color: #ffffff; margin-top: 48px; margin-bottom: 16px; }
+.seo-content p { opacity: 0.9; }
+.seo-content .tool-links { margin-top: 32px; margin-bottom: 24px; }
+.seo-content a { color: #60a5fa; text-decoration: none; }
+.seo-content a:hover { text-decoration: underline; }
 
-.seo-content h1,
-.seo-content h2 {
-  color: #ffffff;
-  margin-top: 48px;
-  margin-bottom: 16px;
-}
+/* Hero section center */
+#hero { text-align: center; margin-top: 40px; }
 
-.seo-content p {
-  opacity: 0.9;
-}
+/* Sections spacing */
+#features, #get-started, #faq { margin-top: 40px; }
+#faq { margin-bottom: 80px; }
 
-.seo-content .tool-links {
-  margin-top: 32px;
-}
-
-.seo-content a {
-  color: #60a5fa;
-  text-decoration: none;
-}
-
-.seo-content a:hover {
-  text-decoration: underline;
+/* Responsive SEO content */
+@media (max-width: 480px) {
+  .seo-content { max-width: 95%; padding: 0 10px; }
+  .seo-content h1, .seo-content h2 { font-size: 1.2rem; }
+  .seo-content p { font-size: 0.9rem; }
 }
