@@ -724,7 +724,7 @@ function insertAdAfterMessage(index) {
   if (index % 10 !== 0) return; // every 10 messages
   const adDiv = document.createElement("div");
   adDiv.className = "ad-inline";
-  adDiv.textContent = "💎 Sponsored: Upgrade your chat experience!";
+  adDiv.textContent = INLINE_ADS[Math.floor(Math.random() * INLINE_ADS.length)];
   chatBox.appendChild(adDiv);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
