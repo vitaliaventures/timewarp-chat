@@ -25,6 +25,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0 6px 25px rgba(0,0,0,0.7);
+  margin-bottom: 60px; /* espacio para la sección SEO */
 }
 
 /* Header */
