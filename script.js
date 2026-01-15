@@ -706,6 +706,25 @@ function getUserLang() {
 
 
 
+function getPersonalizedAd(type) {
+  const lang = getUserLang();
+  const pool = ADS[lang][type];
+
+  // Behavior-based boost
+  if (type === "inline" && userBehavior.lastClickedAd) {
+    return "🔥 Sponsored: VIP access based on your activity";
+  }
+
+  if (type === "top" && userBehavior.messagesSent > 20) {
+    return "🚀 Sponsored: You're a power user — go Premium";
+  }
+
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+
+
+
 // --- TOP & BOTTOM ADS (SAFE, NON-BREAKING)
 
 function insertTopAd() {
