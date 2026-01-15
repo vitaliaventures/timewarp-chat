@@ -703,6 +703,21 @@ function insertBottomAd() {
 // Insert once per room load
 insertTopAd();
 insertBottomAd();
+// --- ROTATE ADS WITHOUT REFLOW / SCROLL BREAK
+function rotateAdText(selector, ads) {
+  const el = document.querySelector(selector);
+  if (!el) return;
+
+  const current = el.textContent;
+  let idx = ads.indexOf(current);
+  idx = idx === -1 ? 0 : (idx + 1) % ads.length;
+  el.textContent = ads[idx];
+}
+
+// rotate top & bottom ads every 10s
+setInterval(() => rotateAdText(".ad-top", TOP_ADS), 10000);
+setInterval(() => rotateAdText(".ad-bottom", BOTTOM_ADS), 10000);
+
 
 
 function insertAdAfterMessage(index) {
