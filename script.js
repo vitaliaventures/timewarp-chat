@@ -769,7 +769,9 @@ function insertAdAfterMessage(index) {
   if (index % 10 !== 0) return; // every 10 messages
   const adDiv = document.createElement("div");
   adDiv.className = "ad-inline";
-  adDiv.textContent = INLINE_ADS[Math.floor(Math.random() * INLINE_ADS.length)];
+  adDiv.textContent = getPersonalizedAd("inline");
+  adDiv.addEventListener("click", () => trackAdClick(adDiv.textContent));
+
   chatBox.appendChild(adDiv);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
@@ -811,6 +813,7 @@ const sendBtn = document.getElementById("send-btn");
 const MESSAGE_TTL = 60;
 function sendMessage(){
   if(!input.value) return;
+  trackMessage();
   push(messagesRef, {
   text: input.value,
   ttl: parseTTL(),
