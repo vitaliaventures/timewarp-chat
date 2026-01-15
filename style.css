@@ -170,6 +170,19 @@ body {
   transition: top 0.5s ease;
 }
 
+/* Live users count – sticky engagement signal */
+#live-users-count {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  background: #22c55e;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  z-index: 9999;
+  font-size: 0.85rem;
+}
+
 /* Countdown urgency system */
 .countdown-track {
   margin-top: 6px;
