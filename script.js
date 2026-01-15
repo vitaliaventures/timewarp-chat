@@ -658,6 +658,32 @@ onValue(usersRef,snapshot=>{
 
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
+
+// --- TOP & BOTTOM ADS (SAFE, NON-BREAKING)
+
+function insertTopAd() {
+  if (document.querySelector(".ad-top")) return;
+
+  const topAd = document.createElement("div");
+  topAd.className = "ad-top";
+  topAd.textContent = "🚀 Sponsored: Upgrade to Premium for Exclusive Features!";
+  chatBox.insertBefore(topAd, chatBox.firstChild);
+}
+
+function insertBottomAd() {
+  if (document.querySelector(".ad-bottom")) return;
+
+  const bottomAd = document.createElement("div");
+  bottomAd.className = "ad-bottom";
+  bottomAd.textContent = "💎 Sponsored: Try our VIP Chat Tools!";
+  chatBox.appendChild(bottomAd);
+}
+
+// Insert once per room load
+insertTopAd();
+insertBottomAd();
+
+
 function insertAdAfterMessage(index) {
   if (index % 10 !== 0) return; // every 10 messages
   const adDiv = document.createElement("div");
