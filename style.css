@@ -10,9 +10,10 @@ body {
   color: #fff;
   font-family: Arial, sans-serif;
   display: flex;
-  justify-content: center;
+  flex-direction: column;  /* apila chat + seo content verticalmente */
   align-items: center;
   min-height: 100vh;
+  padding: 20px 0;         /* espacio arriba/abajo */
 }
 
 .chat-container {
