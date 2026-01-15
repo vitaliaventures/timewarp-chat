@@ -675,24 +675,34 @@ function trackAdClick(adText) {
 
 
 
-// --- AD POOLS (ROTATING CONTENT ONLY — SAFE)
-const TOP_ADS = [
-  "🚀 Sponsored: Upgrade to Premium for Exclusive Features!",
-  "🔥 Sponsored: Unlock VIP Rooms & Tools",
-  "💡 Sponsored: Private, Secure, Fast Messaging"
-];
+// --- PERSONALIZED AD POOLS (SAFE & FUTURE-PROOF)
+const ADS = {
+  en: {
+    top: [
+      "🚀 Sponsored: Upgrade to Premium for Power Users",
+      "🔥 Sponsored: VIP Rooms for Serious Chats"
+    ],
+    bottom: [
+      "💎 Sponsored: Remove limits with Premium",
+      "🎯 Sponsored: Advanced Chat Tools Available"
+    ],
+    inline: [
+      "⚡ Sponsored: Power up your chat",
+      "💎 Sponsored: Try Premium now"
+    ]
+  },
+  ar: {
+    top: ["🚀 إعلان: الترقية إلى النسخة المميزة"],
+    bottom: ["💎 إعلان: أدوات دردشة متقدمة"],
+    inline: ["⚡ إعلان: تجربة دردشة أفضل"]
+  }
+};
 
-const BOTTOM_ADS = [
-  "💎 Sponsored: Go Premium — No Limits",
-  "🎯 Sponsored: Power Users Choose VIP",
-  "✨ Sponsored: Advanced Chat Tools Available"
-];
+function getUserLang() {
+  const base = currentLang.split("-")[0];
+  return ADS[base] ? base : "en";
+}
 
-const INLINE_ADS = [
-  "💎 Sponsored: Upgrade your chat experience!",
-  "🔥 Sponsored: Try Premium — Instant Access",
-  "⚡ Sponsored: Power Up Your Chat"
-];
 
 
 
