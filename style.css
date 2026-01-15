@@ -284,3 +284,43 @@ body {
   .seo-content h1, .seo-content h2 { font-size: 1.2rem; }
   .seo-content p { font-size: 0.9rem; }
 }
+
+
+
+/* 🌟 Contenedor de anuncios entre header y chat */
+.ad-container {
+  width: 95%;
+  max-width: 600px;
+  background: #111;
+  color: #ccc;
+  text-align: center;
+  padding: 10px 14px;
+  border-radius: 12px;
+  margin: 12px auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  font-size: 0.85rem;
+}
+
+/* Banner sticky superior opcional */
+.ad-sticky-top {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: #111;
+  color: #fff;
+  text-align: center;
+  padding: 8px 0;
+  z-index: 9999;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* Footer SEO content */
+.page-footer {
+  width: 95%;
+  max-width: 600px;
+  margin: 24px auto;
+  color: #aaa;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  text-align: justify;
+}
