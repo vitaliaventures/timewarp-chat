@@ -360,3 +360,25 @@ body {
   line-height: 1.6;
   text-align: justify;
 }
+
+
+/* Ads styling */
+.ad-banner {
+  width: 100%;
+  background: #111;
+  color: #fff;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 0.85rem;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+.ad-inline {
+  margin: 12px 0;
+  text-align: center;
+  background: #1c1c1c;
+  padding: 6px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
