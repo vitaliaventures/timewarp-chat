@@ -1104,11 +1104,6 @@ function attachMessagesListener() {
 `;
 
 
-
-
-
-
-
     const menuBtn = div.querySelector(".msg-menu");
 
 menuBtn.addEventListener("click", e => {
@@ -1187,14 +1182,8 @@ actionMenu.addEventListener("click", e => {
 
 
 
-
-
-    
-
-
-    
-
     chatBox.appendChild(div);
+    insertAdAfterMessage(chatBox.children.length);
     chatBox.scrollTop = chatBox.scrollHeight;
 
     const span = div.querySelector(".time-text");
