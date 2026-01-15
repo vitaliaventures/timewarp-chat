@@ -347,6 +347,23 @@ body {
   z-index: 10;
 }
 
+/* Rotating ads – visual polish only (safe) */
+.ad-top,
+.ad-bottom,
+.ad-inline {
+  background: #222;
+  color: #f0f0f0;
+  text-align: center;
+  font-style: italic;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Inline ads are smaller than banners */
+.ad-inline {
+  font-size: 0.85rem;
+}
+
+
 /* Optional: sticky top/bottom ads without breaking scroll */
 .ad-top {
   top: 0;
