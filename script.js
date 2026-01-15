@@ -732,7 +732,7 @@ function insertTopAd() {
 
   const topAd = document.createElement("div");
   topAd.className = "ad-top";
-  topAd.textContent = "🚀 Sponsored: Upgrade to Premium for Exclusive Features!";
+  topAd.textContent = getPersonalizedAd("top");
   chatBox.insertBefore(topAd, chatBox.firstChild);
 }
 
@@ -741,7 +741,7 @@ function insertBottomAd() {
 
   const bottomAd = document.createElement("div");
   bottomAd.className = "ad-bottom";
-  bottomAd.textContent = "💎 Sponsored: Try our VIP Chat Tools!";
+  bottomAd.textContent = getPersonalizedAd("bottom");
   chatBox.appendChild(bottomAd);
 }
 
