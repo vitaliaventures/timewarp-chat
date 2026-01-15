@@ -658,8 +658,14 @@ onValue(usersRef,snapshot=>{
 
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
-
-
+function insertAdAfterMessage(index) {
+  if (index % 10 !== 0) return; // every 10 messages
+  const adDiv = document.createElement("div");
+  adDiv.className = "ad-inline";
+  adDiv.textContent = "💎 Sponsored: Upgrade your chat experience!";
+  chatBox.appendChild(adDiv);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
 
 
 
