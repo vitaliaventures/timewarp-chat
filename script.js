@@ -658,6 +658,22 @@ onValue(usersRef,snapshot=>{
 
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
+// --- USER BEHAVIOR TRACKING (SAFE, LOCAL ONLY)
+const userBehavior = {
+  messagesSent: 0,
+  lastClickedAd: null,
+  language: currentLang || navigator.language || "en"
+};
+
+function trackMessage() {
+  userBehavior.messagesSent++;
+}
+
+function trackAdClick(adText) {
+  userBehavior.lastClickedAd = adText;
+}
+
+
 
 // --- AD POOLS (ROTATING CONTENT ONLY — SAFE)
 const TOP_ADS = [
