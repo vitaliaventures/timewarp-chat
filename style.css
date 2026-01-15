@@ -96,17 +96,28 @@ body {
 
 /* Mensajes */
 .message {
-  background: #333;
+  background: #1c1c1c;
   color: #fff;
-  margin-bottom: 8px;
-  padding: 10px 12px;
-  border-radius: 12px;
+  margin: 4px 0;
+  padding: 8px 12px;
+  border-radius: 8px;
   position: relative;
   word-wrap: break-word;
   line-height: 1.5;
   transition: background 0.2s ease;
 }
 .message:hover { background: #3a3a3a; }
+.user-name {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.msg-text {
+  margin: 0;
+}
+
+
 
 /* Input */
 .chat-input {
@@ -209,9 +220,11 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 11px;
+  font-size: 0.7rem; /* changed */
+  color: #aaa;       /* added */
   opacity: 0.65;
 }
+
 
 /* Three-dot menu */
 .msg-menu {
@@ -403,9 +416,12 @@ body {
 .ad-inline {
   margin: 12px 0;
   text-align: center;
-  background: #1c1c1c;
-  padding: 6px;
+  background: #111;
+  padding: 6px 8px;
   border-radius: 8px;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  color: #f0f0f0;
+  font-style: italic;
 }
+
 
