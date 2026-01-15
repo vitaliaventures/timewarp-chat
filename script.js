@@ -659,6 +659,27 @@ onValue(usersRef,snapshot=>{
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
 
+// --- AD POOLS (ROTATING CONTENT ONLY — SAFE)
+const TOP_ADS = [
+  "🚀 Sponsored: Upgrade to Premium for Exclusive Features!",
+  "🔥 Sponsored: Unlock VIP Rooms & Tools",
+  "💡 Sponsored: Private, Secure, Fast Messaging"
+];
+
+const BOTTOM_ADS = [
+  "💎 Sponsored: Go Premium — No Limits",
+  "🎯 Sponsored: Power Users Choose VIP",
+  "✨ Sponsored: Advanced Chat Tools Available"
+];
+
+const INLINE_ADS = [
+  "💎 Sponsored: Upgrade your chat experience!",
+  "🔥 Sponsored: Try Premium — Instant Access",
+  "⚡ Sponsored: Power Up Your Chat"
+];
+
+
+
 // --- TOP & BOTTOM ADS (SAFE, NON-BREAKING)
 
 function insertTopAd() {
