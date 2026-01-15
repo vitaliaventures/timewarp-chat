@@ -692,6 +692,7 @@ function showSystemMessage(text){
   div.style.margin="6px 0";
   div.textContent=text;
   chatBox.appendChild(div);
+  insertAdAfterMessage(chatBox.children.length);
   chatBox.scrollTop = chatBox.scrollHeight;
   return div; // 🔥 ESTA LÍNEA
 }
