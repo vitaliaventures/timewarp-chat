@@ -1032,9 +1032,11 @@ reactionViewer.addEventListener("click", () => {
 
 
 function attachMessagesListener() {
-  if (messagesListenerUnsub) messagesListenerUnsub();
+  if (messagesListenerAttached) return;
+  messagesListenerAttached = true;
 
-  messagesListenerUnsub = onChildAdded(messagesRef, snap => {
+  onChildAdded(messagesRef, snap => {
+
     const msg = snap.val();
     const msgRef = snap.ref;
 
