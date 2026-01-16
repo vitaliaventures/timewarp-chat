@@ -392,7 +392,7 @@ if (savedLang && translations[savedLang]) {
 }
 
 let currentUserCount = 0;
-let messagesListenerUnsub = null;
+let messagesListenerAttached = false;
 const typingIndicator = document.getElementById("typing-indicator");
 
 
