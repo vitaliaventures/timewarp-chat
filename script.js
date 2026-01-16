@@ -718,38 +718,27 @@ sendBtn.onclick=sendMessage;
 
 
 function toggleReaction(msgRef, emoji) {
-  const userName = identity.name;
+  const userId = auth.currentUser.uid;
+  const reactionRef = ref(db, `${msgRef}/reactions/${userId}`);
 
-  get(msgRef).then(snap => {
-    if (!snap.exists()) return;
+  get(reactionRef).then(snapshot => {
+    if (snapshot.exists()) {
+      const currentEmoji = snapshot.val();
 
-    const msg = snap.val();
-    const reactions = msg.reactions || {};
-    const emojiReactions = reactions[emoji] || {};
-
-    // 🔁 SI YA REACCIONÓ → REMOVER
-    if (emojiReactions[userName]) {
-      delete emojiReactions[userName];
-
-      // si el emoji queda vacío, lo borramos
-      if (Object.keys(emojiReactions).length === 0) {
-        delete reactions[emoji];
+      // 👉 si toca el MISMO emoji → borrar
+      if (currentEmoji === emoji) {
+        remove(reactionRef);
       } else {
-        reactions[emoji] = emojiReactions;
+        // 👉 si toca OTRO emoji → reemplazar
+        set(reactionRef, emoji);
       }
-    } 
-    // ➕ SI NO → AGREGAR
-    else {
-      emojiReactions[userName] = true;
-      reactions[emoji] = emojiReactions;
+    } else {
+      // 👉 no tenía reacción → agregar
+      set(reactionRef, emoji);
     }
-
-    set(msgRef, {
-      ...msg,
-      reactions
-    });
   });
 }
+
 
 
 
