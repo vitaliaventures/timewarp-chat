@@ -1248,7 +1248,7 @@ setTimeout(() => {
   metaRef = ref(db,`rooms/${newRoomId}/meta`);
 
   // 🔥 inicializar TTL de la nueva sala
-const initialTTL = ttlInputEl?.value || "01:00";
+const initialTTL = ttlInputEl?.value || "10:00";
 set(ref(db, `rooms/${newRoomId}/meta/ttl`), initialTTL);
 
   typingRef = ref(db,`rooms/${newRoomId}/typing`);
