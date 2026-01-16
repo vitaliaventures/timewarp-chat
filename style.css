@@ -442,3 +442,10 @@ body {
 }
 
 
+@media (max-width: 480px) {
+  .ad-container {
+    font-size: 0.75rem;
+    padding: 6px 8px;
+    opacity: 0.85;
+  }
+}
