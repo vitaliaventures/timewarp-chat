@@ -1,4 +1,3 @@
-console.log("APP LOADED FROM:", window.location.pathname);
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
 import {
   getDatabase,
@@ -658,123 +657,8 @@ onValue(usersRef,snapshot=>{
 
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
-// --- USER BEHAVIOR TRACKING (SAFE, LOCAL ONLY)
-const userBehavior = {
-  messagesSent: 0,
-  lastClickedAd: null,
-  language: currentLang || navigator.language || "en"
-};
-
-function trackMessage() {
-  userBehavior.messagesSent++;
-}
-
-function trackAdClick(adText) {
-  userBehavior.lastClickedAd = adText;
-}
 
 
-
-// --- PERSONALIZED AD POOLS (SAFE & FUTURE-PROOF)
-const ADS = {
-  en: {
-    top: [
-      "🚀 Sponsored: Upgrade to Premium for Power Users",
-      "🔥 Sponsored: VIP Rooms for Serious Chats"
-    ],
-    bottom: [
-      "💎 Sponsored: Remove limits with Premium",
-      "🎯 Sponsored: Advanced Chat Tools Available"
-    ],
-    inline: [
-      "⚡ Sponsored: Power up your chat",
-      "💎 Sponsored: Try Premium now"
-    ]
-  },
-  ar: {
-    top: ["🚀 إعلان: الترقية إلى النسخة المميزة"],
-    bottom: ["💎 إعلان: أدوات دردشة متقدمة"],
-    inline: ["⚡ إعلان: تجربة دردشة أفضل"]
-  }
-};
-
-function getUserLang() {
-  const base = currentLang.split("-")[0];
-  return ADS[base] ? base : "en";
-}
-
-
-
-
-function getPersonalizedAd(type) {
-  const lang = getUserLang();
-  const pool = ADS[lang][type];
-
-  // Behavior-based boost
-  if (type === "inline" && userBehavior.lastClickedAd) {
-    return "🔥 Sponsored: VIP access based on your activity";
-  }
-
-  if (type === "top" && userBehavior.messagesSent > 20) {
-    return "🚀 Sponsored: You're a power user — go Premium";
-  }
-
-  return pool[Math.floor(Math.random() * pool.length)];
-}
-
-
-
-
-// --- TOP & BOTTOM ADS (SAFE, NON-BREAKING)
-
-function insertTopAd() {
-  if (document.querySelector(".ad-top")) return;
-
-  const topAd = document.createElement("div");
-  topAd.className = "ad-top";
-  topAd.textContent = getPersonalizedAd("top");
-  chatBox.insertBefore(topAd, chatBox.firstChild);
-}
-
-function insertBottomAd() {
-  if (document.querySelector(".ad-bottom")) return;
-
-  const bottomAd = document.createElement("div");
-  bottomAd.className = "ad-bottom";
-  bottomAd.textContent = getPersonalizedAd("bottom");
-  chatBox.appendChild(bottomAd);
-}
-
-// Insert once per room load
-insertTopAd();
-insertBottomAd();
-// --- ROTATE ADS WITHOUT REFLOW / SCROLL BREAK
-function rotateAdText(selector, ads) {
-  const el = document.querySelector(selector);
-  if (!el) return;
-
-  const current = el.textContent;
-  let idx = ads.indexOf(current);
-  idx = idx === -1 ? 0 : (idx + 1) % ads.length;
-  el.textContent = ads[idx];
-}
-
-// rotate top & bottom ads every 10s
-setInterval(() => rotateAdText(".ad-top", TOP_ADS), 10000);
-setInterval(() => rotateAdText(".ad-bottom", BOTTOM_ADS), 10000);
-
-
-
-function insertAdAfterMessage(index) {
-  if (index % 10 !== 0) return; // every 10 messages
-  const adDiv = document.createElement("div");
-  adDiv.className = "ad-inline";
-  adDiv.textContent = getPersonalizedAd("inline");
-  adDiv.addEventListener("click", () => trackAdClick(adDiv.textContent));
-
-  chatBox.appendChild(adDiv);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
 
 
 
@@ -801,8 +685,6 @@ function showSystemMessage(text){
   div.style.margin="6px 0";
   div.textContent=text;
   chatBox.appendChild(div);
-  const messageCount = chatBox.querySelectorAll(".message").length;
-  insertAdAfterMessage(messageCount);
   chatBox.scrollTop = chatBox.scrollHeight;
   return div; // 🔥 ESTA LÍNEA
 }
@@ -813,7 +695,6 @@ const sendBtn = document.getElementById("send-btn");
 const MESSAGE_TTL = 60;
 function sendMessage(){
   if(!input.value) return;
-  trackMessage();
   push(messagesRef, {
   text: input.value,
   ttl: parseTTL(),
@@ -1215,6 +1096,11 @@ function attachMessagesListener() {
 `;
 
 
+
+
+
+
+
     const menuBtn = div.querySelector(".msg-menu");
 
 menuBtn.addEventListener("click", e => {
@@ -1293,9 +1179,14 @@ actionMenu.addEventListener("click", e => {
 
 
 
+
+
+    
+
+
+    
+
     chatBox.appendChild(div);
-    const messageCount = chatBox.querySelectorAll(".message").length;
-    insertAdAfterMessage(messageCount);
     chatBox.scrollTop = chatBox.scrollHeight;
 
     const span = div.querySelector(".time-text");
