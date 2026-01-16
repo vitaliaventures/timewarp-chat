@@ -1175,12 +1175,6 @@ actionMenu.addEventListener("click", e => {
 });
 
 
-
-
-
-    
-
-
     
 
     chatBox.appendChild(div);
@@ -1217,7 +1211,7 @@ if (percent > 30) {
   });
 }
 
-
+attachMessagesListener();
 
 function cleanupOldRoomIdentities() {
   Object.keys(localStorage).forEach(key => {
