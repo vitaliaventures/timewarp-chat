@@ -415,7 +415,7 @@ function fromArabicDigits(str) {
 
 // --- Message TTL parser (mm:ss or ss)
 function parseTTL() {
-  let ttlInput = document.getElementById("ttl-input")?.value || "1:00";
+  let ttlInput = document.getElementById("ttl-input")?.value || "10:00";
 
   // 🔥 convertir números árabes → latinos antes de parsear
   ttlInput = fromArabicDigits(ttlInput);
