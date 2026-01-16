@@ -449,3 +449,31 @@ body {
     opacity: 0.85;
   }
 }
+
+
+
+/* ===== FIX DEFINITIVO ADS MOBILE ===== */
+@media (max-width: 480px) {
+
+  .chat-wrapper {
+    padding: 0;
+  }
+
+  .ad-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+    padding: 8px 6px;
+    box-shadow: none;
+  }
+
+  .ad-top {
+    margin-bottom: 6px;
+  }
+
+  .ad-bottom {
+    margin-top: 6px;
+  }
+
+}
