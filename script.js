@@ -550,7 +550,6 @@ const messageColors = [
   "#ef4444"
 ];
 const animalEmoji = {Fox:"🦊",Panda:"🐼",Tiger:"🐯",Octopus:"🐙",Wolf:"🐺",Eagle:"🦅",Bear:"🐻",Owl:"🦉"};
-console.log("Your identity:", identity.emoji, identity.name);
 
 // --- Firebase
 const firebaseConfig = {
