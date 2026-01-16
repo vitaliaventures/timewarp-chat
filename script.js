@@ -568,6 +568,28 @@ const db = getDatabase(app);
 // --- Sala
 let roomId = location.hash.replace("#room=","");
 if(!roomId){ roomId = crypto.randomUUID().replace(/-/g, ""); location.hash="room="+roomId; }
+
+// --- Room-scoped identity (NEW USERNAME PER ROOM)
+const IDENTITY_KEY = `tw_identity_${roomId}`;
+
+let identity = JSON.parse(localStorage.getItem(IDENTITY_KEY));
+
+if (!identity) {
+  const animal = animals[Math.floor(Math.random() * animals.length)];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  const id = Math.floor(Math.random() * 900 + 100);
+
+  identity = {
+    name: `${color} ${animal} ${id}`,
+    emoji: animalEmoji[animal]
+  };
+
+  localStorage.setItem(IDENTITY_KEY, JSON.stringify(identity));
+}
+
+console.log("Room identity:", identity.emoji, identity.name);
+
+
 let roomRef = ref(db,`rooms/${roomId}`);
 let messagesRef = ref(db,`rooms/${roomId}/messages`);
 attachMessagesListener(); // ← AGREGA ESTA LÍNEA
