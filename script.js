@@ -717,6 +717,43 @@ sendBtn.onclick=sendMessage;
 
 
 
+function toggleReaction(msgRef, emoji) {
+  const userName = identity.name;
+
+  get(msgRef).then(snap => {
+    if (!snap.exists()) return;
+
+    const msg = snap.val();
+    const reactions = msg.reactions || {};
+    const emojiReactions = reactions[emoji] || {};
+
+    // 🔁 SI YA REACCIONÓ → REMOVER
+    if (emojiReactions[userName]) {
+      delete emojiReactions[userName];
+
+      // si el emoji queda vacío, lo borramos
+      if (Object.keys(emojiReactions).length === 0) {
+        delete reactions[emoji];
+      } else {
+        reactions[emoji] = emojiReactions;
+      }
+    } 
+    // ➕ SI NO → AGREGAR
+    else {
+      emojiReactions[userName] = true;
+      reactions[emoji] = emojiReactions;
+    }
+
+    set(msgRef, {
+      ...msg,
+      reactions
+    });
+  });
+}
+
+
+
+
 function spawnConfetti() {
   for(let i=0;i<30;i++){
     const conf = document.createElement("div");
