@@ -1033,11 +1033,6 @@ reactionViewer.addEventListener("click", () => {
 });
 
 
-
-
-
-
-
 function attachMessagesListener() {
   if (messagesListenerUnsub) messagesListenerUnsub();
 
@@ -1101,9 +1096,6 @@ function attachMessagesListener() {
     <div class="countdown-fill"></div>
   </div>
 `;
-
-
-
 
 
 
@@ -1229,8 +1221,16 @@ if (percent > 30) {
 
 
 
+function cleanupOldRoomIdentities() {
+  Object.keys(localStorage).forEach(key => {
+    if (key.startsWith("tw_identity_") && !key.endsWith(roomId)) {
+      localStorage.removeItem(key);
+    }
+  });
+}
 
 
+cleanupOldRoomIdentities();
 
 
 newRoomBtn.addEventListener("click", () => {
