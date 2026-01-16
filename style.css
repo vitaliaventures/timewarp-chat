@@ -10,13 +10,11 @@ body {
   color: #fff;
   font-family: Arial, sans-serif;
   display: flex;
-  flex-direction: column;  /* Chat + SEO content verticalmente */
+  justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 20px 0;         /* espacio arriba/abajo */
 }
 
-/* Chat container */
 .chat-container {
   width: 95%;
   max-width: 600px;
@@ -26,7 +24,6 @@ body {
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0 6px 25px rgba(0,0,0,0.7);
-  margin-bottom: 60px; /* espacio para la sección SEO */
 }
 
 /* Header */
@@ -63,24 +60,7 @@ body {
   cursor: pointer;
   transition: background 0.2s ease;
 }
-
-/* TTL input destacado para nuevos usuarios */
-#ttl-input {
-  border: 1px solid #2563eb;
-  padding: 6px 8px;
-  border-radius: 8px;
-  background: #1c1c1c;
-  color: #fff;
-  width: 80px;
-  text-align: center;
-  margin-left: 8px;
-}
-
-
-
-.lang-select:hover, .header-btn:hover {
-  background: #2a2a2a;
-}
+.lang-select:hover, .header-btn:hover { background: #2a2a2a; }
 
 /* Chat box con virtual scroll */
 .chat-box {
@@ -96,27 +76,17 @@ body {
 
 /* Mensajes */
 .message {
-  background: #1c1c1c;
+  background: #333;
   color: #fff;
-  margin: 4px 0;
-  padding: 8px 12px;
-  border-radius: 8px;
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
   position: relative;
   word-wrap: break-word;
   line-height: 1.5;
   transition: background 0.2s ease;
 }
 .message:hover { background: #3a3a3a; }
-.user-name {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 2px;
-}
-
-.msg-text {
-  margin: 0;
-}
-
 
 
 /* Input */
@@ -165,7 +135,7 @@ body {
   .chat-input button { padding: 6px 10px; font-size: 0.8rem; }
 }
 
-/* New room banner */
+
 #new-room-banner {
   position: fixed;
   top: -60px;
@@ -181,20 +151,8 @@ body {
   transition: top 0.5s ease;
 }
 
-/* Live users count – sticky engagement signal */
-#live-users-count {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  background: #22c55e;
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-weight: bold;
-  z-index: 9999;
-  font-size: 0.85rem;
-}
 
-/* Countdown urgency system */
+/* Countdown urgency system (scales globally) */
 .countdown-track {
   margin-top: 6px;
   height: 4px;
@@ -203,6 +161,7 @@ body {
   border-radius: 999px;
   overflow: hidden;
 }
+
 .countdown-fill {
   height: 100%;
   width: 100%;
@@ -212,7 +171,11 @@ body {
   box-shadow: 0 0 6px rgba(0,0,0,0.4);
 }
 
-/* Time + menu container (top-right) */
+
+
+
+
+/* Time + menu container (top-right, no extra space) */
 .msg-time {
   position: absolute;
   top: 6px;
@@ -220,13 +183,11 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.7rem; /* changed */
-  color: #aaa;       /* added */
+  font-size: 11px;
   opacity: 0.65;
 }
 
-
-/* Three-dot menu */
+/* Three-dot menu (light effect) */
 .msg-menu {
   width: 14px;
   height: 14px;
@@ -235,6 +196,8 @@ body {
   opacity: 0;
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
+
+/* Dots */
 .msg-menu::before,
 .msg-menu::after,
 .msg-menu div {
@@ -248,39 +211,73 @@ body {
   transform: translateX(-50%);
   box-shadow: 0 0 6px rgba(255,255,255,0.7);
 }
+
 .msg-menu::before { top: 0; }
 .msg-menu div { top: 5px; }
 .msg-menu::after { top: 10px; }
-.message:hover .msg-menu { opacity: 1; transform: scale(1.1); }
+
+/* Show only on hover (desktop) */
+.message:hover .msg-menu {
+  opacity: 1;
+  transform: scale(1.1);
+}
 
 #msg-action-menu .menu-item {
-  display: block;
-  width: 100%;
+  display: block;              /* 🔥 CLAVE: deja de ser inline/flex */
+  width: 100%;                 /* 🔥 ocupa todo el menú */
   padding: 8px 10px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: start;
+  white-space: nowrap;         /* evita salto raro */
+  overflow: hidden;            /* evita corte feo */
+  text-overflow: ellipsis;     /* … si no entra */
+  text-align: start;           /* LTR + RTL */
 }
-#msg-action-menu .menu-item:hover { background: rgba(255,255,255,0.08); }
-#msg-action-menu .menu-item span { display: inline-block; vertical-align: middle; }
 
-/* RTL fixes */
-.time-text { direction: ltr; unicode-bidi: isolate; }
-[dir="rtl"] .msg-time { right: auto; left: 10px; flex-direction: row-reverse; }
 
-/* Definitivo menú acciones móvil + RTL */
+#msg-action-menu .menu-item span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+
+
+#msg-action-menu .menu-item:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+
+
+
+
+/* --- FIX RTL (Arabic) for time mm:ss --- */
+.time-text {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Ajuste visual del contenedor tiempo en RTL */
+[dir="rtl"] .msg-time {
+  right: auto;
+  left: 10px;
+  flex-direction: row-reverse;
+}
+
+
+
+/* ===== FIX DEFINITIVO MENU ACCIONES EN MOVIL + RTL ===== */
 #msg-action-menu {
   position: fixed;
   max-width: 220px;
-  max-height: 70vh;
-  overflow-y: auto;
+  max-height: 70vh;            /* 🔥 evita corte vertical */
+  overflow-y: auto;            /* 🔥 permite scroll */
   z-index: 99999;
   box-sizing: border-box;
 }
+
+/* Mobile safety */
 @media (max-width: 480px) {
   #msg-action-menu {
     max-width: calc(100vw - 20px);
@@ -289,229 +286,37 @@ body {
   }
 }
 
-#reaction-bar { direction: ltr; unicode-bidi: isolate; }
-#reaction-bar span { display: inline-flex; align-items: center; justify-content: center; }
 
-.reactions { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
-.reaction-pill { background: #2a2a2a; padding: 2px 8px; border-radius: 999px; font-size: 0.75rem; cursor: default; user-select: none; }
-.reaction-pill:hover { background: #3a3a3a; }
-
-/* ===== SEO / Marketing Content ===== */
-.seo-content {
-  max-width: 900px;
-  margin: 0 auto 120px auto;
-  padding: 0 20px;
-  color: #e5e5e5;
-  font-size: 1rem;
-  line-height: 1.7;
-}
-.seo-content h1, .seo-content h2 { color: #ffffff; margin-top: 48px; margin-bottom: 16px; }
-.seo-content p { opacity: 0.9; }
-.seo-content .tool-links { margin-top: 32px; margin-bottom: 24px; }
-.seo-content a { color: #60a5fa; text-decoration: none; }
-.seo-content a:hover { text-decoration: underline; }
-
-/* Hero section center */
-#hero { text-align: center; margin-top: 40px; }
-
-/* Sections spacing */
-#features, #get-started, #faq { margin-top: 40px; }
-#faq { margin-bottom: 80px; }
-
-/* Responsive SEO content */
-@media (max-width: 480px) {
-  .seo-content { max-width: 95%; padding: 0 10px; }
-  .seo-content h1, .seo-content h2 { font-size: 1.2rem; }
-  .seo-content p { font-size: 0.9rem; }
+#reaction-bar {
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 
-
-
-/* Wrapper to hold ads + chat */
-.chat-wrapper {
-  display: flex;
-  flex-direction: column;
+#reaction-bar span {
+  display: inline-flex;
   align-items: center;
-  width: 100%;
-}
-
-/* Generic ad container style */
-.ad-container {
-  width: 100%;
-  background-color: #1f2937; /* dark gray */
-  color: white;
-  text-align: center;
-  padding: 8px 0;
-  font-size: 14px;
-  position: relative; /* keeps it in flow */
-  z-index: 10;
-}
-
-/* Rotating ads – visual polish only (safe) */
-.ad-top,
-.ad-bottom,
-.ad-inline {
-  background: #222;
-  color: #f0f0f0;
-  text-align: center;
-  font-style: italic;
-  transition: background 0.3s, color 0.3s;
-}
-
-/* Inline ads are smaller than banners */
-.ad-inline {
-  font-size: 0.85rem;
-}
-
-
-/* Optional: sticky top/bottom ads without breaking scroll */
-.ad-top {
-  top: 0;
-}
-
-.ad-bottom {
-  bottom: 0;
-  margin-top: 8px;
+  justify-content: center;
 }
 
 
 
-
-
-
-
-/* 🌟 Contenedor de anuncios entre header y chat */
-.ad-container {
-  width: 95%;
-  max-width: 600px;
-  background: #111;
-  color: #ccc;
-  text-align: center;
-  padding: 10px 14px;
-  border-radius: 12px;
-  margin: 12px auto;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  font-size: 0.85rem;
+.reactions {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
 }
 
-/* Banner sticky superior opcional */
-.ad-sticky-top {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  background: #111;
-  color: #fff;
-  text-align: center;
-  padding: 8px 0;
-  z-index: 9999;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-}
-
-/* Footer SEO content */
-.page-footer {
-  width: 95%;
-  max-width: 600px;
-  margin: 24px auto;
-  color: #aaa;
-  font-size: 0.85rem;
-  line-height: 1.6;
-  text-align: justify;
+.reaction-pill {
+  background: #2a2a2a;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  cursor: default;
+  user-select: none;
 }
 
 
-/* Ads styling */
-.ad-banner {
-  width: 100%;
-  background: #111;
-  color: #fff;
-  text-align: center;
-  padding: 6px 0;
-  font-size: 0.85rem;
-  border-top: 1px solid #333;
-  border-bottom: 1px solid #333;
-}
-.ad-inline {
-  margin: 12px 0;
-  text-align: center;
-  background: #111;
-  padding: 6px 8px;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  color: #f0f0f0;
-  font-style: italic;
-}
-
-
-@media (max-width: 480px) {
-  .ad-container {
-    font-size: 0.75rem;
-    padding: 6px 8px;
-    opacity: 0.85;
-  }
-}
-
-
-
-/* ===== FIX DEFINITIVO ADS MOBILE ===== */
-@media (max-width: 480px) {
-
-  .chat-wrapper {
-    padding: 0;
-  }
-
-  .ad-container {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    border-radius: 0;
-    padding: 8px 6px;
-    box-shadow: none;
-  }
-
-  .ad-top {
-    margin-bottom: 6px;
-  }
-
-  .ad-bottom {
-    margin-top: 6px;
-  }
-
-}
-
-
-
-
-/* ===== MOBILE FIRST UX FIX (CRÍTICO) ===== */
-@media (max-width: 480px) {
-
-  body {
-    align-items: stretch;   /* ⛔ NO centrar en móvil */
-    padding: 0;
-  }
-
-  .chat-wrapper {
-    width: 100%;
-    margin: 0;
-  }
-
-  .chat-container {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    border-radius: 0;
-    min-height: 100vh;      /* 👈 se siente como app */
-  }
-
-  .chat-header {
-    border-radius: 0;
-  }
-
-  .chat-box {
-    padding: 10px;
-  }
-
-  .seo-content {
-    margin-top: 40px;       /* aparece SOLO al bajar */
-  }
-
+.reaction-pill:hover {
+  background: #3a3a3a;
 }
