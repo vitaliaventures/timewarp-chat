@@ -717,32 +717,6 @@ sendBtn.onclick=sendMessage;
 
 
 
-function toggleReaction(msgRef, emoji) {
-  const userId = auth.currentUser.uid;
-  const reactionRef = ref(db, `${msgRef}/reactions/${userId}`);
-
-  get(reactionRef).then(snapshot => {
-    if (snapshot.exists()) {
-      const currentEmoji = snapshot.val();
-
-      // 👉 si toca el MISMO emoji → borrar
-      if (currentEmoji === emoji) {
-        remove(reactionRef);
-      } else {
-        // 👉 si toca OTRO emoji → reemplazar
-        set(reactionRef, emoji);
-      }
-    } else {
-      // 👉 no tenía reacción → agregar
-      set(reactionRef, emoji);
-    }
-  });
-}
-
-
-
-
-
 function spawnConfetti() {
   for(let i=0;i<30;i++){
     const conf = document.createElement("div");
