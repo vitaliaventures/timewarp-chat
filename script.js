@@ -776,6 +776,7 @@ onChildAdded(typingRef,snap=>{
 
 
 // Listener para detectar ediciones de mensajes
+if (!messagesListenerAttached) return;
 onChildChanged(messagesRef, snap => {
   const msg = snap.val();
   const div = chatBox.querySelector(`[data-msg-key="${snap.key}"]`);
