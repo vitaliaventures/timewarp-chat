@@ -1215,6 +1215,44 @@ if (percent > 30) {
   });
 }
 
+
+
+
+
+function openEditModal(msgRef, msgText) {
+  if (editOverlay) editOverlay.remove();
+
+  editOverlay = document.createElement("div");
+  editOverlay.style = `
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:30000;
+  `;
+
+  editOverlay.innerHTML = `
+    <div style="background:#1c1c1c;padding:16px;border-radius:14px;">
+      <textarea id="edit-input">${msgText}</textarea>
+      <button id="edit-ok">OK</button>
+      <button id="edit-cancel">Cancel</button>
+    </div>
+  `;
+
+  document.body.appendChild(editOverlay);
+
+  editInput = document.getElementById("edit-input");
+  editConfirmBtn = document.getElementById("edit-ok");
+  editCancelBtn = document.getElementById("edit-cancel");
+}
+
+
+
+
+
+
 attachMessagesListener();
 
 function cleanupOldRoomIdentities() {
