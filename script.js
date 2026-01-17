@@ -932,6 +932,51 @@ let editInput = null;
 let editConfirmBtn = null;
 let editCancelBtn = null;
 
+document.addEventListener("click", async e => {
+  if (!editOverlay) return;
+
+  if (e.target === editConfirmBtn) {
+    const newText = editInput.value.trim();
+    if (!newText) return;
+
+    await set(child(activeMsgRef, "text"), newText);
+    await set(child(activeMsgRef, "edited"), true);
+
+    editOverlay.remove();
+    editOverlay = null;
+  }
+
+  if (e.target === editCancelBtn) {
+    editOverlay.remove();
+    editOverlay = null;
+  }
+});
+
+document.addEventListener("keydown", async e => {
+  if (!editOverlay) return;
+
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+
+    const newText = editInput.value.trim();
+    if (!newText) return;
+
+    await set(child(activeMsgRef, "text"), newText);
+    await set(child(activeMsgRef, "edited"), true);
+
+    editOverlay.remove();
+    editOverlay = null;
+  }
+
+  if (e.key === "Escape") {
+    editOverlay.remove();
+    editOverlay = null;
+  }
+});
+
+
+
+
 document.addEventListener("click", () => {
   actionMenu.style.display = "none";
 });
