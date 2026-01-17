@@ -1281,11 +1281,6 @@ function openEditModal(msgRef, msgText) {
 
 
 
-
-
-
-attachMessagesListener();
-
 function cleanupOldRoomIdentities() {
   Object.keys(localStorage).forEach(key => {
     if (key.startsWith("tw_identity_") && !key.endsWith(roomId)) {
