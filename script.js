@@ -1489,5 +1489,17 @@ remove(typingRef);
 ;
 
 
-
-
+const style = document.createElement("style");
+style.textContent = `
+@keyframes scaleIn {
+  from {
+    transform: scale(.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+`;
+document.head.appendChild(style);
