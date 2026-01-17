@@ -593,6 +593,7 @@ console.log("Room identity:", identity.emoji, identity.name);
 let roomRef = ref(db,`rooms/${roomId}`);
 let messagesRef = ref(db,`rooms/${roomId}/messages`);
 let metaRef = ref(db,`rooms/${roomId}/meta`);
+attachMessagesListener();
 function saveRoomTTL(ttlValue) {
   set(ref(db, `rooms/${roomId}/meta/ttl`), ttlValue);
 }
