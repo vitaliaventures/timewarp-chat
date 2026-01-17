@@ -969,10 +969,7 @@ document.querySelectorAll("#reaction-bar span").forEach(span => {
       reactions[newEmoji][identity.name] = true;
     }
 
-    await set(activeMsgRef, {
-      ...msg,
-      reactions
-    });
+    await set(child(activeMsgRef, "reactions"), reactions);
 
     actionMenu.style.display = "none";
   });
