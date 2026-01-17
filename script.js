@@ -975,12 +975,12 @@ document.addEventListener("keydown", async e => {
 });
 
 
+document.addEventListener("click", e => {
+  // ⛔ NO cerrar si el click fue en el reaction bar
+  if (e.target.closest("#reaction-bar")) return;
 
-
-document.addEventListener("click", () => {
   actionMenu.style.display = "none";
 });
-
 
 
 document.querySelectorAll("#reaction-bar span").forEach(span => {
