@@ -1193,25 +1193,10 @@ actionMenu.addEventListener("click", e => {
   if (!activeMsgRef) return;
 
   if (action === "edit") {
-    get(activeMsgRef).then(snap => {
-      const oldData = snap.val();
-      if (!oldData) return;
+  openEditModal(activeMsgRef, msg.text);
+  actionMenu.style.display = "none";
+}
 
-      // 🔹 ocultar menú antes de mostrar prompt
-      actionMenu.style.display = "none";
-
-      const newText = prompt("Edit message:", oldData.text);
-      if (newText !== null && newText !== oldData.text) {
-        set(activeMsgRef, {
-  ...oldData,
-  text: newText,
-  edited: true,
-  editedAt: Date.now() // 🔥 clave
-});
-
-      }
-    }).catch(console.error);
-  }
 
   if (action === "delete") {
     activeMsgDiv.style.opacity = "0.3";
