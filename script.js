@@ -926,6 +926,10 @@ function generateRoomId() {
 
 const actionMenu = document.getElementById("msg-action-menu");
 let activeMsgRef = null;
+let editOverlay = null;
+let editInput = null;
+let editConfirmBtn = null;
+let editCancelBtn = null;
 let activeMsgDiv = null;
 
 document.addEventListener("click", () => {
