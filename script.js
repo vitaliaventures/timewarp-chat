@@ -1254,21 +1254,87 @@ function openEditModal(msgRef, msgText) {
   if (editOverlay) editOverlay.remove();
 
   editOverlay = document.createElement("div");
-  editOverlay.style = `
+  editOverlay.style.cssText = `
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.6);
+    background:rgba(0,0,0,0.75);
     display:flex;
     align-items:center;
     justify-content:center;
     z-index:30000;
+    backdrop-filter: blur(6px);
   `;
 
   editOverlay.innerHTML = `
-    <div style="background:#1c1c1c;padding:16px;border-radius:14px;">
-      <textarea id="edit-input">${msgText}</textarea>
-      <button id="edit-ok">OK</button>
-      <button id="edit-cancel">Cancel</button>
+    <div style="
+      background:#111;
+      width:90%;
+      max-width:420px;
+      padding:18px;
+      border-radius:18px;
+      box-shadow:0 20px 60px rgba(0,0,0,0.6);
+      animation: scaleIn .18s ease-out;
+    ">
+      <div style="
+        font-size:14px;
+        opacity:.7;
+        margin-bottom:10px;
+      ">
+        ✏️ ${translations[currentLang].editMessage}
+      </div>
+
+      <textarea
+        id="edit-input"
+        style="
+          width:100%;
+          min-height:90px;
+          resize:none;
+          background:#1c1c1c;
+          color:#fff;
+          border:none;
+          outline:none;
+          border-radius:12px;
+          padding:12px;
+          font-size:14px;
+          line-height:1.4;
+        "
+      >${msgText}</textarea>
+
+      <div style="
+        display:flex;
+        gap:10px;
+        justify-content:flex-end;
+        margin-top:14px;
+      ">
+        <button
+          id="edit-cancel"
+          style="
+            background:#2a2a2a;
+            color:#aaa;
+            border:none;
+            padding:8px 14px;
+            border-radius:10px;
+            cursor:pointer;
+          "
+        >
+          Cancel
+        </button>
+
+        <button
+          id="edit-ok"
+          style="
+            background:linear-gradient(135deg,#2563eb,#7c3aed);
+            color:#fff;
+            border:none;
+            padding:8px 16px;
+            border-radius:10px;
+            font-weight:600;
+            cursor:pointer;
+          "
+        >
+          OK
+        </button>
+      </div>
     </div>
   `;
 
@@ -1277,7 +1343,10 @@ function openEditModal(msgRef, msgText) {
   editInput = document.getElementById("edit-input");
   editConfirmBtn = document.getElementById("edit-ok");
   editCancelBtn = document.getElementById("edit-cancel");
+
+  editInput.focus();
 }
+
 
 
 
