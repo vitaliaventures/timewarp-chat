@@ -1316,7 +1316,6 @@ setTimeout(() => {
 // ---- RE-INICIALIZAR REFERENCIAS PARA LA NUEVA SALA ----
   roomRef = ref(db,"rooms/"+newRoomId);
   messagesRef = ref(db,`rooms/${newRoomId}/messages`);
-  attachMessagesListener();
   metaRef = ref(db,`rooms/${newRoomId}/meta`);
 
   // 🔥 inicializar TTL de la nueva sala
