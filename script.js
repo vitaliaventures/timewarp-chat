@@ -8,7 +8,8 @@ import {
   onValue,
   set,
   onDisconnect,
-  get      // 🔥 agrega esto
+  get,      // 🔥 agrega esto
+  child          // 🔥 ESTA LÍNEA ES LA CLAVE
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 import { onChildChanged } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
