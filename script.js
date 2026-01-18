@@ -54,10 +54,16 @@ if (canonical) {
 
 
 } else {
-  const metaRobots = document.createElement("meta");
+  let metaRobots = document.querySelector('meta[name="robots"]');
+
+if (!metaRobots) {
+  metaRobots = document.createElement("meta");
   metaRobots.name = "robots";
-  metaRobots.content = "noindex,nofollow";
   document.head.appendChild(metaRobots);
+}
+
+metaRobots.content = "noindex,nofollow";
+
 }
 
 
