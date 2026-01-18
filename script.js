@@ -480,11 +480,11 @@ function setLanguage(lang) {
 
 if (ttlInputEl) {
   if (lang === "ar") {
-    ttlInputEl.value = toArabicDigits(ttlInputEl.value || "10:00");
+    ttlInputEl.value = toArabicDigits(ttlInputEl.value || "01:00");
     ttlInputEl.style.direction = "rtl";
     ttlInputEl.style.textAlign = "center";
   } else {
-    ttlInputEl.value = fromArabicDigits(ttlInputEl.value || "10:00");
+    ttlInputEl.value = fromArabicDigits(ttlInputEl.value || "01:00");
     ttlInputEl.style.direction = "ltr";
     ttlInputEl.style.textAlign = "center";
   }
