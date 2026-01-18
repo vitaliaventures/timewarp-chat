@@ -81,19 +81,6 @@ metaRobots.content = "noindex,nofollow";
 
 }
 
-
-
-
-if (roomType === "public") {
-  showSystemMessage("🌍 This is a public conversation. Anyone with the link can join.");
-}
-
-
-
-
-
-
-
 // --- Traducciones y multilenguaje
 // (Se mantiene igual que tu versión, con todos los idiomas)
 
@@ -673,6 +660,11 @@ else {
 
 console.log("ROOM TYPE:", roomType, "ROOM ID:", roomId);
 
+// después de console.log("ROOM TYPE:", roomType, "ROOM ID:", roomId);
+
+if (roomType === "public") {
+  showSystemMessage("🌍 This is a public conversation. Anyone with the link can join.");
+}
 
 
 
