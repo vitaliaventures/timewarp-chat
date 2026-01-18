@@ -1,3 +1,46 @@
+// --- ROUTING (/p/ public vs /r/ private)
+const pathParts = window.location.pathname.split("/").filter(Boolean);
+
+let roomType = "private";
+let roomIdFromPath = null;
+
+if (pathParts[0] === "p" && pathParts[1]) {
+  roomType = "public";
+  roomIdFromPath = pathParts[1];
+} else if (pathParts[0] === "r" && pathParts[1]) {
+  roomType = "private";
+  roomIdFromPath = pathParts[1];
+}
+
+// --- SEO BEHAVIOR
+if (roomType === "public") {
+  document.title = `Conversation ${roomIdFromPath} – TimeWarp Messenger`;
+
+  let metaDesc = document.querySelector('meta[name="description"]');
+  if (!metaDesc) {
+    metaDesc = document.createElement("meta");
+    metaDesc.name = "description";
+    document.head.appendChild(metaDesc);
+  }
+
+  metaDesc.setAttribute(
+    "content",
+    "Live public conversation. Messages disappear automatically. Join the discussion instantly without accounts."
+  );
+
+} else {
+  // PRIVATE ROOMS = NEVER INDEX
+  const metaRobots = document.createElement("meta");
+  metaRobots.name = "robots";
+  metaRobots.content = "noindex,nofollow";
+  document.head.appendChild(metaRobots);
+}
+
+
+
+
+
+
 const pathParts = window.location.pathname.split("/").filter(Boolean);
 
 let roomType = "private"; // default
