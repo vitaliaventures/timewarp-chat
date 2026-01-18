@@ -47,6 +47,12 @@ if (roomType === "public") {
     "Live public conversation. Messages disappear automatically. Join instantly without accounts."
   );
 
+  const canonical = document.querySelector('link[rel="canonical"]');
+if (canonical) {
+  canonical.href = window.location.href;
+}
+
+
 } else {
   const metaRobots = document.createElement("meta");
   metaRobots.name = "robots";
