@@ -63,6 +63,13 @@ if (canonical) {
 
 
 
+if (roomType === "public") {
+  showSystemMessage("🌍 This is a public conversation. Anyone with the link can join.");
+}
+
+
+
+
 
 
 
