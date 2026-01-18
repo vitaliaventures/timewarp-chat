@@ -610,15 +610,28 @@ function saveRoomTTL(ttlValue) {
 }
 
 onValue(metaRef, snap => {
+  if (!snap.exists()) return;
+
   const meta = snap.val();
 
+  // 🔥 ROOM EXPIRATION CHECK — EXACT PLACE
+  if (meta.lastActivityAt) {
+    const inactiveTime = Date.now() - meta.lastActivityAt;
+
+    if (inactiveTime > ROOM_INACTIVITY_LIMIT && !meta.destroyed) {
+      set(ref(db, `rooms/${roomId}/meta/destroyed`), true);
+      return;
+    }
+  }
+
+  // ⏱️ existing TTL sync logic (UNCHANGED)
   if (meta?.ttl && ttlInputEl) {
     ttlInputEl.value = meta.ttl;
     localStorage.setItem(TTL_STORAGE_KEY, meta.ttl);
   }
-  
-  if (meta?.destroyed) {
 
+  // ⛔ room destroyed overlay (UNCHANGED)
+  if (meta?.destroyed) {
     document.body.innerHTML = `
       <div style="
         background:#000;
@@ -653,10 +666,11 @@ onValue(metaRef, snap => {
       .addEventListener("click", () => {
         const newRoomId = generateRoomId();
         location.hash = "room=" + newRoomId;
-        location.reload(); // 🔥 reset limpio, cero listeners muertos
+        location.reload(); // 🔥 clean reset
       });
   }
 });
+
 
 
 
