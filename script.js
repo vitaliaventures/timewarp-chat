@@ -13,6 +13,55 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 import { onChildChanged } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
+
+
+
+// ================================
+// ROUTING + SEO (SINGLE SOURCE OF TRUTH)
+// ================================
+
+const pathParts = window.location.pathname.split("/").filter(Boolean);
+
+let roomType = "private";
+let roomId = null;
+
+if (pathParts[0] === "p" && pathParts[1]) {
+  roomType = "public";
+  roomId = pathParts[1];
+} else if (pathParts[0] === "r" && pathParts[1]) {
+  roomType = "private";
+  roomId = pathParts[1];
+}
+
+// --- SEO behavior
+if (roomType === "public") {
+  document.title = `Live Conversation ${roomId} – TimeWarp Messenger`;
+
+  let metaDesc = document.querySelector('meta[name="description"]');
+  if (!metaDesc) {
+    metaDesc = document.createElement("meta");
+    metaDesc.name = "description";
+    document.head.appendChild(metaDesc);
+  }
+
+  metaDesc.setAttribute(
+    "content",
+    "Live public conversation. Messages disappear automatically. Join instantly without accounts."
+  );
+
+} else {
+  const metaRobots = document.createElement("meta");
+  metaRobots.name = "robots";
+  metaRobots.content = "noindex,nofollow";
+  document.head.appendChild(metaRobots);
+}
+
+
+
+
+
+
+
 // --- Traducciones y multilenguaje
 // (Se mantiene igual que tu versión, con todos los idiomas)
 
