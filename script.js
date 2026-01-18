@@ -52,6 +52,24 @@ if (canonical) {
   canonical.href = window.location.origin + window.location.pathname;
 }
 
+// 🔥 remove noindex if coming from private
+const metaRobots = document.querySelector('meta[name="robots"]');
+if (metaRobots) {
+  metaRobots.remove();
+}
+
+// 🔥 SEO crawlable invisible text
+const seoDiv = document.getElementById("seo-text");
+if (seoDiv) {
+  seoDiv.textContent = `
+    Live public chat room ${roomId}.
+    Ephemeral messages that disappear automatically.
+    Anonymous real-time conversation.
+    No account required.
+    Temporary public discussion room.
+  `;
+}
+  
 
 } else {
   let metaRobots = document.querySelector('meta[name="robots"]');
