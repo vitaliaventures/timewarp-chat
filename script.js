@@ -980,6 +980,9 @@ document.addEventListener("keydown", async e => {
 
     await set(child(activeMsgRef, "text"), newText);
     await set(child(activeMsgRef, "edited"), true);
+    touchRoom();
+
+    
 
     editOverlay.remove();
     editOverlay = null;
