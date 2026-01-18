@@ -594,6 +594,16 @@ console.log("Room identity:", identity.emoji, identity.name);
 let roomRef = ref(db,`rooms/${roomId}`);
 let messagesRef = ref(db,`rooms/${roomId}/messages`);
 let metaRef = ref(db,`rooms/${roomId}/meta`);
+
+function touchRoom() {
+  set(ref(db, `rooms/${roomId}/meta/lastActivityAt`), Date.now());
+}
+
+// tocar sala al entrar
+touchRoom();
+
+
+
 attachMessagesListener();
 function saveRoomTTL(ttlValue) {
   set(ref(db, `rooms/${roomId}/meta/ttl`), ttlValue);
