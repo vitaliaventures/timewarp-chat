@@ -1,3 +1,19 @@
+const pathParts = window.location.pathname.split("/").filter(Boolean);
+
+let roomType = "private"; // default
+let roomId = null;
+
+if (pathParts[0] === "p" && pathParts[1]) {
+  roomType = "public";
+  roomId = pathParts[1];
+} else if (pathParts[0] === "r" && pathParts[1]) {
+  roomType = "private";
+  roomId = pathParts[1];
+}
+
+
+
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
 import {
   getDatabase,
