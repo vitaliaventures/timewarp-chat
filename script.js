@@ -504,7 +504,7 @@ const ttlInputEl = document.getElementById("ttl-input");
 // 🔥 cargar TTL guardado o default
 const savedTTL = localStorage.getItem(TTL_STORAGE_KEY);
 if (ttlInputEl) {
-  ttlInputEl.value = savedTTL || "10:00";
+  ttlInputEl.value = savedTTL || "01:00";
 }
 
 
