@@ -855,7 +855,10 @@ function spawnConfetti() {
     },30);
   }
 }
-spawnConfetti();
+if (roomType === "private" && location.hash.includes("room=")) {
+  spawnConfetti();
+}
+
 
 
 
