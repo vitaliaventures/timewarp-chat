@@ -1040,6 +1040,7 @@ document.querySelectorAll("#reaction-bar span").forEach(span => {
     }
 
     await set(child(activeMsgRef, "reactions"), reactions);
+    touchRoom();
 
     actionMenu.style.display = "none";
   });
