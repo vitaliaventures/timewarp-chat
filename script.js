@@ -11,6 +11,27 @@ if (pathParts[0] === "p" && pathParts[1]) {
   roomId = pathParts[1];
 }
 
+// --- SEO behavior for public vs private rooms
+if (roomType === "public") {
+  document.title = `Conversation: ${roomId}`;
+
+  let metaDesc = document.querySelector("meta[name='description']");
+  if (!metaDesc) {
+    metaDesc = document.createElement("meta");
+    metaDesc.name = "description";
+    document.head.appendChild(metaDesc);
+  }
+
+  metaDesc.setAttribute(
+    "content",
+    "Public conversation. Messages may disappear over time. Join the discussion."
+  );
+} else {
+  const metaRobots = document.createElement("meta");
+  metaRobots.name = "robots";
+  metaRobots.content = "noindex,nofollow";
+  document.head.appendChild(metaRobots);
+}
 
 
 
