@@ -500,6 +500,7 @@ if (reactionBar) {
 
 const languageSelect = document.getElementById("language-select");
 const ttlInputEl = document.getElementById("ttl-input");
+const ROOM_INACTIVITY_LIMIT = 24 * 60 * 60 * 1000; // 24h
 
 // 🔥 cargar TTL guardado o default
 const savedTTL = localStorage.getItem(TTL_STORAGE_KEY);
