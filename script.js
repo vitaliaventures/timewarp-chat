@@ -616,8 +616,33 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // --- Sala
-let roomId = location.hash.replace("#room=","");
-if(!roomId){ roomId = crypto.randomUUID().replace(/-/g, ""); location.hash="room="+roomId; }
+// ================================
+// FINAL ROOM ID RESOLUTION
+// ================================
+
+// PUBLIC rooms → /p/{id}
+if (roomType === "public") {
+  if (!roomId) {
+    // invalid public URL → hard reset
+    roomId = crypto.randomUUID().replace(/-/g, "");
+    window.location.replace("/p/" + roomId);
+  }
+}
+
+// PRIVATE rooms → #room=
+else {
+  roomId = location.hash.replace("#room=", "");
+
+  if (!roomId) {
+    roomId = crypto.randomUUID().replace(/-/g, "");
+    location.hash = "room=" + roomId;
+  }
+}
+
+console.log("ROOM TYPE:", roomType, "ROOM ID:", roomId);
+
+
+
 
 // --- Room-scoped identity (NEW USERNAME PER ROOM)
 const IDENTITY_KEY = `tw_identity_${roomId}`;
