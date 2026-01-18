@@ -49,7 +49,7 @@ if (roomType === "public") {
 
   const canonical = document.querySelector('link[rel="canonical"]');
 if (canonical) {
-  canonical.href = window.location.href;
+  canonical.href = window.location.origin + window.location.pathname;
 }
 
 
