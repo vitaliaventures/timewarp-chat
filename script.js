@@ -615,7 +615,7 @@ onValue(metaRef, snap => {
   const meta = snap.val();
 
   // 🔥 ROOM EXPIRATION CHECK — EXACT PLACE
-  if (meta.lastActivityAt) {
+  if (meta.lastActivityAt !== undefined) {
     const inactiveTime = Date.now() - meta.lastActivityAt;
 
     if (inactiveTime > ROOM_INACTIVITY_LIMIT && !meta.destroyed) {
