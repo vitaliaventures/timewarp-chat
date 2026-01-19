@@ -47,10 +47,12 @@ if (roomType === "public") {
     "Live public conversation. Messages disappear automatically. Join instantly without accounts."
   );
 
-  const canonical = document.querySelector('link[rel="canonical"]');
-if (canonical) {
-  canonical.href = window.location.origin + window.location.pathname;
-}
+  // 🔥 for Google: include canonical
+const canonical = document.querySelector('link[rel="canonical"]') || document.createElement('link');
+canonical.rel = 'canonical';
+canonical.href = window.location.href;
+document.head.appendChild(canonical);
+
 
 // 🔥 remove noindex if coming from private
 const metaRobots = document.querySelector('meta[name="robots"]');
