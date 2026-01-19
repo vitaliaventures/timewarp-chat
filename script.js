@@ -822,7 +822,6 @@ function showSystemMessage(text){
 // --- Send
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
-const MESSAGE_TTL = 60;
 function sendMessage(){
   if(!input.value) return;
   push(messagesRef, {
