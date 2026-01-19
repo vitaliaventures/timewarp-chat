@@ -674,7 +674,7 @@ console.log("ROOM TYPE:", roomType, "ROOM ID:", roomId);
 // después de console.log("ROOM TYPE:", roomType, "ROOM ID:", roomId);
 
 if (roomType === "public") {
-  showSystemMessage("🌍 This is a public conversation. Anyone with the link can join.");
+  showSystemMessage(translations[currentLang].publicRoomNotice);
 }
 
 
