@@ -105,7 +105,8 @@ const translations = {
     roomExpired: "⛔ This room has expired",
     editedLabel: "(edited)",
     editMessage: "Edit message",
-    deleteMessage: "Delete message"
+    deleteMessage: "Delete message",
+    publicRoomNotice: "🌍 This is a public conversation. Anyone with the link can join."
 
   },
   de: {
@@ -127,7 +128,8 @@ const translations = {
     roomExpired: "⛔ Dieser Raum ist abgelaufen",
     editedLabel: "(bearbeitet)",
     editMessage: "Nachricht bearbeiten",
-    deleteMessage: "Nachricht löschen"
+    deleteMessage: "Nachricht löschen",
+    publicRoomNotice: "🌍 Dies ist eine öffentliche Unterhaltung. Jeder mit dem Link kann beitreten."
 
 
   },
@@ -150,8 +152,8 @@ const translations = {
     roomExpired: "⛔ Esta sala ha expirado",
     editedLabel: "(editado)",
     editMessage: "Editar mensaje",
-    deleteMessage: "Eliminar mensaje"
-
+    deleteMessage: "Eliminar mensaje",
+    publicRoomNotice: "🌍 Esta es una conversación pública. Cualquiera con el enlace puede unirse."
 
 
   },
@@ -174,7 +176,8 @@ const translations = {
     roomExpired: "⛔ Cette salle a expiré",
     editedLabel: "(modifié)",
     editMessage: "Modifier le message",
-    deleteMessage: "Supprimer le message"
+    deleteMessage: "Supprimer le message",
+    publicRoomNotice: "🌍 Ceci est une conversation publique. Toute personne avec le lien peut participer."
 
 
   },
@@ -197,7 +200,8 @@ const translations = {
     roomExpired: "⛔ Questa stanza è scaduta",
     editedLabel: "(modificato)",
     editMessage: "Modifica messaggio",
-    deleteMessage: "Elimina messaggio"
+    deleteMessage: "Elimina messaggio",
+    publicRoomNotice: "🌍 Questa è una conversazione pubblica. Chiunque abbia il link può partecipare."
 
 
   },
@@ -220,8 +224,8 @@ const translations = {
     roomExpired: "⛔ Esta sala expirou",
     editedLabel: "(editado)",
     editMessage: "Editar mensagem",
-    deleteMessage: "Excluir mensagem"
-
+    deleteMessage: "Excluir mensagem",
+    publicRoomNotice: "🌍 Esta é uma conversa pública. Qualquer pessoa com o link pode participar."
 
   },
   ru: {
@@ -243,9 +247,8 @@ const translations = {
     roomExpired: "⛔ Эта комната больше не активна",
     editedLabel: "(отредактировано)",
     editMessage: "Редактировать сообщение",
-    deleteMessage: "Удалить сообщение"
-
-
+    deleteMessage: "Удалить сообщение",
+    publicRoomNotice: "🌍 Это публичный разговор. Любой, у кого есть ссылка, может присоединиться."
      
   },
   ja: {
@@ -267,8 +270,8 @@ const translations = {
     roomExpired: "⛔ このルームは期限切れです",
     editedLabel: "（編集済み）",
     editMessage: "メッセージを編集",
-    deleteMessage: "メッセージを削除"
-
+    deleteMessage: "メッセージを削除",
+    publicRoomNotice: "🌍 これは公開された会話です。リンクを持っている人は誰でも参加できます。"
 
   },
   ko: {
@@ -290,7 +293,8 @@ const translations = {
     roomExpired: "⛔ 이 방은 만료되었습니다",
     editedLabel: "(편집됨)",
     editMessage: "메시지 편집",
-    deleteMessage: "메시지 삭제"
+    deleteMessage: "메시지 삭제",
+    publicRoomNotice: "🌍 이 대화는 공개 대화입니다. 링크가 있으면 누구나 참여할 수 있습니다."
 
   },
   zh: {
@@ -312,7 +316,8 @@ const translations = {
     roomExpired: "⛔ 此房间已失效",
     editedLabel: "（已编辑）",
     editMessage: "编辑消息",
-    deleteMessage: "删除消息"
+    deleteMessage: "删除消息",
+    publicRoomNotice: "🌍 这是一个公开对话。任何拥有链接的人都可以加入。"
 
   },
   nl: {
@@ -334,7 +339,8 @@ const translations = {
     roomExpired: "⛔ Deze kamer is verlopen",
     editedLabel: "(bewerkt)",
     editMessage: "Bericht bewerken",
-    deleteMessage: "Bericht verwijderen"
+    deleteMessage: "Bericht verwijderen",
+    publicRoomNotice: "🌍 Dit is een openbaar gesprek. Iedereen met de link kan deelnemen."
 
   },
   tr: {
@@ -356,7 +362,8 @@ const translations = {
     roomExpired: "⛔ Bu oda süresi doldu",
     editedLabel: "(düzenlendi)",
     editMessage: "Mesajı düzenle",
-    deleteMessage: "Mesajı sil"
+    deleteMessage: "Mesajı sil",
+    publicRoomNotice: "🌍 Bu herkese açık bir konuşmadır. Bağlantıya sahip olan herkes katılabilir."
 
   },
   ar: {
@@ -378,7 +385,8 @@ const translations = {
     roomExpired: "⛔ انتهت صلاحية هذه الغرفة",
     editedLabel: "(تم التعديل)",
     editMessage: "تعديل الرسالة",
-    deleteMessage: "حذف الرسالة"
+    deleteMessage: "حذف الرسالة",
+    publicRoomNotice: "🌍 هذه محادثة عامة. يمكن لأي شخص لديه الرابط الانضمام."
 
   },
   pl: {
@@ -400,7 +408,8 @@ const translations = {
     roomExpired: "⛔ Ten pokój wygasł",
     editedLabel: "(edytowano)",
     editMessage: "Edytuj wiadomość",
-    deleteMessage: "Usuń wiadomość"
+    deleteMessage: "Usuń wiadomość",
+    publicRoomNotice: "🌍 To jest publiczna rozmowa. Każdy, kto ma link, może dołączyć."
 
   },
   sv: {
@@ -422,7 +431,8 @@ const translations = {
     roomExpired: "⛔ Detta rum har gått ut",
     editedLabel: "(redigerad)",
     editMessage: "Redigera meddelande",
-    deleteMessage: "Ta bort meddelande"
+    deleteMessage: "Ta bort meddelande",
+    publicRoomNotice: "🌍 Detta är en offentlig konversation. Alla med länken kan delta."
 
   },
   fi: {
@@ -444,7 +454,8 @@ const translations = {
     roomExpired: "⛔ Tämä huone on vanhentunut",
     editedLabel: "(muokattu)",
     editMessage: "Muokkaa viestiä",
-    deleteMessage: "Poista viesti"
+    deleteMessage: "Poista viesti",
+    publicRoomNotice: "🌍 Tämä on julkinen keskustelu. Kuka tahansa linkin omaava voi liittyä."
 
   }
 };
