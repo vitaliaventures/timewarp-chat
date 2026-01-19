@@ -50,7 +50,7 @@ if (roomType === "public") {
   // 🔥 for Google: include canonical
 const canonical = document.querySelector('link[rel="canonical"]') || document.createElement('link');
 canonical.rel = 'canonical';
-canonical.href = window.location.href;
+canonical.href = window.location.origin + (roomType === "public" ? `/p/${roomId}` : window.location.pathname);
 document.head.appendChild(canonical);
 
 
