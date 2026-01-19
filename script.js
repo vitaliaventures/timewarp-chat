@@ -581,11 +581,20 @@ const languageSelect = document.getElementById("language-select");
 const ttlInputEl = document.getElementById("ttl-input");
 const ROOM_INACTIVITY_LIMIT = 24 * 60 * 60 * 1000; // 24h
 
-// 🔥 cargar TTL guardado o default
+// 🔥 cargar TTL guardado o default según tipo de sala
 const savedTTL = localStorage.getItem(TTL_STORAGE_KEY);
+
 if (ttlInputEl) {
-  ttlInputEl.value = savedTTL || "01:00";
+  if (savedTTL) {
+    ttlInputEl.value = savedTTL;
+  } else {
+    // Por defecto: 10:00 para públicas, 01:00 para privadas
+    ttlInputEl.value = roomType === "public"
+      ? ttlInputEl.dataset.defaultPublic
+      : ttlInputEl.dataset.defaultPrivate;
+  }
 }
+
 
 
 ttlInputEl.addEventListener("input", () => {
