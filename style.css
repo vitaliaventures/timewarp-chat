@@ -320,3 +320,21 @@ body {
 .reaction-pill:hover {
   background: #3a3a3a;
 }
+
+
+/* === SEO visible pero discreto (CRÍTICO PARA GOOGLE) === */
+#seo-content {
+  max-width: 600px;
+  margin: 16px auto 0 auto;
+  padding: 12px;
+  color: #aaa;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+#seo-content h1 {
+  font-size: 1rem;
+  margin-bottom: 6px;
+  color: #ddd;
+}
+
