@@ -69,9 +69,8 @@ metaRobots.content = "index,follow";
 const seoDiv = document.getElementById("seo-text");
 if (seoDiv) {
   seoDiv.textContent =
-  `Live public chat room ${roomId}. Ephemeral messages that disappear automatically. 
-   Anonymous real-time conversation with no account required. 
-   Temporary public discussion room accessible instantly via link.`;
+  "Live public chat room for anonymous conversations. Messages disappear automatically. " +
+  "No registration required. Join real-time discussions instantly and share the room link with anyone.";
 }
   
 
