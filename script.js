@@ -120,17 +120,11 @@ function updatePublicSEOFromMessages(messages = []) {
   // Schema.org QAPage
   const schemaEl = document.getElementById("schema-json");
   schemaEl.textContent = JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "QAPage",
-    "mainEntity": messages.slice(0, 10).map(m => ({
-      "@type": "Question",
-      "name": m.text.slice(0, 80),
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": m.text
-      }
-    }))
-  });
+  "@context": "https://schema.org",
+  "@type": "DiscussionForumPosting",
+  "headline": titleText,
+  "articleBody": firstMessages
+});
 }
 
 
