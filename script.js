@@ -83,6 +83,57 @@ metaRobots.content = "noindex,nofollow";
 
 }
 
+
+
+
+
+function updatePublicSEOFromMessages(messages = []) {
+  if (roomType !== "public") return;
+  if (!messages.length) return;
+
+  const firstMessages = messages.slice(0, 5).map(m => m.text).join(" • ");
+
+  const titleText = `Live Public Chat: ${firstMessages.slice(0, 60)}…`;
+  const descriptionText =
+    `Live public conversation. Topics: ${firstMessages.slice(0, 150)}. Messages disappear automatically. Join instantly.`;
+
+  // Title
+  document.title = titleText;
+  document.getElementById("page-title").textContent = titleText;
+
+  // Meta description
+  const metaDesc = document.getElementById("meta-description");
+  metaDesc.setAttribute("content", descriptionText);
+
+  // OG tags
+  document.getElementById("og-title").setAttribute("content", titleText);
+  document.getElementById("og-description").setAttribute("content", descriptionText);
+
+  // Visible SEO container
+  document.getElementById("seo-title").textContent = titleText;
+  document.getElementById("seo-description").textContent = descriptionText;
+
+  // Schema.org QAPage
+  const schemaEl = document.getElementById("schema-json");
+  schemaEl.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "QAPage",
+    "mainEntity": messages.slice(0, 10).map(m => ({
+      "@type": "Question",
+      "name": m.text.slice(0, 80),
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": m.text
+      }
+    }))
+  });
+}
+
+
+
+
+
+
 // --- Traducciones y multilenguaje
 // (Se mantiene igual que tu versión, con todos los idiomas)
 
