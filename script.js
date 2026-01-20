@@ -123,7 +123,8 @@ function updatePublicSEOFromMessages(messages = []) {
   "@context": "https://schema.org",
   "@type": "DiscussionForumPosting",
   "headline": titleText,
-  "articleBody": firstMessages
+  "articleBody":
+  "Public anonymous chat room where users join live conversations. Messages are temporary and disappear automatically."
 });
 }
 
