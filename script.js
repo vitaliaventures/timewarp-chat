@@ -33,7 +33,8 @@ if (pathParts[0] === "p" && pathParts[1]) {
 
 // --- SEO behavior
 if (roomType === "public") {
-  document.title = `Live Conversation ${roomId} – TimeWarp Messenger`;
+  document.title =
+  "Live Public Chat Room – Anonymous Ephemeral Conversation | TimeWarp Messenger";
 
   let metaDesc = document.querySelector('meta[name="description"]');
   if (!metaDesc) {
