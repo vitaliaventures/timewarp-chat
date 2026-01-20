@@ -782,7 +782,7 @@ onChildAdded(messagesRef, snap => {
   seoMessages.push(msg);
 
   // 🔥 actualizar SEO en tiempo real
-  updatePublicSEOFromMessages(seoMessages);
+  //updatePublicSEOFromMessages(seoMessages);
 });
 ;
 function saveRoomTTL(ttlValue) {
