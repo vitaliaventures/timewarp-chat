@@ -55,10 +55,14 @@ document.head.appendChild(canonical);
 
 
 // 🔥 remove noindex if coming from private
-const metaRobots = document.querySelector('meta[name="robots"]');
-if (metaRobots) {
-  metaRobots.remove();
+let metaRobots = document.querySelector('meta[name="robots"]');
+if (!metaRobots) {
+  metaRobots = document.createElement("meta");
+  metaRobots.name = "robots";
+  document.head.appendChild(metaRobots);
 }
+metaRobots.content = "index,follow";
+
 
 // 🔥 SEO crawlable invisible text
 const seoDiv = document.getElementById("seo-text");
