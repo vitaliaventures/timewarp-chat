@@ -44,9 +44,9 @@ if (roomType === "public") {
   }
 
   metaDesc.setAttribute(
-    "content",
-    "Live public conversation. Messages disappear automatically. Join instantly without accounts."
-  );
+  "content",
+  "Join a live public chat room. Anonymous real-time conversation with disappearing messages. No signup required."
+);
 
   // 🔥 for Google: include canonical
 const canonical = document.querySelector('link[rel="canonical"]') || document.createElement('link');
