@@ -775,7 +775,18 @@ touchRoom();
 
 
 
-attachMessagesListener();
+const seoMessages = [];
+
+onChildAdded(messagesRef, snap => {
+  const msg = snap.val();
+  if (!msg || !msg.text) return;
+
+  seoMessages.push(msg);
+
+  // 🔥 actualizar SEO en tiempo real
+  updatePublicSEOFromMessages(seoMessages);
+});
+;
 function saveRoomTTL(ttlValue) {
   set(ref(db, `rooms/${roomId}/meta/ttl`), ttlValue);
 }
