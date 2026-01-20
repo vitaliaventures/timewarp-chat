@@ -323,11 +323,12 @@ body {
 /* === SEO visible pero discreto (CRÍTICO PARA GOOGLE) === */
 #seo-content {
   max-width: 600px;
-  margin: 16px auto 0 auto;
-  padding: 12px;
+  margin: 8px auto 0 auto;
+  padding: 10px 12px;
   color: #aaa;
   font-size: 0.85rem;
   line-height: 1.5;
+  border-top: 1px solid rgba(255,255,255,0.06);
 }
 
 #seo-content h1 {
@@ -336,3 +337,13 @@ body {
   color: #ddd;
 }
 
+
+body {
+  padding-bottom: 40px;
+}
+
+#ad-slot {
+  max-width: 600px;
+  margin: 12px auto 0 auto;
+  min-height: 90px;
+}
