@@ -870,28 +870,6 @@ onValue(usersRef,snapshot=>{
 
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
-// --- Render message when ADDED (🔥 THIS WAS MISSING)
-onChildAdded(messagesRef, snap => {
-  const msg = snap.val();
-  if (!msg || !msg.text) return;
-
-  const div = document.createElement("div");
-  div.className = "message";
-  div.dataset.msgKey = snap.key;
-  div.style.background =
-    msg.user?.name === identity.name
-      ? msg.color || "#2563eb"
-      : "#2a2a2a";
-
-  chatBox.appendChild(div);
-  chatBox.scrollTop = chatBox.scrollHeight;
-
-  // Force initial render via existing logic
-  onChildChanged(messagesRef, snap);
-});
-
-
-
 
 
 function formatTime(sec) {
