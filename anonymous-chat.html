@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Anonymous Chat Without Sign Up | Private Messages That Disappear</title>
+
+  <meta name="description" content="Start an anonymous chat instantly without creating an account. Send private messages that disappear automatically. No login. No tracking.">
+
+  <meta property="og:title" content="Anonymous Chat Without Sign Up">
+  <meta property="og:description" content="Chat anonymously without registration. Private messages that disappear automatically.">
+
+  <link rel="canonical" href="/anonymous-chat.html">
+
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="script.js"></script>
+</head>
+
+<body class="app-root">
+
+  <!-- SEO-visible content (this is what Google reads) -->
+  <main style="max-width:720px;margin:40px auto;padding:0 16px;">
+
+    <h1>Anonymous Chat Without Sign Up</h1>
+
+    <p>
+      This anonymous chat lets you send private messages instantly without creating an account.
+      No email, no phone number, no registration. Messages disappear automatically after a short time,
+      making conversations temporary and private by design.
+    </p>
+
+    <p>
+      If you are looking for a way to chat anonymously, avoid tracking, or communicate privately
+      without leaving digital traces, this tool is built exactly for that purpose.
+    </p>
+
+    <section>
+      <h2>Common Questions About Anonymous Chat</h2>
+
+      <h3>How can I chat anonymously without signing up?</h3>
+      <p>
+        You can start chatting immediately by opening a room and sharing the link.
+        No personal information is required and no account is created.
+      </p>
+
+      <h3>Do anonymous messages get stored?</h3>
+      <p>
+        No. Messages are designed to disappear automatically after a set time.
+        Once they expire, they are no longer accessible.
+      </p>
+
+      <h3>Can I control how long messages stay visible?</h3>
+      <p>
+        Yes. You can choose how long messages remain visible before they disappear,
+        allowing you to control privacy and urgency.
+      </p>
+
+      <h3>Is this anonymous chat really private?</h3>
+      <p>
+        The system is designed for temporary communication. Since no accounts are created
+        and messages expire, conversations are naturally private.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- Your actual app UI (same JS, same CSS) -->
+  <div class="chat-container">
+    <div class="chat-header">
+      <h2 id="room-title">Anonymous Chat</h2>
+      <div id="messages-info" class="info-text">
+        Messages disappear automatically
+      </div>
+
+      <div class="header-controls">
+        <div id="room-users" class="info-text">🔴 1 live</div>
+
+        <input type="text" id="ttl-input" placeholder="01:00"
+          data-default-public="10:00"
+          data-default-private="01:00" />
+
+        <button id="invite-btn" class="header-btn">Invite 🚀</button>
+        <button id="new-room-btn" class="header-btn">New ✨</button>
+        <button id="destroy-room-btn" class="header-btn">Destroy ❌</button>
+      </div>
+    </div>
+
+    <div id="chat-box" class="chat-box"></div>
+    <div id="typing-indicator" class="typing-indicator"></div>
+
+    <div class="chat-input">
+      <textarea id="message-input" rows="1" placeholder="Type message..."></textarea>
+      <button id="send-btn">Send</button>
+    </div>
+  </div>
+
+</body>
+</html>
