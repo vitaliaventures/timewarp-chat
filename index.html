@@ -4,179 +4,106 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title id="page-title">TimeWarp Messenger</title>
-<meta name="description" id="meta-description" content="Join ephemeral conversations that disappear over time.">
-<meta property="og:title" id="og-title" content="TimeWarp Messenger">
-<meta property="og:description" id="og-description" content="Ephemeral conversations that disappear over time.">
-<meta name="robots" content="index,follow" id="meta-robots">
+  <!-- ===== SEO CORE ===== -->
+  <title>Temporary Anonymous Chat Room with Self-Destructing Messages</title>
+  <meta name="description" content="Create a temporary anonymous chat room where messages disappear automatically. No login, no registration, instant access." />
 
-  <link rel="stylesheet" href="style.css" />
-  <script type="module" src="script.js"></script>
-  <link rel="canonical" href="">
-<link rel="alternate" hreflang="en" href="/" />
-<link rel="alternate" hreflang="es" href="/?lang=es" />
-<link rel="alternate" hreflang="fr" href="/?lang=fr" />
-<link rel="alternate" hreflang="de" href="/?lang=de" />
-<link rel="alternate" hreflang="it" href="/?lang=it" />
-<link rel="alternate" hreflang="pt" href="/?lang=pt" />
-<link rel="alternate" hreflang="ru" href="/?lang=ru" />
-<link rel="alternate" hreflang="ja" href="/?lang=ja" />
-<link rel="alternate" hreflang="ko" href="/?lang=ko" />
-<link rel="alternate" hreflang="zh" href="/?lang=zh" />
-<link rel="alternate" hreflang="nl" href="/?lang=nl" />
-<link rel="alternate" hreflang="tr" href="/?lang=tr" />
-<link rel="alternate" hreflang="ar" href="/?lang=ar" />
-<link rel="alternate" hreflang="pl" href="/?lang=pl" />
-<link rel="alternate" hreflang="sv" href="/?lang=sv" />
-<link rel="alternate" hreflang="fi" href="/?lang=fi" />
-<link rel="alternate" hreflang="x-default" href="/" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Temporary Anonymous Chat Room" />
+  <meta property="og:description" content="Private chat rooms with disappearing messages. No login required." />
+  <meta property="og:type" content="website" />
 
+  <!-- Canonical (CAMBIAR POR CADA PÁGINA) -->
+  <link rel="canonical" href="https://yourdomain.com/temporary-chat" />
+
+  <link rel="stylesheet" href="/style.css" />
+  <script type="module" src="/script.js"></script>
 </head>
 
+<body class="app-root">
 
+<!-- ================= SEO CONTENT (VISIBLE) ================= -->
+<main class="seo-wrapper">
 
-  <body class="app-root">
+  <!-- 🔥 AD SLOT TOP -->
+  <div class="ad-slot ad-top">
+    <!-- Google AdSense aquí -->
+  </div>
 
-  <div class="chat-container">
-    <div class="chat-header">
-      <h2 id="room-title">TimeWarp Messenger</h2>
-      <div id="messages-info" class="info-text">
-        Messages disappear automatically
-      </div>
-      <div class="header-controls">
-        <div id="room-users" class="info-text" dir="ltr">🔴 1 live</div>
-        <select id="language-select" class="lang-select">
-          <option value="en">English</option>
-          <option value="de">Deutsch</option>
-          <option value="es">Español</option>
-          <option value="fr">Français</option>
-          <option value="it">Italiano</option>
-          <option value="pt">Português</option>
-          <option value="ru">Русский</option>
-          <option value="ja">日本語</option>
-          <option value="ko">한국어</option>
-          <option value="zh">中文</option>
-          <option value="nl">Nederlands</option>
-          <option value="tr">Türkçe</option>
-          <option value="ar">العربية</option>
-          <option value="pl">Polski</option>
-          <option value="sv">Svenska</option>
-          <option value="fi">Suomi</option>
-        </select>
-        <!-- TTL input field -->
-<input type="text" id="ttl-input" placeholder="01:00" title="Set message time mm:ss"
-       data-default-public="10:00" data-default-private="01:00"
-       style="width: 60px; padding: 4px 6px; border-radius: 6px; border: none; text-align: center; background: #1c1c1c; color: #fff; font-size: 0.8rem; direction: ltr; unicode-bidi: isolate;">
+  <h1>Temporary Anonymous Chat Room</h1>
 
-        <button id="invite-btn" class="header-btn">Invite 🚀</button>
-        <button id="new-room-btn" class="header-btn">New ✨</button>
-        <button id="destroy-room-btn" class="header-btn" style="background:#ef4444;">Destroy ❌</button>
-      </div>
+  <p>
+    This temporary anonymous chat room allows you to communicate instantly with other people
+    without creating an account. All messages automatically disappear after a short time,
+    making it ideal for private conversations, sensitive discussions, or one-time chats.
+  </p>
+
+  <p>
+    Unlike traditional messaging apps, this chat does not store conversations, does not track users,
+    and does not require registration. Simply open a room, share the link, and start chatting.
+  </p>
+
+  <!-- 🔥 AD SLOT MID -->
+  <div class="ad-slot ad-mid">
+    <!-- Google AdSense aquí -->
+  </div>
+
+</main>
+
+<!-- ================= CHAT APP ================= -->
+<div class="chat-container">
+  <div class="chat-header">
+    <h2 id="room-title">TimeWarp Messenger</h2>
+    <div id="messages-info" class="info-text">
+      Messages disappear automatically
     </div>
 
-    <div id="chat-box" class="chat-box"></div>
-    <div id="typing-indicator" class="typing-indicator"></div>
+    <div class="header-controls">
+      <div id="room-users" class="info-text">🔴 1 live</div>
 
-    <div class="chat-input">
-      <textarea id="message-input" rows="1" placeholder="Type message..."></textarea>
-      <button id="send-btn">Send</button>
+      <input
+        type="text"
+        id="ttl-input"
+        placeholder="01:00"
+        data-default-public="10:00"
+        data-default-private="01:00"
+        title="Message lifetime mm:ss"
+      />
+
+      <button id="invite-btn" class="header-btn">Invite</button>
+      <button id="new-room-btn" class="header-btn">New</button>
     </div>
   </div>
 
+  <div id="chat-box" class="chat-box"></div>
+  <div id="typing-indicator" class="typing-indicator"></div>
 
-<div id="msg-action-menu" style="
-  position: fixed;
-  background: #1c1c1c;
-  border-radius: 14px;
-  padding: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-  display: none;
-  z-index: 10000;
-  min-width: 180px;
-">
-  <div id="reaction-bar" dir="ltr" style="
-  display: flex;
-  justify-content: space-around;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  margin-bottom: 6px;
-  font-size: 20px;
-  cursor: pointer;
-  unicode-bidi: isolate;
-">
-  <span>🔥</span>
-  <span>😂</span>
-  <span>❤️</span>
-  <span>😮</span>
-  <span>😢</span>
-  <span>👍</span>
-</div>
-
-
-  <div class="menu-item" data-action="edit"></div>
-  <div class="menu-item" data-action="delete" style="color:#ef4444;"></div>
-
-</div>
-
-
-
-
- <div id="reaction-viewer" style="
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 20000;
-">
-  <div style="
-    background:#1c1c1c;
-    padding:16px;
-    border-radius:14px;
-    min-width:260px;
-    max-width:80%;
-    box-shadow:0 20px 40px rgba(0,0,0,0.7);
-  ">
-    <div id="reaction-viewer-content"></div>
+  <div class="chat-input">
+    <textarea id="message-input" rows="1" placeholder="Type your message..."></textarea>
+    <button id="send-btn">Send</button>
   </div>
 </div>
-   
 
+<!-- ================= FAQ (SEO GOLD) ================= -->
+<section class="seo-wrapper">
 
+  <!-- 🔥 AD SLOT BEFORE FAQ -->
+  <div class="ad-slot ad-bottom">
+    <!-- Google AdSense aquí -->
+  </div>
 
-<div id="seo-text" style="
-  position:absolute;
-  left:-9999px;
-  top:-9999px;
-  width:1px;
-  height:1px;
-  overflow:hidden;
-">
-</div>
+  <h2>Frequently Asked Questions</h2>
 
-    
+  <h3>Is this chat really anonymous?</h3>
+  <p>Yes. No accounts, no usernames, no tracking, and no message history.</p>
 
-<!-- Contenedor de ad estratégico (solo JS lo mostrará) -->
-<div id="ad-entry" style="display:none;"></div>
+  <h3>How long do messages last?</h3>
+  <p>You can control how long messages remain visible before they self-destruct.</p>
 
-<!-- Contenedor SEO dinámico para salas públicas indexables -->
-<section id="seo-content">
-  <h1 id="seo-title"></h1>
-  <p id="seo-description"></p>
+  <h3>Can I use this for private conversations?</h3>
+  <p>Yes. This tool is designed specifically for temporary and private communication.</p>
+
 </section>
 
-</div>
-
-
-<script type="application/ld+json" id="schema-json">
-{
-  "@context": "https://schema.org",
-  "@type": "DiscussionForumPosting",
-  "headline": "",
-  "articleBody": ""
-}
-</script>
-  
 </body>
 </html>
