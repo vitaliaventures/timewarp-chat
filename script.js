@@ -478,6 +478,56 @@ let currentUserCount = 0;
 let messagesListenerAttached = false;
 const typingIndicator = document.getElementById("typing-indicator");
 
+// ================================
+// GLOBAL ROOM COUNTDOWN (60 MINUTES)
+// ================================
+
+const ROOM_DURATION_SECONDS = ROOM_TTL_SECONDS; // 3600
+let roomCountdownRemaining = ROOM_DURATION_SECONDS;
+let roomCountdownInterval = null;
+
+// elementos UI (deben existir en index.html)
+const roomCountdownText = document.getElementById("room-countdown-text");
+const roomCountdownFill = document.getElementById("room-countdown-fill");
+
+function startRoomCountdown(startTimestamp) {
+  if (roomCountdownInterval) clearInterval(roomCountdownInterval);
+
+  const startedAt = startTimestamp || Date.now();
+
+  roomCountdownInterval = setInterval(() => {
+    const elapsed = Math.floor((Date.now() - startedAt) / 1000);
+    roomCountdownRemaining = ROOM_DURATION_SECONDS - elapsed;
+
+    if (roomCountdownRemaining < 0) roomCountdownRemaining = 0;
+
+    // texto
+    if (roomCountdownText) {
+      roomCountdownText.textContent = formatTime(roomCountdownRemaining);
+    }
+
+    // barra
+    if (roomCountdownFill) {
+      const percent = (roomCountdownRemaining / ROOM_DURATION_SECONDS) * 100;
+      roomCountdownFill.style.width = percent + "%";
+
+      if (percent > 30) roomCountdownFill.style.background = "#22c55e";
+      else if (percent > 10) roomCountdownFill.style.background = "#facc15";
+      else roomCountdownFill.style.background = "#ef4444";
+    }
+
+    // cuando muere la sala
+    if (roomCountdownRemaining <= 0) {
+      clearInterval(roomCountdownInterval);
+      set(ref(db, `rooms/${roomId}/meta/destroyed`), true);
+    }
+  }, 1000);
+}
+
+
+
+
+
 
 function toArabicDigits(str) {
   const map = ["٠","١","٢","٣","٤","٥","٦","٧","٨","٩"];
