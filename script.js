@@ -965,6 +965,12 @@ onChildChanged(messagesRef, snap => {
 </div>
 
 
+<div class="msg-time">
+  <div class="msg-menu" title="Message options">
+    <div></div>
+  </div>
+</div>
+
   `;
 
   const menuBtn = div.querySelector(".msg-menu");
