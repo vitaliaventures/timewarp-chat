@@ -843,6 +843,44 @@ function showSystemMessage(text){
 
 // --- Send
 const input = document.getElementById("message-input");
+
+input.addEventListener("paste", async (e) => {
+  const items = e.clipboardData?.items;
+  if (!items) return;
+
+  for (let item of items) {
+    if (item.type.startsWith("image/")) {
+      const file = item.getAsFile();
+      if (!file) continue;
+
+      // Optional: show "Uploading..." system message
+      const uploadingMsg = showSystemMessage("Uploading image... 🚀");
+
+      try {
+        const imageRef = storageRef(storage, `rooms/${roomId}/images/${Date.now()}_${file.name}`);
+        await uploadBytes(imageRef, file);
+        const url = await getDownloadURL(imageRef);
+
+        // Send image as chat message
+        push(messagesRef, {
+          image: url,
+          ttl: parseTTL(),
+          createdAt: Date.now(),
+          user: identity,
+          color: messageColors[Math.floor(Math.random() * messageColors.length)],
+          reactions: {}
+        });
+
+        uploadingMsg.remove();
+      } catch (err) {
+        console.error("Image upload failed:", err);
+        uploadingMsg.textContent = "❌ Failed to upload image.";
+      }
+    }
+  }
+});
+
+
 const sendBtn = document.getElementById("send-btn");
 function sendMessage(){
   if(!input.value) return;
