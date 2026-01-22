@@ -882,23 +882,42 @@ input.addEventListener("paste", async (e) => {
 
 
 const sendBtn = document.getElementById("send-btn");
-function sendMessage(){
-  if(!input.value) return;
+function sendMessage() {
+  const text = input.value.trim();
+  if(!text) return;
+
   push(messagesRef, {
-  text: input.value,
-  ttl: parseTTL(),
-  createdAt: Date.now(),
-  user: identity,
-  color: messageColors[Math.floor(Math.random() * messageColors.length)],
-  reactions: {} // 🔥 emoji → { username: true }
-});
+    text,
+    ttl: parseTTL(),
+    createdAt: Date.now(),
+    user: identity,
+    color: messageColors[Math.floor(Math.random()*messageColors.length)],
+    reactions: {}
+  });
 
-
-touchRoom();
-  
-  input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
+  touchRoom();
+  input.value = "";
+  input.style.height = "auto";
+  input.rows = 1;
   remove(typingRef);
 }
+
+sendBtn.addEventListener("click", sendMessage);
+
+input.addEventListener("keydown", e => {
+  if(e.key === "Enter" && !e.shiftKey){
+    e.preventDefault();
+    sendMessage();
+  }
+  // Shift+Enter para salto de línea
+  if(e.key === "Enter" && e.shiftKey){
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+    input.value = input.value.substring(0,start) + "\n" + input.value.substring(end);
+    input.selectionStart = input.selectionEnd = start + 1;
+  }
+});
+
 sendBtn.onclick=sendMessage;
 
 // 1️⃣ Abrir selector de archivos
