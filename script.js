@@ -1409,6 +1409,15 @@ function attachMessagesListener() {
 `;
 
 
+  if (msg.image) {
+  const img = document.createElement("img");
+  img.src = msg.image;
+  img.style.maxWidth = "250px";
+  img.style.borderRadius = "12px";
+  img.style.marginTop = "6px";
+  div.querySelector(".msg-text").appendChild(img);
+}
+
 
 
     const menuBtn = div.querySelector(".msg-menu");
