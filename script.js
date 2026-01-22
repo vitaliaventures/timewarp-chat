@@ -585,7 +585,7 @@ const ROOM_INACTIVITY_LIMIT = 24 * 60 * 60 * 1000; // 24h
 // ================================
 // GLOBAL ROOM TIMER (60 MINUTES)
 // ================================
-const ROOM_DURATION_SECONDS = 60 * 60; // 60:00
+const ROOM_DURATION_SECONDS = 30 * 60; // 30:00
 let roomRemaining = ROOM_DURATION_SECONDS;
 const roomTimerEl = document.getElementById("room-timer");
 
