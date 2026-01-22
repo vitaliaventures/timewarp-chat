@@ -498,28 +498,8 @@ function fromArabicDigits(str) {
 
 // --- Message TTL parser (mm:ss or ss)
 function parseTTL() {
-  let ttlInput = document.getElementById("ttl-input")?.value || "01:00";
-
-  // 🔥 convertir números árabes → latinos antes de parsear
-  ttlInput = fromArabicDigits(ttlInput);
-
-  const parts = ttlInput.split(":").map(p => parseInt(p, 10));
-
-  if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-    return parts[0] * 60 + parts[1];
-  }
-
-  if (parts.length === 1 && !isNaN(parts[0])) {
-    return parts[0];
-  }
-
-  return 60;
+  return ROOM_TTL_SECONDS; // 🔥 ALWAYS 60 MINUTES
 }
-
-
-
-
-
 
 function updateActionMenuLanguage() {
   const editItem = document.querySelector('#msg-action-menu .menu-item[data-action="edit"]');
