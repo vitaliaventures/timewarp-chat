@@ -655,7 +655,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-
+const storage = getStorage(app);
 // --- Sala
 // ================================
 // FINAL ROOM ID RESOLUTION
