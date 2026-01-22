@@ -751,6 +751,12 @@ onValue(metaRef, snap => {
   if (!snap.exists()) return;
 
   const meta = snap.val();
+    // 🔥 iniciar countdown global cuando la sala nace
+  if (meta.createdAt && !roomCountdownInterval) {
+    startRoomCountdown(meta.createdAt);
+  }
+
+
 
   // 🔥 ROOM EXPIRATION CHECK — EXACT PLACE
   if (meta.lastActivityAt !== undefined) {
