@@ -582,40 +582,6 @@ if (reactionBar) {
 const languageSelect = document.getElementById("language-select");
 const ttlInputEl = document.getElementById("ttl-input");
 const ROOM_INACTIVITY_LIMIT = 24 * 60 * 60 * 1000; // 24h
-// ================================
-// GLOBAL ROOM TIMER (60 MINUTES)
-// ================================
-const ROOM_DURATION_SECONDS = 30 * 60; // 30:00
-let roomRemaining = ROOM_DURATION_SECONDS;
-const roomTimerEl = document.getElementById("room-timer");
-
-function updateRoomTimer() {
-  if (!roomTimerEl) return;
-
-  const m = Math.floor(roomRemaining / 60);
-  const s = roomRemaining % 60;
-  let time = `${m}:${s.toString().padStart(2, "0")}`;
-
-  if (currentLang === "ar") {
-    time = toArabicDigits(time);
-  }
-
-  roomTimerEl.textContent = `⏳ ${time}`;
-
-  if (roomRemaining <= 0) {
-    roomTimerEl.textContent = "⛔ Room expired";
-    return;
-  }
-
-  roomRemaining--;
-}
-
-setInterval(updateRoomTimer, 1000);
-updateRoomTimer();
-
-
-
-
 
 // 🔥 cargar TTL guardado o default según tipo de sala
 const savedTTL = localStorage.getItem(TTL_STORAGE_KEY);
@@ -881,7 +847,7 @@ const sendBtn = document.getElementById("send-btn");
 function sendMessage(){
   if(!input.value) return;
   push(messagesRef, {
-  text: finalText,
+  text: input.value,
   ttl: parseTTL(),
   createdAt: Date.now(),
   user: identity,
@@ -998,13 +964,20 @@ onChildChanged(messagesRef, snap => {
   ${renderReactions(msg.reactions)}
 </div>
 
+    
 
-<div class="msg-time">
-  <div class="msg-menu" title="Message options">
-    <div></div>
-  </div>
-</div>
 
+    <div class="msg-time">
+      <span class="time-text">${formatTime(remaining)}</span>
+
+      <div class="msg-menu" title="Message options">
+        <div></div>
+      </div>
+    </div>
+
+    <div class="countdown-track">
+      <div class="countdown-fill"></div>
+    </div>
   `;
 
   const menuBtn = div.querySelector(".msg-menu");
@@ -1043,7 +1016,30 @@ actionMenu.style.display = "block";
   });
 
   // --- Reiniciar el countdown sin perder el tiempo ya transcurrido
+  const span = div.querySelector(".time-text");
+  const fill = div.querySelector(".countdown-fill");
+  const total = msg.ttl;
 
+  // Limpiar interval anterior si existía
+  if (div.countdownTimer) clearInterval(div.countdownTimer);
+
+  div.countdownTimer = setInterval(() => {
+    remaining--;
+    span.textContent = formatTime(remaining);
+
+    const percent = (remaining / total) * 100;
+    fill.style.width = percent + "%";
+
+    if (percent > 30) fill.style.background = "#22c55e"; // green
+    else if (percent > 10) fill.style.background = "#facc15"; // yellow
+    else fill.style.background = "#ef4444"; // red
+
+    if (remaining <= 0) {
+      clearInterval(div.countdownTimer);
+      div.remove();
+      remove(snap.ref);
+    }
+  }, 1000);
 });
 
 
@@ -1290,12 +1286,19 @@ function attachMessagesListener() {
 </div>
 
 
- <div class="msg-time">
-  <div class="msg-menu" title="Message options">
-    <div></div>
-  </div>
-</div>
 
+
+  <div class="msg-time">
+    <span class="time-text">${formatTime(remaining)}</span>
+
+    <div class="msg-menu" title="Message options">
+      <div></div>
+    </div>
+  </div>
+
+  <div class="countdown-track">
+    <div class="countdown-fill"></div>
+  </div>
 `;
 
 
@@ -1368,6 +1371,34 @@ actionMenu.addEventListener("click", e => {
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
 
+    const span = div.querySelector(".time-text");
+const fill = div.querySelector(".countdown-fill");
+const total = msg.ttl;
+
+    const timer = setInterval(() => {
+    remaining--;
+
+    span.textContent = formatTime(remaining);
+
+    const percent = (remaining / total) * 100;
+fill.style.width = percent + "%";
+
+// Urgency colors
+if (percent > 30) {
+  fill.style.background = "#22c55e"; // green
+} else if (percent > 10) {
+  fill.style.background = "#facc15"; // yellow
+} else {
+  fill.style.background = "#ef4444"; // red
+}
+
+
+    if (remaining <= 0) {
+    clearInterval(timer);
+    div.remove();
+    remove(msgRef);
+  }
+}, 1000);
   });
 }
 
