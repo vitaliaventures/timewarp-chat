@@ -468,7 +468,6 @@ const translations = {
 
 let currentLang = "en";
 const TTL_STORAGE_KEY = "tw_ttl";
-const ROOM_TTL_SECONDS = 60 * 60; // 🔥 60 minutes = 1 hour (HARD DEFAULT)
 const savedLang = localStorage.getItem("tw_lang");
 if (savedLang && translations[savedLang]) {
   currentLang = savedLang;
@@ -477,56 +476,6 @@ if (savedLang && translations[savedLang]) {
 let currentUserCount = 0;
 let messagesListenerAttached = false;
 const typingIndicator = document.getElementById("typing-indicator");
-
-// ================================
-// GLOBAL ROOM COUNTDOWN (60 MINUTES)
-// ================================
-
-const ROOM_DURATION_SECONDS = ROOM_TTL_SECONDS; // 3600
-let roomCountdownRemaining = ROOM_DURATION_SECONDS;
-let roomCountdownInterval = null;
-
-// elementos UI (deben existir en index.html)
-const roomCountdownText = document.getElementById("room-countdown-text");
-const roomCountdownFill = document.getElementById("room-countdown-fill");
-
-function startRoomCountdown(startTimestamp) {
-  if (roomCountdownInterval) clearInterval(roomCountdownInterval);
-
-  const startedAt = startTimestamp || Date.now();
-
-  roomCountdownInterval = setInterval(() => {
-    const elapsed = Math.floor((Date.now() - startedAt) / 1000);
-    roomCountdownRemaining = ROOM_DURATION_SECONDS - elapsed;
-
-    if (roomCountdownRemaining < 0) roomCountdownRemaining = 0;
-
-    // texto
-    if (roomCountdownText) {
-      roomCountdownText.textContent = formatTime(roomCountdownRemaining);
-    }
-
-    // barra
-    if (roomCountdownFill) {
-      const percent = (roomCountdownRemaining / ROOM_DURATION_SECONDS) * 100;
-      roomCountdownFill.style.width = percent + "%";
-
-      if (percent > 30) roomCountdownFill.style.background = "#22c55e";
-      else if (percent > 10) roomCountdownFill.style.background = "#facc15";
-      else roomCountdownFill.style.background = "#ef4444";
-    }
-
-    // cuando muere la sala
-    if (roomCountdownRemaining <= 0) {
-      clearInterval(roomCountdownInterval);
-      set(ref(db, `rooms/${roomId}/meta/destroyed`), true);
-    }
-  }, 1000);
-}
-
-
-
-
 
 
 function toArabicDigits(str) {
@@ -548,8 +497,28 @@ function fromArabicDigits(str) {
 
 // --- Message TTL parser (mm:ss or ss)
 function parseTTL() {
-  return ROOM_TTL_SECONDS; // 🔥 ALWAYS 60 MINUTES
+  let ttlInput = document.getElementById("ttl-input")?.value || "01:00";
+
+  // 🔥 convertir números árabes → latinos antes de parsear
+  ttlInput = fromArabicDigits(ttlInput);
+
+  const parts = ttlInput.split(":").map(p => parseInt(p, 10));
+
+  if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+    return parts[0] * 60 + parts[1];
+  }
+
+  if (parts.length === 1 && !isNaN(parts[0])) {
+    return parts[0];
+  }
+
+  return 60;
 }
+
+
+
+
+
 
 function updateActionMenuLanguage() {
   const editItem = document.querySelector('#msg-action-menu .menu-item[data-action="edit"]');
@@ -616,6 +585,19 @@ const ROOM_INACTIVITY_LIMIT = 24 * 60 * 60 * 1000; // 24h
 
 // 🔥 cargar TTL guardado o default según tipo de sala
 const savedTTL = localStorage.getItem(TTL_STORAGE_KEY);
+
+if (ttlInputEl) {
+  if (savedTTL) {
+    ttlInputEl.value = savedTTL;
+  } else {
+    // Por defecto: 10:00 para públicas, 01:00 para privadas
+    ttlInputEl.value = roomType === "public"
+      ? ttlInputEl.dataset.defaultPublic
+      : ttlInputEl.dataset.defaultPrivate;
+  }
+}
+
+
 
 ttlInputEl.addEventListener("input", () => {
   let value = ttlInputEl.value.trim();
@@ -739,30 +721,18 @@ function touchRoom() {
 
 // tocar sala al entrar
 touchRoom();
-// 🔥 set createdAt solo una vez
-get(ref(db, `rooms/${roomId}/meta/createdAt`)).then(snap => {
-  if (!snap.exists()) {
-    set(ref(db, `rooms/${roomId}/meta/createdAt`), Date.now());
-  }
-});
 
 
 
 attachMessagesListener();
-function saveRoomTTL() {
-  set(ref(db, `rooms/${roomId}/meta/ttl`), ROOM_TTL_SECONDS);
+function saveRoomTTL(ttlValue) {
+  set(ref(db, `rooms/${roomId}/meta/ttl`), ttlValue);
 }
 
 onValue(metaRef, snap => {
   if (!snap.exists()) return;
 
   const meta = snap.val();
-    // 🔥 iniciar countdown global cuando la sala nace
-  if (meta.createdAt && !roomCountdownInterval) {
-    startRoomCountdown(meta.createdAt);
-  }
-
-
 
   // 🔥 ROOM EXPIRATION CHECK — EXACT PLACE
   if (meta.lastActivityAt !== undefined) {
@@ -775,6 +745,10 @@ onValue(metaRef, snap => {
   }
 
   // ⏱️ existing TTL sync logic (UNCHANGED)
+  if (meta?.ttl && ttlInputEl) {
+    ttlInputEl.value = meta.ttl;
+    localStorage.setItem(TTL_STORAGE_KEY, meta.ttl);
+  }
 
   // ⛔ room destroyed overlay (UNCHANGED)
   if (meta?.destroyed) {
@@ -1042,6 +1016,30 @@ actionMenu.style.display = "block";
   });
 
   // --- Reiniciar el countdown sin perder el tiempo ya transcurrido
+  const span = div.querySelector(".time-text");
+  const fill = div.querySelector(".countdown-fill");
+  const total = msg.ttl;
+
+  // Limpiar interval anterior si existía
+  if (div.countdownTimer) clearInterval(div.countdownTimer);
+
+  div.countdownTimer = setInterval(() => {
+    remaining--;
+    span.textContent = formatTime(remaining);
+
+    const percent = (remaining / total) * 100;
+    fill.style.width = percent + "%";
+
+    if (percent > 30) fill.style.background = "#22c55e"; // green
+    else if (percent > 10) fill.style.background = "#facc15"; // yellow
+    else fill.style.background = "#ef4444"; // red
+
+    if (remaining <= 0) {
+      clearInterval(div.countdownTimer);
+      div.remove();
+      remove(snap.ref);
+    }
+  }, 1000);
 });
 
 
@@ -1372,6 +1370,35 @@ actionMenu.addEventListener("click", e => {
 
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
+
+    const span = div.querySelector(".time-text");
+const fill = div.querySelector(".countdown-fill");
+const total = msg.ttl;
+
+    const timer = setInterval(() => {
+    remaining--;
+
+    span.textContent = formatTime(remaining);
+
+    const percent = (remaining / total) * 100;
+fill.style.width = percent + "%";
+
+// Urgency colors
+if (percent > 30) {
+  fill.style.background = "#22c55e"; // green
+} else if (percent > 10) {
+  fill.style.background = "#facc15"; // yellow
+} else {
+  fill.style.background = "#ef4444"; // red
+}
+
+
+    if (remaining <= 0) {
+    clearInterval(timer);
+    div.remove();
+    remove(msgRef);
+  }
+}, 1000);
   });
 }
 
@@ -1512,7 +1539,8 @@ setTimeout(() => {
   metaRef = ref(db,`rooms/${newRoomId}/meta`);
 
   // 🔥 inicializar TTL de la nueva sala
-set(ref(db, `rooms/${newRoomId}/meta/ttl`), ROOM_TTL_SECONDS);
+const initialTTL = ttlInputEl?.value || "10:00";
+set(ref(db, `rooms/${newRoomId}/meta/ttl`), initialTTL);
 
   typingRef = ref(db,`rooms/${newRoomId}/typing`);
   userRef = ref(db,`rooms/${newRoomId}/users/${identity.name}`);
