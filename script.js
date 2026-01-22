@@ -1042,12 +1042,6 @@ actionMenu.style.display = "block";
   });
 
   // --- Reiniciar el countdown sin perder el tiempo ya transcurrido
-  const span = div.querySelector(".time-text");
-  const fill = div.querySelector(".countdown-fill");
-  const total = msg.ttl;
-
-  // Limpiar interval anterior si existía
-  if (div.countdownTimer) clearInterval(div.countdownTimer);
 });
 
 
