@@ -881,7 +881,7 @@ const sendBtn = document.getElementById("send-btn");
 function sendMessage(){
   if(!input.value) return;
   push(messagesRef, {
-  text: input.value,
+  text: finalText,
   ttl: parseTTL(),
   createdAt: Date.now(),
   user: identity,
