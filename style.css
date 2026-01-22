@@ -157,7 +157,8 @@ body {
 }
 
 /* ---------------- Countdown urgency system ---------------- */
-.countdown-track {
+/* Countdown ONLY for room header */
+#room-countdown .countdown-track {
   margin-top: 6px;
   height: 4px;
   width: 100%;
@@ -165,6 +166,15 @@ body {
   border-radius: 999px;
   overflow: hidden;
 }
+
+#room-countdown .countdown-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #22c55e, #facc15, #ef4444);
+  border-radius: 999px;
+  transition: width 1s linear;
+}
+
 
 .countdown-fill {
   height: 100%;
