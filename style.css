@@ -320,3 +320,13 @@ body {
 .reaction-pill:hover {
   background: #3a3a3a;
 }
+
+
+.room-timer {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.85;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
