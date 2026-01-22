@@ -1659,3 +1659,49 @@ style.textContent = `
 }
 `;
 document.head.appendChild(style);
+
+
+
+// ---------------------------
+// Paste image support
+// ---------------------------
+const chatInput = document.querySelector('.chat-input textarea');
+
+chatInput.addEventListener('paste', (e) => {
+    e.preventDefault(); // prevent default paste behavior
+    const items = e.clipboardData.items;
+
+    for (let item of items) {
+        if (item.type.startsWith('image/')) {
+            const file = item.getAsFile();
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const imgData = event.target.result;
+
+                // create message container
+                const msg = document.createElement('div');
+                msg.classList.add('message');
+
+                // create image element
+                const img = document.createElement('img');
+                img.src = imgData;
+                img.style.maxWidth = '100%';
+                img.style.borderRadius = '12px';
+                img.style.display = 'block';
+
+                msg.appendChild(img);
+
+                // append to chat-box
+                const chatBox = document.querySelector('.chat-box');
+                chatBox.appendChild(msg);
+
+                // auto scroll
+                chatBox.scrollTop = chatBox.scrollHeight;
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+});
+
