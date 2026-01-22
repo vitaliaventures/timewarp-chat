@@ -1048,24 +1048,6 @@ actionMenu.style.display = "block";
 
   // Limpiar interval anterior si existía
   if (div.countdownTimer) clearInterval(div.countdownTimer);
-
-  div.countdownTimer = setInterval(() => {
-    remaining--;
-    span.textContent = formatTime(remaining);
-
-    const percent = (remaining / total) * 100;
-    fill.style.width = percent + "%";
-
-    if (percent > 30) fill.style.background = "#22c55e"; // green
-    else if (percent > 10) fill.style.background = "#facc15"; // yellow
-    else fill.style.background = "#ef4444"; // red
-
-    if (remaining <= 0) {
-      clearInterval(div.countdownTimer);
-      div.remove();
-      remove(snap.ref);
-    }
-  }, 1000);
 });
 
 
