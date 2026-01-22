@@ -468,6 +468,7 @@ const translations = {
 
 let currentLang = "en";
 const TTL_STORAGE_KEY = "tw_ttl";
+const ROOM_TTL_SECONDS = 60 * 60; // 🔥 60 minutes = 1 hour (HARD DEFAULT)
 const savedLang = localStorage.getItem("tw_lang");
 if (savedLang && translations[savedLang]) {
   currentLang = savedLang;
