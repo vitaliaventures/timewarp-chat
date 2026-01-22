@@ -176,15 +176,6 @@ body {
 }
 
 
-.countdown-fill {
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(90deg, #22c55e, #facc15, #ef4444);
-  border-radius: 999px;
-  transition: width 1s linear, background 0.4s ease;
-  box-shadow: 0 0 6px rgba(0,0,0,0.4);
-}
-
 /* ---------------- Time + menu container ---------------- */
 .msg-time {
   position: absolute;
