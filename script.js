@@ -901,6 +901,65 @@ touchRoom();
 }
 sendBtn.onclick=sendMessage;
 
+// 1️⃣ Abrir selector de archivos
+attachBtn.addEventListener("click", () => fileInput.click());
+
+// 2️⃣ Subir archivos cuando se seleccionen
+fileInput.addEventListener("change", async (e) => {
+  const files = Array.from(e.target.files);
+  for (let file of files) {
+    const storageRef = firebase.storage().ref('rooms/' + roomId + '/' + file.name);
+    await storageRef.put(file);
+    const url = await storageRef.getDownloadURL();
+
+    push(messagesRef, {
+      type: 'file',
+      name: file.name,
+      url: url,
+      timestamp: Date.now(),
+      sender: userName
+    });
+  }
+  fileInput.value = ""; // reset input
+});
+
+// 4️⃣ Escuchar cambios en tiempo real y mostrar mensajes
+onChildAdded(messagesRef, (snapshot) => {
+  const msg = snapshot.val();
+  const div = document.createElement("div");
+  div.classList.add("message");
+
+  if(msg.type === 'text') {
+    div.textContent = msg.content;
+  } else if(msg.type === 'file') {
+    if(msg.url.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
+      const img = document.createElement("img");
+      img.src = msg.url;
+      img.style.maxWidth = "100%";
+      img.style.borderRadius = "8px";
+      div.appendChild(img);
+    } else {
+      const a = document.createElement("a");
+      a.href = msg.url;
+      a.textContent = msg.name;
+      a.target = "_blank";
+      a.style.color = "#22c55e";
+      div.appendChild(a);
+    }
+  }
+
+  const time = document.createElement("div");
+  time.classList.add("msg-time");
+  time.textContent = `${msg.sender} • ${new Date(msg.timestamp).toLocaleTimeString()}`;
+  div.appendChild(time);
+
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
+});
+
+
+
+
 
 
 function spawnConfetti() {
