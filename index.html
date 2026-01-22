@@ -4,29 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title id="page-title">TimeWarp Messenger</title>
-<meta name="description" id="meta-description" content="Join ephemeral conversations that disappear over time.">
-<meta property="og:title" id="og-title" content="TimeWarp Messenger">
-<meta property="og:description" id="og-description" content="Ephemeral conversations that disappear over time.">
-
+  <title id="page-title">TimeWarp Messenger</title>
+  <meta name="description" id="meta-description" content="Join ephemeral conversations that disappear over time.">
+  <meta property="og:title" id="og-title" content="TimeWarp Messenger">
+  <meta property="og:description" id="og-description" content="Ephemeral conversations that disappear over time.">
 
   <link rel="stylesheet" href="style.css" />
   <script type="module" src="script.js"></script>
   <link rel="canonical" href="/">
 </head>
 
-
-
-  <body class="app-root">
+<body class="app-root">
 
   <div class="chat-container">
     <div class="chat-header">
       <h2 id="room-title">TimeWarp Messenger</h2>
+
       <div id="messages-info" class="info-text">
         Messages disappear automatically
       </div>
+
+      <!-- 🔥 CONTADOR GLOBAL DE SALA (NUEVO) -->
+      <div id="room-countdown" class="info-text" style="margin-top:6px;">
+        <span id="room-timer-label">Room expires in</span>
+        <span id="room-timer" class="time-text">60:00</span>
+
+        <div class="countdown-track">
+          <div id="room-countdown-fill" class="countdown-fill"></div>
+        </div>
+      </div>
+      <!-- 🔥 FIN CONTADOR GLOBAL -->
+
       <div class="header-controls">
         <div id="room-users" class="info-text" dir="ltr">🔴 1 live</div>
+
         <select id="language-select" class="lang-select">
           <option value="en">English</option>
           <option value="de">Deutsch</option>
@@ -45,10 +56,17 @@
           <option value="sv">Svenska</option>
           <option value="fi">Suomi</option>
         </select>
-        <!-- TTL input field -->
-<input type="text" id="ttl-input" placeholder="01:00" title="Set message time mm:ss"
-       data-default-public="10:00" data-default-private="01:00"
-       style="width: 60px; padding: 4px 6px; border-radius: 6px; border: none; text-align: center; background: #1c1c1c; color: #fff; font-size: 0.8rem; direction: ltr; unicode-bidi: isolate;">
+
+        <!-- TTL input (SE DEJA, JS LO IGNORARÁ LUEGO) -->
+        <input
+          type="text"
+          id="ttl-input"
+          placeholder="01:00"
+          title="Set message time mm:ss"
+          data-default-public="10:00"
+          data-default-private="01:00"
+          style="width:60px;padding:4px 6px;border-radius:6px;border:none;text-align:center;background:#1c1c1c;color:#fff;font-size:0.8rem;direction:ltr;unicode-bidi:isolate;"
+        >
 
         <button id="invite-btn" class="header-btn">Invite 🚀</button>
         <button id="new-room-btn" class="header-btn">New ✨</button>
@@ -65,89 +83,68 @@
     </div>
   </div>
 
-
-<div id="msg-action-menu" style="
-  position: fixed;
-  background: #1c1c1c;
-  border-radius: 14px;
-  padding: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-  display: none;
-  z-index: 10000;
-  min-width: 180px;
-">
-  <div id="reaction-bar" dir="ltr" style="
-  display: flex;
-  justify-content: space-around;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  margin-bottom: 6px;
-  font-size: 20px;
-  cursor: pointer;
-  unicode-bidi: isolate;
-">
-  <span>🔥</span>
-  <span>😂</span>
-  <span>❤️</span>
-  <span>😮</span>
-  <span>😢</span>
-  <span>👍</span>
-</div>
-
-
-  <div class="menu-item" data-action="edit"></div>
-  <div class="menu-item" data-action="delete" style="color:#ef4444;"></div>
-
-</div>
-
-
-
-
- <div id="reaction-viewer" style="
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 20000;
-">
-  <div style="
-    background:#1c1c1c;
-    padding:16px;
-    border-radius:14px;
-    min-width:260px;
-    max-width:80%;
-    box-shadow:0 20px 40px rgba(0,0,0,0.7);
+  <!-- MENU ACCIONES (NO TOCAR) -->
+  <div id="msg-action-menu" style="
+    position: fixed;
+    background: #1c1c1c;
+    border-radius: 14px;
+    padding: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    display: none;
+    z-index: 10000;
+    min-width: 180px;
   ">
-    <div id="reaction-viewer-content"></div>
+    <div id="reaction-bar" dir="ltr" style="
+      display: flex;
+      justify-content: space-around;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 6px;
+      font-size: 20px;
+      cursor: pointer;
+      unicode-bidi: isolate;
+    ">
+      <span>🔥</span>
+      <span>😂</span>
+      <span>❤️</span>
+      <span>😮</span>
+      <span>😢</span>
+      <span>👍</span>
+    </div>
+
+    <div class="menu-item" data-action="edit"></div>
+    <div class="menu-item" data-action="delete" style="color:#ef4444;"></div>
   </div>
-</div>
-   
 
+  <!-- REACTION VIEWER -->
+  <div id="reaction-viewer" style="
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 20000;
+  ">
+    <div style="
+      background:#1c1c1c;
+      padding:16px;
+      border-radius:14px;
+      min-width:260px;
+      max-width:80%;
+      box-shadow:0 20px 40px rgba(0,0,0,0.7);
+    ">
+      <div id="reaction-viewer-content"></div>
+    </div>
+  </div>
 
+  <!-- SEO -->
+  <div id="seo-text" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;"></div>
+  <div id="ad-entry" style="display:none;"></div>
+  <div id="seo-content" style="position:absolute;left:0;top:0;width:100%;z-index:-1;opacity:0;">
+    <h1 id="seo-title"></h1>
+    <p id="seo-description"></p>
+  </div>
 
-<div id="seo-text" style="
-  position:absolute;
-  left:-9999px;
-  top:-9999px;
-  width:1px;
-  height:1px;
-  overflow:hidden;
-">
-</div>
-
-    
-
-<!-- Contenedor de ad estratégico (solo JS lo mostrará) -->
-<div id="ad-entry" style="display:none;"></div>
-
-<!-- Contenedor SEO dinámico para salas públicas indexables -->
-<div id="seo-content" style="position:absolute; left:0; top:0; width:100%; z-index:-1; opacity:0;">
-  <h1 id="seo-title"></h1>
-  <p id="seo-description"></p>
-</div>
-
-    
 </body>
 </html>
