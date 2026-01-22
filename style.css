@@ -330,3 +330,29 @@ body {
   text-align: center;
   letter-spacing: 0.5px;
 }
+
+
+/* ===== GLOBAL ROOM TIMER (BIG NUMBERS) ===== */
+.room-countdown {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.room-timer-big {
+  font-size: 3.8rem;        /* 🔥 NÚMERO GRANDE */
+  font-weight: 800;
+  letter-spacing: 4px;
+  line-height: 1;
+  margin-bottom: 8px;
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Mobile adjustment */
+@media (max-width: 480px) {
+  .room-timer-big {
+    font-size: 3rem;
+    letter-spacing: 3px;
+  }
+}
