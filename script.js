@@ -713,10 +713,6 @@ onValue(metaRef, snap => {
   }
 
   // ⏱️ existing TTL sync logic (UNCHANGED)
-  if (meta?.ttl && ttlInputEl) {
-    ttlInputEl.value = meta.ttl;
-    localStorage.setItem(TTL_STORAGE_KEY, meta.ttl);
-  }
 
   // ⛔ room destroyed overlay (UNCHANGED)
   if (meta?.destroyed) {
