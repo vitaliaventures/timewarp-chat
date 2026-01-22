@@ -739,6 +739,12 @@ function touchRoom() {
 
 // tocar sala al entrar
 touchRoom();
+// 🔥 set createdAt solo una vez
+get(ref(db, `rooms/${roomId}/meta/createdAt`)).then(snap => {
+  if (!snap.exists()) {
+    set(ref(db, `rooms/${roomId}/meta/createdAt`), Date.now());
+  }
+});
 
 
 
