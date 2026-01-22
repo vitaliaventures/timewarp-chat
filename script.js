@@ -567,19 +567,6 @@ const ROOM_INACTIVITY_LIMIT = 24 * 60 * 60 * 1000; // 24h
 // 🔥 cargar TTL guardado o default según tipo de sala
 const savedTTL = localStorage.getItem(TTL_STORAGE_KEY);
 
-if (ttlInputEl) {
-  if (savedTTL) {
-    ttlInputEl.value = savedTTL;
-  } else {
-    // Por defecto: 10:00 para públicas, 01:00 para privadas
-    ttlInputEl.value = roomType === "public"
-      ? ttlInputEl.dataset.defaultPublic
-      : ttlInputEl.dataset.defaultPrivate;
-  }
-}
-
-
-
 ttlInputEl.addEventListener("input", () => {
   let value = ttlInputEl.value.trim();
   if (!value) return;
