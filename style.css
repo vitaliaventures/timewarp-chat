@@ -310,3 +310,9 @@ body {
   .chat-input button { padding: 6px 10px; font-size: 0.85rem; }
   #msg-action-menu { max-width: calc(100vw - 20px); right: 10px; left: auto; }
 }
+
+
+/* 🔥 HARD DISABLE per-message countdowns */
+.message .countdown-track {
+  display: none !important;
+}
