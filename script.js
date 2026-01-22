@@ -582,6 +582,40 @@ if (reactionBar) {
 const languageSelect = document.getElementById("language-select");
 const ttlInputEl = document.getElementById("ttl-input");
 const ROOM_INACTIVITY_LIMIT = 24 * 60 * 60 * 1000; // 24h
+// ================================
+// GLOBAL ROOM TIMER (60 MINUTES)
+// ================================
+const ROOM_DURATION_SECONDS = 60 * 60; // 60:00
+let roomRemaining = ROOM_DURATION_SECONDS;
+const roomTimerEl = document.getElementById("room-timer");
+
+function updateRoomTimer() {
+  if (!roomTimerEl) return;
+
+  const m = Math.floor(roomRemaining / 60);
+  const s = roomRemaining % 60;
+  let time = `${m}:${s.toString().padStart(2, "0")}`;
+
+  if (currentLang === "ar") {
+    time = toArabicDigits(time);
+  }
+
+  roomTimerEl.textContent = `⏳ ${time}`;
+
+  if (roomRemaining <= 0) {
+    roomTimerEl.textContent = "⛔ Room expired";
+    return;
+  }
+
+  roomRemaining--;
+}
+
+setInterval(updateRoomTimer, 1000);
+updateRoomTimer();
+
+
+
+
 
 // 🔥 cargar TTL guardado o default según tipo de sala
 const savedTTL = localStorage.getItem(TTL_STORAGE_KEY);
