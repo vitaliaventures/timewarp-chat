@@ -1279,19 +1279,12 @@ function attachMessagesListener() {
 </div>
 
 
-
-
-  <div class="msg-time">
-    <span class="time-text">${formatTime(remaining)}</span>
-
-    <div class="msg-menu" title="Message options">
-      <div></div>
-    </div>
+ <div class="msg-time">
+  <div class="msg-menu" title="Message options">
+    <div></div>
   </div>
+</div>
 
-  <div class="countdown-track">
-    <div class="countdown-fill"></div>
-  </div>
 `;
 
 
