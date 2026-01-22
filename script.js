@@ -706,8 +706,8 @@ touchRoom();
 
 
 attachMessagesListener();
-function saveRoomTTL(ttlValue) {
-  set(ref(db, `rooms/${roomId}/meta/ttl`), ttlValue);
+function saveRoomTTL() {
+  set(ref(db, `rooms/${roomId}/meta/ttl`), ROOM_TTL_SECONDS);
 }
 
 onValue(metaRef, snap => {
