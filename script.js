@@ -912,23 +912,80 @@ clipInput.addEventListener('change', async (e) => {
   clipInput.value = '';
 });
 
-function sendMessage(){
-  if(!input.value) return;
-  push(messagesRef, {
-  text: input.value,
-  ttl: parseTTL(),
-  createdAt: Date.now(),
-  user: identity,
-  color: messageColors[Math.floor(Math.random() * messageColors.length)],
-  reactions: {} // 🔥 emoji → { username: true }
+// --- Función unificada para enviar mensajes
+function sendMessage(msgData = null) {
+  // Si no hay msgData, tomamos el texto del input
+  if (!msgData) {
+    if (!input.value.trim()) return;
+    msgData = {
+      type: "text",
+      text: input.value.trim(),
+      user: identity,
+      createdAt: Date.now(),
+      ttl: parseTTL(),
+      color: messageColors[Math.floor(Math.random() * messageColors.length)],
+      reactions: {}
+    };
+  } else {
+    // para clips, asegurar user y timestamp
+    msgData.user = identity;
+    msgData.createdAt = Date.now();
+    msgData.ttl = parseTTL();
+    msgData.color = messageColors[Math.floor(Math.random() * messageColors.length)];
+    msgData.reactions = {};
+  }
+
+  push(messagesRef, msgData);
+
+  touchRoom(); // actualizar actividad de sala
+
+  // limpiar input solo si era texto
+  if (msgData.type === "text") {
+    input.value = "";
+    input.style.height = "auto";
+    input.rows = 1;
+    input.scrollTop = 0;
+  }
+
+  remove(typingRef);
+}
+
+// --- Botón enviar
+sendBtn.onclick = () => sendMessage();
+
+// --- Enter / Shift+Enter
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  } else if (e.key === "Enter" && e.shiftKey) {
+    e.preventDefault();
+    const start = input.selectionStart, end = input.selectionEnd;
+    input.value = input.value.substring(0, start) + "\n" + input.value.substring(end);
+    input.selectionStart = input.selectionEnd = start + 1;
+  }
+});
+
+// --- Clips
+attachClipBtn.addEventListener('click', () => clipInput.click());
+clipInput.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    sendMessage({
+      type: 'clip',
+      content: reader.result
+    });
+  };
+  reader.readAsDataURL(file);
+
+  clipInput.value = '';
 });
 
 
-touchRoom();
-  
-  input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
-  remove(typingRef);
-}
+
 sendBtn.onclick=sendMessage;
 
 
