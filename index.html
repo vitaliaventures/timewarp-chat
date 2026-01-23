@@ -60,9 +60,36 @@
     <div id="typing-indicator" class="typing-indicator"></div>
 
     <div class="chat-input">
-      <textarea id="message-input" rows="1" placeholder="Type message..."></textarea>
-      <button id="send-btn">Send</button>
-    </div>
+
+  <!-- File attachment (hidden) -->
+  <input 
+    type="file" 
+    id="file-input" 
+    multiple
+    style="display:none"
+  />
+
+  <!-- Attach button -->
+  <button 
+    id="attach-btn" 
+    title="Attach file"
+    style="
+      margin-right:6px;
+      background:#1c1c1c;
+      border:none;
+      color:#fff;
+      border-radius:8px;
+      padding:6px 10px;
+      cursor:pointer;
+      font-size:16px;
+    "
+  >📎</button>
+
+  <textarea id="message-input" rows="1" placeholder="Type message..."></textarea>
+  <button id="send-btn">Send</button>
+
+</div>
+
   </div>
 
 
