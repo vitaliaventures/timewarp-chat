@@ -12,7 +12,7 @@ import {
   child          // 🔥 ESTA LÍNEA ES LA CLAVE
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 import { onChildChanged } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
-import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-storage.js";
+
 
 
 
@@ -655,7 +655,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const storage = getStorage(app);
+
 // --- Sala
 // ================================
 // FINAL ROOM ID RESOLUTION
@@ -843,146 +843,25 @@ function showSystemMessage(text){
 
 // --- Send
 const input = document.getElementById("message-input");
-
-input.addEventListener("paste", async (e) => {
-  const items = e.clipboardData?.items;
-  if (!items) return;
-
-  for (let item of items) {
-    if (item.type.startsWith("image/")) {
-      const file = item.getAsFile();
-      if (!file) continue;
-
-      // Optional: show "Uploading..." system message
-      const uploadingMsg = showSystemMessage("Uploading image... 🚀");
-
-      try {
-        const imageRef = storageRef(storage, `rooms/${roomId}/images/${Date.now()}_${file.name}`);
-        await uploadBytes(imageRef, file);
-        const url = await getDownloadURL(imageRef);
-
-        // Send image as chat message
-        push(messagesRef, {
-          image: url,
-          ttl: parseTTL(),
-          createdAt: Date.now(),
-          user: identity,
-          color: messageColors[Math.floor(Math.random() * messageColors.length)],
-          reactions: {}
-        });
-
-        uploadingMsg.remove();
-      } catch (err) {
-        console.error("Image upload failed:", err);
-        uploadingMsg.textContent = "❌ Failed to upload image.";
-      }
-    }
-  }
-});
-
-
 const sendBtn = document.getElementById("send-btn");
-function sendMessage() {
-  const text = input.value.trim();
-  if(!text) return;
-
+function sendMessage(){
+  if(!input.value) return;
   push(messagesRef, {
-  type: 'text',       // 🔥 agregar
-  content: text,      // 🔥 renombrar text → content
+  text: input.value,
   ttl: parseTTL(),
   createdAt: Date.now(),
   user: identity,
-  color: messageColors[Math.floor(Math.random()*messageColors.length)],
-  reactions: {}
+  color: messageColors[Math.floor(Math.random() * messageColors.length)],
+  reactions: {} // 🔥 emoji → { username: true }
 });
 
 
-  touchRoom();
-  input.value = "";
-  input.style.height = "auto";
-  input.rows = 1;
-  remove(typingRef);
-  chatBox.scrollTop = chatBox.scrollHeight; // 🔥 auto-scroll al enviar
-}
-
-sendBtn.addEventListener("click", sendMessage);
-
-input.addEventListener("keydown", e => {
-  if(e.key === "Enter" && !e.shiftKey){
-    e.preventDefault();
-    sendMessage();
-  }
-  // Shift+Enter para salto de línea
-  if(e.key === "Enter" && e.shiftKey){
-    const start = input.selectionStart;
-    const end = input.selectionEnd;
-    input.value = input.value.substring(0,start) + "\n" + input.value.substring(end);
-    input.selectionStart = input.selectionEnd = start + 1;
-  }
-});
-
-sendBtn.onclick=sendMessage;
-
-// 1️⃣ Abrir selector de archivos
-attachBtn.addEventListener("click", () => fileInput.click());
-
-// 2️⃣ Subir archivos cuando se seleccionen
-fileInput.addEventListener("change", async (e) => {
-  const files = Array.from(e.target.files);
-  for (let file of files) {
-    const storageRef = firebase.storage().ref('rooms/' + roomId + '/' + file.name);
-    await storageRef.put(file);
-    const url = await storageRef.getDownloadURL();
-
-    push(messagesRef, {
-      type: 'file',
-      name: file.name,
-      url: url,
-      timestamp: Date.now(),
-      user: identity
-    });
-  }
-  fileInput.value = ""; // reset input
-});
-
-// 4️⃣ Escuchar cambios en tiempo real y mostrar mensajes
-onChildAdded(messagesRef, (snapshot) => {
-  const msg = snapshot.val();
-  const div = document.createElement("div");
-  div.classList.add("message");
-  div.dataset.msgKey = snapshot.key; // 🔥 necesario para futuras ediciones
-
+touchRoom();
   
-  if(msg.type === 'text') {
-    div.textContent = msg.content;
-  } else if(msg.type === 'file') {
-    if(msg.url.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
-      const img = document.createElement("img");
-      img.src = msg.url;
-      img.style.maxWidth = "100%";
-      img.style.borderRadius = "8px";
-      div.appendChild(img);
-    } else {
-      const a = document.createElement("a");
-      a.href = msg.url;
-      a.textContent = msg.name;
-      a.target = "_blank";
-      a.style.color = "#22c55e";
-      div.appendChild(a);
-    }
-  }
-
-  const time = document.createElement("div");
-  time.classList.add("msg-time");
-  time.textContent = `${msg.sender} • ${new Date(msg.timestamp).toLocaleTimeString()}`;
-  div.appendChild(time);
-
-  chatBox.appendChild(div);
-  chatBox.scrollTop = chatBox.scrollHeight;
-});
-
-
-
+  input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
+  remove(typingRef);
+}
+sendBtn.onclick=sendMessage;
 
 
 
@@ -1101,16 +980,6 @@ onChildChanged(messagesRef, snap => {
     </div>
   `;
 
-  if (msg.image) {
-  const img = document.createElement("img");
-  img.src = msg.image;
-  img.style.maxWidth = "250px";
-  img.style.borderRadius = "12px";
-  img.style.marginTop = "6px";
-  div.querySelector(".msg-text").appendChild(img);
-}
-
-  
   const menuBtn = div.querySelector(".msg-menu");
   menuBtn.addEventListener("click", e => {
     e.stopPropagation();
@@ -1432,15 +1301,6 @@ function attachMessagesListener() {
   </div>
 `;
 
-
-  if (msg.image) {
-  const img = document.createElement("img");
-  img.src = msg.image;
-  img.style.maxWidth = "250px";
-  img.style.borderRadius = "12px";
-  img.style.marginTop = "6px";
-  div.querySelector(".msg-text").appendChild(img);
-}
 
 
 
@@ -1799,49 +1659,3 @@ style.textContent = `
 }
 `;
 document.head.appendChild(style);
-
-
-
-// ---------------------------
-// Paste image support
-// ---------------------------
-const chatInput = document.querySelector('.chat-input textarea');
-
-chatInput.addEventListener('paste', (e) => {
-    e.preventDefault(); // prevent default paste behavior
-    const items = e.clipboardData.items;
-
-    for (let item of items) {
-        if (item.type.startsWith('image/')) {
-            const file = item.getAsFile();
-            const reader = new FileReader();
-
-            reader.onload = function(event) {
-                const imgData = event.target.result;
-
-                // create message container
-                const msg = document.createElement('div');
-                msg.classList.add('message');
-
-                // create image element
-                const img = document.createElement('img');
-                img.src = imgData;
-                img.style.maxWidth = '100%';
-                img.style.borderRadius = '12px';
-                img.style.display = 'block';
-
-                msg.appendChild(img);
-
-                // append to chat-box
-                const chatBox = document.querySelector('.chat-box');
-                chatBox.appendChild(msg);
-
-                // auto scroll
-                chatBox.scrollTop = chatBox.scrollHeight;
-            };
-
-            reader.readAsDataURL(file);
-        }
-    }
-});
-
