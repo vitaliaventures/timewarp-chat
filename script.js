@@ -844,6 +844,30 @@ function showSystemMessage(text){
 // --- Send
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
+const attachClipBtn = document.getElementById('attach-clip-btn');
+const clipInput = document.getElementById('clip-input');
+
+attachClipBtn.addEventListener('click', () => clipInput.click());
+
+clipInput.addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    const clipData = reader.result; // base64
+    sendMessage({
+      type: 'clip',      
+      content: clipData,
+      name: currentUser,
+      timestamp: Date.now()
+    });
+  };
+  reader.readAsDataURL(file);
+
+  clipInput.value = '';
+});
+
 function sendMessage(){
   if(!input.value) return;
   push(messagesRef, {
