@@ -822,6 +822,12 @@ const attachBtn = document.getElementById("attach-btn");
 
 let pendingFile = null;
 
+fileInput.addEventListener("change", e => {
+  pendingFile = e.target.files[0] || null;
+  console.log("Selected file:", pendingFile);
+});
+
+
 attachBtn.addEventListener("click", e => {
   e.preventDefault();
   e.stopPropagation();
