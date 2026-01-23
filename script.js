@@ -984,11 +984,7 @@ clipInput.addEventListener('change', e => {
   clipInput.value = '';
 });
 
-
-
-sendBtn.onclick=sendMessage;
-
-
+sendBtn.onclick = () => sendMessage();
 
 function spawnConfetti() {
   for(let i=0;i<30;i++){
