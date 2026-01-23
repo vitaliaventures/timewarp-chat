@@ -909,20 +909,14 @@ async function sendMessage(){
   fileInput.value = "";
 
   touchRoom();
-  input.value="";
-  input.style.height="auto";
-  input.rows=1;
+  input.value = "";
+  input.style.height = "auto";
+  input.rows = 1;
+  input.scrollTop = 0;
   remove(typingRef);
 }
 
-
-
-touchRoom();
-  
-  input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
-  remove(typingRef);
-}
-sendBtn.onclick=sendMessage;
+sendBtn.onclick = sendMessage;
 
 
 
