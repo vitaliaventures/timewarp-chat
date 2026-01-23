@@ -724,7 +724,32 @@ touchRoom();
 
 
 
+function attachMessagesListener() {
+  if (messagesListenerAttached) return;
+  messagesListenerAttached = true;
+
+  // Render existing messages on page load
+  get(messagesRef).then(snapshot => {
+    snapshot.forEach(childSnap => {
+      const msg = childSnap.val();
+      msg.key = childSnap.key; // save key for updates
+      renderMessage(msg);
+    });
+  });
+
+  // Listen for new messages in real-time
+  onChildAdded(messagesRef, snap => {
+    const msg = snap.val();
+    msg.key = snap.key;
+    renderMessage(msg);
+  });
+}
+
+// call it once
 attachMessagesListener();
+
+
+
 function saveRoomTTL(ttlValue) {
   set(ref(db, `rooms/${roomId}/meta/ttl`), ttlValue);
 }
