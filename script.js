@@ -868,16 +868,47 @@ function showSystemMessage(text){
 // --- Send
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
-function sendMessage(){
-  if(!input.value) return;
+
+async function sendMessage(){
+  if (!input.value && !pendingFile) return;
+
+  let fileData = null;
+
+  if (pendingFile) {
+    const filePath = `uploads/${roomId}/${Date.now()}_${pendingFile.name}`;
+    const fileRef = storageRef(storage, filePath);
+
+    await uploadBytes(fileRef, pendingFile);
+    const url = await getDownloadURL(fileRef);
+
+    fileData = {
+      name: pendingFile.name,
+      type: pendingFile.type,
+      size: pendingFile.size,
+      url
+    };
+  }
+
   push(messagesRef, {
-  text: input.value,
-  ttl: parseTTL(),
-  createdAt: Date.now(),
-  user: identity,
-  color: messageColors[Math.floor(Math.random() * messageColors.length)],
-  reactions: {} // 🔥 emoji → { username: true }
-});
+    text: input.value || "",
+    file: fileData,
+    ttl: parseTTL(),
+    createdAt: Date.now(),
+    user: identity,
+    color: messageColors[Math.floor(Math.random() * messageColors.length)],
+    reactions: {}
+  });
+
+  pendingFile = null;
+  fileInput.value = "";
+
+  touchRoom();
+  input.value="";
+  input.style.height="auto";
+  input.rows=1;
+  remove(typingRef);
+}
+
 
 
 touchRoom();
