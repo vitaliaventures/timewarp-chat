@@ -815,35 +815,30 @@ onValue(usersRef,snapshot=>{
   updateUsersLiveText();
 });
 
-
-
-let pendingFile = null;
-
-document.addEventListener("DOMContentLoaded", () => {
-  const fileInput = document.getElementById("file-input");
-  const attachBtn = document.getElementById("attach-btn");
-
-  if (!fileInput || !attachBtn) {
-    console.error("Attach elements not found");
-    return;
-  }
-
-  fileInput.addEventListener("change", e => {
-    pendingFile = e.target.files[0] || null;
-    console.log("Selected file:", pendingFile);
-  });
-
-  attachBtn.addEventListener("click", e => {
-    e.preventDefault();
-    e.stopPropagation();
-    fileInput.value = "";
-    fileInput.click();
-  });
-});
-
-
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
+let pendingFile = null;
+
+const fileInput = document.getElementById("file-input");
+const attachBtn = document.getElementById("attach-btn");
+
+if (!fileInput || !attachBtn) {
+  console.error("Attach elements not found");
+}
+
+fileInput.addEventListener("change", e => {
+  pendingFile = e.target.files[0] || null;
+  console.log("Selected file:", pendingFile);
+});
+
+attachBtn.addEventListener("click", e => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  // reset to allow same file twice
+  fileInput.value = "";
+  fileInput.click();
+});
 
 
 
