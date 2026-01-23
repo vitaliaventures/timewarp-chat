@@ -836,11 +836,6 @@ attachBtn.addEventListener("click", e => {
 });
 
 
-fileInput.addEventListener("change", e => {
-  pendingFile = e.target.files[0] || null;
-});
-
-
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
 
