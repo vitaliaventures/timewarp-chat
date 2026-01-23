@@ -724,32 +724,7 @@ touchRoom();
 
 
 
-function attachMessagesListener() {
-  if (messagesListenerAttached) return;
-  messagesListenerAttached = true;
-
-  // Render existing messages on page load
-  get(messagesRef).then(snapshot => {
-    snapshot.forEach(childSnap => {
-      const msg = childSnap.val();
-      msg.key = childSnap.key; // save key for updates
-      renderMessage(msg);
-    });
-  });
-
-  // Listen for new messages in real-time
-  onChildAdded(messagesRef, snap => {
-    const msg = snap.val();
-    msg.key = snap.key;
-    renderMessage(msg);
-  });
-}
-
-// call it once
 attachMessagesListener();
-
-
-
 function saveRoomTTL(ttlValue) {
   set(ref(db, `rooms/${roomId}/meta/ttl`), ttlValue);
 }
@@ -833,153 +808,239 @@ onValue(usersRef,snapshot=>{
 });
 
 // --- Chat UI
-// --- Chat UI
 const chatBox = document.getElementById("chat-box");
 
-// renderMessage — para mostrar clips e imágenes
-function renderMessage(msg) {
-  const div = document.createElement('div');
-  div.className = 'chat-message';
-  div.dataset.msgKey = msg.key; // 🔥 Needed for edits/deletes
 
-  if(msg.type === 'clip') {
-    if(msg.content.startsWith('data:image')) {
-      const img = document.createElement('img');
-      img.src = msg.content;
-      img.style.maxWidth = '200px';
-      img.style.borderRadius = '8px';
-      div.appendChild(img);
-    } else if(msg.content.startsWith('data:video')) {
-      const video = document.createElement('video');
-      video.src = msg.content;
-      video.controls = true;
-      video.style.maxWidth = '200px';
-      video.style.borderRadius = '8px';
-      div.appendChild(video);
-    }
-  } else {
-    div.textContent = msg.text || msg.content; // support both text key names
+
+
+
+function formatTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+
+  const time = `${m}:${s.toString().padStart(2, "0")}`;
+
+  // 🔥 Arabic real numerals
+  if (currentLang === "ar") {
+    return toArabicDigits(time);
   }
 
+  return time;
+}
+
+
+function showSystemMessage(text){
+  const div = document.createElement("div");
+  div.style.textAlign="center";
+  div.style.fontSize="12px";
+  div.style.opacity="0.6";
+  div.style.margin="6px 0";
+  div.textContent=text;
   chatBox.appendChild(div);
   chatBox.scrollTop = chatBox.scrollHeight;
+  return div; // 🔥 ESTA LÍNEA
 }
-
 
 // --- Send
-// --- Send / Input / Clip (SINGLE SOURCE OF TRUTH)
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
-const attachClipBtn = document.getElementById("attach-clip-btn");
-const clipInput = document.getElementById("clip-input");
+function sendMessage(){
+  if(!input.value) return;
+  push(messagesRef, {
+  text: input.value,
+  ttl: parseTTL(),
+  createdAt: Date.now(),
+  user: identity,
+  color: messageColors[Math.floor(Math.random() * messageColors.length)],
+  reactions: {} // 🔥 emoji → { username: true }
+});
 
-// --- Unified sendMessage
-function sendMessage(msgData = null) {
-  if (!msgData) {
-    if (!input.value.trim()) return;
 
-    msgData = {
-      type: "text",
-      text: input.value.trim(),
-      user: identity,
-      createdAt: Date.now(),
-      ttl: parseTTL(),
-      color: messageColors[Math.floor(Math.random() * messageColors.length)],
-      reactions: {}
-    };
-  } else {
-    msgData.user = identity;
-    msgData.createdAt = Date.now();
-    msgData.ttl = parseTTL();
-    msgData.color = messageColors[Math.floor(Math.random() * messageColors.length)];
-    msgData.reactions = {};
-  }
-
-  push(messagesRef, msgData);
-  touchRoom();
-
-  if (msgData.type === "text") {
-    input.value = "";
-    input.rows = 1;
-  }
-
+touchRoom();
+  
+  input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
   remove(typingRef);
 }
-
-// --- Send button
-sendBtn.onclick = () => sendMessage();
-
-// --- Enter / Shift+Enter
-input.addEventListener("keydown", e => {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-  if (e.key === "Enter" && e.shiftKey) {
-    e.preventDefault();
-    const start = input.selectionStart;
-    input.value =
-      input.value.substring(0, start) + "\n" + input.value.substring(start);
-    input.selectionStart = input.selectionEnd = start + 1;
-  }
-});
-
-// --- Clip upload
-attachClipBtn.onclick = () => clipInput.click();
-
-clipInput.onchange = () => {
-  const file = clipInput.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = () => {
-    sendMessage({
-      type: "clip",
-      content: reader.result
-    });
-  };
-  reader.readAsDataURL(file);
-
-  clipInput.value = "";
-};
-
-// --- Typing indicator
-let typingTimeout = null;
-input.addEventListener("input", () => {
-  push(typingRef, { user: identity, at: Date.now() });
-  if (typingTimeout) clearTimeout(typingTimeout);
-  typingTimeout = setTimeout(() => remove(typingRef), 1500);
-});
-
+sendBtn.onclick=sendMessage;
 
 
 
 function spawnConfetti() {
-  for (let i = 0; i < 30; i++) {
+  for(let i=0;i<30;i++){
     const conf = document.createElement("div");
-    conf.textContent = ["🎉","✨","💥","🚀","🏆","🔥","💎"][Math.floor(Math.random()*7)];
-    conf.style.position = "fixed";
-    conf.style.left = Math.random() * 100 + "%";
+    conf.textContent = ["🎉","✨","💥","🚀","🏆","🔥","💎"][Math.floor(Math.random()*4)];
+    conf.style.position="fixed";
+    conf.style.left = Math.random()*100 + "%";
     conf.style.top = "-30px";
-    conf.style.fontSize = Math.random() * 24 + 14 + "px";
-    conf.style.zIndex = "9999";
+    conf.style.fontSize = Math.random()*24 + 14 + "px";
+    conf.style.opacity = Math.random();
+    conf.style.zIndex="9999";
     document.body.appendChild(conf);
-
-    const fall = setInterval(() => {
+    const fall = setInterval(()=>{
       const top = parseFloat(conf.style.top);
-      if (top > window.innerHeight) {
-        conf.remove();
-        clearInterval(fall);
-      } else {
-        conf.style.top = top + 5 + "px";
-      }
-    }, 30);
+      if(top>window.innerHeight){ conf.remove(); clearInterval(fall);}
+      else conf.style.top = top + 5 + "px";
+    },30);
   }
 }
-
 if (roomType === "private" && location.hash.includes("room=")) {
   spawnConfetti();
 }
+
+
+
+
+// --- Enter / Shift+Enter
+input.addEventListener("keydown",e=>{
+  if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); sendMessage(); }
+  if(e.key==="Enter"&&e.shiftKey){ e.preventDefault();
+    const start=input.selectionStart,end=input.selectionEnd;
+    input.value=input.value.substring(0,start)+"\n"+input.value.substring(end);
+    input.selectionStart=input.selectionEnd=start+1;
+  }
+});
+
+// --- Auto-expand textarea
+input.addEventListener("input",()=>{
+  const lines=input.value.split("\n").length;
+  input.rows=lines>1?lines:1;
+});
+
+// --- Typing indicator
+let typingTimeout=null;
+input.addEventListener("input",()=>{
+  push(typingRef,{user:identity,at:Date.now()});
+  if(typingTimeout) clearTimeout(typingTimeout);
+  typingTimeout=setTimeout(()=>remove(typingRef),1500);
+});
+
+
+// --- Typing indicator
+onChildAdded(typingRef,snap=>{
+  const data = snap.val();
+  if(!data||data.user.name===identity.name) return;
+  typingIndicator.textContent=`${data.user.emoji} ${data.user.name} ${translations[currentLang].typingIndicator}`;
+  setTimeout(()=>typingIndicator.textContent="",2000);
+});
+
+
+// Listener para detectar ediciones de mensajes
+onChildChanged(messagesRef, snap => {
+  const msg = snap.val();
+  const div = chatBox.querySelector(`[data-msg-key="${snap.key}"]`);
+  if (!div) return; // si no encontramos el div, salimos
+
+  if (msg.user?.name === identity.name) {
+  div.style.background = msg.color || "#2563eb";
+} else {
+  div.style.background = "#2a2a2a";
+}
+
+
+  // --- Calcula tiempo restante basado en createdAt
+  const now = Date.now();
+  const elapsed = Math.floor((now - msg.createdAt) / 1000);
+  let remaining = msg.ttl - elapsed;
+  if (remaining < 0) remaining = 0;
+
+  // Actualizamos texto y estructura
+  div.innerHTML = `
+    <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
+
+
+
+   <span class="msg-text">
+  ${msg.text}
+  ${
+    msg.edited
+      ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6;margin-left:6px">
+           ${translations[currentLang].editedLabel}
+         </span>`
+      : ""
+  }
+</span>
+
+<div class="reactions">
+  ${renderReactions(msg.reactions)}
+</div>
+
+    
+
+
+    <div class="msg-time">
+      <span class="time-text">${formatTime(remaining)}</span>
+
+      <div class="msg-menu" title="Message options">
+        <div></div>
+      </div>
+    </div>
+
+    <div class="countdown-track">
+      <div class="countdown-fill"></div>
+    </div>
+  `;
+
+  const menuBtn = div.querySelector(".msg-menu");
+  menuBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    activeMsgRef = snap.ref;
+    activeMsgDiv = div;
+    const rect = menuBtn.getBoundingClientRect();
+    const menuWidth = actionMenu.offsetWidth || 200;
+const viewportWidth = window.innerWidth;
+
+const isRTL = document.body.dir === "rtl";
+
+actionMenu.style.top = rect.bottom + 6 + "px";
+
+if (isRTL) {
+  actionMenu.style.left = "auto";
+  actionMenu.style.right =
+    (window.innerWidth - rect.right - 200) + "px";
+} else {
+  // LTR normal
+  let left = rect.left - menuWidth + 10;
+
+  if (left < 10) left = 10;
+  if (left + menuWidth > viewportWidth - 10) {
+    left = viewportWidth - menuWidth - 10;
+  }
+
+  actionMenu.style.right = "auto";
+  actionMenu.style.left = left + "px";
+}
+
+actionMenu.style.display = "block";
+
+
+  });
+
+  // --- Reiniciar el countdown sin perder el tiempo ya transcurrido
+  const span = div.querySelector(".time-text");
+  const fill = div.querySelector(".countdown-fill");
+  const total = msg.ttl;
+
+  // Limpiar interval anterior si existía
+  if (div.countdownTimer) clearInterval(div.countdownTimer);
+
+  div.countdownTimer = setInterval(() => {
+    remaining--;
+    span.textContent = formatTime(remaining);
+
+    const percent = (remaining / total) * 100;
+    fill.style.width = percent + "%";
+
+    if (percent > 30) fill.style.background = "#22c55e"; // green
+    else if (percent > 10) fill.style.background = "#facc15"; // yellow
+    else fill.style.background = "#ef4444"; // red
+
+    if (remaining <= 0) {
+      clearInterval(div.countdownTimer);
+      div.remove();
+      remove(snap.ref);
+    }
+  }, 1000);
+});
 
 
 
