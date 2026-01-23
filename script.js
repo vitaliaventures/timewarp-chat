@@ -822,9 +822,13 @@ const attachBtn = document.getElementById("attach-btn");
 
 let pendingFile = null;
 
-attachBtn.addEventListener("click", () => {
+attachBtn.addEventListener("click", e => {
+  e.preventDefault();
+  e.stopPropagation();
+  fileInput.value = ""; // permite subir el mismo archivo 2 veces
   fileInput.click();
 });
+
 
 fileInput.addEventListener("change", e => {
   pendingFile = e.target.files[0] || null;
