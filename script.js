@@ -1333,21 +1333,35 @@ function attachMessagesListener() {
     div.innerHTML = `
   <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
 
+
+
   <span class="msg-text">
-    ${msg.text || ""}
-  </span>
+  ${msg.text || ""}
+</span>
 
-  ${msg.file ? `
-    <div class="file-attachment">
-      <a href="${msg.file.url}" target="_blank" rel="noopener">
-        📎 ${msg.file.name}
-      </a>
-    </div>
-  ` : ""}
-
-  <div class="reactions">
-    ${renderReactions(msg.reactions)}
+${msg.file ? `
+  <div class="file-attachment">
+    <a href="${msg.file.url}" target="_blank" rel="noopener">
+      📎 ${msg.file.name}
+    </a>
   </div>
+` : ""}
+
+  ${
+    msg.edited
+      ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6;margin-left:6px">
+           ${translations[currentLang].editedLabel}
+         </span>`
+      : ""
+  }
+</span>
+
+<div class="reactions">
+  ${renderReactions(msg.reactions)}
+</div>
+
+
+
 
   <div class="msg-time">
     <span class="time-text">${formatTime(remaining)}</span>
@@ -1362,8 +1376,6 @@ function attachMessagesListener() {
   </div>
 `;
 
-
-    
 
 
 
