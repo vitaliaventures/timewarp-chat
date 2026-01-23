@@ -949,7 +949,9 @@ onChildAdded(messagesRef, (snapshot) => {
   const msg = snapshot.val();
   const div = document.createElement("div");
   div.classList.add("message");
+  div.dataset.msgKey = snapshot.key; // 🔥 necesario para futuras ediciones
 
+  
   if(msg.type === 'text') {
     div.textContent = msg.content;
   } else if(msg.type === 'file') {
