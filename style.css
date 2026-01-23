@@ -320,3 +320,18 @@ body {
 .reaction-pill:hover {
   background: #3a3a3a;
 }
+
+
+.file-attachment {
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+.file-attachment a {
+  color: #60a5fa;
+  text-decoration: none;
+}
+
+.file-attachment a:hover {
+  text-decoration: underline;
+}
