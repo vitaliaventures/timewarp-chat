@@ -887,13 +887,15 @@ function sendMessage() {
   if(!text) return;
 
   push(messagesRef, {
-    text,
-    ttl: parseTTL(),
-    createdAt: Date.now(),
-    user: identity,
-    color: messageColors[Math.floor(Math.random()*messageColors.length)],
-    reactions: {}
-  });
+  type: 'text',       // 🔥 agregar
+  content: text,      // 🔥 renombrar text → content
+  ttl: parseTTL(),
+  createdAt: Date.now(),
+  user: identity,
+  color: messageColors[Math.floor(Math.random()*messageColors.length)],
+  reactions: {}
+});
+
 
   touchRoom();
   input.value = "";
