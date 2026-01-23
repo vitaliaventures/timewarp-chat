@@ -808,37 +808,36 @@ onValue(usersRef,snapshot=>{
 });
 
 // --- Chat UI
+// --- Chat UI
 const chatBox = document.getElementById("chat-box");
 
+// renderMessage — para mostrar clips e imágenes
+function renderMessage(msg) {
+  const div = document.createElement('div');
+  div.className = 'chat-message';
 
-
-
-
-function formatTime(sec) {
-  const m = Math.floor(sec / 60);
-  const s = sec % 60;
-
-  const time = `${m}:${s.toString().padStart(2, "0")}`;
-
-  // 🔥 Arabic real numerals
-  if (currentLang === "ar") {
-    return toArabicDigits(time);
+  if(msg.type === 'clip') {
+    // Detecta si es video o imagen
+    if(msg.content.startsWith('data:image')) {
+      const img = document.createElement('img');
+      img.src = msg.content;
+      img.style.maxWidth = '200px';
+      img.style.borderRadius = '8px';
+      div.appendChild(img);
+    } else if(msg.content.startsWith('data:video')) {
+      const video = document.createElement('video');
+      video.src = msg.content;
+      video.controls = true;
+      video.style.maxWidth = '200px';
+      video.style.borderRadius = '8px';
+      div.appendChild(video);
+    }
+  } else {
+    div.textContent = msg.content; // mensaje normal
   }
 
-  return time;
-}
-
-
-function showSystemMessage(text){
-  const div = document.createElement("div");
-  div.style.textAlign="center";
-  div.style.fontSize="12px";
-  div.style.opacity="0.6";
-  div.style.margin="6px 0";
-  div.textContent=text;
   chatBox.appendChild(div);
   chatBox.scrollTop = chatBox.scrollHeight;
-  return div; // 🔥 ESTA LÍNEA
 }
 
 // --- Send
