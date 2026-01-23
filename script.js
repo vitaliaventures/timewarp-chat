@@ -902,6 +902,7 @@ function sendMessage() {
   input.style.height = "auto";
   input.rows = 1;
   remove(typingRef);
+  chatBox.scrollTop = chatBox.scrollHeight; // 🔥 auto-scroll al enviar
 }
 
 sendBtn.addEventListener("click", sendMessage);
