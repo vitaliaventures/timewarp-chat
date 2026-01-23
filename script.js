@@ -815,6 +815,22 @@ onValue(usersRef,snapshot=>{
   updateUsersLiveText();
 });
 
+
+
+const fileInput = document.getElementById("file-input");
+const attachBtn = document.getElementById("attach-btn");
+
+let pendingFile = null;
+
+attachBtn.addEventListener("click", () => {
+  fileInput.click();
+});
+
+fileInput.addEventListener("change", e => {
+  pendingFile = e.target.files[0] || null;
+});
+
+
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
 
