@@ -936,7 +936,7 @@ fileInput.addEventListener("change", async (e) => {
       name: file.name,
       url: url,
       timestamp: Date.now(),
-      sender: userName
+      user: identity
     });
   }
   fileInput.value = ""; // reset input
