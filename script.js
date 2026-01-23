@@ -1336,7 +1336,17 @@ function attachMessagesListener() {
 
 
   <span class="msg-text">
-  ${msg.text}
+  ${msg.text || ""}
+</span>
+
+${msg.file ? `
+  <div class="file-attachment">
+    <a href="${msg.file.url}" target="_blank" rel="noopener">
+      📎 ${msg.file.name}
+    </a>
+  </div>
+` : ""}
+
   ${
     msg.edited
       ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6;margin-left:6px">
