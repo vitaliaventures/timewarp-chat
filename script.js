@@ -840,9 +840,9 @@ const chatBox = document.getElementById("chat-box");
 function renderMessage(msg) {
   const div = document.createElement('div');
   div.className = 'chat-message';
+  div.dataset.msgKey = msg.key; // 🔥 Needed for edits/deletes
 
   if(msg.type === 'clip') {
-    // Detecta si es video o imagen
     if(msg.content.startsWith('data:image')) {
       const img = document.createElement('img');
       img.src = msg.content;
@@ -858,12 +858,13 @@ function renderMessage(msg) {
       div.appendChild(video);
     }
   } else {
-    div.textContent = msg.content; // mensaje normal
+    div.textContent = msg.text || msg.content; // support both text key names
   }
 
   chatBox.appendChild(div);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
+
 
 // --- Send
 const input = document.getElementById("message-input");
