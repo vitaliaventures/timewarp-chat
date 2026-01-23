@@ -320,18 +320,3 @@ body {
 .reaction-pill:hover {
   background: #3a3a3a;
 }
-
-
-.message img {
-  max-width: 100%;
-  border-radius: 8px;
-  margin-top: 4px;
-}
-
-.message a {
-  color: #22c55e;
-  text-decoration: underline;
-  word-break: break-all;
-  display: inline-block;
-  margin-top: 4px;
-}
