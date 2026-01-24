@@ -822,7 +822,7 @@ onValue(usersRef,snapshot=>{
 const chatBox = document.getElementById("chat-box");
 
 const lastActivityEl = document.getElementById("last-activity");
-let lastMessageAt = Date.now();
+let lastMessageAt = null;
 
 function updateLastActivity() {
   if (!lastActivityEl) return;
