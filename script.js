@@ -466,6 +466,7 @@ const translations = {
 
 let currentLang = "en";
 const TTL_STORAGE_KEY = "tw_ttl";
+const MAX_TTL_SECONDS = 60 * 60; // 🔒 60 minutes hard limit
 const savedLang = localStorage.getItem("tw_lang");
 if (savedLang && translations[savedLang]) {
   currentLang = savedLang;
