@@ -13,39 +13,6 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 import { onChildChanged } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
-import {
-  getStorage,
-  ref as storageRef,
-  uploadBytes,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.1.0/firebase-storage.js";
-
-
-
-function renderFileHTML(file) {
-  if (!file) return "";
-
-  // Imagen (preview estilo WhatsApp)
-  if (file.type && file.type.startsWith("image/")) {
-    return `
-      <div class="file-preview image-preview">
-        <a href="${file.url}" target="_blank">
-          <img src="${file.url}" alt="${file.name}" />
-        </a>
-      </div>
-    `;
-  }
-
-  // Otros archivos
-  return `
-    <div class="file-preview file-attachment">
-      <a href="${file.url}" target="_blank">
-        📎 ${file.name}
-      </a>
-    </div>
-  `;
-}
-
 
 
 
@@ -80,12 +47,10 @@ if (roomType === "public") {
     "Live public conversation. Messages disappear automatically. Join instantly without accounts."
   );
 
-  // 🔥 for Google: include canonical
-const canonical = document.querySelector('link[rel="canonical"]') || document.createElement('link');
-canonical.rel = 'canonical';
-canonical.href = window.location.origin + (roomType === "public" ? `/p/${roomId}` : window.location.pathname);
-document.head.appendChild(canonical);
-
+  const canonical = document.querySelector('link[rel="canonical"]');
+if (canonical) {
+  canonical.href = window.location.origin + window.location.pathname;
+}
 
 // 🔥 remove noindex if coming from private
 const metaRobots = document.querySelector('meta[name="robots"]');
@@ -616,20 +581,11 @@ const languageSelect = document.getElementById("language-select");
 const ttlInputEl = document.getElementById("ttl-input");
 const ROOM_INACTIVITY_LIMIT = 24 * 60 * 60 * 1000; // 24h
 
-// 🔥 cargar TTL guardado o default según tipo de sala
+// 🔥 cargar TTL guardado o default
 const savedTTL = localStorage.getItem(TTL_STORAGE_KEY);
-
 if (ttlInputEl) {
-  if (savedTTL) {
-    ttlInputEl.value = savedTTL;
-  } else {
-    // Por defecto: 10:00 para públicas, 01:00 para privadas
-    ttlInputEl.value = roomType === "public"
-      ? ttlInputEl.dataset.defaultPublic
-      : ttlInputEl.dataset.defaultPrivate;
-  }
+  ttlInputEl.value = savedTTL || "01:00";
 }
-
 
 
 ttlInputEl.addEventListener("input", () => {
@@ -682,13 +638,12 @@ const firebaseConfig = {
   authDomain: "timewarp-messenger.firebaseapp.com",
   databaseURL: "https://timewarp-messenger-default-rtdb.firebaseio.com",
   projectId: "timewarp-messenger",
-  storageBucket: "timewarp-messenger.appspot.com",
+  storageBucket: "timewarp-messenger.firebasestorage.app",
   messagingSenderId: "71563132014",
   appId: "1:71563132014:web:901218a830abd48c74fa7f"
 };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const storage = getStorage(app);
 
 // --- Sala
 // ================================
@@ -843,32 +798,6 @@ onValue(usersRef,snapshot=>{
 
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
-let pendingFile = null;
-
-const fileInput = document.getElementById("file-input");
-const attachBtn = document.getElementById("attach-btn");
-
-if (!fileInput || !attachBtn) {
-  console.error("Attach elements not found");
-}
-
-fileInput.addEventListener("change", e => {
-  pendingFile = e.target.files[0] || null;
-
-  if (pendingFile) {
-    showSystemMessage(`📎 ${pendingFile.name}`);
-    setTimeout(() => chatBox.lastChild?.remove(), 2000);
-  }
-});
-
-attachBtn.addEventListener("click", e => {
-  e.preventDefault();
-  e.stopPropagation();
-
-  // reset to allow same file twice
-  fileInput.value = "";
-  fileInput.click();
-});
 
 
 
@@ -904,57 +833,24 @@ function showSystemMessage(text){
 // --- Send
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
-
-async function sendMessage() {
-  console.log("🔥 sendMessage triggered", { text: input.value, pendingFile });
-  if (!input.value.trim() && !pendingFile) return;
-
-  let fileData = null;
-
-  try {
-    if (pendingFile) {
-      const filePath = `uploads/${roomId}/${Date.now()}_${pendingFile.name}`;
-      const fileRef = storageRef(storage, filePath);
-
-      await uploadBytes(fileRef, pendingFile);
-      const url = await getDownloadURL(fileRef);
-
-      fileData = {
-        name: pendingFile.name,
-        type: pendingFile.type,
-        size: pendingFile.size,
-        url
-      };
-    }
-  } catch (err) {
-    console.error("File upload failed:", err);
-    alert("File upload failed. Please try again.");
-    return;
-  }
-
+function sendMessage(){
+  if(!input.value) return;
   push(messagesRef, {
-    text: input.value || "",
-    file: fileData,
-    ttl: parseTTL(),
-    createdAt: Date.now(),
-    user: identity,
-    color: messageColors[Math.floor(Math.random() * messageColors.length)],
-    reactions: {}
-  });
+  text: input.value,
+  ttl: parseTTL(),
+  createdAt: Date.now(),
+  user: identity,
+  color: messageColors[Math.floor(Math.random() * messageColors.length)],
+  reactions: {} // 🔥 emoji → { username: true }
+});
 
-  pendingFile = null;
-  fileInput.value = "";
-  input.value = "";
-  input.style.height = "auto";
-  input.rows = 1;
-  input.scrollTop = 0;
 
-  touchRoom();
+touchRoom();
+  
+  input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
   remove(typingRef);
 }
-
-
-sendBtn.onclick = sendMessage;
+sendBtn.onclick=sendMessage;
 
 
 
@@ -1042,11 +938,8 @@ onChildChanged(messagesRef, snap => {
 
 
 
-   <div class="msg-text">
-  ${msg.text ? `<div class="msg-body">${msg.text}</div>` : ""}
-  ${msg.file ? renderFileHTML(msg.file) : ""}
-</div>
-
+   <span class="msg-text">
+  ${msg.text}
   ${
     msg.edited
       ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6;margin-left:6px">
@@ -1366,11 +1259,8 @@ function attachMessagesListener() {
 
 
 
-  <div class="msg-text">
-  ${msg.text ? `<div class="msg-body">${msg.text}</div>` : ""}
-  ${msg.file ? renderFileHTML(msg.file) : ""}
-</div>
-
+  <span class="msg-text">
+  ${msg.text}
   ${
     msg.edited
       ? `<span class="edited-label" style="font-size:0.8em;opacity:0.6;margin-left:6px">
