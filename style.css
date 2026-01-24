@@ -322,21 +322,6 @@ body {
 }
 
 
-.file-attachment {
-  margin-top: 6px;
-  font-size: 13px;
-}
-
-.file-attachment a {
-  color: #60a5fa;
-  text-decoration: none;
-}
-
-.file-attachment a:hover {
-  text-decoration: underline;
-}
-
-
 .file-preview {
   margin-top: 6px;
   max-width: 240px;
