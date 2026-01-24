@@ -854,7 +854,11 @@ if (!fileInput || !attachBtn) {
 
 fileInput.addEventListener("change", e => {
   pendingFile = e.target.files[0] || null;
-  console.log("Selected file:", pendingFile);
+
+  if (pendingFile) {
+    showSystemMessage(`📎 ${pendingFile.name}`);
+    setTimeout(() => chatBox.lastChild?.remove(), 2000);
+  }
 });
 
 attachBtn.addEventListener("click", e => {
