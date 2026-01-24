@@ -335,3 +335,25 @@ body {
 .file-attachment a:hover {
   text-decoration: underline;
 }
+
+
+.file-preview {
+  margin-top: 6px;
+  max-width: 240px;
+}
+
+.image-preview img {
+  max-width: 100%;
+  border-radius: 12px;
+  display: block;
+}
+
+.file-attachment a {
+  display: inline-block;
+  padding: 8px 10px;
+  background: #1c1c1c;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 0.85rem;
+}
