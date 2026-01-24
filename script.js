@@ -902,6 +902,7 @@ const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
 
 async function sendMessage() {
+  console.log("🔥 sendMessage triggered", { text: input.value, pendingFile });
   if (!input.value && !pendingFile) return;
 
   let fileData = null;
