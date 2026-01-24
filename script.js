@@ -498,23 +498,31 @@ function fromArabicDigits(str) {
 function parseTTL() {
   let ttlInput = document.getElementById("ttl-input")?.value || "01:00";
 
-  // 🔥 convertir números árabes → latinos antes de parsear
+  // convert Arabic digits → Latin
   ttlInput = fromArabicDigits(ttlInput);
 
   const parts = ttlInput.split(":").map(p => parseInt(p, 10));
+  let seconds = 60;
 
   if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-    return parts[0] * 60 + parts[1];
+    seconds = parts[0] * 60 + parts[1];
+  } else if (parts.length === 1 && !isNaN(parts[0])) {
+    seconds = parts[0];
   }
 
-  if (parts.length === 1 && !isNaN(parts[0])) {
-    return parts[0];
+  // 🔒 HARD CAP — 60 MINUTES MAX
+  if (seconds > MAX_TTL_SECONDS) {
+    seconds = MAX_TTL_SECONDS;
+    if (document.getElementById("ttl-input")) {
+      document.getElementById("ttl-input").value = "60:00";
+    }
   }
 
-  return 60;
+  // ⛔ never allow zero or negative
+  if (seconds < 5) seconds = 5;
+
+  return seconds;
 }
-
-
 
 
 
