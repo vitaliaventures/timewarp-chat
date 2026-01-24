@@ -4,11 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title id="page-title">TimeWarp Messenger</title>
-<meta name="description" id="meta-description" content="Join ephemeral conversations that disappear over time.">
-<meta property="og:title" id="og-title" content="TimeWarp Messenger">
-<meta property="og:description" id="og-description" content="Ephemeral conversations that disappear over time.">
+  <title>TimeWarp Messenger</title>
 
+  <!-- DEFAULT META (JS WILL OVERRIDE FOR /p/) -->
+  <meta name="description" content="Ephemeral conversations that disappear over time. No accounts. No history." />
 
   <link rel="stylesheet" href="style.css" />
   <script type="module" src="script.js"></script>
@@ -46,10 +45,19 @@
           <option value="fi">Suomi</option>
         </select>
         <!-- TTL input field -->
-<input type="text" id="ttl-input" placeholder="01:00" title="Set message time mm:ss"
-       data-default-public="10:00" data-default-private="01:00"
-       style="width: 60px; padding: 4px 6px; border-radius: 6px; border: none; text-align: center; background: #1c1c1c; color: #fff; font-size: 0.8rem; direction: ltr; unicode-bidi: isolate;">
+<input type="text" id="ttl-input" placeholder="01:00" title="Set message time mm:ss" style="
+  width: 60px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  border: none;
+  text-align: center;
+  background: #1c1c1c;
+  color: #fff;
+  font-size: 0.8rem;
+  direction: ltr;
+  unicode-bidi: isolate;
 
+">
         <button id="invite-btn" class="header-btn">Invite 🚀</button>
         <button id="new-room-btn" class="header-btn">New ✨</button>
         <button id="destroy-room-btn" class="header-btn" style="background:#ef4444;">Destroy ❌</button>
@@ -60,25 +68,9 @@
     <div id="typing-indicator" class="typing-indicator"></div>
 
     <div class="chat-input">
-  <input
-  type="file"
-  id="file-input"
-  tabindex="-1"
-  style="position:absolute; left:-9999px;"
-/>
-
-  <button
-  id="attach-btn"
-  type="button"
-  title="Attach file"
-  style="margin-right:6px; cursor:pointer;"
->📎</button>
-
-  <textarea id="message-input" rows="1" placeholder="Type message..."></textarea>
-  <button id="send-btn">Send</button>
-</div>
-
-
+      <textarea id="message-input" rows="1" placeholder="Type message..."></textarea>
+      <button id="send-btn">Send</button>
+    </div>
   </div>
 
 
@@ -154,16 +146,6 @@
 </div>
 
     
-
-<!-- Contenedor de ad estratégico (solo JS lo mostrará) -->
-<div id="ad-entry" style="display:none;"></div>
-
-<!-- Contenedor SEO dinámico para salas públicas indexables -->
-<div id="seo-content" style="position:absolute; left:0; top:0; width:100%; z-index:-1; opacity:0;">
-  <h1 id="seo-title"></h1>
-  <p id="seo-description"></p>
-</div>
-
-    
+  
 </body>
 </html>
