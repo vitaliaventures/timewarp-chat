@@ -756,9 +756,10 @@ onValue(metaRef, snap => {
 
   // ⏱️ existing TTL sync logic (UNCHANGED)
   if (meta?.ttl && ttlInputEl) {
-    ttlInputEl.value = meta.ttl;
-    localStorage.setItem(TTL_STORAGE_KEY, meta.ttl);
-  }
+  const parsed = parseTTL(); // 🔒 reuse hard limit logic
+  ttlInputEl.value = parsed === MAX_TTL_SECONDS ? "60:00" : meta.ttl;
+  localStorage.setItem(TTL_STORAGE_KEY, ttlInputEl.value);
+}
 
   // ⛔ room destroyed overlay (UNCHANGED)
   if (meta?.destroyed) {
