@@ -901,24 +901,30 @@ function showSystemMessage(text){
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
 
-async function sendMessage(){
+async function sendMessage() {
   if (!input.value && !pendingFile) return;
 
   let fileData = null;
 
-  if (pendingFile) {
-    const filePath = `uploads/${roomId}/${Date.now()}_${pendingFile.name}`;
-    const fileRef = storageRef(storage, filePath);
+  try {
+    if (pendingFile) {
+      const filePath = `uploads/${roomId}/${Date.now()}_${pendingFile.name}`;
+      const fileRef = storageRef(storage, filePath);
 
-    await uploadBytes(fileRef, pendingFile);
-    const url = await getDownloadURL(fileRef);
+      await uploadBytes(fileRef, pendingFile);
+      const url = await getDownloadURL(fileRef);
 
-    fileData = {
-      name: pendingFile.name,
-      type: pendingFile.type,
-      size: pendingFile.size,
-      url
-    };
+      fileData = {
+        name: pendingFile.name,
+        type: pendingFile.type,
+        size: pendingFile.size,
+        url
+      };
+    }
+  } catch (err) {
+    console.error("File upload failed:", err);
+    alert("File upload failed. Please try again.");
+    return;
   }
 
   push(messagesRef, {
@@ -933,14 +939,15 @@ async function sendMessage(){
 
   pendingFile = null;
   fileInput.value = "";
-
-  touchRoom();
   input.value = "";
   input.style.height = "auto";
   input.rows = 1;
   input.scrollTop = 0;
+
+  touchRoom();
   remove(typingRef);
 }
+
 
 sendBtn.onclick = sendMessage;
 
