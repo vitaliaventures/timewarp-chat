@@ -821,6 +821,26 @@ onValue(usersRef,snapshot=>{
 // --- Chat UI
 const chatBox = document.getElementById("chat-box");
 
+const lastActivityEl = document.getElementById("last-activity");
+let lastMessageAt = Date.now();
+
+function updateLastActivity() {
+  if (!lastActivityEl) return;
+
+  const diff = Math.floor((Date.now() - lastMessageAt) / 1000);
+
+  let text = "just now";
+  if (diff >= 60 && diff < 3600) {
+    text = `${Math.floor(diff / 60)} min ago`;
+  } else if (diff >= 3600) {
+    text = `${Math.floor(diff / 3600)} h ago`;
+  }
+
+  lastActivityEl.textContent = `Last message: ${text}`;
+}
+
+// refresh every 30s (cheap, scalable)
+setInterval(updateLastActivity, 30000);
 
 
 
@@ -1251,6 +1271,9 @@ function attachMessagesListener() {
   messagesListenerAttached = true;
 
   onChildAdded(messagesRef, snap => {
+    
+    lastMessageAt = Date.now();
+    updateLastActivity();
 
     const msg = snap.val();
     const msgRef = snap.ref;
