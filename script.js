@@ -22,6 +22,32 @@ import {
 
 
 
+function renderFileHTML(file) {
+  if (!file) return "";
+
+  // Imagen (preview estilo WhatsApp)
+  if (file.type && file.type.startsWith("image/")) {
+    return `
+      <div class="file-preview image-preview">
+        <a href="${file.url}" target="_blank">
+          <img src="${file.url}" alt="${file.name}" />
+        </a>
+      </div>
+    `;
+  }
+
+  // Otros archivos
+  return `
+    <div class="file-preview file-attachment">
+      <a href="${file.url}" target="_blank">
+        📎 ${file.name}
+      </a>
+    </div>
+  `;
+}
+
+
+
 
 // ================================
 // ROUTING + SEO (SINGLE SOURCE OF TRUTH)
