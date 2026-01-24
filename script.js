@@ -1362,9 +1362,10 @@ function attachMessagesListener() {
 
 
 
-  <span class="msg-text">
-  ${msg.text || (msg.file ? "<em>📎 File attached</em>" : "")}
-</span>
+  <div class="msg-text">
+  ${msg.text ? `<div class="msg-body">${msg.text}</div>` : ""}
+  ${msg.file ? renderFileHTML(msg.file) : ""}
+</div>
 
 ${msg.file ? `
   <div class="file-attachment">
