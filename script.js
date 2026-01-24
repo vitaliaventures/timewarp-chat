@@ -1005,7 +1005,7 @@ onChildChanged(messagesRef, snap => {
 
 
    <span class="msg-text">
-  ${msg.text || ""}
+  ${msg.text || (msg.file ? "<em>📎 File attached</em>" : "")}
 </span>
 
 ${msg.file ? `
