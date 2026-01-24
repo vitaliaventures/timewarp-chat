@@ -843,7 +843,8 @@ let lastMessageAt = null;
 function updateLastActivity() {
   if (!lastActivityEl) return;
 
-  const diff = Math.floor((Date.now() - lastMessageAt) / 1000);
+  if (!lastMessageAt) return;
+const diff = Math.floor((Date.now() - lastMessageAt) / 1000);
 
   let text = "just now";
   if (diff >= 60 && diff < 3600) {
