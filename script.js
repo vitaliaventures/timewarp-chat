@@ -732,6 +732,21 @@ function touchRoom() {
 // tocar sala al entrar
 touchRoom();
 
+setInterval(async () => {
+  const snap = await get(metaRef);
+  if (!snap.exists()) return;
+
+  const meta = snap.val();
+  if (!meta.lastActivityAt || meta.destroyed) return;
+
+  const inactiveTime = Date.now() - meta.lastActivityAt;
+
+  if (inactiveTime >= ROOM_INACTIVITY_LIMIT) {
+    await set(child(metaRef, "destroyed"), true);
+    await set(child(metaRef, "destroyedAt"), Date.now());
+  }
+}, 60000); // cada 60 segundos
+
 
 
 attachMessagesListener();
