@@ -725,9 +725,11 @@ let roomRef = ref(db,`rooms/${roomId}`);
 let messagesRef = ref(db,`rooms/${roomId}/messages`);
 let metaRef = ref(db,`rooms/${roomId}/meta`);
 
-function touchRoom() {
-  set(ref(db, `rooms/${roomId}/meta/lastActivityAt`), Date.now());
+function touchRoom(messageTime = Date.now()) {
+  set(ref(db, `rooms/${roomId}/meta/lastActivityAt`), messageTime);
+  set(ref(db, `rooms/${roomId}/meta/lastMessageAt`), messageTime);
 }
+
 
 // tocar sala al entrar
 touchRoom();
