@@ -731,8 +731,6 @@ function touchRoom(messageTime = Date.now()) {
 }
 
 
-// tocar sala al entrar
-touchRoom();
 
 setInterval(async () => {
   const snap = await get(metaRef);
