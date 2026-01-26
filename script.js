@@ -854,13 +854,6 @@ const chatBox = document.getElementById("chat-box");
 const lastActivityEl = document.getElementById("last-activity");
 let lastMessageAt = null;
 
-const lastActivityEl = document.getElementById("last-activity");
-if (lastActivityEl) {
-  lastActivityEl.textContent = "No messages yet";
-
-
-
-
 
 function updateLastActivity() {
   const el = document.getElementById("last-activity");
