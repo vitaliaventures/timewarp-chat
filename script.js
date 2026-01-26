@@ -753,20 +753,6 @@ setInterval(async () => {
 
 attachMessagesListener();
 
-// 🔥 Load last message timestamp on page load (fix refresh bug)
-get(messagesRef).then(snapshot => {
-  if (!snapshot.exists()) return;
-
-  const messages = snapshot.val();
-  const lastKey = Object.keys(messages).pop();
-  const lastMsg = messages[lastKey];
-
-  if (lastMsg?.createdAt) {
-    lastMessageAt = lastMsg.createdAt;
-    updateLastActivity();
-  }
-});
-
 
 function saveRoomTTL(ttlValue) {
   set(ref(db, `rooms/${roomId}/meta/ttl`), ttlValue);
