@@ -1318,11 +1318,16 @@ function attachMessagesListener() {
   messagesListenerAttached = true;
 
   onChildAdded(messagesRef, snap => {
-    touchRoom(); // 🔥 NO MOVER
-    
     const msg = snap.val();
-  lastMessageAt = msg.createdAt;
-  updateLastActivity();
+
+// 🔒 SOLO tocar la sala si el mensaje es NUEVO (no histórico)
+if (Date.now() - msg.createdAt < 5000) {
+  touchRoom();
+}
+
+lastMessageAt = msg.createdAt;
+updateLastActivity();
+
     
     const msgRef = snap.ref;
 
