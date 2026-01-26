@@ -751,6 +751,17 @@ setInterval(async () => {
 
 
 
+// 🔥 INIT lastMessageAt ON PAGE LOAD (CRITICAL)
+onValue(child(metaRef, "lastMessageAt"), snap => {
+  if (!snap.exists()) return;
+
+  lastMessageAt = snap.val();
+  updateLastActivity();
+});
+
+
+
+
 attachMessagesListener();
 
 
