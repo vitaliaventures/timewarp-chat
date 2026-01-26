@@ -1320,10 +1320,10 @@ function attachMessagesListener() {
   onChildAdded(messagesRef, snap => {
     touchRoom(); // 🔥 NO MOVER
     
-    lastMessageAt = Date.now();
-    updateLastActivity();
-
     const msg = snap.val();
+  lastMessageAt = msg.createdAt;
+  updateLastActivity();
+    
     const msgRef = snap.ref;
 
     const now = Date.now();
