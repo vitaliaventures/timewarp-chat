@@ -1324,7 +1324,7 @@ function attachMessagesListener() {
 
 // 🔒 SOLO tocar la sala si el mensaje es NUEVO (no histórico)
 if (Date.now() - msg.createdAt < 5000) {
-  touchRoom();
+  touchRoom(msg.createdAt);
 }
 
 lastMessageAt = msg.createdAt;
