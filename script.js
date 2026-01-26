@@ -855,20 +855,21 @@ const lastActivityEl = document.getElementById("last-activity");
 let lastMessageAt = null;
 
 function updateLastActivity() {
-  if (!lastActivityEl) return;
+  const el = document.getElementById("last-activity");
+  if (!el || !lastMessageAt) return;
 
-  if (!lastMessageAt) return;
-const diff = Math.floor((Date.now() - lastMessageAt) / 1000);
+  const diff = Date.now() - lastMessageAt;
+  const minutes = Math.floor(diff / 60000);
 
-  let text = "just now";
-  if (diff >= 60 && diff < 3600) {
-    text = `${Math.floor(diff / 60)} min ago`;
-  } else if (diff >= 3600) {
-    text = `${Math.floor(diff / 3600)} h ago`;
+  if (minutes < 1) {
+    el.textContent = "Last message: just now";
+  } else if (minutes === 1) {
+    el.textContent = "Last message: 1 min ago";
+  } else {
+    el.textContent = `Last message: ${minutes} min ago`;
   }
-
-  lastActivityEl.textContent = `Last message: ${text}`;
 }
+
 
 // refresh every 30s (cheap, scalable)
 setInterval(updateLastActivity, 30000);
