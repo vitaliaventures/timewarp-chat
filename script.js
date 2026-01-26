@@ -933,8 +933,6 @@ function sendMessage(){
   reactions: {} // 🔥 emoji → { username: true }
 });
 
-
-touchRoom();
   
   input.value=""; input.style.height="auto"; input.rows=1; input.scrollTop=0;
   remove(typingRef);
