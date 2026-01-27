@@ -92,21 +92,6 @@ Room ${roomId}.
 
 
 
-  
-
-  
-
-  let metaDesc = document.querySelector('meta[name="description"]');
-  if (!metaDesc) {
-    metaDesc = document.createElement("meta");
-    metaDesc.name = "description";
-    document.head.appendChild(metaDesc);
-  }
-
-  metaDesc.setAttribute(
-    "content",
-    "Live public conversation. Messages disappear automatically. Join instantly without accounts."
-  );
 
   const canonical = document.querySelector('link[rel="canonical"]');
 if (canonical) {
