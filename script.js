@@ -780,7 +780,10 @@ function setLanguage(lang) {
 });
 
 // 🔥 ESTA ES LA LÍNEA CLAVE
+  if (lastMessageAt !== null) {
   updateLastActivity();
+}
+
   
   const ttlInputEl = document.getElementById("ttl-input");
 
