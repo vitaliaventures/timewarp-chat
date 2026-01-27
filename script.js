@@ -1082,31 +1082,33 @@ function updateLastActivity() {
   const el = document.getElementById("last-activity");
   if (!el || !lastMessageAt) return;
 
+  const t = translations[currentLang].timeAgo;
   const diffMs = Date.now() - lastMessageAt;
 
   const minutes = Math.floor(diffMs / 60000);
   const hours = Math.floor(diffMs / 3600000);
   const days = Math.floor(diffMs / 86400000);
 
+  let text = "";
+
   if (minutes < 1) {
-    el.textContent = "Last message: just now";
+    text = `${t.prefix} ${t.justNow}`;
   } else if (minutes < 60) {
-    el.textContent =
-      minutes === 1
-        ? "Last message: 1 min ago"
-        : `Last message: ${minutes} min ago`;
+    text = `${t.prefix} ${minutes} ${minutes === 1 ? t.minute : t.minutes}`;
   } else if (hours < 24) {
-    el.textContent =
-      hours === 1
-        ? "Last message: 1 hour ago"
-        : `Last message: ${hours} hours ago`;
+    text = `${t.prefix} ${hours} ${hours === 1 ? t.hour : t.hours}`;
   } else {
-    el.textContent =
-      days === 1
-        ? "Last message: 1 day ago"
-        : `Last message: ${days} days ago`;
+    text = `${t.prefix} ${days} ${days === 1 ? t.day : t.days}`;
   }
+
+  // 🔥 Arabic digits support
+  if (currentLang === "ar") {
+    text = toArabicDigits(text);
+  }
+
+  el.textContent = text;
 }
+
 
 
 
