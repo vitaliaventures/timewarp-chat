@@ -791,43 +791,53 @@ onValue(metaRef, snap => {
 
   // ⛔ room destroyed overlay (UNCHANGED)
   if (meta?.destroyed) {
-    document.body.innerHTML = `
-      <div style="
-        background:#000;
+  const expired =
+    meta.destroyedAt &&
+    meta.lastActivityAt &&
+    meta.destroyedAt - meta.lastActivityAt >= ROOM_INACTIVITY_LIMIT - 60000;
+
+  const message = expired
+    ? translations[currentLang].roomExpired
+    : translations[currentLang].roomDestroyedOverlay;
+
+  document.body.innerHTML = `
+    <div style="
+      background:#000;
+      color:#fff;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:24px;
+      font-size:1.3rem;
+      text-align:center;
+    ">
+      <div>${message}</div>
+
+      <button id="new-room-from-destroyed" style="
+        background:#2563eb;
         color:#fff;
-        height:100vh;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        justify-content:center;
-        gap:24px;
-        font-size:1.3rem;
-        text-align:center;
+        border:none;
+        padding:14px 32px;
+        font-size:1rem;
+        border-radius:12px;
+        cursor:pointer;
       ">
-        <div>${translations[currentLang].roomDestroyedOverlay}</div>
+        ${translations[currentLang].newRoomBtn}
+      </button>
+    </div>
+  `;
 
-        <button id="new-room-from-destroyed" style="
-          background:#2563eb;
-          color:#fff;
-          border:none;
-          padding:14px 32px;
-          font-size:1rem;
-          border-radius:12px;
-          cursor:pointer;
-        ">
-          ${translations[currentLang].newRoomBtn}
-        </button>
-      </div>
-    `;
+  document
+    .getElementById("new-room-from-destroyed")
+    .addEventListener("click", () => {
+      const newRoomId = generateRoomId();
+      location.hash = "room=" + newRoomId;
+      location.reload();
+    });
+}
 
-    document
-      .getElementById("new-room-from-destroyed")
-      .addEventListener("click", () => {
-        const newRoomId = generateRoomId();
-        location.hash = "room=" + newRoomId;
-        location.reload(); // 🔥 clean reset
-      });
-  }
 });
 
 
