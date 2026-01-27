@@ -799,13 +799,6 @@ if (reactionBar) {
   reactionBar.style.unicodeBidi = "isolate";
 }
 
-
-// 🔥 FORCE last message re-render on language change
-if (lastMessageAt) {
-  updateLastActivity();
-}
-
-  
 }
 
 const languageSelect = document.getElementById("language-select");
