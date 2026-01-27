@@ -779,9 +779,6 @@ function setLanguage(lang) {
   span.textContent = translations[currentLang].editedLabel;
 });
 
-}
-
-  
   const ttlInputEl = document.getElementById("ttl-input");
 
 if (ttlInputEl) {
@@ -801,7 +798,6 @@ if (reactionBar) {
   reactionBar.dir = "ltr";
   reactionBar.style.unicodeBidi = "isolate";
 }
-
   
 }
 
