@@ -889,22 +889,6 @@ function updateLastActivity() {
 // refresh every 30s (cheap, scalable)
 setInterval(updateLastActivity, 30000);
 
-// 🔥 GLOBAL ROOM EXPIRATION CHECK (client-side authority)
-setInterval(async () => {
-  const snap = await get(metaRef);
-  if (!snap.exists()) return;
-
-  const meta = snap.val();
-  if (!meta.lastActivityAt || meta.destroyed) return;
-
-  const inactiveTime = Date.now() - meta.lastActivityAt;
-
-  if (inactiveTime >= ROOM_INACTIVITY_LIMIT) {
-    await set(child(metaRef, "destroyed"), true);
-    await set(child(metaRef, "destroyedAt"), Date.now());
-  }
-}, 60000); // every 60s (cheap, scalable)
-
 
 
 function formatTime(sec) {
