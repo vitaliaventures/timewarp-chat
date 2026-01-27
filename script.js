@@ -35,6 +35,70 @@ if (pathParts[0] === "p" && pathParts[1]) {
 if (roomType === "public") {
   document.title = `Live Conversation ${roomId} – TimeWarp Messenger`;
 
+  
+
+// 🔥 DYNAMIC SEO — PER PUBLIC ROOM
+const seoTitle = `Anonymous Live Chat Room ${roomId} | TimeWarp Messenger`;
+const seoDescription = `
+Join an anonymous public chat room in real time.
+Messages disappear automatically.
+No account. No history. Live conversation.
+Room ID: ${roomId}
+`.trim();
+
+// --- Title
+document.title = seoTitle;
+
+// --- Meta description
+let metaDesc = document.querySelector('meta[name="description"]');
+if (!metaDesc) {
+  metaDesc = document.createElement("meta");
+  metaDesc.name = "description";
+  document.head.appendChild(metaDesc);
+}
+metaDesc.setAttribute("content", seoDescription);
+
+// --- OpenGraph (social sharing = traffic)
+function setOG(tag, content) {
+  let el = document.querySelector(`meta[property="${tag}"]`);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute("property", tag);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", content);
+}
+
+setOG("og:title", seoTitle);
+setOG("og:description", seoDescription);
+setOG("og:type", "website");
+setOG("og:url", window.location.href);
+
+// --- Invisible crawlable content (VERY IMPORTANT)
+let seoDiv = document.getElementById("seo-text");
+if (!seoDiv) {
+  seoDiv = document.createElement("div");
+  seoDiv.id = "seo-text";
+  seoDiv.style.position = "absolute";
+  seoDiv.style.left = "-9999px";
+  seoDiv.style.opacity = "0";
+  document.body.appendChild(seoDiv);
+}
+
+seoDiv.textContent = `
+Anonymous live public chat room.
+Ephemeral messages.
+Temporary discussion space.
+Anyone can join with the link.
+Room ${roomId}.
+`;
+
+
+
+  
+
+  
+
   let metaDesc = document.querySelector('meta[name="description"]');
   if (!metaDesc) {
     metaDesc = document.createElement("meta");
