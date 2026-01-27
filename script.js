@@ -798,7 +798,9 @@ if (reactionBar) {
   reactionBar.dir = "ltr";
   reactionBar.style.unicodeBidi = "isolate";
 }
-  
+
+  // 🔥 ESTA ES LA LÍNEA CLAVE
+  updateLastActivity();
 }
 
 const languageSelect = document.getElementById("language-select");
