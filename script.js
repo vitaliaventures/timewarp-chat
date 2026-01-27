@@ -145,7 +145,18 @@ const translations = {
     editedLabel: "(edited)",
     editMessage: "Edit message",
     deleteMessage: "Delete message",
-    publicRoomNotice: "🌍 This is a public conversation. Anyone with the link can join."
+    publicRoomNotice: "🌍 This is a public conversation. Anyone with the link can join.",
+    timeAgo: {
+  prefix: "Last message:",
+  justNow: "just now",
+  minute: "min ago",
+  minutes: "min ago",
+  hour: "hour ago",
+  hours: "hours ago",
+  day: "day ago",
+  days: "days ago"
+}
+
 
   },
   de: {
@@ -168,7 +179,18 @@ const translations = {
     editedLabel: "(bearbeitet)",
     editMessage: "Nachricht bearbeiten",
     deleteMessage: "Nachricht löschen",
-    publicRoomNotice: "🌍 Dies ist eine öffentliche Unterhaltung. Jeder mit dem Link kann beitreten."
+    publicRoomNotice: "🌍 Dies ist eine öffentliche Unterhaltung. Jeder mit dem Link kann beitreten.",
+    timeAgo: {
+  prefix: "Letzte Nachricht:",
+  justNow: "gerade eben",
+  minute: "Min",
+  minutes: "Min",
+  hour: "Stunde",
+  hours: "Stunden",
+  day: "Tag",
+  days: "Tage"
+}
+
 
 
   },
@@ -192,7 +214,18 @@ const translations = {
     editedLabel: "(editado)",
     editMessage: "Editar mensaje",
     deleteMessage: "Eliminar mensaje",
-    publicRoomNotice: "🌍 Esta es una conversación pública. Cualquiera con el enlace puede unirse."
+    publicRoomNotice: "🌍 Esta es una conversación pública. Cualquiera con el enlace puede unirse.",
+    timeAgo: {
+  prefix: "Último mensaje:",
+  justNow: "justo ahora",
+  minute: "min",
+  minutes: "min",
+  hour: "hora",
+  hours: "horas",
+  day: "día",
+  days: "días"
+}
+
 
 
   },
@@ -216,7 +249,18 @@ const translations = {
     editedLabel: "(modifié)",
     editMessage: "Modifier le message",
     deleteMessage: "Supprimer le message",
-    publicRoomNotice: "🌍 Ceci est une conversation publique. Toute personne avec le lien peut participer."
+    publicRoomNotice: "🌍 Ceci est une conversation publique. Toute personne avec le lien peut participer.",
+    timeAgo: {
+  prefix: "Dernier message :",
+  justNow: "à l’instant",
+  minute: "min",
+  minutes: "min",
+  hour: "heure",
+  hours: "heures",
+  day: "jour",
+  days: "jours"
+}
+
 
 
   },
@@ -240,7 +284,18 @@ const translations = {
     editedLabel: "(modificato)",
     editMessage: "Modifica messaggio",
     deleteMessage: "Elimina messaggio",
-    publicRoomNotice: "🌍 Questa è una conversazione pubblica. Chiunque abbia il link può partecipare."
+    publicRoomNotice: "🌍 Questa è una conversazione pubblica. Chiunque abbia il link può partecipare.",
+    timeAgo: {
+  prefix: "Ultimo messaggio:",
+  justNow: "proprio ora",
+  minute: "min",
+  minutes: "min",
+  hour: "ora",
+  hours: "ore",
+  day: "giorno",
+  days: "giorni"
+}
+
 
 
   },
@@ -264,7 +319,18 @@ const translations = {
     editedLabel: "(editado)",
     editMessage: "Editar mensagem",
     deleteMessage: "Excluir mensagem",
-    publicRoomNotice: "🌍 Esta é uma conversa pública. Qualquer pessoa com o link pode participar."
+    publicRoomNotice: "🌍 Esta é uma conversa pública. Qualquer pessoa com o link pode participar.",
+    timeAgo: {
+  prefix: "Última mensagem:",
+  justNow: "agora mesmo",
+  minute: "min",
+  minutes: "min",
+  hour: "hora",
+  hours: "horas",
+  day: "dia",
+  days: "dias"
+}
+
 
   },
   ru: {
@@ -287,7 +353,18 @@ const translations = {
     editedLabel: "(отредактировано)",
     editMessage: "Редактировать сообщение",
     deleteMessage: "Удалить сообщение",
-    publicRoomNotice: "🌍 Это публичный разговор. Любой, у кого есть ссылка, может присоединиться."
+    publicRoomNotice: "🌍 Это публичный разговор. Любой, у кого есть ссылка, может присоединиться.",
+    timeAgo: {
+  prefix: "Последнее сообщение:",
+  justNow: "только что",
+  minute: "мин назад",
+  minutes: "мин назад",
+  hour: "час назад",
+  hours: "часов назад",
+  day: "день назад",
+  days: "дней назад"
+}
+
      
   },
   ja: {
@@ -310,7 +387,18 @@ const translations = {
     editedLabel: "（編集済み）",
     editMessage: "メッセージを編集",
     deleteMessage: "メッセージを削除",
-    publicRoomNotice: "🌍 これは公開された会話です。リンクを持っている人は誰でも参加できます。"
+    publicRoomNotice: "🌍 これは公開された会話です。リンクを持っている人は誰でも参加できます。",
+    timeAgo: {
+  prefix: "最後のメッセージ：",
+  justNow: "たった今",
+  minute: "分前",
+  minutes: "分前",
+  hour: "時間前",
+  hours: "時間前",
+  day: "日前",
+  days: "日前"
+}
+
 
   },
   ko: {
@@ -333,7 +421,18 @@ const translations = {
     editedLabel: "(편집됨)",
     editMessage: "메시지 편집",
     deleteMessage: "메시지 삭제",
-    publicRoomNotice: "🌍 이 대화는 공개 대화입니다. 링크가 있으면 누구나 참여할 수 있습니다."
+    publicRoomNotice: "🌍 이 대화는 공개 대화입니다. 링크가 있으면 누구나 참여할 수 있습니다.",
+    timeAgo: {
+  prefix: "마지막 메시지:",
+  justNow: "방금 전",
+  minute: "분 전",
+  minutes: "분 전",
+  hour: "시간 전",
+  hours: "시간 전",
+  day: "일 전",
+  days: "일 전"
+}
+
 
   },
   zh: {
@@ -356,7 +455,18 @@ const translations = {
     editedLabel: "（已编辑）",
     editMessage: "编辑消息",
     deleteMessage: "删除消息",
-    publicRoomNotice: "🌍 这是一个公开对话。任何拥有链接的人都可以加入。"
+    publicRoomNotice: "🌍 这是一个公开对话。任何拥有链接的人都可以加入。",
+    timeAgo: {
+  prefix: "最后一条消息：",
+  justNow: "刚刚",
+  minute: "分钟前",
+  minutes: "分钟前",
+  hour: "小时前",
+  hours: "小时前",
+  day: "天前",
+  days: "天前"
+}
+
 
   },
   nl: {
@@ -379,7 +489,18 @@ const translations = {
     editedLabel: "(bewerkt)",
     editMessage: "Bericht bewerken",
     deleteMessage: "Bericht verwijderen",
-    publicRoomNotice: "🌍 Dit is een openbaar gesprek. Iedereen met de link kan deelnemen."
+    publicRoomNotice: "🌍 Dit is een openbaar gesprek. Iedereen met de link kan deelnemen.",
+    timeAgo: {
+  prefix: "Laatste bericht:",
+  justNow: "zojuist",
+  minute: "min geleden",
+  minutes: "min geleden",
+  hour: "uur geleden",
+  hours: "uur geleden",
+  day: "dag geleden",
+  days: "dagen geleden"
+}
+
 
   },
   tr: {
@@ -402,7 +523,18 @@ const translations = {
     editedLabel: "(düzenlendi)",
     editMessage: "Mesajı düzenle",
     deleteMessage: "Mesajı sil",
-    publicRoomNotice: "🌍 Bu herkese açık bir konuşmadır. Bağlantıya sahip olan herkes katılabilir."
+    publicRoomNotice: "🌍 Bu herkese açık bir konuşmadır. Bağlantıya sahip olan herkes katılabilir.",
+    timeAgo: {
+  prefix: "Son mesaj:",
+  justNow: "şimdi",
+  minute: "dk önce",
+  minutes: "dk önce",
+  hour: "saat önce",
+  hours: "saat önce",
+  day: "gün önce",
+  days: "gün önce"
+}
+
 
   },
   ar: {
@@ -425,7 +557,18 @@ const translations = {
     editedLabel: "(تم التعديل)",
     editMessage: "تعديل الرسالة",
     deleteMessage: "حذف الرسالة",
-    publicRoomNotice: "🌍 هذه محادثة عامة. يمكن لأي شخص لديه الرابط الانضمام."
+    publicRoomNotice: "🌍 هذه محادثة عامة. يمكن لأي شخص لديه الرابط الانضمام.",
+    timeAgo: {
+  prefix: "آخر رسالة:",
+  justNow: "الآن",
+  minute: "دقيقة",
+  minutes: "دقائق",
+  hour: "ساعة",
+  hours: "ساعات",
+  day: "يوم",
+  days: "أيام"
+}
+
 
   },
   pl: {
@@ -448,7 +591,18 @@ const translations = {
     editedLabel: "(edytowano)",
     editMessage: "Edytuj wiadomość",
     deleteMessage: "Usuń wiadomość",
-    publicRoomNotice: "🌍 To jest publiczna rozmowa. Każdy, kto ma link, może dołączyć."
+    publicRoomNotice: "🌍 To jest publiczna rozmowa. Każdy, kto ma link, może dołączyć.",
+    timeAgo: {
+  prefix: "Ostatnia wiadomość:",
+  justNow: "przed chwilą",
+  minute: "min temu",
+  minutes: "min temu",
+  hour: "godz. temu",
+  hours: "godz. temu",
+  day: "dzień temu",
+  days: "dni temu"
+}
+
 
   },
   sv: {
@@ -471,7 +625,18 @@ const translations = {
     editedLabel: "(redigerad)",
     editMessage: "Redigera meddelande",
     deleteMessage: "Ta bort meddelande",
-    publicRoomNotice: "🌍 Detta är en offentlig konversation. Alla med länken kan delta."
+    publicRoomNotice: "🌍 Detta är en offentlig konversation. Alla med länken kan delta.",
+    timeAgo: {
+  prefix: "Senaste meddelandet:",
+  justNow: "nyss",
+  minute: "min sedan",
+  minutes: "min sedan",
+  hour: "timme sedan",
+  hours: "timmar sedan",
+  day: "dag sedan",
+  days: "dagar sedan"
+}
+
 
   },
   fi: {
@@ -494,7 +659,18 @@ const translations = {
     editedLabel: "(muokattu)",
     editMessage: "Muokkaa viestiä",
     deleteMessage: "Poista viesti",
-    publicRoomNotice: "🌍 Tämä on julkinen keskustelu. Kuka tahansa linkin omaava voi liittyä."
+    publicRoomNotice: "🌍 Tämä on julkinen keskustelu. Kuka tahansa linkin omaava voi liittyä.",
+    timeAgo: {
+  prefix: "Viimeisin viesti:",
+  justNow: "juuri nyt",
+  minute: "min sitten",
+  minutes: "min sitten",
+  hour: "tunti sitten",
+  hours: "tuntia sitten",
+  day: "päivä sitten",
+  days: "päivää sitten"
+}
+
 
   }
 };
