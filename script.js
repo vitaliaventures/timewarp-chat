@@ -798,6 +798,13 @@ if (reactionBar) {
   reactionBar.dir = "ltr";
   reactionBar.style.unicodeBidi = "isolate";
 }
+
+
+// 🔥 FORCE last message re-render on language change
+if (lastMessageAt) {
+  updateLastActivity();
+}
+
   
 }
 
