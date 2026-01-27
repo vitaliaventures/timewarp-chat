@@ -857,17 +857,33 @@ function updateLastActivity() {
   const el = document.getElementById("last-activity");
   if (!el || !lastMessageAt) return;
 
-  const diff = Date.now() - lastMessageAt;
-  const minutes = Math.floor(diff / 60000);
+  const diffMs = Date.now() - lastMessageAt;
+
+  const minutes = Math.floor(diffMs / 60000);
+  const hours = Math.floor(diffMs / 3600000);
+  const days = Math.floor(diffMs / 86400000);
 
   if (minutes < 1) {
     el.textContent = "Last message: just now";
-  } else if (minutes === 1) {
-    el.textContent = "Last message: 1 min ago";
+  } else if (minutes < 60) {
+    el.textContent =
+      minutes === 1
+        ? "Last message: 1 min ago"
+        : `Last message: ${minutes} min ago`;
+  } else if (hours < 24) {
+    el.textContent =
+      hours === 1
+        ? "Last message: 1 hour ago"
+        : `Last message: ${hours} hours ago`;
   } else {
-    el.textContent = `Last message: ${minutes} min ago`;
+    el.textContent =
+      days === 1
+        ? "Last message: 1 day ago"
+        : `Last message: ${days} days ago`;
   }
 }
+
+
 
 
 // refresh every 30s (cheap, scalable)
