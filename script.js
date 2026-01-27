@@ -779,6 +779,9 @@ function setLanguage(lang) {
   span.textContent = translations[currentLang].editedLabel;
 });
 
+// 🔥 ESTA ES LA LÍNEA CLAVE
+  updateLastActivity();
+  
   const ttlInputEl = document.getElementById("ttl-input");
 
 if (ttlInputEl) {
@@ -799,8 +802,7 @@ if (reactionBar) {
   reactionBar.style.unicodeBidi = "isolate";
 }
 
-  // 🔥 ESTA ES LA LÍNEA CLAVE
-  updateLastActivity();
+  
 }
 
 const languageSelect = document.getElementById("language-select");
