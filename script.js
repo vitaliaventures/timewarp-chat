@@ -779,9 +779,6 @@ function setLanguage(lang) {
   span.textContent = translations[currentLang].editedLabel;
 });
 
-// 🔥 ESTA ES LA LÍNEA CLAVE
-  if (lastMessageAt !== null) {
-  updateLastActivity();
 }
 
   
