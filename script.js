@@ -33,9 +33,6 @@ if (pathParts[0] === "p" && pathParts[1]) {
 
 // --- SEO behavior
 if (roomType === "public") {
-  document.title = `Live Conversation ${roomId} – TimeWarp Messenger`;
-
-  
 
 // 🔥 DYNAMIC SEO — PER PUBLIC ROOM
 const seoTitle = `Anonymous Live Chat Room ${roomId} | TimeWarp Messenger`;
