@@ -793,13 +793,23 @@ if (ttlInputEl) {
   }
 }
 
+
+  
 const reactionBar = document.getElementById("reaction-bar");
 if (reactionBar) {
   reactionBar.dir = "ltr";
   reactionBar.style.unicodeBidi = "isolate";
 }
 
+// 🔥 FORCE "Last message" re-render on language change
+if (lastMessageAt) {
+  updateLastActivity();
 }
+
+}
+
+
+
 
 const languageSelect = document.getElementById("language-select");
 const ttlInputEl = document.getElementById("ttl-input");
