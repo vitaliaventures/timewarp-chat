@@ -1742,6 +1742,8 @@ if (percent > 30) {
 function openEditModal(msgRef, msgText) {
   if (editOverlay) editOverlay.remove();
 
+  msgText = msgText || ""; // 🔒 protección crítica
+
   editOverlay = document.createElement("div");
   editOverlay.style.cssText = `
     position:fixed;
