@@ -1670,10 +1670,22 @@ actionMenu.addEventListener("click", e => {
   const action = e.target.dataset.action;
   if (!activeMsgRef) return;
 
-  if (action === "edit") {
-  openEditModal(activeMsgRef, msg.text);
+
+
+
+if (action === "edit") {
+  const textEl = activeMsgDiv.querySelector(".msg-text");
+  const originalText = textEl
+    ? textEl.childNodes[0].textContent.trim()
+    : "";
+
+  openEditModal(activeMsgRef, originalText);
   actionMenu.style.display = "none";
 }
+
+
+
+  
 
 
   if (action === "delete") {
