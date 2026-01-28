@@ -690,6 +690,7 @@ if (savedLang && translations[savedLang]) {
 let currentUserCount = 0;
 let messagesListenerAttached = false;
 const typingIndicator = document.getElementById("typing-indicator");
+let lastMessageAt = null;
 
 
 function toArabicDigits(str) {
