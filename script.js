@@ -1085,7 +1085,6 @@ onValue(usersRef,snapshot=>{
 const chatBox = document.getElementById("chat-box");
 
 const lastActivityEl = document.getElementById("last-activity");
-let lastMessageAt = null;
 
 
 function updateLastActivity() {
