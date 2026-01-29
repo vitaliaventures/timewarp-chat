@@ -1,3 +1,10 @@
+const savedPath = sessionStorage.getItem("redirectPath");
+if (savedPath) {
+  sessionStorage.removeItem("redirectPath");
+  history.replaceState(null, "", savedPath);
+}
+
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
 import {
   getDatabase,
