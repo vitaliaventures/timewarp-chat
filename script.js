@@ -34,82 +34,55 @@ if (pathParts[0] === "p" && pathParts[1]) {
 
 
 // --- SEO behavior
+// ================================
+// SEO FOR PUBLIC ROOMS (CLEAN & INDEXABLE)
+// ================================
+
 if (roomType === "public") {
+  const titleMap = {
+    "anonymous-chat": {
+      title: "Anonymous Chat – Talk Freely Without Signup",
+      description:
+        "Join an anonymous chat room where you can talk freely with strangers worldwide. No signup, no history, messages disappear automatically."
+    }
+  };
 
-// 🔥 DYNAMIC SEO — PER PUBLIC ROOM
-const seoTitle = `Anonymous Live Chat Room ${roomId} | TimeWarp Messenger`;
-const seoDescription = `
-Join an anonymous public chat room in real time.
-Messages disappear automatically.
-No account. No history. Live conversation.
-Room ID: ${roomId}
-`.trim();
+  const seo = titleMap[roomId] || {
+    title: `Anonymous Chat Room – ${roomId}`,
+    description:
+      "Public anonymous chat room. Talk freely without registration. Messages disappear automatically."
+  };
 
-// --- Title
-document.title = seoTitle;
+  // 🔥 Title
+  document.title = seo.title;
 
-// --- Meta description
-let metaDesc = document.querySelector('meta[name="description"]');
-if (!metaDesc) {
-  metaDesc = document.createElement("meta");
-  metaDesc.name = "description";
-  document.head.appendChild(metaDesc);
-}
-metaDesc.setAttribute("content", seoDescription);
-
-// --- OpenGraph (social sharing = traffic)
-function setOG(tag, content) {
-  let el = document.querySelector(`meta[property="${tag}"]`);
-  if (!el) {
-    el = document.createElement("meta");
-    el.setAttribute("property", tag);
-    document.head.appendChild(el);
+  // 🔥 Meta description
+  let metaDesc = document.querySelector('meta[name="description"]');
+  if (!metaDesc) {
+    metaDesc = document.createElement("meta");
+    metaDesc.name = "description";
+    document.head.appendChild(metaDesc);
   }
-  el.setAttribute("content", content);
-}
+  metaDesc.content = seo.description;
 
-setOG("og:title", seoTitle);
-setOG("og:description", seoDescription);
-setOG("og:type", "website");
-setOG("og:url", window.location.href);
-
-// --- Invisible crawlable content (VERY IMPORTANT)
-let seoDiv = document.getElementById("seo-text");
-if (!seoDiv) {
-  seoDiv = document.createElement("div");
-  seoDiv.id = "seo-text";
-  seoDiv.style.position = "absolute";
-  seoDiv.style.left = "-9999px";
-  seoDiv.style.opacity = "0";
-  document.body.appendChild(seoDiv);
-}
-
-seoDiv.textContent = `
-Anonymous live public chat room.
-Ephemeral messages.
-Temporary discussion space.
-Anyone can join with the link.
-Room ${roomId}.
-`;
-
-
-
-
+  // 🔥 Canonical
   const canonical = document.querySelector('link[rel="canonical"]');
-if (canonical) {
-  canonical.href = window.location.origin + window.location.pathname;
-}
+  if (canonical) {
+    canonical.href = window.location.origin + window.location.pathname;
+  }
 
-// 🔥 remove noindex if coming from private
-const metaRobots = document.querySelector('meta[name="robots"]');
-if (metaRobots) {
-  metaRobots.remove();
-}
+  // 🔥 Robots (ensure indexable)
+  const metaRobots = document.querySelector('meta[name="robots"]');
+  if (metaRobots) metaRobots.remove();
 
-// 🔥 SEO crawlable invisible text
+  // 🔥 Visible SEO content
+  const titleEl = document.getElementById("seo-title");
+  const descEl = document.getElementById("seo-description");
 
-
-  
+  if (titleEl && descEl) {
+    titleEl.textContent = seo.title;
+    descEl.textContent = seo.description;
+  }
 } else if (!isHomePage) {
   // 🔒 ONLY private rooms should be noindex
   let metaRobots = document.querySelector('meta[name="robots"]');
