@@ -21,6 +21,8 @@ import { onChildChanged } from "https://www.gstatic.com/firebasejs/10.1.0/fireba
 // ================================
 
 const pathParts = window.location.pathname.split("/").filter(Boolean);
+const isHomePage = pathParts.length === 0;
+
 
 let roomType = "private";
 let roomId = null;
