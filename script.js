@@ -109,18 +109,26 @@ if (metaRobots) {
 // 🔥 SEO crawlable invisible text
 
 
-} else {
+  
+} else if (!isHomePage) {
+  // 🔒 ONLY private rooms should be noindex
   let metaRobots = document.querySelector('meta[name="robots"]');
 
-if (!metaRobots) {
-  metaRobots = document.createElement("meta");
-  metaRobots.name = "robots";
-  document.head.appendChild(metaRobots);
+  if (!metaRobots) {
+    metaRobots = document.createElement("meta");
+    metaRobots.name = "robots";
+    document.head.appendChild(metaRobots);
+  }
+
+  metaRobots.content = "noindex,nofollow";
+} else {
+  // 🏠 HOMEPAGE MUST BE INDEXABLE
+  const metaRobots = document.querySelector('meta[name="robots"]');
+  if (metaRobots) metaRobots.remove();
 }
 
-metaRobots.content = "noindex,nofollow";
 
-}
+
 
 // --- Traducciones y multilenguaje
 // (Se mantiene igual que tu versión, con todos los idiomas)
