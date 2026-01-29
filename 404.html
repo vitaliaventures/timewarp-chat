@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=/" />
+  <script>
+    // Preserve path for SPA routing
+    const redirect = location.pathname + location.search + location.hash;
+    sessionStorage.setItem("redirectPath", redirect);
+    window.location.replace("/");
+  </script>
+</head>
+<body></body>
+</html>
