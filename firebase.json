@@ -9,7 +9,7 @@
     "rewrites": [
       {
         "source": "/private-anonymous-chat.html",
-        "destination": "/private-anonymous-chat.html"
+        "destination": "/p/private-anonymous-chat.html"
       },
       {
         "source": "/anonymous-chat.html",
