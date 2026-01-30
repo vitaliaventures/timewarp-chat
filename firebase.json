@@ -1,0 +1,24 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/private-anonymous-chat.html",
+        "destination": "/private-anonymous-chat.html"
+      },
+      {
+        "source": "/anonymous-chat.html",
+        "destination": "/anonymous-chat.html"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
