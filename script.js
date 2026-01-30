@@ -47,12 +47,19 @@ if (pathParts[0] === "p" && pathParts[1]) {
 
 if (roomType === "public") {
   const titleMap = {
-    "anonymous-chat": {
-      title: "Anonymous Chat – Talk Freely Without Signup",
-      description:
-        "Join an anonymous chat room where you can talk freely with strangers worldwide. No signup, no history, messages disappear automatically."
-    }
-  };
+  "anonymous-chat": {
+    title: "Anonymous Chat – Talk Freely Without Signup",
+    description:
+      "Join an anonymous chat room where you can talk freely with strangers worldwide. No signup, no history, messages disappear automatically."
+  },
+
+  "private-anonymous-chat": {
+    title: "Private Anonymous Chat – Secure Temporary Conversations",
+    description:
+      "Start a private anonymous chat with no signup. Messages disappear automatically. Secure, temporary, and fully anonymous conversations."
+  }
+};
+
 
   const seo = titleMap[roomId] || {
     title: `Anonymous Chat Room – ${roomId}`,
