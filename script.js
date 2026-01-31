@@ -109,8 +109,8 @@ if (roomType === "public") {
     titleEl.textContent = seo.title;
     descEl.textContent = seo.description;
   }
-} else if (!isHomePage) {
-  // 🔒 ONLY private rooms should be noindex
+} else if (!isIndexablePage) {
+  // 🔒 ONLY private / technical pages should be noindex
   let metaRobots = document.querySelector('meta[name="robots"]');
 
   if (!metaRobots) {
@@ -121,6 +121,11 @@ if (roomType === "public") {
 
   metaRobots.content = "noindex,nofollow";
 } else {
+  // ✅ FORCE index on SEO landing pages
+  const metaRobots = document.querySelector('meta[name="robots"]');
+  if (metaRobots) metaRobots.remove();
+}
+ else {
   // 🏠 HOMEPAGE MUST BE INDEXABLE
   const metaRobots = document.querySelector('meta[name="robots"]');
   if (metaRobots) metaRobots.remove();
