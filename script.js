@@ -1003,7 +1003,7 @@ onValue(child(metaRef, "lastMessageAt"), snap => {
 
 
 function attachMessagesListener() {
-  if (messagesListenerAttached) return;
+  if (!roomId || !chatBox || messagesListenerAttached) return;
   messagesListenerAttached = true;
 
   onChildAdded(messagesRef, snap => {
