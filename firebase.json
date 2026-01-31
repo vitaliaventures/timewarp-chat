@@ -6,14 +6,21 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Robots-Tag",
+            "value": "index, follow"
+          }
+        ]
+      }
+    ],
     "rewrites": [
       {
         "source": "/private-anonymous-chat.html",
         "destination": "/p/private-anonymous-chat.html"
-      },
-      {
-        "source": "**",
-        "destination": "/index.html"
       }
     ]
   }
