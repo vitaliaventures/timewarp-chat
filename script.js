@@ -1000,6 +1000,65 @@ onValue(child(metaRef, "lastMessageAt"), snap => {
 
 
 
+
+
+function attachMessagesListener() {
+  if (messagesListenerAttached) return;
+  messagesListenerAttached = true;
+
+  onChildAdded(messagesRef, snap => {
+    const msg = snap.val();
+    if (!msg) return;
+
+    const div = document.createElement("div");
+    div.className = "chat-message";
+    div.dataset.msgKey = snap.key;
+
+    const now = Date.now();
+    const elapsed = Math.floor((now - msg.createdAt) / 1000);
+    let remaining = msg.ttl - elapsed;
+    if (remaining < 0) remaining = 0;
+
+    div.style.background =
+      msg.user?.name === identity.name
+        ? msg.color || "#2563eb"
+        : "#2a2a2a";
+
+    div.innerHTML = `
+      <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
+
+      <span class="msg-text">
+        ${msg.text}
+      </span>
+
+      <div class="reactions">
+        ${renderReactions(msg.reactions)}
+      </div>
+
+      <div class="msg-time">
+        <span class="time-text">${formatTime(remaining)}</span>
+        <div class="msg-menu"><div></div></div>
+      </div>
+
+      <div class="countdown-track">
+        <div class="countdown-fill"></div>
+      </div>
+    `;
+
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    touchRoom(msg.createdAt);
+  });
+}
+
+
+
+
+
+
+
+
 attachMessagesListener();
 
 
