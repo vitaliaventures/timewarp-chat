@@ -1059,8 +1059,6 @@ function attachMessagesListener() {
 
 
 
-attachMessagesListener();
-
 
 function saveRoomTTL(ttlValue) {
   set(ref(db, `rooms/${roomId}/meta/ttl`), ttlValue);
