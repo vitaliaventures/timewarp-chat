@@ -7,11 +7,14 @@
       "**/node_modules/**"
     ],
     "rewrites": [
-  {
-    "source": "/private-anonymous-chat.html",
-    "destination": "/p/private-anonymous-chat.html"
-  }
-]
-
+      {
+        "source": "/private-anonymous-chat.html",
+        "destination": "/p/private-anonymous-chat.html"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   }
 }
