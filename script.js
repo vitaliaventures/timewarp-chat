@@ -2065,3 +2065,11 @@ style.textContent = `
 }
 `;
 document.head.appendChild(style);
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (!roomId) return;
+  attachMessagesListener();
+});
+
