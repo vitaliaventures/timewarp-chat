@@ -30,6 +30,18 @@ import { onChildChanged } from "https://www.gstatic.com/firebasejs/10.1.0/fireba
 const pathParts = window.location.pathname.split("/").filter(Boolean);
 const isHomePage = pathParts.length === 0;
 
+const INDEXABLE_PAGES = [
+  "/",
+  "/anonymous-chat-no-signup.html",
+  "/anonymous-chat.html",
+  "/private-anonymous-chat.html"
+];
+
+const isIndexablePage = INDEXABLE_PAGES.includes(window.location.pathname);
+
+
+
+
 
 let roomType = "private";
 let roomId = null;
