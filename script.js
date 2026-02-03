@@ -1151,7 +1151,6 @@ onValue(usersRef,snapshot=>{
 });
 
 // --- Chat UI
-const chatBox = document.getElementById("chat-box");
 
 const lastActivityEl = document.getElementById("last-activity");
 
