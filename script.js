@@ -2075,3 +2075,15 @@ document.addEventListener("DOMContentLoaded", () => {
   attachMessagesListener();
 });
 
+
+
+function initApp() {
+  // idioma
+  languageSelect.value = currentLang;
+  setLanguage(currentLang);
+
+  // mensajes
+  attachMessagesListener();
+}
+
+document.addEventListener("DOMContentLoaded", initApp);
