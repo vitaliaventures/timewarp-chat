@@ -121,15 +121,11 @@ if (roomType === "public") {
 
   metaRobots.content = "noindex,nofollow";
 } else {
-  // ✅ FORCE index on SEO landing pages
+  // 🏠 HOMEPAGE + SEO LANDINGS MUST BE INDEXABLE
   const metaRobots = document.querySelector('meta[name="robots"]');
   if (metaRobots) metaRobots.remove();
 }
- else {
-  // 🏠 HOMEPAGE MUST BE INDEXABLE
-  const metaRobots = document.querySelector('meta[name="robots"]');
-  if (metaRobots) metaRobots.remove();
-}
+
 
 
 
