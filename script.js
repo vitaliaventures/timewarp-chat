@@ -928,6 +928,8 @@ else {
 }
 
 console.log("ROOM TYPE:", roomType, "ROOM ID:", roomId);
+attachMessagesListener();
+
 
 // después de console.log("ROOM TYPE:", roomType, "ROOM ID:", roomId);
 
