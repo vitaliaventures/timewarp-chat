@@ -863,9 +863,6 @@ ttlInputEl.addEventListener("input", () => {
 
 
 languageSelect.addEventListener("change", e => setLanguage(e.target.value));
-languageSelect.value = currentLang;
-setLanguage(currentLang);
-updateActionMenuLanguage();
 
 
 
