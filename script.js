@@ -997,7 +997,7 @@ onValue(child(metaRef, "lastMessageAt"), snap => {
 
 
 
-
+const chatBox = document.getElementById("chat-box");
 
 function attachMessagesListener() {
   if (!roomId || !chatBox || messagesListenerAttached) return;
