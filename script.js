@@ -111,15 +111,19 @@ if (metaRobots) {
 } else {
   let metaRobots = document.querySelector('meta[name="robots"]');
 
-if (!metaRobots) {
-  metaRobots = document.createElement("meta");
-  metaRobots.name = "robots";
-  document.head.appendChild(metaRobots);
+  if (!metaRobots) {
+    metaRobots = document.createElement("meta");
+    metaRobots.name = "robots";
+    document.head.appendChild(metaRobots);
+  }
+
+  metaRobots.content = "noindex,nofollow";
+
+  let canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.remove();
 }
 
-metaRobots.content = "noindex,nofollow";
 
-}
 
 // --- Traducciones y multilenguaje
 // (Se mantiene igual que tu versión, con todos los idiomas)
