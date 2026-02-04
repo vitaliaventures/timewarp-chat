@@ -833,27 +833,34 @@ if (ttlInputEl) {
 }
 
 
-ttlInputEl.addEventListener("input", () => {
-  let value = fromArabicDigits(ttlInputEl.value.trim());
-  if (!value) return;
 
-  const parts = value.split(":").map(p => parseInt(p, 10));
-  let seconds = 0;
 
-  if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-    seconds = parts[0] * 60 + parts[1];
-  } else if (!isNaN(parts[0])) {
-    seconds = parts[0];
-  }
+if (ttlInputEl) {
+  ttlInputEl.addEventListener("input", () => {
+    let value = fromArabicDigits(ttlInputEl.value.trim());
+    if (!value) return;
 
-  if (seconds > MAX_TTL_SECONDS) {
-    ttlInputEl.value = "60:00";
-    seconds = MAX_TTL_SECONDS;
-  }
+    const parts = value.split(":").map(p => parseInt(p, 10));
+    let seconds = 0;
 
-  localStorage.setItem(TTL_STORAGE_KEY, ttlInputEl.value);
-  saveRoomTTL(ttlInputEl.value);
-});
+    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+      seconds = parts[0] * 60 + parts[1];
+    } else if (!isNaN(parts[0])) {
+      seconds = parts[0];
+    }
+
+    if (seconds > MAX_TTL_SECONDS) {
+      ttlInputEl.value = "60:00";
+      seconds = MAX_TTL_SECONDS;
+    }
+
+    localStorage.setItem(TTL_STORAGE_KEY, ttlInputEl.value);
+    saveRoomTTL(ttlInputEl.value);
+  });
+}
+
+
+
 
 
 
