@@ -1065,8 +1065,7 @@ onValue(metaRef, snap => {
     .getElementById("new-room-from-destroyed")
     .addEventListener("click", () => {
       const newRoomId = generateRoomId();
-      location.hash = "room=" + newRoomId;
-      location.reload();
+      window.location.href = "/r/" + newRoomId;
     });
 }
 
