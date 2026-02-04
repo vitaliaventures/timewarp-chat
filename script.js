@@ -907,15 +907,16 @@ if (roomType === "public") {
   }
 }
 
-// PRIVATE rooms → #room=
+// PRIVATE rooms → /r/{id}
 else {
-  roomId = location.hash.replace("#room=", "");
-
-  if (!roomId) {
+  if (pathParts[0] === "r" && pathParts[1]) {
+    roomId = pathParts[1];
+  } else {
     roomId = crypto.randomUUID().replace(/-/g, "");
-    location.hash = "room=" + roomId;
+    window.location.replace("/r/" + roomId);
   }
 }
+
 
 console.log("ROOM TYPE:", roomType, "ROOM ID:", roomId);
 
