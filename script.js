@@ -82,12 +82,13 @@ if (!seoDiv) {
   document.body.appendChild(seoDiv);
 }
 
+  
 seoDiv.textContent = `
-Anonymous live public chat room.
-Ephemeral messages.
-Temporary discussion space.
-Anyone can join with the link.
-Room ${roomId}.
+This is an anonymous public chat room where users can join instantly without registration.
+Messages disappear automatically after a short time.
+This temporary live chat is designed for fast, private, and spontaneous conversations.
+Anyone can join this room using a shared link.
+Public chat room ID ${roomId}.
 `;
 
 
