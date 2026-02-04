@@ -1,10 +1,3 @@
-const savedPath = sessionStorage.getItem("redirectPath");
-if (savedPath) {
-  sessionStorage.removeItem("redirectPath");
-  history.replaceState(null, "", savedPath);
-}
-
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
 import {
   getDatabase,
@@ -28,20 +21,6 @@ import { onChildChanged } from "https://www.gstatic.com/firebasejs/10.1.0/fireba
 // ================================
 
 const pathParts = window.location.pathname.split("/").filter(Boolean);
-const isHomePage = pathParts.length === 0;
-
-const INDEXABLE_PAGES = [
-  "/",
-  "/anonymous-chat-no-signup.html",
-  "/anonymous-chat.html",
-  "/private-anonymous-chat.html"
-];
-
-const isIndexablePage = INDEXABLE_PAGES.includes(window.location.pathname);
-
-
-
-
 
 let roomType = "private";
 let roomId = null;
@@ -53,82 +32,93 @@ if (pathParts[0] === "p" && pathParts[1]) {
 
 
 // --- SEO behavior
-// ================================
-// SEO FOR PUBLIC ROOMS (CLEAN & INDEXABLE)
-// ================================
-
 if (roomType === "public") {
-  const titleMap = {
-  "anonymous-chat": {
-    title: "Anonymous Chat – Talk Freely Without Signup",
-    description:
-      "Join an anonymous chat room where you can talk freely with strangers worldwide. No signup, no history, messages disappear automatically."
-  },
 
-  "private-anonymous-chat": {
-    title: "Private Anonymous Chat – Secure Temporary Conversations",
-    description:
-      "Start a private anonymous chat with no signup. Messages disappear automatically. Secure, temporary, and fully anonymous conversations."
+// 🔥 DYNAMIC SEO — PER PUBLIC ROOM
+const seoTitle = `Anonymous Live Chat Room ${roomId} | TimeWarp Messenger`;
+const seoDescription = `
+Join an anonymous public chat room in real time.
+Messages disappear automatically.
+No account. No history. Live conversation.
+Room ID: ${roomId}
+`.trim();
+
+// --- Title
+document.title = seoTitle;
+
+// --- Meta description
+let metaDesc = document.querySelector('meta[name="description"]');
+if (!metaDesc) {
+  metaDesc = document.createElement("meta");
+  metaDesc.name = "description";
+  document.head.appendChild(metaDesc);
+}
+metaDesc.setAttribute("content", seoDescription);
+
+// --- OpenGraph (social sharing = traffic)
+function setOG(tag, content) {
+  let el = document.querySelector(`meta[property="${tag}"]`);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute("property", tag);
+    document.head.appendChild(el);
   }
-};
-
-
-  const seo = titleMap[roomId] || {
-    title: `Anonymous Chat Room – ${roomId}`,
-    description:
-      "Public anonymous chat room. Talk freely without registration. Messages disappear automatically."
-  };
-
-  // 🔥 Title
-  document.title = seo.title;
-
-  // 🔥 Meta description
-  let metaDesc = document.querySelector('meta[name="description"]');
-  if (!metaDesc) {
-    metaDesc = document.createElement("meta");
-    metaDesc.name = "description";
-    document.head.appendChild(metaDesc);
-  }
-  metaDesc.content = seo.description;
-
-  // 🔥 Canonical
-  const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) {
-    canonical.href = window.location.origin + window.location.pathname;
-  }
-
-  // 🔥 Robots (ensure indexable)
-  const metaRobots = document.querySelector('meta[name="robots"]');
-  if (metaRobots) metaRobots.remove();
-
-  // 🔥 Visible SEO content
-  const titleEl = document.getElementById("seo-title");
-  const descEl = document.getElementById("seo-description");
-
-  if (titleEl && descEl) {
-    titleEl.textContent = seo.title;
-    descEl.textContent = seo.description;
-  }
-} else if (!isIndexablePage) {
-  // 🔒 ONLY private / technical pages should be noindex
-  let metaRobots = document.querySelector('meta[name="robots"]');
-
-  if (!metaRobots) {
-    metaRobots = document.createElement("meta");
-    metaRobots.name = "robots";
-    document.head.appendChild(metaRobots);
-  }
-
-  metaRobots.content = "noindex,nofollow";
-} else {
-  // 🏠 HOMEPAGE + SEO LANDINGS MUST BE INDEXABLE
-  const metaRobots = document.querySelector('meta[name="robots"]');
-  if (metaRobots) metaRobots.remove();
+  el.setAttribute("content", content);
 }
 
+setOG("og:title", seoTitle);
+setOG("og:description", seoDescription);
+setOG("og:type", "website");
+setOG("og:url", window.location.href);
+
+// --- Invisible crawlable content (VERY IMPORTANT)
+let seoDiv = document.getElementById("seo-text");
+if (!seoDiv) {
+  seoDiv = document.createElement("div");
+  seoDiv.id = "seo-text";
+  seoDiv.style.position = "absolute";
+  seoDiv.style.left = "-9999px";
+  seoDiv.style.opacity = "0";
+  document.body.appendChild(seoDiv);
+}
+
+seoDiv.textContent = `
+Anonymous live public chat room.
+Ephemeral messages.
+Temporary discussion space.
+Anyone can join with the link.
+Room ${roomId}.
+`;
 
 
 
+
+  const canonical = document.querySelector('link[rel="canonical"]');
+if (canonical) {
+  canonical.href = window.location.origin + window.location.pathname;
+}
+
+// 🔥 remove noindex if coming from private
+const metaRobots = document.querySelector('meta[name="robots"]');
+if (metaRobots) {
+  metaRobots.remove();
+}
+
+// 🔥 SEO crawlable invisible text
+
+
+} else {
+  let metaRobots = document.querySelector('meta[name="robots"]');
+
+if (!metaRobots) {
+  metaRobots = document.createElement("meta");
+  metaRobots.name = "robots";
+  document.head.appendChild(metaRobots);
+}
+
+metaRobots.content = "noindex,nofollow";
+
+}
 
 // --- Traducciones y multilenguaje
 // (Se mantiene igual que tu versión, con todos los idiomas)
@@ -833,39 +823,35 @@ if (ttlInputEl) {
 }
 
 
+ttlInputEl.addEventListener("input", () => {
+  let value = fromArabicDigits(ttlInputEl.value.trim());
+  if (!value) return;
 
+  const parts = value.split(":").map(p => parseInt(p, 10));
+  let seconds = 0;
 
-if (ttlInputEl) {
-  ttlInputEl.addEventListener("input", () => {
-    let value = fromArabicDigits(ttlInputEl.value.trim());
-    if (!value) return;
+  if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+    seconds = parts[0] * 60 + parts[1];
+  } else if (!isNaN(parts[0])) {
+    seconds = parts[0];
+  }
 
-    const parts = value.split(":").map(p => parseInt(p, 10));
-    let seconds = 0;
+  if (seconds > MAX_TTL_SECONDS) {
+    ttlInputEl.value = "60:00";
+    seconds = MAX_TTL_SECONDS;
+  }
 
-    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-      seconds = parts[0] * 60 + parts[1];
-    } else if (!isNaN(parts[0])) {
-      seconds = parts[0];
-    }
-
-    if (seconds > MAX_TTL_SECONDS) {
-      ttlInputEl.value = "60:00";
-      seconds = MAX_TTL_SECONDS;
-    }
-
-    localStorage.setItem(TTL_STORAGE_KEY, ttlInputEl.value);
-    saveRoomTTL(ttlInputEl.value);
-  });
-}
-
-
-
+  localStorage.setItem(TTL_STORAGE_KEY, ttlInputEl.value);
+  saveRoomTTL(ttlInputEl.value);
+});
 
 
 
 
 languageSelect.addEventListener("change", e => setLanguage(e.target.value));
+languageSelect.value = currentLang;
+setLanguage(currentLang);
+updateActionMenuLanguage();
 
 
 
@@ -931,8 +917,6 @@ else {
 }
 
 console.log("ROOM TYPE:", roomType, "ROOM ID:", roomId);
-attachMessagesListener();
-
 
 // después de console.log("ROOM TYPE:", roomType, "ROOM ID:", roomId);
 
@@ -1002,64 +986,7 @@ onValue(child(metaRef, "lastMessageAt"), snap => {
 
 
 
-const chatBox = document.getElementById("chat-box");
-
-function attachMessagesListener() {
-  if (!roomId || !chatBox || messagesListenerAttached) return;
-  messagesListenerAttached = true;
-
-  onChildAdded(messagesRef, snap => {
-    const msg = snap.val();
-    if (!msg) return;
-
-    const div = document.createElement("div");
-    div.className = "chat-message";
-    div.dataset.msgKey = snap.key;
-
-    const now = Date.now();
-    const elapsed = Math.floor((now - msg.createdAt) / 1000);
-    let remaining = msg.ttl - elapsed;
-    if (remaining < 0) remaining = 0;
-
-    div.style.background =
-      msg.user?.name === identity.name
-        ? msg.color || "#2563eb"
-        : "#2a2a2a";
-
-    div.innerHTML = `
-      <strong>${msg.user.emoji} ${msg.user.name}</strong><br>
-
-      <span class="msg-text">
-        ${msg.text}
-      </span>
-
-      <div class="reactions">
-        ${renderReactions(msg.reactions)}
-      </div>
-
-      <div class="msg-time">
-        <span class="time-text">${formatTime(remaining)}</span>
-        <div class="msg-menu"><div></div></div>
-      </div>
-
-      <div class="countdown-track">
-        <div class="countdown-fill"></div>
-      </div>
-    `;
-
-    chatBox.appendChild(div);
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    touchRoom(msg.createdAt);
-  });
-}
-
-
-
-
-
-
-
+attachMessagesListener();
 
 
 function saveRoomTTL(ttlValue) {
@@ -1156,6 +1083,7 @@ onValue(usersRef,snapshot=>{
 });
 
 // --- Chat UI
+const chatBox = document.getElementById("chat-box");
 
 const lastActivityEl = document.getElementById("last-activity");
 
@@ -1414,14 +1342,9 @@ actionMenu.style.display = "block";
     const percent = (remaining / total) * 100;
     fill.style.width = percent + "%";
 
-    if (percent > 30) {
-  fill.style.background = "#22c55e"; // green
-} else if (percent > 10) {
-  fill.style.background = "#facc15"; // yellow
-} else {
-  fill.style.background = "#ef4444"; // red
-}
-
+    if (percent > 30) fill.style.background = "#22c55e"; // green
+    else if (percent > 10) fill.style.background = "#facc15"; // yellow
+    else fill.style.background = "#ef4444"; // red
 
     if (remaining <= 0) {
       clearInterval(div.countdownTimer);
@@ -1625,7 +1548,7 @@ reactionViewer.addEventListener("click", () => {
 
 
 function attachMessagesListener() {
-  if (!roomId || !chatBox || messagesListenerAttached) return;
+  if (messagesListenerAttached) return;
   messagesListenerAttached = true;
 
   onChildAdded(messagesRef, snap => {
@@ -2071,23 +1994,3 @@ style.textContent = `
 }
 `;
 document.head.appendChild(style);
-
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  if (!roomId) return;
-  attachMessagesListener();
-});
-
-
-
-function initApp() {
-  // idioma
-  languageSelect.value = currentLang;
-  setLanguage(currentLang);
-
-  // mensajes
-  attachMessagesListener();
-}
-
-document.addEventListener("DOMContentLoaded", initApp);
