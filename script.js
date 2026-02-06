@@ -82,13 +82,12 @@ if (!seoDiv) {
   document.body.appendChild(seoDiv);
 }
 
-  
 seoDiv.textContent = `
-This is an anonymous public chat room where users can join instantly without registration.
-Messages disappear automatically after a short time.
-This temporary live chat is designed for fast, private, and spontaneous conversations.
-Anyone can join this room using a shared link.
-Public chat room ID ${roomId}.
+Anonymous live public chat room.
+Ephemeral messages.
+Temporary discussion space.
+Anyone can join with the link.
+Room ${roomId}.
 `;
 
 
@@ -111,19 +110,15 @@ if (metaRobots) {
 } else {
   let metaRobots = document.querySelector('meta[name="robots"]');
 
-  if (!metaRobots) {
-    metaRobots = document.createElement("meta");
-    metaRobots.name = "robots";
-    document.head.appendChild(metaRobots);
-  }
-
-  metaRobots.content = "noindex,nofollow";
-
-  let canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.remove();
+if (!metaRobots) {
+  metaRobots = document.createElement("meta");
+  metaRobots.name = "robots";
+  document.head.appendChild(metaRobots);
 }
 
+metaRobots.content = "noindex,nofollow";
 
+}
 
 // --- Traducciones y multilenguaje
 // (Se mantiene igual que tu versión, con todos los idiomas)
@@ -911,16 +906,15 @@ if (roomType === "public") {
   }
 }
 
-// PRIVATE rooms → /r/{id}
+// PRIVATE rooms → #room=
 else {
-  if (pathParts[0] === "r" && pathParts[1]) {
-    roomId = pathParts[1];
-  } else {
+  roomId = location.hash.replace("#room=", "");
+
+  if (!roomId) {
     roomId = crypto.randomUUID().replace(/-/g, "");
-    window.location.replace("/r/" + roomId);
+    location.hash = "room=" + roomId;
   }
 }
-
 
 console.log("ROOM TYPE:", roomType, "ROOM ID:", roomId);
 
@@ -1065,7 +1059,8 @@ onValue(metaRef, snap => {
     .getElementById("new-room-from-destroyed")
     .addEventListener("click", () => {
       const newRoomId = generateRoomId();
-      window.location.href = "/r/" + newRoomId;
+      location.hash = "room=" + newRoomId;
+      location.reload();
     });
 }
 
