@@ -906,15 +906,18 @@ if (roomType === "public") {
   }
 }
 
-// PRIVATE rooms → #room=
+// PRIVATE rooms → /r/{id}
 else {
-  roomId = location.hash.replace("#room=", "");
+  const parts = window.location.pathname.split("/").filter(Boolean);
 
-  if (!roomId) {
+  if (parts[0] === "r" && parts[1]) {
+    roomId = parts[1];
+  } else {
     roomId = crypto.randomUUID().replace(/-/g, "");
-    location.hash = "room=" + roomId;
+    window.location.replace("/r/" + roomId);
   }
 }
+
 
 console.log("ROOM TYPE:", roomType, "ROOM ID:", roomId);
 
