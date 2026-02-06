@@ -18,10 +18,8 @@
       }
     ],
     "rewrites": [
-      {
-        "source": "/private-anonymous-chat.html",
-        "destination": "/p/private-anonymous-chat.html"
-      }
+      { "source": "/r/**", "destination": "/index.html" },
+      { "source": "**", "destination": "/index.html" }
     ]
   }
 }
