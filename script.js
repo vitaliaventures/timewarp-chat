@@ -897,14 +897,11 @@ const db = getDatabase(app);
 // FINAL ROOM ID RESOLUTION
 // ================================
 
-// PUBLIC rooms → /p/{id}
-if (roomType === "public") {
-  if (!roomId) {
-    // invalid public URL → hard reset
-    roomId = crypto.randomUUID().replace(/-/g, "");
-    window.location.replace("/p/" + roomId);
-  }
+if (roomType === "public" && !roomId) {
+  console.warn("Public room without ID – staying on homepage");
 }
+
+  
 
 // PRIVATE rooms → #room=
 else {
