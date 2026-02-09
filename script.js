@@ -927,7 +927,7 @@ if (roomType === "public") {
   // ✅ PRIVATE rooms: path-based
   if (!roomId) {
     roomId = crypto.randomUUID().replace(/-/g, "");
-    window.location.replace(`/r/${roomId}`);
+    window.location.replace(`https://${CANONICAL_DOMAIN}/r/${roomId}`);
   }
 }
 
