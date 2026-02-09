@@ -893,8 +893,16 @@ const firebaseConfig = {
   messagingSenderId: "71563132014",
   appId: "1:71563132014:web:901218a830abd48c74fa7f"
 };
+
 const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+
+const db = getDatabase(app, undefined, {
+  forceLongPolling: true
+});
+
+
+
+
 
 // --- Sala
 // ================================
