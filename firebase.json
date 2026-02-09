@@ -1,25 +1,16 @@
 {
   "hosting": {
-    "public": ".",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
-    "headers": [
+    "rewrites": [
       {
         "source": "**",
-        "headers": [
-          {
-            "key": "X-Robots-Tag",
-            "value": "index, follow"
-          }
-        ]
+        "destination": "/index.html"
       }
-    ],
-    "rewrites": [
-      { "source": "/r/**", "destination": "/index.html" },
-      { "source": "**", "destination": "/index.html" }
     ]
   }
 }
