@@ -25,17 +25,6 @@ const pathParts = window.location.pathname.split("/").filter(Boolean);
 
 
 
-// 🔥 BACKWARD COMPATIBILITY — old #room= links
-if (!pathParts.length && location.hash.startsWith("#room=")) {
-  const legacyRoomId = location.hash.replace("#room=", "");
-  window.location.replace(`/r/${legacyRoomId}`);
-}
-
-
-
-
-
-
 
 let roomType = "private";
 let roomId = null;
