@@ -22,6 +22,27 @@ import { onChildChanged } from "https://www.gstatic.com/firebasejs/10.1.0/fireba
 
 const pathParts = window.location.pathname.split("/").filter(Boolean);
 
+// 🔒 FORCE CANONICAL DOMAIN (STOP web.app leakage)
+const CANONICAL_DOMAIN = "anonymouschat.live";
+
+if (window.location.hostname !== CANONICAL_DOMAIN) {
+  const target =
+    "https://" +
+    CANONICAL_DOMAIN +
+    window.location.pathname +
+    window.location.search +
+    window.location.hash;
+
+  history.replaceState(null, "", target);
+}
+
+
+
+
+
+
+
+
 let roomType = "private";
 let roomId = null;
 
