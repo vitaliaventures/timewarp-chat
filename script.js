@@ -26,15 +26,15 @@ const pathParts = window.location.pathname.split("/").filter(Boolean);
 const CANONICAL_DOMAIN = "anonymouschat.live";
 
 if (window.location.hostname !== CANONICAL_DOMAIN) {
-  const target =
+  window.location.replace(
     "https://" +
-    CANONICAL_DOMAIN +
-    window.location.pathname +
-    window.location.search +
-    window.location.hash;
-
-  history.replaceState(null, "", target);
+      CANONICAL_DOMAIN +
+      window.location.pathname +
+      window.location.search +
+      window.location.hash
+  );
 }
+
 
 
 
