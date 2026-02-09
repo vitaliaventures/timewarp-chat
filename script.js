@@ -894,17 +894,16 @@ const db = getDatabase(app);
 
 // --- Sala
 // ================================
-// FINAL ROOM ID RESOLUTION
+// FINAL ROOM ID RESOLUTION (FIXED)
 // ================================
 
-if (roomType === "public" && !roomId) {
-  console.warn("Public room without ID – staying on homepage");
-}
-
-  
-
-// PRIVATE rooms → #room=
-else {
+if (roomType === "public") {
+  // ✅ PUBLIC rooms: URL controls everything
+  if (!roomId) {
+    console.warn("Public room without ID – staying on homepage");
+  }
+} else {
+  // ✅ PRIVATE rooms: hash-based
   roomId = location.hash.replace("#room=", "");
 
   if (!roomId) {
@@ -912,6 +911,7 @@ else {
     location.hash = "room=" + roomId;
   }
 }
+
 
 
 
