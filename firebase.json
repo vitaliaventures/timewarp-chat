@@ -12,7 +12,11 @@
         "headers": [
           {
             "key": "Alt-Svc",
-            "value": "clear"
+            "value": "h3=\":0\"; ma=0"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "no-store"
           }
         ]
       }
