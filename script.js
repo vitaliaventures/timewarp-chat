@@ -1208,7 +1208,7 @@ function spawnConfetti() {
     },30);
   }
 }
-if (roomType === "public") {
+if (roomType === "private" && location.hash.includes("room=")) {
   spawnConfetti();
 }
 
