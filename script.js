@@ -46,7 +46,7 @@ if (window.location.hostname !== CANONICAL_DOMAIN) {
 let roomType = "private";
 let roomId = null;
 
-if (pathParts[0] === "p" && pathParts[1]) {
+if (pathParts[0] === "r" && pathParts[1]) {
   roomType = "public";
   roomId = pathParts[1];
 }
