@@ -924,14 +924,13 @@ if (roomType === "public") {
     console.warn("Public room without ID – staying on homepage");
   }
 } else {
-  // ✅ PRIVATE rooms: hash-based
-  roomId = location.hash.replace("#room=", "");
-
+  // ✅ PRIVATE rooms: path-based
   if (!roomId) {
     roomId = crypto.randomUUID().replace(/-/g, "");
-    location.hash = "room=" + roomId;
+    window.location.replace(`/r/${roomId}`);
   }
 }
+
 
 
 
