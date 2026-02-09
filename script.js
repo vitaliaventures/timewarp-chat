@@ -1202,9 +1202,10 @@ function spawnConfetti() {
     },30);
   }
 }
-if (roomType === "private" && location.hash.includes("room=")) {
+if (roomType === "public") {
   spawnConfetti();
 }
+
 
 
 
