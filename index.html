@@ -4,70 +4,65 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Anonymous Live Chat – Ephemeral Public & Private Rooms | TimeWarp Messenger</title>
+  <title>Anonymous Chat Rooms – Private & Public Live Chat No Signup</title>
 
-  <!-- DEFAULT META (JS WILL OVERRIDE FOR /p/) -->
-  <meta name="description" content="Anonymous live chat rooms. Public and private conversations that self-destruct. No signup. No history. Join instantly worldwide." />
+  <meta name="description" content="AnonymousChat.live lets you join private and public anonymous chat rooms instantly. No signup, no accounts, no message history. Messages disappear automatically." />
+  <meta name="keywords" content="anonymous chat, anonymous chat rooms, private anonymous chat, live chat no signup, talk to strangers anonymously, ephemeral chat" />
+  <meta name="author" content="AnonymousChat.live" />
 
-<meta name="keywords" content="anonymous chat, live chat, ephemeral chat, temporary chat room, private chat, public chat, no signup chat, disappearing messages" />
-<meta name="author" content="TimeWarp Messenger" />
+  <link rel="canonical" href="https://anonymouschat.live/" />
 
-<meta property="og:type" content="website" />
-<meta property="og:title" content="Anonymous Live Chat – TimeWarp Messenger" />
-<meta property="og:description" content="Join live anonymous chat rooms. Messages disappear automatically. No accounts. No history." />
-<meta property="og:url" content="https://anonymouschat.live/" />
-<meta property="og:site_name" content="TimeWarp Messenger" />
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Anonymous Chat Rooms – Private & Public Live Chat" />
+  <meta property="og:description" content="Join anonymous chat rooms instantly. Public or private conversations with disappearing messages. No signup. No history." />
+  <meta property="og:url" content="https://anonymouschat.live/" />
+  <meta property="og:site_name" content="AnonymousChat.live" />
 
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Anonymous Live Chat – TimeWarp Messenger" />
-<meta name="twitter:description" content="Ephemeral chat rooms. Anonymous. Instant. No signup." />
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Anonymous Chat Rooms – No Signup Live Chat" />
+  <meta name="twitter:description" content="Talk to strangers anonymously in private or public chat rooms. Messages disappear automatically." />
 
-
-
-
-  
   <link rel="stylesheet" href="style.css" />
   <script type="module" src="script.js"></script>
-  <link rel="canonical" href="https://anonymouschat.live/">
 
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "TimeWarp Messenger",
-  "applicationCategory": "CommunicationApplication",
-  "operatingSystem": "All",
-  "description": "Anonymous live chat rooms with disappearing messages. Public and private conversations without accounts.",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "AnonymousChat.live",
+    "url": "https://anonymouschat.live/",
+    "applicationCategory": "CommunicationApplication",
+    "operatingSystem": "All",
+    "description": "Anonymous chat rooms with disappearing messages. Private and public live chat without signup or accounts.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
   }
-}
-</script>
-
-
+  </script>
 </head>
 
-
-
-  <body class="app-root">
+<body class="app-root">
 
   <div class="chat-container">
     <div class="chat-header">
-      <h2 id="room-title">TimeWarp Messenger</h2>
+      <h2 id="room-title">AnonymousChat.live</h2>
+
       <div id="messages-info" class="info-text">
         Messages disappear automatically
       </div>
 
-       <div id="last-activity" class="info-text" style="opacity:0.6;font-size:12px;">
-  Last message:
-</div>
+      <div id="last-activity" class="info-text" style="opacity:0.6;font-size:12px;">
+        Last message:
+      </div>
 
-      
       <div class="header-controls">
         <div id="room-users" class="info-text" dir="ltr">🔴 1 live</div>
+
         <select id="language-select" class="lang-select">
           <option value="en">English</option>
           <option value="de">Deutsch</option>
@@ -86,20 +81,20 @@
           <option value="sv">Svenska</option>
           <option value="fi">Suomi</option>
         </select>
-        <!-- TTL input field -->
-<input type="text" id="ttl-input" placeholder="01:00" title="Set message time mm:ss" style="
-  width: 60px;
-  padding: 4px 6px;
-  border-radius: 6px;
-  border: none;
-  text-align: center;
-  background: #1c1c1c;
-  color: #fff;
-  font-size: 0.8rem;
-  direction: ltr;
-  unicode-bidi: isolate;
 
-">
+        <input type="text" id="ttl-input" placeholder="01:00" title="Set message time mm:ss" style="
+          width: 60px;
+          padding: 4px 6px;
+          border-radius: 6px;
+          border: none;
+          text-align: center;
+          background: #1c1c1c;
+          color: #fff;
+          font-size: 0.8rem;
+          direction: ltr;
+          unicode-bidi: isolate;
+        ">
+
         <button id="invite-btn" class="header-btn">Invite 🚀</button>
         <button id="new-room-btn" class="header-btn">New ✨</button>
         <button id="destroy-room-btn" class="header-btn" style="background:#ef4444;">Destroy ❌</button>
@@ -115,93 +110,93 @@
     </div>
   </div>
 
-
-<div id="msg-action-menu" style="
-  position: fixed;
-  background: #1c1c1c;
-  border-radius: 14px;
-  padding: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-  display: none;
-  z-index: 10000;
-  min-width: 180px;
-">
-  <div id="reaction-bar" dir="ltr" style="
-  display: flex;
-  justify-content: space-around;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  margin-bottom: 6px;
-  font-size: 20px;
-  cursor: pointer;
-  unicode-bidi: isolate;
-">
-  <span>🔥</span>
-  <span>😂</span>
-  <span>❤️</span>
-  <span>😮</span>
-  <span>😢</span>
-  <span>👍</span>
-</div>
-
-
-  <div class="menu-item" data-action="edit"></div>
-  <div class="menu-item" data-action="delete" style="color:#ef4444;"></div>
-
-</div>
-
-
-
-
- <div id="reaction-viewer" style="
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 20000;
-">
-  <div style="
-    background:#1c1c1c;
-    padding:16px;
-    border-radius:14px;
-    min-width:260px;
-    max-width:80%;
-    box-shadow:0 20px 40px rgba(0,0,0,0.7);
+  <!-- Message actions -->
+  <div id="msg-action-menu" style="
+    position: fixed;
+    background: #1c1c1c;
+    border-radius: 14px;
+    padding: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    display: none;
+    z-index: 10000;
+    min-width: 180px;
   ">
-    <div id="reaction-viewer-content"></div>
+    <div id="reaction-bar" dir="ltr" style="
+      display: flex;
+      justify-content: space-around;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 6px;
+      font-size: 20px;
+      cursor: pointer;
+      unicode-bidi: isolate;
+    ">
+      <span>🔥</span>
+      <span>😂</span>
+      <span>❤️</span>
+      <span>😮</span>
+      <span>😢</span>
+      <span>👍</span>
+    </div>
+
+    <div class="menu-item" data-action="edit"></div>
+    <div class="menu-item" data-action="delete" style="color:#ef4444;"></div>
   </div>
-</div>
-   
 
+  <!-- Reaction viewer -->
+  <div id="reaction-viewer" style="
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 20000;
+  ">
+    <div style="
+      background:#1c1c1c;
+      padding:16px;
+      border-radius:14px;
+      min-width:260px;
+      max-width:80%;
+      box-shadow:0 20px 40px rgba(0,0,0,0.7);
+    ">
+      <div id="reaction-viewer-content"></div>
+    </div>
+  </div>
 
+  <!-- SEO CONTENT -->
+  <section id="seo-text">
+    <h1>Anonymous Chat Rooms</h1>
 
-<section id="seo-text">
-  <h1>Anonymous Live Chat Rooms</h1>
-  <p>
-    AnonymousChat.live lets you join public and private live chat rooms instantly.
-    No signup, no accounts, no message history. Conversations are ephemeral and
-    disappear automatically after a short time.
-  </p>
-  <p>
-    Create or join anonymous chat rooms to talk with people worldwide in real time.
-    Public rooms can be shared and indexed, private rooms stay hidden.
-  </p>
-</section>
+    <p>
+      AnonymousChat.live is a free platform that lets you join anonymous chat rooms instantly.
+      Talk to strangers anonymously in public or private rooms without creating an account.
+      No signup, no profiles, and no stored message history.
+    </p>
 
+    <p>
+      All conversations are ephemeral. Messages disappear automatically after a short time,
+      making AnonymousChat.live ideal for private discussions, temporary conversations,
+      or spontaneous real-time chats with people worldwide.
+    </p>
 
-    
-<div id="ad-slot-bottom" style="
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #000;
-  text-align: center;
-  z-index: 9999;
-">
-</div>
+    <p>
+      Whether you want a public anonymous chat room to meet new people or a private room
+      to share securely with friends, AnonymousChat.live gives you instant access with
+      maximum privacy and zero friction.
+    </p>
+  </section>
 
-    
+  <!-- Ad placeholder (activate later) -->
+  <div id="ad-slot-bottom" style="
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #000;
+    text-align: center;
+    z-index: 9999;
+  "></div>
+
 </body>
 </html>
