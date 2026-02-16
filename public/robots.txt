@@ -1,1 +1,4 @@
-d
+User-agent: *
+Allow: /
+Disallow: /#room=
+Disallow: /private
