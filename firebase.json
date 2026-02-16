@@ -1,44 +1,42 @@
 {
   "hosting": {
     "public": ".",
+    "cleanUrls": false,
+    "trailingSlash": false,
+
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
+
     "headers": [
+      {
+        "source": "/sitemap.xml",
+        "headers": [
+          { "key": "Content-Type", "value": "application/xml" }
+        ]
+      },
+      {
+        "source": "/robots.txt",
+        "headers": [
+          { "key": "Content-Type", "value": "text/plain" }
+        ]
+      },
       {
         "source": "**",
         "headers": [
-          {
-            "key": "Alt-Svc",
-            "value": "h3=\":0\"; ma=0"
-          },
-          {
-            "key": "Cache-Control",
-            "value": "no-store"
-          }
+          { "key": "Alt-Svc", "value": "h3=\":0\"; ma=0" },
+          { "key": "Cache-Control", "value": "no-store" }
         ]
       }
     ],
-    "rewrites": [
-  {
-    "source": "/sitemap.xml",
-    "destination": "/sitemap.xml"
-  },
-  {
-    "source": "/robots.txt",
-    "destination": "/robots.txt"
-  },
-  {
-    "source": "/anonymous-chat-without-registration.html",
-    "destination": "/anonymous-chat-without-registration.html"
-  },
-  {
-    "source": "**",
-    "destination": "/index.html"
-  }
-]
 
+    "rewrites": [
+      { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
+      { "source": "/robots.txt", "destination": "/robots.txt" },
+      { "source": "/anonymous-chat-without-registration.html", "destination": "/anonymous-chat-without-registration.html" },
+      { "source": "**", "destination": "/index.html" }
+    ]
   }
 }
