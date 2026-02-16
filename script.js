@@ -29,10 +29,14 @@ const pathParts = window.location.pathname.split("/").filter(Boolean);
 let roomType = "private";
 let roomId = null;
 
-if (pathParts[0] === "r" && pathParts[1]) {
+if (
+  (pathParts[0] === "r" && pathParts[1]) ||
+  (pathParts[0] === "p" && pathParts[1])
+) {
   roomType = "public";
   roomId = pathParts[1];
 }
+
 
 
 // --- SEO behavior
