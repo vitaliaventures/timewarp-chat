@@ -22,10 +22,23 @@
       }
     ],
     "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
+  {
+    "source": "/sitemap.xml",
+    "destination": "/sitemap.xml"
+  },
+  {
+    "source": "/robots.txt",
+    "destination": "/robots.txt"
+  },
+  {
+    "source": "/anonymous-chat-without-registration.html",
+    "destination": "/anonymous-chat-without-registration.html"
+  },
+  {
+    "source": "**",
+    "destination": "/index.html"
+  }
+]
+
   }
 }
