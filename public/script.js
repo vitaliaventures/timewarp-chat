@@ -810,10 +810,7 @@ if (reactionBar) {
   reactionBar.style.unicodeBidi = "isolate";
 }
 
-// 🔥 FORCE "Last message" re-render on language change
-if (lastMessageAt) {
-  updateLastActivity();
-}
+
 
 }
 
