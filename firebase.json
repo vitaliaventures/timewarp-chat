@@ -1,8 +1,6 @@
 {
   "hosting": {
     "public": "public",
-    "cleanUrls": false,
-    "trailingSlash": false,
 
     "ignore": [
       "firebase.json",
@@ -22,24 +20,14 @@
         "headers": [
           { "key": "Content-Type", "value": "text/css" }
         ]
-      },
-      {
-        "source": "/robots.txt",
-        "headers": [
-          { "key": "Content-Type", "value": "text/plain" }
-        ]
-      },
-      {
-        "source": "/sitemap.xml",
-        "headers": [
-          { "key": "Content-Type", "value": "application/xml" }
-        ]
       }
     ],
 
     "rewrites": [
-      { "source": "/r/**", "destination": "/index.html" },
-      { "source": "**", "destination": "/index.html" }
+      {
+        "source": "!**/*.@(js|css|png|jpg|jpeg|gif|svg|ico|xml|txt)",
+        "destination": "/index.html"
+      }
     ]
   }
 }
