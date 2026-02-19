@@ -25,7 +25,15 @@
 
     "rewrites": [
       {
-        "source": "!**/*.@(js|css|png|jpg|jpeg|gif|svg|ico|xml|txt)",
+        "source": "/sitemap.xml",
+        "destination": "/sitemap.xml"
+      },
+      {
+        "source": "/robots.txt",
+        "destination": "/robots.txt"
+      },
+      {
+        "source": "**",
         "destination": "/index.html"
       }
     ]
