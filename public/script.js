@@ -14,8 +14,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 import { onChildChanged } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 const chatBox = document.getElementById("chat-box");
-
-
+// 🔥 evita que el listener borre la sala recién creada
+let justCreatedRoomId = null;
 
 // ================================
 // ROUTING + SEO (SINGLE SOURCE OF TRUTH)
