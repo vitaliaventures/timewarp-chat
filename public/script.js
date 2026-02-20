@@ -1,5 +1,4 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
-console.log("🔥 Firebase initialized", Date.now());
 import {
   getDatabase,
   ref,
@@ -1089,25 +1088,8 @@ onValue(metaRef, snap => {
 
 let typingRef = ref(db,`rooms/${roomId}/typing`);
 let userRef = ref(db,`rooms/${roomId}/users/${identity.name}`);
-
-
-const connectedRef = ref(db, ".info/connected");
-
-onValue(connectedRef, (snap) => {
-  if (snap.val() === true) {
-
-    set(userRef,{
-      name:identity.name,
-      emoji:identity.emoji,
-      joinedAt:Date.now()
-    });
-
-    onDisconnect(userRef).remove();
-  }
-});
-
-
-
+set(userRef,{name:identity.name,emoji:identity.emoji,joinedAt:Date.now()});
+onDisconnect(userRef).remove();
 
 // --- Contador de usuarios
 const usersRef = ref(db,`rooms/${roomId}/users`);
@@ -1915,25 +1897,8 @@ set(ref(db, `rooms/${newRoomId}/meta/ttl`), initialTTL);
 
   typingRef = ref(db,`rooms/${newRoomId}/typing`);
   userRef = ref(db,`rooms/${newRoomId}/users/${identity.name}`);
-
-  
-  const connectedRef = ref(db, ".info/connected");
-
-onValue(connectedRef, (snap) => {
-  if (snap.val() === true) {
-
-    set(userRef,{
-      name:identity.name,
-      emoji:identity.emoji,
-      joinedAt:Date.now()
-    });
-
-    onDisconnect(userRef).remove();
-  }
-});
-
-
-  
+  set(userRef,{name:identity.name,emoji:identity.emoji,joinedAt:Date.now()});
+  onDisconnect(userRef).remove();
 
   // Reiniciar contador de usuarios para la nueva sala
   onValue(ref(db,`rooms/${newRoomId}/users`),snapshot=>{
