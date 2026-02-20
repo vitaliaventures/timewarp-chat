@@ -1088,8 +1088,25 @@ onValue(metaRef, snap => {
 
 let typingRef = ref(db,`rooms/${roomId}/typing`);
 let userRef = ref(db,`rooms/${roomId}/users/${identity.name}`);
-set(userRef,{name:identity.name,emoji:identity.emoji,joinedAt:Date.now()});
-onDisconnect(userRef).remove();
+
+
+const connectedRef = ref(db, ".info/connected");
+
+onValue(connectedRef, (snap) => {
+  if (snap.val() === true) {
+
+    set(userRef,{
+      name:identity.name,
+      emoji:identity.emoji,
+      joinedAt:Date.now()
+    });
+
+    onDisconnect(userRef).remove();
+  }
+});
+
+
+
 
 // --- Contador de usuarios
 const usersRef = ref(db,`rooms/${roomId}/users`);
