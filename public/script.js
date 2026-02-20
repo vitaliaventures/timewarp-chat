@@ -868,12 +868,15 @@ updateActionMenuLanguage();
 
 
 function updateUsersLiveText() {
+  const el = document.getElementById("room-users");
+  if (!el) return; // 🔒 evita que el script muera
+
   const count =
     currentLang === "ar"
       ? toArabicDigits(String(currentUserCount))
       : currentUserCount;
 
-  document.getElementById("room-users").textContent =
+  el.textContent =
     `🔴 ${count} ${translations[currentLang].usersLive}`;
 }
 
