@@ -1887,6 +1887,7 @@ try { off(typingRef); } catch(e){}
 
   
   const newRoomId = generateRoomId();
+  justCreatedRoomId = newRoomId;
   location.hash = "room=" + newRoomId;
 // Limpiar UI de la sala anterior
 chatBox.innerHTML = "";
