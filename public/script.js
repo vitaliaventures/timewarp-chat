@@ -1890,8 +1890,9 @@ try { off(typingRef); } catch(e){}
 
 
   
-  const newRoomId = generateRoomId();
+const newRoomId = generateRoomId();
 window.location.replace("/r/" + newRoomId);
+return; // 🔥 CORTA EL SCRIPT VIEJO
   
 // Limpiar UI de la sala anterior
 chatBox.innerHTML = "";
