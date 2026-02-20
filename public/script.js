@@ -9,7 +9,8 @@ import {
   set,
   onDisconnect,
   get,      // 🔥 agrega esto
-  child          // 🔥 ESTA LÍNEA ES LA CLAVE
+  child,          // 🔥 ESTA LÍNEA ES LA CLAVE
+  off
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 import { onChildChanged } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 const chatBox = document.getElementById("chat-box");
@@ -1867,6 +1868,20 @@ cleanupOldRoomIdentities();
 
 
 newRoomBtn.addEventListener("click", () => {
+
+
+  messagesListenerAttached = false;
+try { off(messagesRef); } catch(e){}
+try { off(metaRef); } catch(e){}
+try { off(typingRef); } catch(e){}
+
+
+
+  
+
+
+
+  
   const newRoomId = generateRoomId();
   location.hash = "room=" + newRoomId;
 // Limpiar UI de la sala anterior
