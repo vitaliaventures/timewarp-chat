@@ -1075,10 +1075,12 @@ onValue(metaRef, snap => {
   document
   .getElementById("new-room-from-destroyed")
   .addEventListener("click", () => {
-      const newRoomId = generateRoomId();
+    
+const newRoomId = generateRoomId();
+window.location.replace("/r/" + newRoomId);
+return; // 🔥 CORTA EL SCRIPT VIEJO
 
-      // 🔥 redirige directamente al path correcto
-      window.location.replace("/r/" + newRoomId);
+    
   });
 
     
