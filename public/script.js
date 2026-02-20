@@ -12,7 +12,7 @@ import {
   child          // 🔥 ESTA LÍNEA ES LA CLAVE
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 import { onChildChanged } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
-
+const chatBox = document.getElementById("chat-box");
 
 
 
@@ -1096,7 +1096,6 @@ onValue(usersRef,snapshot=>{
 });
 
 // --- Chat UI
-const chatBox = document.getElementById("chat-box");
 
 const lastActivityEl = document.getElementById("last-activity");
 
