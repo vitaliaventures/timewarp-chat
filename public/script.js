@@ -1073,13 +1073,15 @@ onValue(metaRef, snap => {
   `;
 
   document
-    .getElementById("new-room-from-destroyed")
-    .addEventListener("click", () => {
+  .getElementById("new-room-from-destroyed")
+  .addEventListener("click", () => {
       const newRoomId = generateRoomId();
-      justCreatedRoomId = newRoomId;
-      location.hash = "room=" + newRoomId;
-      location.reload();
-    });
+
+      // 🔥 redirige directamente al path correcto
+      window.location.replace("/r/" + newRoomId);
+  });
+
+    
 }
 
 });
