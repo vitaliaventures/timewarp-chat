@@ -1,4 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+console.log("🔥 Firebase initialized", Date.now());
 import {
   getDatabase,
   ref,
