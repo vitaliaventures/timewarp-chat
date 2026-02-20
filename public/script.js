@@ -1914,8 +1914,25 @@ set(ref(db, `rooms/${newRoomId}/meta/ttl`), initialTTL);
 
   typingRef = ref(db,`rooms/${newRoomId}/typing`);
   userRef = ref(db,`rooms/${newRoomId}/users/${identity.name}`);
-  set(userRef,{name:identity.name,emoji:identity.emoji,joinedAt:Date.now()});
-  onDisconnect(userRef).remove();
+
+  
+  const connectedRef = ref(db, ".info/connected");
+
+onValue(connectedRef, (snap) => {
+  if (snap.val() === true) {
+
+    set(userRef,{
+      name:identity.name,
+      emoji:identity.emoji,
+      joinedAt:Date.now()
+    });
+
+    onDisconnect(userRef).remove();
+  }
+});
+
+
+  
 
   // Reiniciar contador de usuarios para la nueva sala
   onValue(ref(db,`rooms/${newRoomId}/users`),snapshot=>{
