@@ -1878,6 +1878,39 @@ cleanupOldRoomIdentities();
 newRoomBtn.addEventListener("click", () => {
 
 
+  // --- Banner animado inmediato al presionar "New ✨"
+const banner = document.createElement("div");
+banner.id = "new-room-banner";
+banner.textContent = translations[currentLang].newRoomSystem || "New Room Created!";
+banner.style.cssText = `
+  position: fixed;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ff0080, #7928ca);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  z-index: 99999;
+  transition: top 0.5s ease-out;
+`;
+document.body.appendChild(banner);
+
+// Animación: subir y bajar
+setTimeout(() => { banner.style.top = "20px"; }, 50); // sube
+setTimeout(() => { 
+  banner.style.top = "-60px"; // baja
+  setTimeout(() => banner.remove(), 500); // eliminar del DOM
+}, 2500);
+
+
+
+
+  
+  
+
   messagesListenerAttached = false;
 try { off(messagesRef); } catch(e){}
 try { off(metaRef); } catch(e){}
