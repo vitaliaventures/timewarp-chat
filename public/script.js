@@ -1876,60 +1876,17 @@ cleanupOldRoomIdentities();
 
 
 newRoomBtn.addEventListener("click", () => {
-
-
-  
-
   messagesListenerAttached = false;
-try { off(messagesRef); } catch(e){}
-try { off(metaRef); } catch(e){}
-try { off(typingRef); } catch(e){}
+  try { off(messagesRef); } catch(e){}
+  try { off(metaRef); } catch(e){}
+  try { off(typingRef); } catch(e){}
 
+  const newRoomId = generateRoomId(); // ⚡ generamos ID pero no recargamos todavía
 
+  // Limpiar UI de la sala anterior
+  chatBox.innerHTML = "";
+  typingIndicator.textContent = "";
 
-  
-
-
-
-  
-const newRoomId = generateRoomId();
-window.location.replace("/r/" + newRoomId);
-return; // 🔥 CORTA EL SCRIPT VIEJO
-  
-// Limpiar UI de la sala anterior
-chatBox.innerHTML = "";
-typingIndicator.textContent = "";
-
-// Mensaje sistema claro (auto borrar en 3s)
-const sysMsg = showSystemMessage(translations[currentLang].newRoomSystem);
-setTimeout(() => {
-  sysMsg?.remove();
-}, 3000);
-
-
-  
-// ---- RE-INICIALIZAR REFERENCIAS PARA LA NUEVA SALA ----
-  roomRef = ref(db,"rooms/"+newRoomId);
-  messagesRef = ref(db,`rooms/${newRoomId}/messages`);
-  metaRef = ref(db,`rooms/${newRoomId}/meta`);
-
-  // 🔥 inicializar TTL de la nueva sala
-const initialTTL = ttlInputEl?.value || "10:00";
-set(ref(db, `rooms/${newRoomId}/meta/ttl`), initialTTL);
-
-  typingRef = ref(db,`rooms/${newRoomId}/typing`);
-  userRef = ref(db,`rooms/${newRoomId}/users/${identity.name}`);
-  set(userRef,{name:identity.name,emoji:identity.emoji,joinedAt:Date.now()});
-  onDisconnect(userRef).remove();
-
-  // Reiniciar contador de usuarios para la nueva sala
-  onValue(ref(db,`rooms/${newRoomId}/users`),snapshot=>{
-    const users = snapshot.val()||{};
-    currentUserCount = Object.keys(users).length;
-    updateUsersLiveText();
-  });
-   // ---- FIN RE-INICIALIZAR REFERENCIAS ----
-  
   // Flash de pantalla
   const flash = document.createElement("div");
   flash.style.position = "fixed";
@@ -1949,11 +1906,26 @@ set(ref(db, `rooms/${newRoomId}/meta/ttl`), initialTTL);
   // Banner animado
   const banner = document.createElement("div");
   banner.id = "new-room-banner";
-  banner.textContent = translations[currentLang].newRoomSystem;
+  banner.textContent = translations[currentLang].newRoomSystem || "New Room Created!";
+  banner.style.cssText = `
+    position: fixed;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #ff0080, #7928ca);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    z-index: 99999;
+    transition: top 0.5s ease-out;
+  `;
   document.body.appendChild(banner);
+
   setTimeout(() => { banner.style.top = "20px"; }, 50);
-  setTimeout(() => {
-    banner.style.top = "-60px";
+  setTimeout(() => { 
+    banner.style.top = "-60px"; 
     setTimeout(() => banner.remove(), 500);
   }, 2500);
 
@@ -1980,7 +1952,19 @@ set(ref(db, `rooms/${newRoomId}/meta/ttl`), initialTTL);
   // Evitar doble click
   newRoomBtn.disabled = true;
   setTimeout(() => newRoomBtn.disabled = false, 1000);
+
+  // ⚡ REDIRECCIÓN a la nueva sala después de 0.5s
+  setTimeout(() => {
+    window.location.replace("/r/" + newRoomId);
+  }, 500);
 });
+
+
+
+
+
+
+
 
 // --- Destroy Room
 destroyRoomBtn.addEventListener("click", async () => {
