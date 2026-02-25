@@ -1,7 +1,6 @@
 User-agent: *
 Allow: /
 
-Disallow: /private
 Disallow: /#room=
 
 Sitemap: https://anonymouschat.live/sitemap.xml
