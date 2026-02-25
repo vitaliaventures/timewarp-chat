@@ -31,6 +31,18 @@
       {
         "source": "/robots.txt",
         "destination": "/robots.txt"
+      },
+
+      /* 🔥 SEO pages deben cargarse directas */
+      {
+        "source": "/**/*.html",
+        "destination": "/$1"
+      },
+
+      /* 🔥 todo lo demás va al chat SPA */
+      {
+        "source": "**",
+        "destination": "/index.html"
       }
     ]
   }
