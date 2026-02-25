@@ -358,3 +358,12 @@ footer span {
   display: inline-block;
   margin-top: 5px;
 }
+
+
+footer div {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap; /* que bajen si no caben en pantalla pequeña */
+  margin-top: 6px;
+}
