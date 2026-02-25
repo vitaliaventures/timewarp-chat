@@ -5,9 +5,6 @@
   padding: 0;
 }
 
-
-
-
 body {
   background: #0f0f0f;
   color: #fff;
@@ -22,9 +19,6 @@ body {
 .wrapper {
   flex: 1 0 auto;           /* ocupa el espacio disponible */
 }
-
-
-
 
 .chat-container {
   width: 95%;
@@ -99,7 +93,6 @@ body {
 }
 .message:hover { background: #3a3a3a; }
 
-
 /* Input */
 .chat-input {
   display: flex;
@@ -146,7 +139,6 @@ body {
   .chat-input button { padding: 6px 10px; font-size: 0.8rem; }
 }
 
-
 #new-room-banner {
   position: fixed;
   top: -60px;
@@ -161,7 +153,6 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   transition: top 0.5s ease;
 }
-
 
 /* Countdown urgency system (scales globally) */
 .countdown-track {
@@ -182,11 +173,7 @@ body {
   box-shadow: 0 0 6px rgba(0,0,0,0.4);
 }
 
-
-
-
-
-/* Time + menu container (top-right, no extra space) */
+/* Time + menu container (top-right, no extra espacio) */
 .msg-time {
   position: absolute;
   top: 6px;
@@ -234,34 +221,26 @@ body {
 }
 
 #msg-action-menu .menu-item {
-  display: block;              /* 🔥 CLAVE: deja de ser inline/flex */
-  width: 100%;                 /* 🔥 ocupa todo el menú */
+  display: block;
+  width: 100%;
   padding: 8px 10px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  white-space: nowrap;         /* evita salto raro */
-  overflow: hidden;            /* evita corte feo */
-  text-overflow: ellipsis;     /* … si no entra */
-  text-align: start;           /* LTR + RTL */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: start;
 }
-
 
 #msg-action-menu .menu-item span {
   display: inline-block;
   vertical-align: middle;
 }
 
-
-
-
 #msg-action-menu .menu-item:hover {
   background: rgba(255,255,255,0.08);
 }
-
-
-
-
 
 /* --- FIX RTL (Arabic) for time mm:ss --- */
 .time-text {
@@ -269,26 +248,22 @@ body {
   unicode-bidi: isolate;
 }
 
-/* Ajuste visual del contenedor tiempo en RTL */
 [dir="rtl"] .msg-time {
   right: auto;
   left: 10px;
   flex-direction: row-reverse;
 }
 
-
-
 /* ===== FIX DEFINITIVO MENU ACCIONES EN MOVIL + RTL ===== */
 #msg-action-menu {
   position: fixed;
   max-width: 220px;
-  max-height: 70vh;            /* 🔥 evita corte vertical */
-  overflow-y: auto;            /* 🔥 permite scroll */
+  max-height: 70vh;
+  overflow-y: auto;
   z-index: 99999;
   box-sizing: border-box;
 }
 
-/* Mobile safety */
 @media (max-width: 480px) {
   #msg-action-menu {
     max-width: calc(100vw - 20px);
@@ -296,7 +271,6 @@ body {
     left: auto;
   }
 }
-
 
 #reaction-bar {
   direction: ltr;
@@ -308,8 +282,6 @@ body {
   align-items: center; 
   justify-content: center;
 }
-
-
 
 .reactions {
   display: flex;
@@ -327,11 +299,9 @@ body {
   user-select: none;
 }
 
-
 .reaction-pill:hover {
   background: #3a3a3a;
 }
-
 
 #seo-text {
   position: absolute;
@@ -342,8 +312,7 @@ body {
   overflow: hidden;
 }
 
-
-
+/* ===== FOOTER ===== */
 footer {
   flex-shrink: 0;           /* no se encoge */
   text-align: center;
@@ -358,8 +327,6 @@ footer span {
   display: inline-block;
   margin-top: 5px;
 }
-
-
 footer div {
   display: flex;
   justify-content: center;
