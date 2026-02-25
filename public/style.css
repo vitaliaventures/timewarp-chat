@@ -5,15 +5,26 @@
   padding: 0;
 }
 
+
+
+
 body {
   background: #0f0f0f;
   color: #fff;
   font-family: Arial, sans-serif;
+  
+  /* NUEVO: layout flex para columna */
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  flex-direction: column;   /* elementos apilados verticalmente */
+  min-height: 100vh;        /* ocupa toda la altura */
 }
+
+.wrapper {
+  flex: 1 0 auto;           /* ocupa el espacio disponible */
+}
+
+
+
 
 .chat-container {
   width: 95%;
