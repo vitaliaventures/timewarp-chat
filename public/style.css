@@ -330,3 +330,38 @@ body {
   height: 1px;
   overflow: hidden;
 }
+
+
+/* ===== FOOTER ===== */
+footer {
+  flex-shrink: 0;           /* no se encoge */
+  text-align: center;
+  padding: 20px 10px;
+  font-size: 14px;
+  color: #aaa;
+  background: #0a0a0a;
+  border-top: 1px solid #222;
+  border-radius: 12px;
+  margin-top: 40px;         /* espacio desde el contenido principal */
+}
+
+footer span {
+  display: inline-block;
+  margin-top: 5px;
+}
+
+footer div {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;          /* que bajen los badges si no caben en pantalla pequeña */
+  margin-top: 6px;
+}
+
+footer svg {
+  vertical-align: middle;
+  height: 20px;
+  width: 20px;
+  fill: #10b981;
+  margin-right: 4px;
+}
