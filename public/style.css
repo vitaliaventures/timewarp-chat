@@ -9,11 +9,14 @@ body {
   background: #0f0f0f;
   color: #fff;
   font-family: Arial, sans-serif;
+
+  /* NUEVO PARA FOOTER STICKY */
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  flex-direction: column; /* organiza contenido vertical */
+  min-height: 100vh;      /* cuerpo ocupa toda la altura */
+  margin: 0;
 }
+
 
 .chat-container {
   width: 95%;
