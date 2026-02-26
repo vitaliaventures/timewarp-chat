@@ -28,10 +28,11 @@ body {
   overflow: hidden;
   box-shadow: 0 6px 25px rgba(0,0,0,0.7);
 
-  /* CENTRADO COMPLETO */
-  align-self: center;  /* centra horizontalmente */
-  margin: auto;        /* centra vertical y horizontal dentro de body flex */
+  /* CENTRADO HORIZONTAL + ESPACIO ARRIBA */
+  align-self: center;  /* centra horizontalmente dentro de body flex */
+  margin-top: 40px;    /* ajusta este valor según quieras más o menos distancia del top */
 }
+
 
 /* Header */
 .chat-header {
