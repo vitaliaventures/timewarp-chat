@@ -3,28 +3,40 @@ document.addEventListener("DOMContentLoaded", function () {
   const year = new Date().getFullYear();
 
   const footerHTML = `
-    <footer>
-      © ${year} AnonymousChat.live. All rights reserved.<br>
-      <span>Secure & private chat – no signup, no data stored.</span>
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-text">
+          © ${year} AnonymousChat.live. All rights reserved.
+          <br>
+          <span>Secure • Private • No signup • No data stored</span>
+        </div>
 
-      <div>
-        <span>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M12 1L3 5v6c0 5.25 3.75 10.72 9 12 5.25-1.28 9-6.75 9-12V5l-9-4z"/>
-          </svg>
-        </span>
+        <div class="footer-icons">
 
-        <span>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M17 1H7c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2z"/>
-          </svg>
-        </span>
+          <!-- Privacy / Shield -->
+          <span class="footer-icon" title="End-to-End Privacy" aria-label="End-to-End Privacy">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2L4 5v6c0 5.2 3.4 9.8 8 11 4.6-1.2 8-5.8 8-11V5l-8-3z"/>
+              <path d="M9.5 12.5l1.5 1.5 3-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
 
-        <span>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.12-.3 2.18-.82 3.09l1.46 1.46C19.11 15.52 20 13.84 20 12c0-4.42-3.58-8-8-8z"/>
-          </svg>
-        </span>
+          <!-- Instant / Lightning -->
+          <span class="footer-icon" title="Instant Messaging" aria-label="Instant Messaging">
+            <svg viewBox="0 0 24 24">
+              <path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/>
+            </svg>
+          </span>
+
+          <!-- Global / Globe -->
+          <span class="footer-icon" title="Global Access" aria-label="Global Access">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2c3 3 3 17 0 20M12 2c-3 3-3 17 0 20" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </span>
+
+        </div>
       </div>
     </footer>
   `;
