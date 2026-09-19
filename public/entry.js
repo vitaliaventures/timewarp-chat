@@ -6,6 +6,7 @@ import {
   getDatabase,
   ref,
   set,
+  get,
   runTransaction
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
@@ -34,8 +35,6 @@ export function generateEntryId() {
 
 /**
  * Creates a new one-time entry. Returns the entryId to build the share link with.
- * kind must be "note" or "secret" — this only affects how the recipient's
- * page frames the content, the storage/security model is identical.
  */
 export async function createEntry(text, kind) {
   if (!text || typeof text !== "string" || !text.trim()) {
@@ -62,21 +61,30 @@ export async function createEntry(text, kind) {
 
 /**
  * Reads an entry and deletes it in the SAME atomic operation, so two people
- * (or two tabs) opening the same link at once can never both see the content —
- * only the first one wins. This is what makes "opened once" actually true,
- * not just a UI suggestion.
+ * (or two tabs) opening the same link at once can never both see the content.
+ *
+ * IMPORTANT FIX: a page that has never touched this exact path before has an
+ * empty local cache for it. Firebase's transaction can be invoked with `null`
+ * on its very first pass simply because of that empty cache — NOT because
+ * the data was actually deleted. To avoid mistaking "cache is empty" for
+ * "already burned," we do a real `get()` first to warm the cache with the
+ * true server value before starting the transaction.
  *
  * Returns the entry's data ({ text, kind, createdAt }) if it was still there,
  * or null if it had already been viewed, deleted, or never existed.
  */
 export async function fetchAndBurnEntry(entryId) {
   const entryRef = ref(db, `entries/${entryId}`);
+
+  // Warm the cache with a real server read first.
+  await get(entryRef);
+
   let burned = null;
 
   const result = await runTransaction(entryRef, currentData => {
     if (currentData === null) {
-      // Nothing there — already burned or never existed.
-      // Returning undefined aborts the transaction; nothing is written.
+      // Now that we've warmed the cache, a null here means it genuinely
+      // doesn't exist (already burned, or never existed) — safe to abort.
       return undefined;
     }
     burned = currentData;
