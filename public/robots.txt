@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
 
-Disallow: /#room=
+# Note/secret view links are private, one-time, and must never be crawled or indexed
+Disallow: /n/
+Disallow: /s/
 
-Sitemap: https://anonymouschat.live/sitemap.xml
+Sitemap: https://REPLACE-WITH-YOUR-DOMAIN/sitemap.xml
