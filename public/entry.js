@@ -90,6 +90,7 @@ function incrementStat(kind) {
   runTransaction(statRef, current => (current || 0) + 1).catch(err => {
     console.error("Fade: stat increment failed (non-fatal)", err);
   });
+}
 
 /**
  * Reads an entry, and if it exists, deletes it right after.
