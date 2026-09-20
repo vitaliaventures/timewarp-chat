@@ -87,9 +87,14 @@ export async function createEntry(text, kind) {
  */
 function incrementStat(kind) {
   const statRef = ref(db, `stats/${kind}`);
-  runTransaction(statRef, current => (current || 0) + 1).catch(err => {
-    console.error("Fade: stat increment failed (non-fatal)", err);
-  });
+  get(statRef)
+    .then(snapshot => {
+      const current = snapshot.exists() ? snapshot.val() : 0;
+      return set(statRef, current + 1);
+    })
+    .catch(err => {
+      console.error("Fade: stat increment failed (non-fatal)", err);
+    });
 }
 
 /**
