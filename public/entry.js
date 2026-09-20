@@ -9,6 +9,10 @@ import {
   get,
   remove
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+import {
+  initializeAppCheck,
+  ReCaptchaV3Provider
+} from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app-check.js";
 
 // Same Firebase project as before — no need to create a new one.
 const firebaseConfig = {
@@ -22,6 +26,17 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
+// App Check: proves requests are coming from a real browser on your real
+// site, not a script hitting the database directly. This is what stops
+// automated abuse of the free Firebase config that's visible in the page
+// source (that visibility is normal for Firebase — App Check is the actual
+// protection layer, not hiding the key).
+initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider("6Lel2MQtAAAAAAoLWMgiZV-GHTsnWybpUD-PzD9n"),
+  isTokenAutoRefreshEnabled: true
+});
+
 const db = getDatabase(app);
 
 export const MAX_TEXT_LENGTH = 5000;
@@ -66,8 +81,7 @@ export async function createEntry(text, kind) {
  * transaction. In the extremely unlikely case that two people open the
  * exact same link within milliseconds of each other, both could see the
  * content before the delete completes. Given how this link is actually
- * shared (privately, to one person, once), that risk is negligible — and
- * it replaces a transaction-based approach that was unreliable in practice.
+ * shared (privately, to one person, once), that risk is negligible.
  *
  * Returns the entry's data ({ text, kind, createdAt }) if it was still
  * there, or null if it had already been viewed, deleted, or never existed.
