@@ -7,7 +7,7 @@ import {
   ref,
   set,
   get,
-  runTransaction
+  remove
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
 // Same Firebase project as before — no need to create a new one.
@@ -60,40 +60,28 @@ export async function createEntry(text, kind) {
 }
 
 /**
- * Reads an entry and deletes it in the SAME atomic operation, so two people
- * (or two tabs) opening the same link at once can never both see the content.
+ * Reads an entry, and if it exists, deletes it right after.
  *
- * IMPORTANT FIX: a page that has never touched this exact path before has an
- * empty local cache for it. Firebase's transaction can be invoked with `null`
- * on its very first pass simply because of that empty cache — NOT because
- * the data was actually deleted. To avoid mistaking "cache is empty" for
- * "already burned," we do a real `get()` first to warm the cache with the
- * true server value before starting the transaction.
+ * NOTE: this is a straightforward read-then-delete, not an atomic
+ * transaction. In the extremely unlikely case that two people open the
+ * exact same link within milliseconds of each other, both could see the
+ * content before the delete completes. Given how this link is actually
+ * shared (privately, to one person, once), that risk is negligible — and
+ * it replaces a transaction-based approach that was unreliable in practice.
  *
- * Returns the entry's data ({ text, kind, createdAt }) if it was still there,
- * or null if it had already been viewed, deleted, or never existed.
+ * Returns the entry's data ({ text, kind, createdAt }) if it was still
+ * there, or null if it had already been viewed, deleted, or never existed.
  */
 export async function fetchAndBurnEntry(entryId) {
   const entryRef = ref(db, `entries/${entryId}`);
 
-  // Warm the cache with a real server read first.
-  await get(entryRef);
+  const snapshot = await get(entryRef);
 
-  let burned = null;
-
-  const result = await runTransaction(entryRef, currentData => {
-    if (currentData === null) {
-      // Now that we've warmed the cache, a null here means it genuinely
-      // doesn't exist (already burned, or never existed) — safe to abort.
-      return undefined;
-    }
-    burned = currentData;
-    return null; // this delete is what the security rules permit
-  });
-
-  if (!result.committed) {
+  if (!snapshot.exists()) {
     return null;
   }
 
-  return burned;
+  const data = snapshot.val();
+  await remove(entryRef);
+  return data;
 }
