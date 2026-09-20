@@ -1,4 +1,4 @@
-// app.js — Fade: create a one-time note/secret, and reveal-once viewing.
+// app.js — Fade: create a one-time note/secret/code snippet, and reveal-once viewing.
 import { createEntry, fetchAndBurnEntry, MAX_TEXT_LENGTH } from "./entry.js";
 
 const root = document.getElementById("app-root");
@@ -8,7 +8,9 @@ const pathParts = window.location.pathname.split("/").filter(Boolean);
 // --- Route detection ---
 // /n/<id>  -> view a note
 // /s/<id>  -> view a secret
+// /c/<id>  -> view a code snippet
 // anything else -> the create/home screen
+const ROUTE_PREFIX = { note: "n", secret: "s", code: "c" };
 let viewKind = null;
 let viewId = null;
 
@@ -17,6 +19,9 @@ if (pathParts[0] === "n" && pathParts[1]) {
   viewId = pathParts[1];
 } else if (pathParts[0] === "s" && pathParts[1]) {
   viewKind = "secret";
+  viewId = pathParts[1];
+} else if (pathParts[0] === "c" && pathParts[1]) {
+  viewKind = "code";
   viewId = pathParts[1];
 }
 
@@ -46,15 +51,14 @@ function renderCreateScreen() {
       <p class="fade-tagline">Say it once. Then it's gone.</p>
 
       <div class="fade-tabs">
-        <button type="button" class="fade-tab active" data-kind="note">📝 One-time note</button>
-        <button type="button" class="fade-tab" data-kind="secret">🔑 One-time secret</button>
+        <button type="button" class="fade-tab active" data-kind="note">📝 Note</button>
+        <button type="button" class="fade-tab" data-kind="secret">🔑 Secret</button>
+        <button type="button" class="fade-tab" data-kind="code">💻 Code</button>
       </div>
 
-      <p class="fade-kind-desc" id="kind-desc">
-        Write a message. Get a link. The first person to open it sees it once — then it's deleted forever.
-      </p>
+      <p class="fade-kind-desc" id="kind-desc"></p>
 
-      <textarea id="entry-text" maxlength="${MAX_TEXT_LENGTH}" placeholder="Type your note here..."></textarea>
+      <textarea id="entry-text" maxlength="${MAX_TEXT_LENGTH}" placeholder=""></textarea>
       <div class="fade-counter"><span id="char-count">0</span> / ${MAX_TEXT_LENGTH}</div>
 
       <button type="button" id="create-btn" class="fade-btn-primary">Create one-time link</button>
@@ -86,18 +90,28 @@ function renderCreateScreen() {
 
   const kindCopy = {
     note: "Write a message. Get a link. The first person to open it sees it once — then it's deleted forever.",
-    secret: "Paste a password, API key, or other sensitive text. Get a link. It can be viewed exactly once, then it's gone."
+    secret: "Paste a password, API key, or other sensitive text. Get a link. It can be viewed exactly once, then it's gone.",
+    code: "Paste a code snippet. Get a link. It's shown with syntax highlighting, once — then it's gone."
   };
+
+  const kindPlaceholder = {
+    note: "Type your note here...",
+    secret: "Paste your password, key, or secret here...",
+    code: "Paste your code here..."
+  };
+
+  function applyKind(kind) {
+    currentKind = kind;
+    kindDesc.textContent = kindCopy[kind];
+    textarea.placeholder = kindPlaceholder[kind];
+  }
+  applyKind("note");
 
   tabs.forEach(tab => {
     tab.addEventListener("click", () => {
       tabs.forEach(t => t.classList.remove("active"));
       tab.classList.add("active");
-      currentKind = tab.dataset.kind;
-      kindDesc.textContent = kindCopy[currentKind];
-      textarea.placeholder = currentKind === "secret"
-        ? "Paste your password, key, or secret here..."
-        : "Type your note here...";
+      applyKind(tab.dataset.kind);
     });
   });
 
@@ -120,7 +134,7 @@ function renderCreateScreen() {
 
     try {
       const entryId = await createEntry(text, currentKind);
-      const prefix = currentKind === "secret" ? "s" : "n";
+      const prefix = ROUTE_PREFIX[currentKind];
       const link = `${window.location.origin}/${prefix}/${entryId}`;
 
       resultLink.value = link;
@@ -157,8 +171,10 @@ function renderCreateScreen() {
 function renderViewScreen(kind, entryId) {
   setNoIndex();
 
-  const label = kind === "secret" ? "one-time secret" : "one-time note";
-  const icon = kind === "secret" ? "🔑" : "📝";
+  const labels = { note: "one-time note", secret: "one-time secret", code: "one-time code snippet" };
+  const icons = { note: "📝", secret: "🔑", code: "💻" };
+  const label = labels[kind];
+  const icon = icons[kind];
 
   root.innerHTML = `
     <div class="fade-card">
@@ -195,13 +211,24 @@ function renderViewScreen(kind, entryId) {
         return;
       }
 
+      const contentHtml = kind === "code"
+        ? `<pre style="border-radius:10px;overflow-x:auto;margin:14px 0;"><code id="revealed-code">${escapeHtmlPlain(data.text)}</code></pre>`
+        : `<div class="fade-revealed-text">${escapeHtmlWithBreaks(data.text)}</div>`;
+
       root.querySelector(".fade-card").innerHTML = `
         <h1>Fade</h1>
         <p class="fade-tagline">${icon} Here it is — this only shows once:</p>
-        <div class="fade-revealed-text">${escapeHtml(data.text)}</div>
+        ${contentHtml}
         <p class="fade-warning">✅ This ${label} has now been permanently deleted from our servers.</p>
         <a href="/" class="fade-btn-secondary" style="display:inline-block;text-decoration:none;text-align:center;">Create your own</a>
       `;
+
+      // Syntax-highlight the code block now that it's in the DOM.
+      // highlight.js is loaded globally via a <script> tag in index.html.
+      if (kind === "code" && window.hljs) {
+        const codeEl = document.getElementById("revealed-code");
+        window.hljs.highlightElement(codeEl);
+      }
     } catch (err) {
       console.error("Fade: fetchAndBurnEntry failed", err);
       revealBtn.disabled = false;
@@ -212,8 +239,18 @@ function renderViewScreen(kind, entryId) {
   });
 }
 
-function escapeHtml(str) {
+// For plain notes/secrets: escape HTML, then turn newlines into <br> so
+// paragraph breaks show up.
+function escapeHtmlWithBreaks(str) {
   const div = document.createElement("div");
   div.textContent = str;
   return div.innerHTML.replace(/\n/g, "<br>");
+}
+
+// For code: escape HTML but leave whitespace/newlines untouched — <pre>
+// already preserves them, and highlight.js expects raw text, not <br> tags.
+function escapeHtmlPlain(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
 }
