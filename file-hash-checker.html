@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>File Hash Checker — Fade</title>
+<meta name="description" content="Verify a file's SHA-256, SHA-1, or MD5-style checksum entirely in your browser. The file never leaves your device." />
+<link rel="canonical" href="https://anonymouschat.live/file-hash-checker.html" />
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="stylesheet" href="/style.css">
+<style>
+  body{background:#0b0b0b;color:#eee;font-family:system-ui;margin:0;min-height:100vh;display:flex;flex-direction:column;}
+  .fade-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 16px;}
+  .fade-card{width:100%;max-width:560px;background:#151515;border-radius:16px;padding:32px;box-shadow:0 10px 40px rgba(0,0,0,0.5);}
+  .fade-card h1{margin:0 0 4px 0;font-size:28px;}
+  .fade-tagline{opacity:0.8;margin:0 0 20px 0;}
+  .back-link{display:inline-block;margin-bottom:16px;color:#10b981;text-decoration:none;font-size:0.9rem;}
+
+  .drop-zone{border:2px dashed #333;border-radius:12px;padding:30px 16px;text-align:center;cursor:pointer;transition:border-color 0.15s, background 0.15s;}
+  .drop-zone.dragover{border-color:#2563eb;background:#161b26;}
+  .drop-zone p{margin:0;opacity:0.8;font-size:0.95rem;}
+  .drop-zone input{display:none;}
+  .file-name{margin-top:10px;font-size:0.85rem;opacity:0.7;word-break:break-all;}
+
+  .hash-row{margin-top:18px;}
+  .hash-row label{display:block;font-size:0.8rem;opacity:0.7;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px;}
+  .hash-value-row{display:flex;gap:8px;}
+  .hash-value-row input{flex:1;background:#1c1c1c;color:#fff;border:1px solid #2a2a2a;border-radius:8px;padding:10px;font-family:monospace;font-size:0.85rem;}
+  .hash-btn{background:#2a2a2a;color:#eee;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:0.85rem;}
+  .hash-btn:hover{background:#333;}
+
+  .compare-row{margin-top:22px;padding-top:18px;border-top:1px solid #2a2a2a;}
+  .compare-row label{display:block;font-size:0.85rem;opacity:0.8;margin-bottom:6px;}
+  .compare-row input{width:100%;background:#1c1c1c;color:#fff;border:1px solid #2a2a2a;border-radius:8px;padding:10px;font-family:monospace;font-size:0.85rem;box-sizing:border-box;}
+  .match-result{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:0.9rem;display:none;}
+  .match-yes{background:#0b2417;border:1px solid #14532d;color:#4ade80;}
+  .match-no{background:#2b0e0e;border:1px solid #5c1a1a;color:#f87171;}
+
+  .fade-note{font-size:0.8rem;opacity:0.6;margin-top:20px;text-align:center;}
+  .loading-note{font-size:0.85rem;opacity:0.7;margin-top:14px;display:none;}
+</style>
+</head>
+<body>
+
+<div class="fade-wrap">
+  <div class="fade-card">
+    <a href="/" class="back-link">← Fade</a>
+    <h1>File Hash Checker</h1>
+    <p class="fade-tagline">Computed entirely in your browser. The file is never uploaded anywhere.</p>
+
+    <div class="drop-zone" id="drop-zone">
+      <p>Drag a file here, or click to choose one</p>
+      <input type="file" id="file-input">
+      <div class="file-name" id="file-name"></div>
+    </div>
+
+    <div class="loading-note" id="loading-note">Computing hashes...</div>
+
+    <div id="results" style="display:none">
+      <div class="hash-row">
+        <label>SHA-256</label>
+        <div class="hash-value-row">
+          <input type="text" id="hash-sha256" readonly>
+          <button type="button" class="hash-btn" data-target="hash-sha256">Copy</button>
+        </div>
+      </div>
+      <div class="hash-row">
+        <label>SHA-1</label>
+        <div class="hash-value-row">
+          <input type="text" id="hash-sha1" readonly>
+          <button type="button" class="hash-btn" data-target="hash-sha1">Copy</button>
+        </div>
+      </div>
+
+      <div class="compare-row">
+        <label>Paste a hash here to check it matches:</label>
+        <input type="text" id="compare-input" placeholder="Paste the expected checksum...">
+        <div class="match-result match-yes" id="match-yes">✅ Match — this file's checksum is identical.</div>
+        <div class="match-result match-no" id="match-no">❌ No match — this file's checksum is different.</div>
+      </div>
+    </div>
+
+    <p class="fade-note">SHA-1 is shown for compatibility with older published checksums, but is not considered cryptographically secure — prefer SHA-256 when both are available.</p>
+  </div>
+</div>
+
+<script src="/footer.js"></script>
+<script>
+(function () {
+  const dropZone = document.getElementById("drop-zone");
+  const fileInput = document.getElementById("file-input");
+  const fileNameEl = document.getElementById("file-name");
+  const loadingNote = document.getElementById("loading-note");
+  const results = document.getElementById("results");
+  const sha256Field = document.getElementById("hash-sha256");
+  const sha1Field = document.getElementById("hash-sha1");
+  const compareInput = document.getElementById("compare-input");
+  const matchYes = document.getElementById("match-yes");
+  const matchNo = document.getElementById("match-no");
+
+  dropZone.addEventListener("click", () => fileInput.click());
+
+  dropZone.addEventListener("dragover", e => {
+    e.preventDefault();
+    dropZone.classList.add("dragover");
+  });
+  dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+  dropZone.addEventListener("drop", e => {
+    e.preventDefault();
+    dropZone.classList.remove("dragover");
+    if (e.dataTransfer.files.length) {
+      handleFile(e.dataTransfer.files[0]);
+    }
+  });
+
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files.length) {
+      handleFile(fileInput.files[0]);
+    }
+  });
+
+  async function handleFile(file) {
+    fileNameEl.textContent = `${file.name} (${formatSize(file.size)})`;
+    results.style.display = "none";
+    loadingNote.style.display = "block";
+    compareInput.value = "";
+    matchYes.style.display = "none";
+    matchNo.style.display = "none";
+
+    try {
+      const buffer = await file.arrayBuffer();
+
+      // crypto.subtle is the browser's built-in, native hashing engine —
+      // no external library needed, and the file's bytes never leave memory.
+      const [sha256, sha1] = await Promise.all([
+        hashBuffer(buffer, "SHA-256"),
+        hashBuffer(buffer, "SHA-1")
+      ]);
+
+      sha256Field.value = sha256;
+      sha1Field.value = sha1;
+      results.style.display = "block";
+    } catch (err) {
+      console.error("Fade: hashing failed", err);
+      fileNameEl.textContent += " — something went wrong reading this file.";
+    } finally {
+      loadingNote.style.display = "none";
+    }
+  }
+
+  async function hashBuffer(buffer, algorithm) {
+    const hashBuffer = await crypto.subtle.digest(algorithm, buffer);
+    const bytes = Array.from(new Uint8Array(hashBuffer));
+    return bytes.map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  function formatSize(bytes) {
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+  }
+
+  document.querySelectorAll(".hash-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = document.getElementById(btn.dataset.target);
+      if (!target.value) return;
+      navigator.clipboard.writeText(target.value).then(() => {
+        const original = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => { btn.textContent = original; }, 1200);
+      });
+    });
+  });
+
+  compareInput.addEventListener("input", () => {
+    const value = compareInput.value.trim().toLowerCase();
+    matchYes.style.display = "none";
+    matchNo.style.display = "none";
+
+    if (!value) return;
+
+    const isMatch = value === sha256Field.value.toLowerCase() || value === sha1Field.value.toLowerCase();
+    if (isMatch) {
+      matchYes.style.display = "block";
+    } else {
+      matchNo.style.display = "block";
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
