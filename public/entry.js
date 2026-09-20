@@ -7,7 +7,8 @@ import {
   ref,
   set,
   get,
-  remove
+  remove,
+  runTransaction
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 import {
   initializeAppCheck,
@@ -71,8 +72,24 @@ export async function createEntry(text, kind) {
     createdAt: Date.now()
   });
 
+  // Private usage counter — not shown on the site, only visible to the
+  // owner via the Firebase Console. Helps understand which tool people
+  // actually use without tracking anyone individually.
+  incrementStat(kind);
+
   return entryId;
 }
+
+/**
+ * Increments a private, write-only counter for a given kind. Failures here
+ * are non-fatal — if this doesn't go through for some reason, entry
+ * creation itself has already succeeded and shouldn't be affected.
+ */
+function incrementStat(kind) {
+  const statRef = ref(db, `stats/${kind}`);
+  runTransaction(statRef, current => (current || 0) + 1).catch(err => {
+    console.error("Fade: stat increment failed (non-fatal)", err);
+  });
 
 /**
  * Reads an entry, and if it exists, deletes it right after.
