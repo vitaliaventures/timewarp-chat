@@ -33,7 +33,7 @@ const app = initializeApp(firebaseConfig);
 // source (that visibility is normal for Firebase — App Check is the actual
 // protection layer, not hiding the key).
 initializeAppCheck(app, {
-  provider: new ReCaptchaV3Provider("6Lel2MQtAAAAAAoLWMgiZV-GHTsnWybpUD-PzD9n"),
+  provider: new ReCaptchaV3Provider("6LeI2MQtAAAAAAoLWMgiZV-GHTsnWybpUD-PzD9n"),
   isTokenAutoRefreshEnabled: true
 });
 
@@ -58,7 +58,7 @@ export async function createEntry(text, kind) {
   if (text.length > MAX_TEXT_LENGTH) {
     throw new Error(`Text must be ${MAX_TEXT_LENGTH} characters or fewer.`);
   }
-  if (kind !== "note" && kind !== "secret") {
+  if (kind !== "note" && kind !== "secret" && kind !== "code") {
     throw new Error("Invalid kind.");
   }
 
