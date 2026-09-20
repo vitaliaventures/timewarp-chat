@@ -130,6 +130,7 @@ function renderCreateScreen() {
       textarea.disabled = true;
       createBtn.style.display = "none";
     } catch (err) {
+      console.error("Fade: createEntry failed", err);
       createError.textContent = err.message || "Something went wrong. Please try again.";
       createError.style.display = "block";
     } finally {
@@ -169,34 +170,45 @@ function renderViewScreen(kind, entryId) {
           it cannot be viewed again after this, even by you.
         </p>
         <button type="button" id="reveal-btn" class="fade-btn-primary">Click to reveal</button>
+        <p id="reveal-error" class="fade-error" style="display:none"></p>
       </div>
     </div>
   `;
 
   document.getElementById("reveal-btn").addEventListener("click", async () => {
     const revealBtn = document.getElementById("reveal-btn");
+    const revealError = document.getElementById("reveal-error");
     revealBtn.disabled = true;
     revealBtn.textContent = "Retrieving...";
+    revealError.style.display = "none";
 
-    const data = await fetchAndBurnEntry(entryId);
+    try {
+      const data = await fetchAndBurnEntry(entryId);
 
-    if (!data) {
+      if (!data) {
+        root.querySelector(".fade-card").innerHTML = `
+          <h1>Fade</h1>
+          <p class="fade-tagline">This link has already been used.</p>
+          <p>This ${label} was already viewed, or it never existed. It cannot be recovered — ask the sender to create a new one.</p>
+          <a href="/" class="fade-btn-secondary" style="display:inline-block;text-decoration:none;text-align:center;">Create your own</a>
+        `;
+        return;
+      }
+
       root.querySelector(".fade-card").innerHTML = `
         <h1>Fade</h1>
-        <p class="fade-tagline">This link has already been used.</p>
-        <p>This ${label} was already viewed, or it never existed. It cannot be recovered — ask the sender to create a new one.</p>
+        <p class="fade-tagline">${icon} Here it is — this only shows once:</p>
+        <div class="fade-revealed-text">${escapeHtml(data.text)}</div>
+        <p class="fade-warning">✅ This ${label} has now been permanently deleted from our servers.</p>
         <a href="/" class="fade-btn-secondary" style="display:inline-block;text-decoration:none;text-align:center;">Create your own</a>
       `;
-      return;
+    } catch (err) {
+      console.error("Fade: fetchAndBurnEntry failed", err);
+      revealBtn.disabled = false;
+      revealBtn.textContent = "Click to reveal";
+      revealError.textContent = "Something went wrong retrieving this — check the console for details, or try again.";
+      revealError.style.display = "block";
     }
-
-    root.querySelector(".fade-card").innerHTML = `
-      <h1>Fade</h1>
-      <p class="fade-tagline">${icon} Here it is — this only shows once:</p>
-      <div class="fade-revealed-text">${escapeHtml(data.text)}</div>
-      <p class="fade-warning">✅ This ${label} has now been permanently deleted from our servers.</p>
-      <a href="/" class="fade-btn-secondary" style="display:inline-block;text-decoration:none;text-align:center;">Create your own</a>
-    `;
   });
 }
 
