@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Name It — Fade</title>
+<meta name="description" content="Tap the word that matches how you feel right now. Watch it fade. No writing, no account, nothing saved." />
+<link rel="canonical" href="https://anonymouschat.live/name-it.html" />
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="stylesheet" href="/style.css">
+<style>
+  body{background:#0b0b0b;color:#eee;font-family:system-ui;margin:0;min-height:100vh;display:flex;flex-direction:column;}
+  .fade-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 16px;}
+  .fade-card{width:100%;max-width:600px;background:#151515;border-radius:16px;padding:32px;box-shadow:0 10px 40px rgba(0,0,0,0.5);text-align:center;}
+  .back-link{display:block;margin-bottom:16px;color:#10b981;text-decoration:none;font-size:0.9rem;text-align:left;}
+  h1{margin:0 0 4px 0;font-size:28px;}
+  .fade-tagline{opacity:0.8;margin:0 0 28px 0;font-size:0.95rem;}
+
+  .word-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+  .word-chip{background:#1c1c1c;border:1px solid #2a2a2a;color:#eee;padding:10px 16px;border-radius:999px;cursor:pointer;font-size:0.9rem;transition:background 0.15s, transform 0.15s;}
+  .word-chip:hover{background:#252525;transform:translateY(-1px);}
+
+  .reveal-stage{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:200px;}
+  .reveal-word{font-size:2.6rem;font-weight:700;opacity:0;transition:opacity 1.2s ease;}
+  .reveal-word.show{opacity:1;}
+  .reveal-word.hide{opacity:0;}
+  .reveal-note{margin-top:18px;font-size:0.85rem;opacity:0;transition:opacity 0.8s ease;}
+  .reveal-note.show{opacity:0.6;}
+  .again-btn{margin-top:24px;background:#2a2a2a;color:#eee;border:none;padding:10px 18px;border-radius:10px;cursor:pointer;font-size:0.85rem;opacity:0;transition:opacity 0.8s ease;}
+  .again-btn.show{opacity:1;}
+
+  .crisis-line{margin-top:30px;padding-top:18px;border-top:1px solid #2a2a2a;font-size:0.78rem;opacity:0.55;line-height:1.5;}
+  .crisis-line a{color:#10b981;text-decoration:none;}
+</style>
+</head>
+<body>
+
+<div class="fade-wrap">
+  <div class="fade-card">
+    <a href="/" class="back-link">← Fade</a>
+    <h1>Name It</h1>
+    <p class="fade-tagline">Tap the word that's true right now. Watch it fade. Nothing is written, saved, or sent anywhere.</p>
+
+    <div class="word-grid" id="word-grid">
+      <!-- filled by JS -->
+    </div>
+
+    <div class="reveal-stage" id="reveal-stage">
+      <div class="reveal-word" id="reveal-word"></div>
+      <div class="reveal-note" id="reveal-note">named. let it go.</div>
+      <button type="button" class="again-btn" id="again-btn">Choose another</button>
+    </div>
+
+    <div class="crisis-line">
+      If what you're feeling is more than a hard moment, you don't have to carry it alone —
+      <a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a>
+      lists free, confidential helplines by country.
+    </div>
+  </div>
+</div>
+
+<script src="/footer.js"></script>
+<script>
+(function () {
+  const words = [
+    "Overwhelmed", "Overthinking", "Anxious", "Tired", "Slow Down",
+    "Touched Out", "Running on Empty", "Holding It Together",
+    "Not Okay Today", "Doing My Best", "Need a Minute",
+    "Full Heart, Empty Tank", "Quietly Struggling", "Trying"
+  ];
+
+  const grid = document.getElementById("word-grid");
+  const stage = document.getElementById("reveal-stage");
+  const revealWord = document.getElementById("reveal-word");
+  const revealNote = document.getElementById("reveal-note");
+  const againBtn = document.getElementById("again-btn");
+
+  words.forEach(word => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "word-chip";
+    chip.textContent = word;
+    chip.addEventListener("click", () => nameIt(word));
+    grid.appendChild(chip);
+  });
+
+  function nameIt(word) {
+    grid.style.display = "none";
+    stage.style.display = "flex";
+    revealWord.textContent = word;
+    revealWord.classList.remove("hide");
+    revealNote.classList.remove("show");
+    againBtn.classList.remove("show");
+
+    // Fade the word in
+    requestAnimationFrame(() => {
+      revealWord.classList.add("show");
+    });
+
+    // Hold, then fade it out — the actual "let it go" moment
+    setTimeout(() => {
+      revealWord.classList.remove("show");
+      revealWord.classList.add("hide");
+      revealNote.classList.add("show");
+      againBtn.classList.add("show");
+    }, 2600);
+  }
+
+  againBtn.addEventListener("click", () => {
+    stage.style.display = "none";
+    grid.style.display = "flex";
+  });
+})();
+</script>
+
+</body>
+</html>
