@@ -38,7 +38,7 @@
   .pulse-word{position:absolute;font-size:2.2rem;font-weight:700;color:#eee;opacity:0;transition:opacity 1s ease, transform 4s ease;white-space:nowrap;}
   .pulse-word.show{opacity:0.9;}
   .pulse-word.hide{opacity:0;}
-  .projector-code{position:fixed;bottom:16px;left:16px;font-size:0.8rem;opacity:0.4;color:#eee;}
+  .projector-code{position:fixed;bottom:16px;left:16px;font-size:0.8rem;color:#eee;}
   .projector-close{position:fixed;top:16px;right:16px;}
 
   .status-line{font-size:0.8rem;opacity:0.6;margin-top:14px;}
@@ -152,9 +152,20 @@ async function renderProjectorScreen(id) {
     <div class="projector-stage" id="stage">
       <div class="projector-empty" id="empty-msg">Waiting for the room to fill up...</div>
     </div>
-    <div class="projector-code">Join at ${window.location.host}/room.html?id=${id}</div>
+    <div class="projector-code" id="join-link-box" style="display:flex;align-items:center;gap:10px;">
+      <span id="join-link-text" style="opacity:0.6;">Join at ${window.location.host}/room.html?id=${id}</span>
+      <button type="button" class="fade-btn-secondary" id="copy-join-btn" style="margin-top:0;opacity:1;">Copy link</button>
+    </div>
     <button type="button" class="fade-btn-secondary projector-close" id="close-room-btn">Close Room</button>
   `;
+
+  document.getElementById("copy-join-btn").addEventListener("click", () => {
+    navigator.clipboard.writeText(participantLink).then(() => {
+      const btn = document.getElementById("copy-join-btn");
+      btn.textContent = "Copied!";
+      setTimeout(() => { btn.textContent = "Copy link"; }, 1500);
+    });
+  });
 
   const stage = document.getElementById("stage");
   const emptyMsg = document.getElementById("empty-msg");
