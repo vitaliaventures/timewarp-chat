@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shared Room — Name It — Fade</title>
+<meta name="description" content="A live, anonymous shared room for Name It. Tap a word from your phone, watch it appear on the shared screen — no names, nothing saved." />
+<link rel="canonical" href="https://anonymouschat.live/room.html" />
+<link rel="icon" href="/favicon.png" type="image/png">
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="/style.css">
+<style>
+  body{background:#0b0b0b;color:#eee;font-family:system-ui;margin:0;min-height:100vh;display:flex;flex-direction:column;}
+  .fade-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 16px;}
+  .fade-card{width:100%;max-width:600px;background:#151515;border-radius:16px;padding:32px;box-shadow:0 10px 40px rgba(0,0,0,0.5);text-align:center;}
+  .back-link{display:block;margin-bottom:16px;color:#10b981;text-decoration:none;font-size:0.9rem;text-align:left;}
+  h1{margin:0 0 4px 0;font-size:26px;}
+  .fade-tagline{opacity:0.8;margin:0 0 24px 0;font-size:0.9rem;}
+
+  .fade-btn-primary{background:#2563eb;color:#fff;border:none;padding:12px 20px;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;}
+  .fade-btn-primary:hover{background:#1e40af;}
+  .fade-btn-secondary{background:#2a2a2a;color:#eee;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;font-size:0.85rem;margin-top:10px;}
+  .fade-btn-secondary:hover{background:#333;}
+
+  .link-row{display:flex;gap:8px;margin:14px 0;}
+  .link-row input{flex:1;background:#1c1c1c;color:#fff;border:1px solid #2a2a2a;border-radius:8px;padding:10px;font-size:0.82rem;}
+  .link-row button{background:#2a2a2a;color:#eee;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:0.82rem;}
+
+  .word-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+  .word-chip{background:#1c1c1c;border:1px solid #2a2a2a;color:#eee;padding:10px 16px;border-radius:999px;cursor:pointer;font-size:0.9rem;}
+  .word-chip:hover{background:#252525;}
+  .word-chip:disabled{opacity:0.4;cursor:default;}
+
+  /* Projector view: full-screen, big, floating words */
+  .projector-body{background:#000;justify-content:center;align-items:center;}
+  .projector-stage{position:relative;width:100%;height:100vh;overflow:hidden;}
+  .projector-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#333;font-size:1.4rem;}
+  .pulse-word{position:absolute;font-size:2.2rem;font-weight:700;color:#eee;opacity:0;transition:opacity 1s ease, transform 4s ease;white-space:nowrap;}
+  .pulse-word.show{opacity:0.9;}
+  .pulse-word.hide{opacity:0;}
+  .projector-code{position:fixed;bottom:16px;left:16px;font-size:0.8rem;opacity:0.4;color:#eee;}
+  .projector-close{position:fixed;top:16px;right:16px;}
+
+  .status-line{font-size:0.8rem;opacity:0.6;margin-top:14px;}
+  .fade-warning{font-size:0.8rem;background:#241c0b;border:1px solid #4a3a12;color:#facc15;padding:10px 12px;border-radius:10px;margin:14px 0;}
+</style>
+</head>
+<body id="page-body">
+
+<div class="fade-wrap" id="app-wrap">
+  <div class="fade-card" id="app-card">
+    <p>Loading…</p>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+import {
+  getDatabase, ref, set, get, remove, push, onChildAdded, onValue, off
+} from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA1dHSzOC6_Zo8sTBg1pfqYJTEFTKDlP24",
+  authDomain: "timewarp-messenger.firebaseapp.com",
+  databaseURL: "https://timewarp-messenger-default-rtdb.firebaseio.com",
+  projectId: "timewarp-messenger",
+  storageBucket: "timewarp-messenger.firebasestorage.app",
+  messagingSenderId: "71563132014",
+  appId: "1:71563132014:web:901218a830abd48c74fa7f"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const ROOM_EXPIRY_MS = 2 * 60 * 60 * 1000; // 2 hours of inactivity
+
+const WORDS = [
+  "Overwhelmed", "Overthinking", "Anxious", "Tired", "Slow Down",
+  "Sensitive", "Moody", "Overstimulated", "Sorry", "You are loved",
+  "Sorry I am overstimulated", "Repeat after me,", "Migraine brain", "Worrier",
+  "Touched Out", "Running on Empty", "Holding It Together",
+  "Not Okay Today", "Doing My Best", "Need a Minute",
+  "Full Heart, Empty Tank", "Quietly Struggling", "Trying"
+];
+
+const params = new URLSearchParams(window.location.search);
+const roomId = params.get("id");
+const view = params.get("view");
+
+const body = document.getElementById("page-body");
+const wrap = document.getElementById("app-wrap");
+const card = document.getElementById("app-card");
+
+function generateRoomId() {
+  return crypto.randomUUID().replace(/-/g, "").slice(0, 10);
+}
+
+async function isRoomOpen(id) {
+  const metaRef = ref(db, `nameit_rooms/${id}/meta`);
+  const snap = await get(metaRef);
+  if (!snap.exists()) return false;
+  const meta = snap.val();
+  if (Date.now() - meta.createdAt > ROOM_EXPIRY_MS) {
+    await remove(metaRef); // expired — clean it up
+    return false;
+  }
+  return true;
+}
+
+if (!roomId) {
+  renderCreateScreen();
+} else if (view === "projector") {
+  renderProjectorScreen(roomId);
+} else {
+  renderParticipantScreen(roomId);
+}
+
+// ================================
+// CREATE
+// ================================
+function renderCreateScreen() {
+  card.innerHTML = `
+    <a href="/name-it.html" class="back-link">← Name It</a>
+    <h1>Shared Room</h1>
+    <p class="fade-tagline">Create a live room. People join from their phones and tap a word — it floats up on the shared screen, anonymously, then fades. Nothing is saved, no names shown.</p>
+    <button type="button" class="fade-btn-primary" id="create-btn">Create Room</button>
+  `;
+
+  document.getElementById("create-btn").addEventListener("click", async () => {
+    const id = generateRoomId();
+    await set(ref(db, `nameit_rooms/${id}/meta`), { createdAt: Date.now() });
+    window.location.href = `/room.html?id=${id}&view=projector`;
+  });
+}
+
+// ================================
+// PROJECTOR (big screen)
+// ================================
+async function renderProjectorScreen(id) {
+  body.classList.add("projector-body");
+  wrap.style.padding = "0";
+
+  const open = await isRoomOpen(id);
+  if (!open) {
+    wrap.innerHTML = `<div class="fade-card"><h1>Room ended</h1><p>This room is no longer active.</p><a href="/room.html" class="fade-btn-secondary" style="display:inline-block;text-decoration:none;">Create a new room</a></div>`;
+    return;
+  }
+
+  const participantLink = `${window.location.origin}/room.html?id=${id}`;
+
+  wrap.innerHTML = `
+    <div class="projector-stage" id="stage">
+      <div class="projector-empty" id="empty-msg">Waiting for the room to fill up...</div>
+    </div>
+    <div class="projector-code">Join at ${window.location.host}/room.html?id=${id}</div>
+    <button type="button" class="fade-btn-secondary projector-close" id="close-room-btn">Close Room</button>
+  `;
+
+  const stage = document.getElementById("stage");
+  const emptyMsg = document.getElementById("empty-msg");
+  const pulsesRef = ref(db, `nameit_rooms/${id}/pulses`);
+
+  onChildAdded(pulsesRef, snap => {
+    const pulse = snap.val();
+    if (!pulse) return;
+    emptyMsg.style.display = "none";
+
+    const el = document.createElement("div");
+    el.className = "pulse-word";
+    el.textContent = pulse.word;
+    el.style.left = `${10 + Math.random() * 60}%`;
+    el.style.top = `${15 + Math.random() * 60}%`;
+    stage.appendChild(el);
+
+    requestAnimationFrame(() => {
+      el.classList.add("show");
+      el.style.transform = "translateY(-40px)";
+    });
+
+    setTimeout(() => {
+      el.classList.remove("show");
+      el.classList.add("hide");
+    }, 3200);
+
+    setTimeout(() => {
+      el.remove();
+      remove(snap.ref); // clean up the pulse from the database too
+    }, 4200);
+  });
+
+  document.getElementById("close-room-btn").addEventListener("click", async () => {
+    if (!confirm("Close this room? People will no longer be able to send words.")) return;
+    off(pulsesRef);
+    await remove(ref(db, `nameit_rooms/${id}/meta`));
+    await remove(ref(db, `nameit_rooms/${id}/pulses`));
+    wrap.innerHTML = `<div class="fade-card"><h1>Room closed</h1><a href="/room.html" class="fade-btn-secondary" style="display:inline-block;text-decoration:none;">Create a new room</a></div>`;
+  });
+}
+
+// ================================
+// PARTICIPANT (phone view)
+// ================================
+async function renderParticipantScreen(id) {
+  const open = await isRoomOpen(id);
+  if (!open) {
+    card.innerHTML = `<h1>Room ended</h1><p>This room is no longer active — ask for a new link.</p>`;
+    return;
+  }
+
+  card.innerHTML = `
+    <a href="/name-it.html" class="back-link">← Name It</a>
+    <h1>Tap a word</h1>
+    <p class="fade-tagline">It appears anonymously on the shared screen, then fades. No names, nothing saved.</p>
+    <div class="word-grid" id="word-grid"></div>
+    <div class="status-line" id="status-line"></div>
+  `;
+
+  const grid = document.getElementById("word-grid");
+  const statusLine = document.getElementById("status-line");
+  const pulsesRef = ref(db, `nameit_rooms/${id}/pulses`);
+
+  WORDS.forEach(word => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "word-chip";
+    chip.textContent = word;
+    chip.addEventListener("click", async () => {
+      chip.disabled = true;
+      try {
+        await push(pulsesRef, { word, at: Date.now() });
+        statusLine.textContent = "Sent — check the shared screen.";
+      } catch (err) {
+        console.error("Fade: could not send pulse", err);
+        statusLine.textContent = "Couldn't send that — try again.";
+      }
+      setTimeout(() => { chip.disabled = false; }, 1500);
+    });
+    grid.appendChild(chip);
+  });
+}
+</script>
+
+<script src="/footer.js"></script>
+
+</body>
+</html>
