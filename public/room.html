@@ -138,10 +138,12 @@ function renderCreateScreen() {
 // ================================
 async function renderProjectorScreen(id) {
   body.classList.add("projector-body");
-  wrap.style.padding = "0";
+  wrap.classList.remove("fade-wrap");
+  wrap.style.cssText = "padding:0; margin:0; width:100%; height:100vh; display:block;";
 
   const open = await isRoomOpen(id);
   if (!open) {
+    wrap.style.cssText = "padding:0;margin:0;width:100%;min-height:100vh;display:flex;align-items:center;justify-content:center;";
     wrap.innerHTML = `<div class="fade-card"><h1>Room ended</h1><p>This room is no longer active.</p><a href="/room.html" class="fade-btn-secondary" style="display:inline-block;text-decoration:none;">Create a new room</a></div>`;
     return;
   }
@@ -204,6 +206,7 @@ async function renderProjectorScreen(id) {
     off(pulsesRef);
     await remove(ref(db, `nameit_rooms/${id}/meta`));
     await remove(ref(db, `nameit_rooms/${id}/pulses`));
+    wrap.style.cssText = "padding:0;margin:0;width:100%;min-height:100vh;display:flex;align-items:center;justify-content:center;";
     wrap.innerHTML = `<div class="fade-card"><h1>Room closed</h1><a href="/room.html" class="fade-btn-secondary" style="display:inline-block;text-decoration:none;">Create a new room</a></div>`;
   });
 }
