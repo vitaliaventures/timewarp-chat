@@ -4,5 +4,7 @@ Allow: /
 # Note/secret view links are private, one-time, and must never be crawled or indexed
 Disallow: /n/
 Disallow: /s/
+Disallow: /c/
+Disallow: /room.html
 
-Sitemap: https://REPLACE-WITH-YOUR-DOMAIN/sitemap.xml
+Sitemap: https://anonymouschat.live/sitemap.xml
